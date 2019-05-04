@@ -1,0 +1,45 @@
+version: '{build}'
+clone_depth: 1
+
+image:
+- Ubuntu
+- Visual Studio 2017
+
+environment:
+  ApiKey:
+    secure: SeomICfFXAQobyK5uMGeAhb0uljBxicG4Z56pWxWCXA=
+
+branches:
+  only:
+  - master
+  - dev
+
+configuration:
+  - Release
+
+init:
+  - ps: git config --global core.autocrlf true
+
+before_build:
+- ps: dotnet --info
+- ps: "Get-ChildItem Env:"
+
+build_script:
+- ps: dotnet build ./src/ModbusTCP.NET/ModbusTCP.NET.csproj -c $Env:CONFIGURATION /p:Build=$Env:APPVEYOR_BUILD_NUMBER /p:IsFinalBuild=$Env:APPVEYOR_REPO_TAG
+
+test_script:
+- ps: dotnet test ./tests/ModbusTCP.NET.Tests -c $Env:CONFIGURATION /p:BuildProjectReferences=false
+
+artifacts:
+  - path: ./artifacts/packages/**/*.nupkg
+
+deploy:
+  - provider: NuGet
+    server: https://www.nuget.org/api/v2/package
+    api_key:
+      secure: Z+/E7/8k05NePoUmHdtw/sTn6GSM+0e7ko6A02/rBjm6K9wVTYNekWHvSv7GEBtC
+    skip_symbols: true
+    artifact: /.*\.nupkg/ 
+    on:
+      branch: master
+      CI_WINDOWS: true

@@ -1,0 +1,6 @@
+.vs/
+.vscode/
+artifacts/
+
+*.suo
+*.user

@@ -1,0 +1,10 @@
+<Project>
+
+  <Import Project="./build/build.props" />
+
+  <PropertyGroup>
+    <PackageLicenseUrl Condition="$(PackageLicenseUrl) == ''">https://github.com/Apollo3zehn/ModbusTCP.NET/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://github.com/Apollo3zehn/ModbusTCP.NET</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>

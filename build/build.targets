@@ -1,0 +1,43 @@
+<Project>
+
+  <Target Name="CreateMetaData" BeforeTargets="BeforeBuild">
+
+    <!-- validation -->
+    <Error Condition="$(Major) == ''" Text="The Major property must be set." />
+    <Error Condition="$(Minor) == ''" Text="The Minor property must be set." />
+    <Error Condition="$(Revision) == ''" Text="The Revision property must be set." />
+    <Error Condition="$(PackageLicenseUrl) == ''" Text="The PackageLicenseUrl property must be set." />
+    <Error Condition="$(PackageProjectUrl) == ''" Text="The PackageProjectUrl property must be set." />
+
+    <!-- build properties -->
+    <PropertyGroup>
+
+      <!-- ensure default values -->
+      <Authors Condition="$(Authors) == '' OR $(Authors) == $(PackageId)">https://github.com/Apollo3zehn</Authors>
+      <Company Condition="$(Company) == '' OR $(Authors) == $(PackageId)">https://github.com/Apollo3zehn</Company>
+      <Copyright Condition="$(Copyright) == ''">Apollo3zehn</Copyright>
+      <Build Condition="$(IsFinalBuild) == 'true'">final</Build>
+
+      <!-- create new properties -->
+      <AssemblyVersion>$(Major).0.0.0</AssemblyVersion>
+      <FileVersion>$(Major).$(Minor).$(Revision).0</FileVersion>
+      <Product>ModbusTCP.NET</Product>
+      <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
+      <Version>$(Major).$(Minor).$(Revision)</Version>
+
+    </PropertyGroup>
+
+    <!-- build Version -->
+    <PropertyGroup Condition="$(VersionSuffix) != ''">
+      <Version>$(Version)-$(VersionSuffix)</Version>
+      <Version Condition="$(Build) != ''">$(Version).$(Build)</Version>
+    </PropertyGroup>
+
+    <!-- build PackageVersion -->
+    <PropertyGroup>
+      <PackageVersion>$(Version)</PackageVersion>
+    </PropertyGroup>
+
+  </Target>
+  
+</Project>
