@@ -1,6 +1,6 @@
 # Modbus.NET
 
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/modbustcp.net?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/modbustcp-net)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/modbus.net?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/modbus-net)
 
 based on http://www.modbus.org/specs.php:
 

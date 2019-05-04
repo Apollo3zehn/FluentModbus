@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2B4BA2BB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{D6452DF6-D009-4A4D-A161-E25DE443C0D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "sample\SampleMaster\Sample.csproj", "{226ABEFD-EC87-42B1-9F7E-DDDA298C124D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "sample\SampleServerClient\SampleServerClient.csproj", "{226ABEFD-EC87-42B1-9F7E-DDDA298C124D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModbusTCP.NET", "src\ModbusTCP.NET\ModbusTCP.NET.csproj", "{BE6DE3F6-ED5E-4603-AC45-8966CD4EB2D1}"
 EndProject
