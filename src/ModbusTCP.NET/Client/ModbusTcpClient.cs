@@ -12,6 +12,7 @@ namespace ModbusTCP.NET
         object _transactionIdentifierLock;
 
         TcpClient _tcpClient;
+        ModbusTcpMessageBuffer _messageBuffer;
         NetworkStream _networkStream;
 
         public ModbusTcpClient()
@@ -40,6 +41,8 @@ namespace ModbusTCP.NET
 
         public void Connect(IPEndPoint remoteEndpoint)
         {
+            _messageBuffer = new ModbusTcpMessageBuffer();
+
             _tcpClient?.Close();
             _tcpClient = new TcpClient();
 
@@ -55,53 +58,10 @@ namespace ModbusTCP.NET
         public void Disconnect()
         {
             _tcpClient?.Close();
+            _messageBuffer?.Dispose();
         }
 
-        public static void Test()
-        {
-            byte unitIdentifier;
-
-            ModbusTcpClient modbusClient;
-            ModbusTcpMessageBuffer modbusTcpMessageBuffer;
-            Span<byte> data;
-
-            unitIdentifier = 0xFF;
-
-            modbusClient = new ModbusTcpClient();
-            modbusClient.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502));
-
-            modbusTcpMessageBuffer = new ModbusTcpMessageBuffer();
-
-            try
-            {
-                // ReadHoldingRegisters = 0x03,        // FC03
-                data = modbusClient.ReadHoldingRegisters(unitIdentifier, 0, 10, modbusTcpMessageBuffer);
-
-                // WriteMultipleRegisters = 0x10,      // FC16
-                modbusClient.WriteMultipleRegisters(unitIdentifier, 0, new byte[] { 10, 00, 20, 00, 30, 00, 255, 00, 255, 01 }, modbusTcpMessageBuffer);
-
-                // ReadCoils = 0x01,                   // FC01
-                data = modbusClient.ReadCoils(unitIdentifier, 0, 10, modbusTcpMessageBuffer);
-
-                // ReadDiscreteInputs = 0x02,          // FC02
-                data = modbusClient.ReadDiscreteInputs(unitIdentifier, 0, 10, modbusTcpMessageBuffer);
-
-                // ReadInputRegisters = 0x04,          // FC04
-                data = modbusClient.ReadInputRegisters(unitIdentifier, 0, 10, modbusTcpMessageBuffer);
-
-                // WriteSingleCoil = 0x05,             // FC05
-                modbusClient.WriteSingleCoil(unitIdentifier, 0, true, modbusTcpMessageBuffer);
-
-                // WriteSingleRegister = 0x06,         // FC06
-                modbusClient.WriteSingleRegister(unitIdentifier, 0, new byte[] { 65, 67 }, modbusTcpMessageBuffer);
-            }
-            finally
-            {
-                modbusTcpMessageBuffer.Dispose();
-            }
-        }
-
-        private UInt16 GetTransactionIdentifier()
+        private ushort GetTransactionIdentifier()
         {
             lock (_transactionIdentifierLock)
             {
@@ -109,7 +69,7 @@ namespace ModbusTCP.NET
             }
         }
 
-        private Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode modbusFunctionCode, ModbusTcpMessageBuffer messageBuffer, Action<ExtendedBinaryWriter> extendFrame)
+        private Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode modbusFunctionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
             int length;
 
@@ -119,7 +79,10 @@ namespace ModbusTCP.NET
 
             byte rawFunctionCode;
 
+            ModbusTcpMessageBuffer messageBuffer;
+
             bytesFollowing = 0;
+            messageBuffer = _messageBuffer;
 
             // build and send request
             messageBuffer.RequestWriter.Seek(7, SeekOrigin.Begin);
@@ -219,11 +182,11 @@ namespace ModbusTCP.NET
         }
 
         // class 0
-        public Span<byte> ReadHoldingRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity, ModbusTcpMessageBuffer messageBuffer)
+        public Span<byte> ReadHoldingRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, messageBuffer, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, requestWriter =>
             {
                 requestWriter.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);              // 07     Function Code
                 requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
@@ -238,13 +201,13 @@ namespace ModbusTCP.NET
             return buffer;
         }
 
-        public void WriteMultipleRegisters(byte unitIdentifier, ushort startingAddress, byte[] dataset, ModbusTcpMessageBuffer messageBuffer)
+        public void WriteMultipleRegisters(byte unitIdentifier, ushort startingAddress, byte[] dataset)
         {
             int quantity;
 
             quantity = dataset.Length / 2;
 
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteMultipleRegisters, messageBuffer, requestWriter =>
+            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteMultipleRegisters, requestWriter =>
             {
                 requestWriter.Write((byte)ModbusFunctionCode.WriteMultipleRegisters);            // 07     Function Code
                 requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
@@ -256,11 +219,11 @@ namespace ModbusTCP.NET
         }
 
         // class 1
-        public Span<byte> ReadCoils(byte unitIdentifier, ushort startingAddress, ushort quantity, ModbusTcpMessageBuffer messageBuffer)
+        public Span<byte> ReadCoils(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadCoils, messageBuffer, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadCoils, requestWriter =>
             {
                 requestWriter.Write((byte)ModbusFunctionCode.ReadCoils);                         // 07     Function Code
                 requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
@@ -275,11 +238,11 @@ namespace ModbusTCP.NET
             return buffer;
         }
 
-        public Span<byte> ReadDiscreteInputs(byte unitIdentifier, ushort startingAddress, ushort quantity, ModbusTcpMessageBuffer messageBuffer)
+        public Span<byte> ReadDiscreteInputs(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadDiscreteInputs, messageBuffer, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadDiscreteInputs, requestWriter =>
             {
                 requestWriter.Write((byte)ModbusFunctionCode.ReadDiscreteInputs);                // 07     Function Code
                 requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
@@ -294,11 +257,11 @@ namespace ModbusTCP.NET
             return buffer;
         }
 
-        public Span<byte> ReadInputRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity, ModbusTcpMessageBuffer messageBuffer)
+        public Span<byte> ReadInputRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, messageBuffer, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, requestWriter =>
             {
                 requestWriter.Write((byte)ModbusFunctionCode.ReadInputRegisters);                // 07     Function Code
                 requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
@@ -313,9 +276,9 @@ namespace ModbusTCP.NET
             return buffer;
         }
 
-        public void WriteSingleCoil(byte unitIdentifier, ushort registerAddress, bool value, ModbusTcpMessageBuffer messageBuffer)
+        public void WriteSingleCoil(byte unitIdentifier, ushort registerAddress, bool value)
         {
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleCoil, messageBuffer, requestWriter =>
+            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleCoil, requestWriter =>
             {
                 requestWriter.Write((byte)ModbusFunctionCode.WriteSingleCoil);                   // 07     Function Code
                 requestWriter.WriteReverse(registerAddress);                                     // 08-09  Starting Address
@@ -323,11 +286,11 @@ namespace ModbusTCP.NET
             });
         }
 
-        public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, byte[] value, ModbusTcpMessageBuffer messageBuffer)
+        public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, byte[] value)
         {
             Contract.Requires(value.Length == 2);
 
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, messageBuffer, requestWriter =>
+            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, requestWriter =>
             {
                 requestWriter.Write((byte)ModbusFunctionCode.WriteSingleRegister);               // 07     Function Code
                 requestWriter.WriteReverse(registerAddress);                                     // 08-09  Starting Address

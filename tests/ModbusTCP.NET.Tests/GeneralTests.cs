@@ -1,4 +1,3 @@
-using Microsoft.DotNet.PlatformAbstractions;
 using Xunit;
 
 namespace ModbusTCP.NET.Tests

@@ -4,11 +4,18 @@
     <Description>Extremely lightweight and fast .NET Standard implementation of the Modbus TCP protocol.</Description>
     <PackageTags>Modbus ModbusTCP .NET Standard Windows Linux</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>preview</LangVersion>
+    <TargetFramework></TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="System.Memory" Version="4.5.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
