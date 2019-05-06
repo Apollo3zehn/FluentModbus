@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace ModbusTCP.NET
 
         #region Constructors
 
-        public ModbusTcpServer(ILogger logger, bool isAsynchronous = true)
+        public ModbusTcpServer(ILogger logger = null, bool isAsynchronous = true)
         {
-            _logger = logger;
+            _logger = logger == null ? NullLogger.Instance : logger;
 
             _manualResetEvent = new ManualResetEventSlim(false);
 
@@ -89,9 +90,19 @@ namespace ModbusTCP.NET
 
         #region Methods
 
+        public Span<T> GetInputRegisterBuffer<T>() where T : unmanaged
+        {
+            return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer());
+        }
+
         public unsafe Span<byte> GetInputRegisterBuffer()
         {
             return new Span<byte>(this.InputRegisterBufferPtr.ToPointer(), _inputRegisterSize);
+        }
+
+        public Span<T> GetHoldingRegisterBuffer<T>() where T : unmanaged
+        {
+            return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer());
         }
 
         public unsafe Span<byte> GetHoldingRegisterBuffer()
@@ -99,9 +110,19 @@ namespace ModbusTCP.NET
             return new Span<byte>(this.HoldingRegisterBufferPtr.ToPointer(), _holdingRegisterSize);
         }
 
+        public Span<T> GetCoilBuffer<T>() where T : unmanaged
+        {
+            return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer());
+        }
+
         public unsafe Span<byte> GetCoilBuffer()
         {
             return new Span<byte>(this.CoilBufferPtr.ToPointer(), _coilSize);
+        }
+
+        public Span<T> GetDiscreteInputBuffer<T>() where T : unmanaged
+        {
+            return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer());
         }
 
         public unsafe Span<byte> GetDiscreteInputBuffer()
@@ -121,9 +142,10 @@ namespace ModbusTCP.NET
 
         public void Start(IPEndPoint localEndpoint)
         {
+            this.Stop();
+
             _requestHandlerSet = new List<ModbusTcpRequestHandler>();
 
-            _tcpListener?.Stop();
             _tcpListener = new TcpListener(localEndpoint);
             _tcpListener.Start();
 

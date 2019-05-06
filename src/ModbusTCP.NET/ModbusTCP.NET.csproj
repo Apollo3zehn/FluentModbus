@@ -5,8 +5,8 @@
     <PackageTags>Modbus ModbusTCP .NET Standard Windows Linux</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>preview</LangVersion>
-    <TargetFramework></TargetFramework>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <!--<TargetFramework></TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>-->
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">

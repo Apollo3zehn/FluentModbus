@@ -43,6 +43,8 @@ namespace ModbusTCP.NET
             _networkStream = tcpClient.GetStream();
             _buffer = ArrayPool<byte>.Shared.Rent(256);
 
+            _cts.Token.Register(() => _networkStream.Close());
+
             _requestReader = new ExtendedBinaryReader(new MemoryStream(_buffer));
             _responseWriter = new ExtendedBinaryWriter(new MemoryStream(_buffer));
 
@@ -99,7 +101,8 @@ namespace ModbusTCP.NET
                     }
                     else
                     {
-                        length = await _networkStream.ReadAsync(_buffer, 0, _buffer.Length);
+                        // actually, CancellationToken is ignored - therefore: _cts.Token.Register(() => ...);
+                        length = await _networkStream.ReadAsync(_buffer, 0, _buffer.Length, _cts.Token);
                     }
 
                     if (length > 0)

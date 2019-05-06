@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 
 namespace ModbusTCP.NET
 {
@@ -181,7 +182,20 @@ namespace ModbusTCP.NET
             return messageBuffer.Buffer.AsSpan(7, length - 7);
         }
 
+        private ushort ConvertSize<T>(ushort quantity)
+        {
+            if (typeof(T) == typeof(bool))
+                return quantity;
+            else
+                return (ushort)(quantity * Math.Max(1, (Marshal.SizeOf<T>() / 2)));
+        }
+
         // class 0
+        public Span<T> ReadHoldingRegisters<T>(byte unitIdentifier, ushort startingAddress, ushort quantity) where T : unmanaged
+        {
+            return MemoryMarshal.Cast<byte, T>(this.ReadHoldingRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(quantity)));
+        }
+
         public Span<byte> ReadHoldingRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
             Span<byte> buffer;
@@ -201,8 +215,18 @@ namespace ModbusTCP.NET
             return buffer;
         }
 
+        public void WriteMultipleRegisters<T>(byte unitIdentifier, ushort startingAddress, T[] dataset) where T : unmanaged
+        {
+            this.WriteMultipleRegisters(unitIdentifier, startingAddress, MemoryMarshal.Cast<T, byte>(dataset).ToArray());
+        }
+
         public void WriteMultipleRegisters(byte unitIdentifier, ushort startingAddress, byte[] dataset)
         {
+            if (dataset.Length < 2 || dataset.Length % 2 != 0)
+            {
+                throw new InvalidOperationException(ErrorMessage.ModbusClient_LengthMustBeGreaterThanTwoAndEven);
+            }
+
             int quantity;
 
             quantity = dataset.Length / 2;
@@ -257,6 +281,11 @@ namespace ModbusTCP.NET
             return buffer;
         }
 
+        public Span<T> ReadInputRegisters<T>(byte unitIdentifier, ushort startingAddress, ushort quantity) where T : unmanaged
+        {
+            return MemoryMarshal.Cast<byte, T>(this.ReadInputRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(quantity)));
+        }
+
         public Span<byte> ReadInputRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
             Span<byte> buffer;
@@ -286,9 +315,22 @@ namespace ModbusTCP.NET
             });
         }
 
+        public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, short value)
+        {
+            this.WriteSingleRegister(unitIdentifier, registerAddress, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray());
+        }
+
+        public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, ushort value)
+        {
+            this.WriteSingleRegister(unitIdentifier, registerAddress, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray());
+        }
+
         public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, byte[] value)
         {
-            Contract.Requires(value.Length == 2);
+            if (value.Length != 2)
+            {
+                throw new InvalidOperationException(ErrorMessage.ModbusClient_LengthMustBeEqualToTwo);
+            };
 
             this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, requestWriter =>
             {

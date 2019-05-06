@@ -156,6 +156,12 @@
   <data name="ModbusClient_InvalidResponseMessageLength" xml:space="preserve">
     <value>The response message length is invalid.</value>
   </data>
+  <data name="ModbusClient_LengthMustBeEqualToTwo" xml:space="preserve">
+    <value>Length must be equal to two bytes.</value>
+  </data>
+  <data name="ModbusClient_LengthMustBeGreaterThanTwoAndEven" xml:space="preserve">
+    <value>Length must be greater than two bytes and even.</value>
+  </data>
   <data name="ModbusClient_ProtocolIdentifierInvalid" xml:space="preserve">
     <value>The protocol identifier is invalid.</value>
   </data>
