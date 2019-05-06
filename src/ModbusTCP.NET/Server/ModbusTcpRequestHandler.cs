@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ModbusTCP.NET
 {
@@ -19,11 +21,14 @@ namespace ModbusTCP.NET
 
         private byte[] _buffer;
 
-        ushort _transactionIdentifier;
-        ushort _protocolIdentifier;
-        ushort _bytesFollowing;
+        private ushort _transactionIdentifier;
+        private ushort _protocolIdentifier;
+        private ushort _bytesFollowing;
 
-        byte _unitIdentifier;
+        private byte _unitIdentifier;
+
+        private Task _task;
+        private CancellationTokenSource _cts;
 
         #endregion
 
@@ -34,16 +39,28 @@ namespace ModbusTCP.NET
             _tcpClient = tcpClient;
             _modbusTcpServer = modbusTcpServer;
 
+            _cts = new CancellationTokenSource();
             _networkStream = tcpClient.GetStream();
-
             _buffer = ArrayPool<byte>.Shared.Rent(256);
+
+            _cts.Token.Register(() => _networkStream.Close());
 
             _requestReader = new ExtendedBinaryReader(new MemoryStream(_buffer));
             _responseWriter = new ExtendedBinaryWriter(new MemoryStream(_buffer));
 
             this.LastRequest = Stopwatch.StartNew();
             this.IsReady = true;
-            this.IsConnected = true;
+
+            if (modbusTcpServer.IsAsynchronous)
+            {
+                _task = Task.Run(async () =>
+                {
+                    while (!_cts.IsCancellationRequested)
+                    {
+                        await this.ReceiveRequestAsync();
+                    }
+                }, _cts.Token);
+            }
         }
 
         #endregion
@@ -53,18 +70,17 @@ namespace ModbusTCP.NET
         public Stopwatch LastRequest { get; private set; }
         public int Length { get; private set; }
         public bool IsReady { get; private set; }
-        public bool IsConnected { get; private set; }
 
         #endregion
 
         #region Methods
 
-        public async void ReceiveRequestAsync()
+        public async Task ReceiveRequestAsync()
         {
             int length;
             bool isParsed;
 
-            if (!this.IsConnected)
+            if (_cts.IsCancellationRequested)
             {
                 return;
             }
@@ -85,7 +101,8 @@ namespace ModbusTCP.NET
                     }
                     else
                     {
-                        length = await _networkStream.ReadAsync(_buffer, 0, _buffer.Length);
+                        // actually, CancellationToken is ignored - therefore: _cts.Token.Register(() => ...);
+                        length = await _networkStream.ReadAsync(_buffer, 0, _buffer.Length, _cts.Token);
                     }
 
                     if (length > 0)
@@ -124,14 +141,20 @@ namespace ModbusTCP.NET
                         this.Length = 0;
                         break;
                     }
+
+                    this.LastRequest.Restart();
                 }
 
-                this.LastRequest.Restart();
                 this.IsReady = true;
+
+                if (_modbusTcpServer.IsAsynchronous)
+                {
+                    this.WriteResponse();
+                }
             }
             catch (Exception)
             {
-                this.IsConnected = false;
+                _cts.Cancel();
             }
         }
 
@@ -158,56 +181,25 @@ namespace ModbusTCP.NET
 
                 try
                 {
-                    switch (functionCode)
+                    processingMethod = functionCode switch
                     {
-                        case ModbusFunctionCode.ReadHoldingRegisters:
-
-                            processingMethod = () => this.ProcessReadHoldingRegisters();
-                            break;
-
-                        case ModbusFunctionCode.WriteMultipleRegisters:
-
-                            processingMethod = () => this.ProcessWriteMultipleRegisters();
-                            break;
-
-                        case ModbusFunctionCode.ReadCoils:
-
-                            processingMethod = () => this.ProcessReadCoils();
-                            break;
-
-                        case ModbusFunctionCode.ReadDiscreteInputs:
-
-                            processingMethod = () => this.ProcessReadDiscreteInputs();
-                            break;
-
-                        case ModbusFunctionCode.ReadInputRegisters:
-
-                            processingMethod = () => this.ProcessReadInputRegisters();
-                            break;
-
-                        case ModbusFunctionCode.WriteSingleCoil:
-
-                            processingMethod = () => this.ProcessWriteSingleCoil();
-                            break;
-
-                        case ModbusFunctionCode.WriteSingleRegister:
-
-                            processingMethod = () => this.ProcessWriteSingleRegister();
-                            break;
-
-                        case ModbusFunctionCode.ReadExceptionStatus:
-                        case ModbusFunctionCode.WriteMultipleCoils:
-                        case ModbusFunctionCode.ReadFileRecord:
-                        case ModbusFunctionCode.WriteFileRecord:
-                        case ModbusFunctionCode.MaskWriteRegister:
-                        case ModbusFunctionCode.ReadWriteMultipleRegisters:
-                        case ModbusFunctionCode.ReadFifoQueue:
-                        case ModbusFunctionCode.Error:
-                        default:
-
-                            processingMethod = () => this.WriteExceptionResponse(rawFunctionCode, ModbusExceptionCode.IllegalFunction);
-                            break;
-                    }
+                        ModbusFunctionCode.ReadHoldingRegisters => () => this.ProcessReadHoldingRegisters(),
+                        ModbusFunctionCode.WriteMultipleRegisters => () => this.ProcessWriteMultipleRegisters(),
+                        ModbusFunctionCode.ReadCoils => () => this.ProcessReadCoils(),
+                        ModbusFunctionCode.ReadDiscreteInputs => () => this.ProcessReadDiscreteInputs(),
+                        ModbusFunctionCode.ReadInputRegisters => () => this.ProcessReadInputRegisters(),
+                        ModbusFunctionCode.WriteSingleCoil => () => this.ProcessWriteSingleCoil(),
+                        ModbusFunctionCode.WriteSingleRegister => () => this.ProcessWriteSingleRegister(),
+                        //ModbusFunctionCode.ReadExceptionStatus
+                        //ModbusFunctionCode.WriteMultipleCoils
+                        //ModbusFunctionCode.ReadFileRecord
+                        //ModbusFunctionCode.WriteFileRecord
+                        //ModbusFunctionCode.MaskWriteRegister
+                        //ModbusFunctionCode.ReadWriteMultipleRegisters
+                        //ModbusFunctionCode.ReadFifoQueue
+                        //ModbusFunctionCode.Error
+                        _ => (Action)(() => this.WriteExceptionResponse(rawFunctionCode, ModbusExceptionCode.IllegalFunction))
+                    };
                 }
                 catch (Exception)
                 {
@@ -219,7 +211,18 @@ namespace ModbusTCP.NET
                 processingMethod = () => this.WriteExceptionResponse(rawFunctionCode, ModbusExceptionCode.IllegalFunction);
             }
 
-            length = this.InternalWriteResponse(processingMethod);
+            // if incoming frames shall be processed asynchronously, access to memory must be orchestrated
+            if (_modbusTcpServer.IsAsynchronous)
+            {
+                lock (_modbusTcpServer.Lock)
+                {
+                    length = this.InternalWriteResponse(processingMethod);
+                }
+            }
+            else
+            {
+                length = this.InternalWriteResponse(processingMethod);
+            }
 
             _networkStream.Write(_buffer, 0, length);
         }
@@ -489,6 +492,12 @@ namespace ModbusTCP.NET
             {
                 if (disposing)
                 {
+                    if (_modbusTcpServer.IsAsynchronous)
+                    {
+                        _cts?.Cancel();
+                        _task?.Wait();
+                    }
+                        
                     _tcpClient.Close();
 
                     _requestReader.Dispose();

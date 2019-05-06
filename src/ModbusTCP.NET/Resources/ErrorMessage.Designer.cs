@@ -178,6 +178,24 @@ namespace ModbusTCP.NET {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Length must be equal to two bytes. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_LengthMustBeEqualToTwo {
+            get {
+                return ResourceManager.GetString("ModbusClient_LengthMustBeEqualToTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Length must be greater than two bytes and even. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_LengthMustBeGreaterThanTwoAndEven {
+            get {
+                return ResourceManager.GetString("ModbusClient_LengthMustBeGreaterThanTwoAndEven", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The protocol identifier is invalid. ähnelt.
         /// </summary>
         internal static string ModbusClient_ProtocolIdentifierInvalid {

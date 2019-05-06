@@ -2,7 +2,7 @@ version: '{build}'
 clone_depth: 1
 
 image:
-- Ubuntu
+#- Ubuntu
 - Visual Studio 2017
 
 environment:
