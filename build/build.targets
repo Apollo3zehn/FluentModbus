@@ -8,6 +8,7 @@
     <Error Condition="$(Revision) == ''" Text="The Revision property must be set." />
     <Error Condition="$(PackageLicenseUrl) == ''" Text="The PackageLicenseUrl property must be set." />
     <Error Condition="$(PackageProjectUrl) == ''" Text="The PackageProjectUrl property must be set." />
+    <Error Condition="$(IsFinalBuild) != 'true' AND $(VersionSuffix) != ''" Text="Non-final builds must specify a version suffix." />
 
     <!-- build properties -->
     <PropertyGroup>
