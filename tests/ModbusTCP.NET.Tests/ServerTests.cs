@@ -12,8 +12,6 @@ namespace ModbusTCP.NET.Tests
         private ITestOutputHelper _logger;
         private IPEndPoint _endpoint;
 
-        private float[] _array;
-
         public ServerTests(ITestOutputHelper logger)
         {
             _logger = logger;
