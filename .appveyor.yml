@@ -54,6 +54,5 @@ deploy:
     skip_symbols: true
     artifact: /.*\.nupkg/ 
     on:
-      branch: master
       CI_WINDOWS: true
       APPVEYOR_REPO_TAG: true
