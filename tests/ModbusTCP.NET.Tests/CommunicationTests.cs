@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net;
 using Xunit;
 
 namespace ModbusTCP.NET.Tests
@@ -6,14 +7,19 @@ namespace ModbusTCP.NET.Tests
     public class CommunicationTests
     {
         private static ModbusTcpServer _server;
-        private static float[] _array;
+        private IPEndPoint _endpoint;
 
-        // TODO: trigger exceptions (e.g. byte count must be even)
+        private float[] _array;
 
         static CommunicationTests()
         {
             _server = new ModbusTcpServer();
+        }
+
+        public CommunicationTests()
+        {
             _array = new float[] { 0, 0, 0, 0, 0, 65.455F, 24, 25, 0, 0 };
+            _endpoint = new IPEndPoint(IPAddress.Loopback, 20000);
         }
 
         // FC03: ReadHoldingRegisters
@@ -21,7 +27,7 @@ namespace ModbusTCP.NET.Tests
         public void FC03Test() 
         {
             // Arrange
-            _server.Start();
+            _server.Start(_endpoint);
             
             lock (_server.Lock)
             {
@@ -33,7 +39,7 @@ namespace ModbusTCP.NET.Tests
             }
 
             var client = new ModbusTcpClient();
-            client.Connect();
+            client.Connect(_endpoint);
 
             // Act
             var actual = client.ReadHoldingRegisters<float>(0, 2, 10);
@@ -49,10 +55,10 @@ namespace ModbusTCP.NET.Tests
         public void FC16Test()
         {
             // Arrange
-            _server.Start();
+            _server.Start(_endpoint);
 
             var client = new ModbusTcpClient();
-            client.Connect();
+            client.Connect(_endpoint);
 
             // Act
             client.WriteMultipleRegisters(0, 2, _array);
@@ -72,7 +78,7 @@ namespace ModbusTCP.NET.Tests
         public void FC01Test()
         {
             // Arrange
-            _server.Start();
+            _server.Start(_endpoint);
 
             lock (_server.Lock)
             {
@@ -84,7 +90,7 @@ namespace ModbusTCP.NET.Tests
             }
 
             var client = new ModbusTcpClient();
-            client.Connect();
+            client.Connect(_endpoint);
 
             // Act
             var actual = client.ReadCoils(0, 8, 25);
@@ -100,7 +106,7 @@ namespace ModbusTCP.NET.Tests
         public void FC02Test()
         {
             // Arrange
-            _server.Start();
+            _server.Start(_endpoint);
 
             lock (_server.Lock)
             {
@@ -112,7 +118,7 @@ namespace ModbusTCP.NET.Tests
             }
 
             var client = new ModbusTcpClient();
-            client.Connect();
+            client.Connect(_endpoint);
 
             // Act
             var actual = client.ReadDiscreteInputs(0, 8, 25);
@@ -128,7 +134,7 @@ namespace ModbusTCP.NET.Tests
         public void FC04Test()
         {
             // Arrange
-            _server.Start();         
+            _server.Start(_endpoint);         
 
             lock (_server.Lock)
             {
@@ -140,7 +146,7 @@ namespace ModbusTCP.NET.Tests
             }
 
             var client = new ModbusTcpClient();
-            client.Connect();
+            client.Connect(_endpoint);
 
             // Act
             var actual = client.ReadInputRegisters<float>(0, 2, 10);
@@ -156,10 +162,10 @@ namespace ModbusTCP.NET.Tests
         public void FC05Test()
         {
             // Arrange
-            _server.Start();
+            _server.Start(_endpoint);
 
             var client = new ModbusTcpClient();
-            client.Connect();
+            client.Connect(_endpoint);
 
             // Act
             client.WriteSingleCoil(0, 2, true);
@@ -182,10 +188,10 @@ namespace ModbusTCP.NET.Tests
         public void FC06Test()
         {
             // Arrange
-            _server.Start();
+            _server.Start(_endpoint);
 
             var client = new ModbusTcpClient();
-            client.Connect();
+            client.Connect(_endpoint);
 
             // Act
             client.WriteSingleRegister(0, 02, 259);
