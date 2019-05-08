@@ -127,10 +127,10 @@
     <value>A value contained in the query data field is not an allowable value for server. This indicates a fault in the structure of the remainder of a complex request, such as that the implied length is incorrect.</value>
   </data>
   <data name="ModbusClient_0x03_IllegalDataValue_0x7B" xml:space="preserve">
-    <value>The quantity of registers is out of range (1..123).</value>
+    <value>The quantity of registers is out of range (1..123). Make sure to request a minimum of one register. If you use the generic overload methods, please note that a single register consists of 2 bytes. If, for example, 1 x int32 value is requested, this results in a read operation of 2 registers.</value>
   </data>
   <data name="ModbusClient_0x03_IllegalDataValue_0x7D" xml:space="preserve">
-    <value>The quantity of registers is out of range (1..125).</value>
+    <value>The quantity of registers is out of range (1..125). Make sure to request a minimum of one register. If you use the generic overload methods, please note that a single register consists of 2 bytes. If, for example, 1 x int32 value is requested, this results in a read operation of 2 registers.</value>
   </data>
   <data name="ModbusClient_0x03_IllegalDataValue_0x7D0" xml:space="preserve">
     <value>The quantity of coils is out of range (1..2000).</value>
@@ -153,17 +153,20 @@
   <data name="ModbusClient_0x0B_GatewayTargetDeviceFailedToRespond" xml:space="preserve">
     <value>No response was obtained from the target device</value>
   </data>
+  <data name="ModbusClient_ArrayLengthMustBeEqualToTwo" xml:space="preserve">
+    <value>Array length must be equal to two bytes.</value>
+  </data>
+  <data name="ModbusClient_ArrayLengthMustBeGreaterThanTwoAndEven" xml:space="preserve">
+    <value>Array length must be greater than two bytes and even.</value>
+  </data>
   <data name="ModbusClient_InvalidResponseMessageLength" xml:space="preserve">
     <value>The response message length is invalid.</value>
   </data>
-  <data name="ModbusClient_LengthMustBeEqualToTwo" xml:space="preserve">
-    <value>Length must be equal to two bytes.</value>
-  </data>
-  <data name="ModbusClient_LengthMustBeGreaterThanTwoAndEven" xml:space="preserve">
-    <value>Length must be greater than two bytes and even.</value>
-  </data>
   <data name="ModbusClient_ProtocolIdentifierInvalid" xml:space="preserve">
     <value>The protocol identifier is invalid.</value>
+  </data>
+  <data name="ModbusClient_QuantityMustBePositiveInteger" xml:space="preserve">
+    <value>Quantity must be a positive integer number. Choose the 'count' parameter such that an even number of bytes is requested.</value>
   </data>
   <data name="ModbusClient_ResponseFunctionCodeInvalid" xml:space="preserve">
     <value>The responsed function code is invalid.</value>

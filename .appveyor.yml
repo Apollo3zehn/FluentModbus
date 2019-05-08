@@ -34,12 +34,26 @@ artifacts:
   - path: ./artifacts/packages/**/*.nupkg
 
 deploy:
+
+# MyGet (dev)
+  - provider: NuGet
+    server: https://www.myget.org/F/apollo3zehn-dev/api/v2/package
+    api_key:
+      secure: DVadlPknnKPMR4F2+3VqeU7BFFmtLcXDHzkySA590MqQNIdzbx8HRuaPwDVbHRqX
+    skip_symbols: true
+    artifact: /.*\.nupkg/ 
+    on:
+      branch: dev
+      CI_WINDOWS: true
+
+# NuGet (master)
   - provider: NuGet
     server: https://www.nuget.org/api/v2/package
     api_key:
-      secure: Z+/E7/8k05NePoUmHdtw/sTn6GSM+0e7ko6A02/rBjm6K9wVTYNekWHvSv7GEBtC
+      secure: WqZcnRwOmzIa+INti/HnihBrUz0u71rTRNElX/2wbuAIbzMX6SV8h4OxJtCaX2vN
     skip_symbols: true
     artifact: /.*\.nupkg/ 
     on:
       branch: master
       CI_WINDOWS: true
+      APPVEYOR_REPO_TAG: true

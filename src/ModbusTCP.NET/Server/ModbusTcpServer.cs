@@ -36,9 +36,31 @@ namespace ModbusTCP.NET
 
         #region Constructors
 
-        public ModbusTcpServer(ILogger logger = null, bool isAsynchronous = true)
+        /// <summary>
+        /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
+        /// </summary>
+        public ModbusTcpServer() : this(NullLogger.Instance, true)
         {
-            _logger = logger == null ? NullLogger.Instance : logger;
+            //
+        }
+
+        /// <summary>
+        /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
+        /// </summary>
+        /// <param name="logger">A logger instance to provide runtime information.</param>
+        public ModbusTcpServer(ILogger logger) : this(logger, true)
+        {
+            //
+        }
+
+        /// <summary>
+        /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
+        /// </summary>
+        /// <param name="logger">A logger instance to provide runtime information.</param>
+        /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/Modbus.NET">documentation</see> for more details.</param>
+        public ModbusTcpServer(ILogger logger, bool isAsynchronous)
+        {
+            _logger = logger;
 
             _manualResetEvent = new ManualResetEventSlim(false);
 
@@ -65,20 +87,57 @@ namespace ModbusTCP.NET
 
         #region Properties
 
+        /// <summary>
+        /// Gets the lock object. For synchronous operation only.
+        /// </summary>
         public object Lock { get; }
+
+        /// <summary>
+        /// Gets the operation mode.
+        /// </summary>
         public bool IsAsynchronous { get; }
 
+        /// <summary>
+        /// Gets the pointer to the input registers buffer.
+        /// </summary>
         public IntPtr InputRegisterBufferPtr { get; private set; }
+
+        /// <summary>
+        /// Gets the pointer to the holding registers buffer.
+        /// </summary>
         public IntPtr HoldingRegisterBufferPtr { get; private set; }
+
+        /// <summary>
+        /// Gets the pointer to the coils buffer.
+        /// </summary>
         public IntPtr CoilBufferPtr { get; private set; }
+
+        /// <summary>
+        /// Gets the pointer to the discete inputs buffer.
+        /// </summary>
         public IntPtr DiscreteInputBufferPtr { get; private set; }
 
+        /// <summary>
+        /// Gets the maximum input register address.
+        /// </summary>
         public UInt16 MaxInputRegisterAddress { get; set; }
+
+        /// <summary>
+        /// Gets the maximum holding register address.
+        /// </summary>
         public UInt16 MaxHoldingRegisterAddress { get; set; }
+
+        /// <summary>
+        /// Gets the maximum coil address.
+        /// </summary>
         public UInt16 MaxCoilAddress { get; set; }
+
+        /// <summary>
+        /// Gets the maximum discrete input address.
+        /// </summary>
         public UInt16 MaxDiscreteInputAddress { get; set; }
 
-        public bool IsReady
+        private bool IsReady
         {
             get
             {
@@ -90,56 +149,93 @@ namespace ModbusTCP.NET
 
         #region Methods
 
+        /// <summary>
+        /// Gets the input register buffer as type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the returned array.</typeparam>
         public Span<T> GetInputRegisterBuffer<T>() where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer());
         }
 
+        /// <summary>
+        /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
+        /// </summary>
         public unsafe Span<byte> GetInputRegisterBuffer()
         {
             return new Span<byte>(this.InputRegisterBufferPtr.ToPointer(), _inputRegisterSize);
         }
 
+        /// <summary>
+        /// Gets the holding register buffer as type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the returned array.</typeparam>
         public Span<T> GetHoldingRegisterBuffer<T>() where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer());
         }
 
+        /// <summary>
+        /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
+        /// </summary>
         public unsafe Span<byte> GetHoldingRegisterBuffer()
         {
             return new Span<byte>(this.HoldingRegisterBufferPtr.ToPointer(), _holdingRegisterSize);
         }
 
+        /// <summary>
+        /// Gets the coil buffer as type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the returned array.</typeparam>
         public Span<T> GetCoilBuffer<T>() where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer());
         }
 
+        /// <summary>
+        /// Low level API. Use the generic version for easy access. This method gets the coil buffer as byte array.
+        /// </summary>
         public unsafe Span<byte> GetCoilBuffer()
         {
             return new Span<byte>(this.CoilBufferPtr.ToPointer(), _coilSize);
         }
 
+        /// <summary>
+        /// Gets the discrete input buffer as type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the returned array.</typeparam>
         public Span<T> GetDiscreteInputBuffer<T>() where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer());
         }
 
+        /// <summary>
+        /// Low level API. Use the generic version for easy access. This method gets the discrete input buffer as byte array.
+        /// </summary>
         public unsafe Span<byte> GetDiscreteInputBuffer()
         {
             return new Span<byte>(this.DiscreteInputBufferPtr.ToPointer(), _discreteInputSize);
         }
 
+        /// <summary>
+        /// Starts the server. It will listen on any IP address on port 502.
+        /// </summary>
         public void Start()
         {
             this.Start(new IPEndPoint(IPAddress.Any, 502));
         }
 
+        /// <summary>
+        /// Starts the server. It will listen on the provided <paramref name="ipAddress"/> on port 502.
+        /// </summary>
         public void Start(IPAddress ipAddress)
         {
             this.Start(new IPEndPoint(ipAddress, 502));
         }
 
+        /// <summary>
+        /// Starts the server. It will listen on the provided <paramref name="localEndpoint"/>.
+        /// </summary>
         public void Start(IPEndPoint localEndpoint)
         {
             this.Stop();
@@ -212,6 +308,9 @@ namespace ModbusTCP.NET
             }
         }
 
+        /// <summary>
+        /// Stops the server and closes all open client connections.
+        /// </summary>
         public void Stop()
         {
             _cts?.Cancel();
@@ -230,9 +329,12 @@ namespace ModbusTCP.NET
             });
         }
 
+        /// <summary>
+        /// Serve all available client requests. For synchronous operation only.
+        /// </summary>
         public void Update()
         {
-            if (this.IsAsynchronous)
+            if (this.IsAsynchronous || !this.IsReady)
             {
                 return;
             }
@@ -240,7 +342,7 @@ namespace ModbusTCP.NET
             _manualResetEvent.Set();
         }
 
-        internal void AddRequestHandler(ModbusTcpRequestHandler handler)
+        private void AddRequestHandler(ModbusTcpRequestHandler handler)
         {
             lock (this.Lock)
             {
@@ -249,7 +351,7 @@ namespace ModbusTCP.NET
             }
         }
 
-        internal void RemoveRequestHandler(ModbusTcpRequestHandler handler)
+        private void RemoveRequestHandler(ModbusTcpRequestHandler handler)
         {
             lock (this.Lock)
             {
@@ -306,6 +408,9 @@ namespace ModbusTCP.NET
             Dispose(false);
         }
 
+        /// <summary>
+        /// Stops the server and disposes the buffers.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

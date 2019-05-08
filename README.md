@@ -64,30 +64,25 @@ client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502))
 
 #### Reading integer or float
 
-First, define the unit identifier, the starting address and the number of values to read (quantity):
+First, define the unit identifier, the starting address and the number of values to read (count):
 
 ```cs
-var unitIdentifier = (byte)0xFF;
+var unitIdentifier = (byte)0xFF; // 0x00 and 0xFF are the defaults for TCP/IP only Modbus devices.
 var startingAddress = (ushort)0;
-var quantity = (ushort)10;
+var count = (ushort)10;
 ```
 
-Then, request the data:
+Then, read the data:
 
 ```cs
-var FC03Data = client.ReadHoldingRegisters(unitIdentifier, startingAddress, quantity);
-var FC04Data = client.ReadInputRegisters(unitIdentifier, startingAddress, quantity);
+var shortData = client.ReadHoldingRegisters<short>(unitIdentifier, startingAddress, count);
 ```
 
 As explained above, you can _interpret_ the data in different ways using the generic overloads, which does the ```MemoryMarshal.Cast<T1, T2>``` work for you:
 
 ```cs
-// interpret data as byte (default)
-var byteData = client.ReadHoldingRegisters(unitIdentifier, startingAddress, quantity);
-var firstByteValue = byteData[0];
-
 // interpret data as float
-var floatData = client.ReadHoldingRegisters<float>(unitIdentifier, startingAddress, quantity);
+var floatData = client.ReadHoldingRegisters<float>(unitIdentifier, startingAddress, count);
 var firstValue = floatData[0];
 var lastValue = floatData[floatData.Length - 1];
 
@@ -109,6 +104,8 @@ async byte DoAsync()
 }
 ```
 
+> **Note:** The generic overloads shown here are intended for normal use. Compared to that, the non-generic overloads like ```client.ReadHoldingRegisters()``` have slightly better performance. However, they achieve this by doing fewer checks and conversions, such that these methods are less convenient to use and only recommended in high-performance scenarios, where raw data (i.e. byte arrays) are moved around.
+
 #### Reading boolean
 
 Boolean values are returned as single bits (1 = true, 0 = false) which are packed into bytes. If you request 10 booleans, you get a ```Span<byte>``` in return with a length of ```2``` bytes. In this example, the remaining ```6``` bits are only fill values.
@@ -118,8 +115,7 @@ var unitIdentifier = (byte)0xFF;
 var startingAddress = (ushort)0;
 var quantity = (ushort)10;
 
-var FC01Data = client.ReadCoils(unitIdentifier, startingAddress, quantity);
-var FC02Data = client.ReadDiscreteInputs(unitIdentifier, startingAddress, quantity);
+var boolData = client.ReadCoils(unitIdentifier, startingAddress, quantity);
 ```
 
 You can check if a certain bit (here: ```bit 2```) is set with:
@@ -143,15 +139,15 @@ var startingAddress = (ushort)0;
 var registerAddress = (ushort)0;
 var quantity = (ushort)10;
 
-var FC06data = new short[] { 4263 };
-client.WriteSingleRegister(unitIdentifier, registerAddress, FC06data);
+var shortData = new short[] { 4263 };
+client.WriteSingleRegister(unitIdentifier, registerAddress, shortData);
 
 // read back from server to prove correctness
-var shortData = client.ReadHoldingRegisters<short>(unitIdentifier, startingAddress, 1);
-Console.WriteLine(shortData[0]); // should print '4263'
+var shortDataResult = client.ReadHoldingRegisters<short>(unitIdentifier, startingAddress, 1);
+Console.WriteLine(shortDataResult[0]); // should print '4263'
 ```
 
-> **Note**: In Modbus TCP, the basic register size is 2 bytes. Thus, non-boolean write methods require values with non-zero, even number of bytes. This means, single ```byte``` and ```sbyte``` values will not work, but one or more ```int``` values will do.
+> **Note**: The Modbus protocol defines a basic register size of 2 bytes. Thus, the write methods require input values (or arrays) with even number of bytes (2, 4, 6, ...). This means that a call to ```client.WriteSingleRegister(0, 0, new byte { 1 })``` will not work, but ```client.WriteSingleRegister(0, 0, new short { 1 })``` will do. Since the client validates all your inputs (and so the server does), you will get notified if anything is wrong.
 
 If you want to write float values, the procedure is the same as shown previously using the generic overload:
 
@@ -216,13 +212,10 @@ var cts = new CancellationTokenSource();
 
 while (!cts.IsCancellationRequested)
 {
-    if (server.IsReady)
-    {
-        var intData = server.GetHoldingRegisterBuffer<int>();
-        intData[20] = random.Next(0, 100);
+    var intData = server.GetHoldingRegisterBuffer<int>();
+    intData[20] = random.Next(0, 100);
 
-        server.Update();
-    }
+    server.Update();
 
     await Task.Delay(TimeSpan.FromMilliseconds(100));
 }

@@ -16,7 +16,6 @@ namespace SampleMaster
             var services = new ServiceCollection();
 
             ConfigureServices(services);
-
             /* create types */
             var provider = services.BuildServiceProvider();
             var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
@@ -26,8 +25,6 @@ namespace SampleMaster
             /* create Modbus TCP server and client */
             var server = new ModbusTcpServer(serverLogger);
             var client = new ModbusTcpClient();
-
-            var FC06data = new short[] { 4263 };
 
             /* run Modbus TCP server (option 1) */
             var cts = new CancellationTokenSource();
@@ -94,15 +91,15 @@ namespace SampleMaster
             var random = new Random();
 
             // interpret buffer as array of bytes (8 bit)
-            var byte_buffer = server.GetHoldingRegisterBuffer();
+            var byte_buffer = server.GetHoldingRegisterBuffer<byte>();
             byte_buffer[20] = (byte)(random.Next() >> 24);
 
             // interpret buffer as array of shorts (16 bit)
-            var short_buffer = MemoryMarshal.Cast<byte, short>(server.GetHoldingRegisterBuffer());
+            var short_buffer = server.GetHoldingRegisterBuffer<short>();
             short_buffer[30] = (short)(random.Next(0, 100) >> 16);
 
             // interpret buffer as array of ints (32 bit)
-            var int_buffer = MemoryMarshal.Cast<byte, int>(server.GetHoldingRegisterBuffer());
+            var int_buffer = server.GetHoldingRegisterBuffer<int>();
             int_buffer[40] = random.Next(0, 100);
         }
 

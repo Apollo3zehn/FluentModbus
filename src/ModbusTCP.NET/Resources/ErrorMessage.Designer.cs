@@ -88,7 +88,7 @@ namespace ModbusTCP.NET {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The quantity of registers is out of range (1..123). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The quantity of registers is out of range (1..123). Make sure to request a minimum of one register. If you use the generic overload methods, please note that a single register consists of 2 bytes. If, for example, 1 x int32 value is requested, this results in a read operation of 2 registers. ähnelt.
         /// </summary>
         internal static string ModbusClient_0x03_IllegalDataValue_0x7B {
             get {
@@ -97,7 +97,7 @@ namespace ModbusTCP.NET {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The quantity of registers is out of range (1..125). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The quantity of registers is out of range (1..125). Make sure to request a minimum of one register. If you use the generic overload methods, please note that a single register consists of 2 bytes. If, for example, 1 x int32 value is requested, this results in a read operation of 2 registers. ähnelt.
         /// </summary>
         internal static string ModbusClient_0x03_IllegalDataValue_0x7D {
             get {
@@ -169,6 +169,24 @@ namespace ModbusTCP.NET {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Array length must be equal to two bytes. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_ArrayLengthMustBeEqualToTwo {
+            get {
+                return ResourceManager.GetString("ModbusClient_ArrayLengthMustBeEqualToTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Array length must be greater than two bytes and even. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_ArrayLengthMustBeGreaterThanTwoAndEven {
+            get {
+                return ResourceManager.GetString("ModbusClient_ArrayLengthMustBeGreaterThanTwoAndEven", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The response message length is invalid. ähnelt.
         /// </summary>
         internal static string ModbusClient_InvalidResponseMessageLength {
@@ -178,29 +196,20 @@ namespace ModbusTCP.NET {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Length must be equal to two bytes. ähnelt.
-        /// </summary>
-        internal static string ModbusClient_LengthMustBeEqualToTwo {
-            get {
-                return ResourceManager.GetString("ModbusClient_LengthMustBeEqualToTwo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Length must be greater than two bytes and even. ähnelt.
-        /// </summary>
-        internal static string ModbusClient_LengthMustBeGreaterThanTwoAndEven {
-            get {
-                return ResourceManager.GetString("ModbusClient_LengthMustBeGreaterThanTwoAndEven", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The protocol identifier is invalid. ähnelt.
         /// </summary>
         internal static string ModbusClient_ProtocolIdentifierInvalid {
             get {
                 return ResourceManager.GetString("ModbusClient_ProtocolIdentifierInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Quantity must be a positive integer number. Choose the &apos;count&apos; parameter such that an even number of bytes is requested. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_QuantityMustBePositiveInteger {
+            get {
+                return ResourceManager.GetString("ModbusClient_QuantityMustBePositiveInteger", resourceCulture);
             }
         }
         
