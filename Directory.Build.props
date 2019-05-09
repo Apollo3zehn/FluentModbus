@@ -3,7 +3,7 @@
   <Import Project="./build/build.props" />
 
   <PropertyGroup>
-    <PackageLicense Condition="$(PackageLicense) == ''">https://github.com/Apollo3zehn/Modbus.NET/blob/master/LICENSE.md</PackageLicense>
+    <PackageLicenseExpression Condition="$(PackageLicenseExpression) == ''">LGPL-3.0-only</PackageLicenseExpression>
     <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://github.com/Apollo3zehn/Modbus.NET</PackageProjectUrl>
   </PropertyGroup>
 
