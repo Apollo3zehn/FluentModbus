@@ -93,7 +93,7 @@ Console.WriteLine($"Last value is {lastValue}");
 If you want to keep the data for later use or you want to use the Modbus TCP client in asynchronous methods, convert the ```Span<T>``` into a normal array with ```ToArray()```:
 
 ```cs
-async byte DoAsync()
+async byte[] DoAsync()
 {
     var client = new ModbusTcpClient();
     client.Connect(...);
@@ -104,11 +104,11 @@ async byte DoAsync()
 }
 ```
 
-> **Note:** The generic overloads shown here are intended for normal use. Compared to that, the non-generic overloads like ```client.ReadHoldingRegisters()``` have slightly better performance. However, they achieve this by doing fewer checks and conversions, such that these methods are less convenient to use and only recommended in high-performance scenarios, where raw data (i.e. byte arrays) are moved around.
+> **Note:** The generic overloads shown here are intended for normal use. Compared to that, the non-generic overloads like ```client.ReadHoldingRegisters()``` have slightly better performance. However, they achieve this by doing fewer checks and conversions. This means, these methods are less convenient to use and only recommended in high-performance scenarios, where raw data (i.e. byte arrays) are moved around.
 
 #### Reading boolean
 
-Boolean values are returned as single bits (1 = true, 0 = false) which are packed into bytes. If you request 10 booleans, you get a ```Span<byte>``` in return with a length of ```2``` bytes. In this example, the remaining ```6``` bits are only fill values.
+Boolean values are returned as single bits (1 = true, 0 = false), which are packed into bytes. If you request 10 booleans you get a ```Span<byte>``` in return with a length of ```2``` bytes. In this example, the remaining ```6``` bits are fill values.
 
 ```cs
 var unitIdentifier = (byte)0xFF;
