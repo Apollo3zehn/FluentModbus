@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ModbusTCP.NET
+namespace FluentModbus
 {
     public class ExtendedBinaryWriter : BinaryWriter
     {

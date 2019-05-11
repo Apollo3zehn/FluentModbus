@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ModbusTCP.NET
+namespace FluentModbus
 {
     public class ExtendedBinaryReader : BinaryReader
     {

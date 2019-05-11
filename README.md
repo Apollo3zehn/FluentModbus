@@ -1,8 +1,8 @@
-# ModbusTCP.NET
+# FluentModbus
 
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/modbus.net?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/modbus-net)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/modbus-net)
 
-ModbusTCP.NET is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
+FluentModbus is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Support for Modbus RTU and ASCII mode is planned for the next major version. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
 
 #### Class 0:
 * FC03: ReadHoldingRegisters
@@ -15,7 +15,7 @@ ModbusTCP.NET is a .NET Standard library that provides a Modbus TCP server and c
 * FC05: WriteSingleCoil
 * FC06: WriteSingleRegister
 
-Please see the following introduction and the [sample](sample/SampleServerClient) application, to get started with ModbusTCP.NET.
+Please see the following introduction and the [sample](sample/SampleServerClient) application, to get started with FluentModbus.
 
 ### A few words to ```Span<T>```
 
@@ -183,8 +183,11 @@ server.Start();
 There are two options to operate the server. The first one, which is the default, is asynchronous operation. This means all client requests are handled immediately. However, asynchronous operation requires a synchronization of data access, which can be accomplished using the ```lock``` keyword:
 
 ```cs
-var random = new Random();
 var cts = new CancellationTokenSource();
+var random = new Random();
+var server = new ModbusTcpServer();
+
+server.Start();
 
 while (!cts.IsCancellationRequested)
 {
@@ -200,6 +203,8 @@ while (!cts.IsCancellationRequested)
     // update server buffer content only once per second
     await Task.Delay(TimeSpan.FromSeconds(1));
 }
+
+server.Dispose();
 ```
 
 ### Option 2 (synchronous operation)
@@ -207,8 +212,11 @@ while (!cts.IsCancellationRequested)
 The second mode is the _synchronous_ mode, which is useful for advanced scenarios, where a lock mechanism is undesirable. In this mode, the hosting application is responsible to trigger the data update method (```server.Update()```) regularly:
 
 ```cs
-var random = new Random();
 var cts = new CancellationTokenSource();
+var random = new Random();
+var server = new ModbusTcpServer(isAsynchronous: false);
+
+server.Start();
 
 while (!cts.IsCancellationRequested)
 {

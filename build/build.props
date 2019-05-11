@@ -7,11 +7,12 @@
     <EmbedAllSources>true</EmbedAllSources>
     <LangVersion>latest</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
   <PropertyGroup>
     <Major Condition="$(Major) == ''">1</Major>
-    <Minor Condition="$(Minor) == ''">1</Minor>
+    <Minor Condition="$(Minor) == ''">2</Minor>
     <Revision Condition="$(Revision) == ''">0</Revision>
     <VersionSuffix Condition="$(VersionSuffix) == ''"></VersionSuffix>
   </PropertyGroup>

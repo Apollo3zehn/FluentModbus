@@ -1,4 +1,4 @@
-﻿namespace ModbusTCP.NET
+﻿namespace FluentModbus
 {
     public enum ModbusExceptionCode : byte
     {

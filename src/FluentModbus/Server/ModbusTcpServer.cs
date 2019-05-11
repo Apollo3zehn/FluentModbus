@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ModbusTCP.NET
+namespace FluentModbus
 {
     public class ModbusTcpServer : IDisposable
     {
@@ -56,8 +56,17 @@ namespace ModbusTCP.NET
         /// <summary>
         /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
         /// </summary>
+        /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
+        public ModbusTcpServer(bool isAsynchronous) : this(NullLogger.Instance, isAsynchronous)
+        {
+            //
+        }
+
+        /// <summary>
+        /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
+        /// </summary>
         /// <param name="logger">A logger instance to provide runtime information.</param>
-        /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/Modbus.NET">documentation</see> for more details.</param>
+        /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
         public ModbusTcpServer(ILogger logger, bool isAsynchronous)
         {
             _logger = logger;

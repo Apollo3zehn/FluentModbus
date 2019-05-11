@@ -6,8 +6,8 @@
     <Error Condition="$(Major) == ''" Text="The Major property must be set." />
     <Error Condition="$(Minor) == ''" Text="The Minor property must be set." />
     <Error Condition="$(Revision) == ''" Text="The Revision property must be set." />
-    <Error Condition="$(PackageLicense) == ''" Text="The PackageLicense property must be set." />
     <Error Condition="$(PackageProjectUrl) == ''" Text="The PackageProjectUrl property must be set." />
+    <Error Condition="$(PackageLicenseExpression) == ''" Text="The PackageLicenseExpression property must be set." />
 
     <!-- build properties -->
     <PropertyGroup>
@@ -21,7 +21,7 @@
       <!-- create new properties -->
       <AssemblyVersion>$(Major).0.0.0</AssemblyVersion>
       <FileVersion>$(Major).$(Minor).$(Revision).0</FileVersion>
-      <Product>ModbusTCP.NET</Product>
+      <Product>FluentModbus</Product>
       <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
       <Version>$(Major).$(Minor).$(Revision)</Version>
 

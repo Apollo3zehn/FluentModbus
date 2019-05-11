@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 
-namespace ModbusTCP.NET
+namespace FluentModbus
 {
     public class ModbusTcpClient
     {
