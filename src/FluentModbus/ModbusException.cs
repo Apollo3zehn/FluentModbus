@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModbusTCP.NET
+namespace FluentModbus
 {
     public class ModbusException : Exception
     {

@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ModbusTCP.NET\ModbusTCP.NET.csproj" />
+    <ProjectReference Include="..\..\src\FluentModbus\FluentModbus.csproj" />
   </ItemGroup>
 
 </Project>

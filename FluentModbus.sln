@@ -27,9 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{D6452D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "sample\SampleServerClient\SampleServerClient.csproj", "{226ABEFD-EC87-42B1-9F7E-DDDA298C124D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModbusTCP.NET", "src\ModbusTCP.NET\ModbusTCP.NET.csproj", "{BE6DE3F6-ED5E-4603-AC45-8966CD4EB2D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentModbus", "src\FluentModbus\FluentModbus.csproj", "{BE6DE3F6-ED5E-4603-AC45-8966CD4EB2D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modbus.TCP.NET.Tests", "tests\ModbusTCP.NET.Tests\Modbus.TCP.NET.Tests.csproj", "{EDA7B16D-17C0-4E4F-8315-A639BE519B26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentModbus.Tests", "tests\FluentModbus.Tests\FluentModbus.Tests.csproj", "{EDA7B16D-17C0-4E4F-8315-A639BE519B26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

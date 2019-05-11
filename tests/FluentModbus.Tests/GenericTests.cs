@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using Xunit;
 
-namespace ModbusTCP.NET.Tests
+namespace FluentModbus.Tests
 {
     public class GenericTests
     {

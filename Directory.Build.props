@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <PackageLicenseExpression Condition="$(PackageLicenseExpression) == ''">LGPL-3.0-only</PackageLicenseExpression>
-    <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://github.com/Apollo3zehn/Modbus.NET</PackageProjectUrl>
+    <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://github.com/Apollo3zehn/FluentModbus</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
