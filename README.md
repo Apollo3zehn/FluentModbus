@@ -122,7 +122,7 @@ You can check if a certain bit (here: ```bit 2```) is set with:
 
 ```cs
 var position = 2;
-var boolValue = ((FC01Data[0] >> position) & 1) > 0;
+var boolValue = ((boolData[0] >> position) & 1) > 0;
 ```
 
 See also [this](https://stackoverflow.com/questions/47981/how-do-you-set-clear-and-toggle-a-single-bit) overview to understand how to manipulate single bits.
