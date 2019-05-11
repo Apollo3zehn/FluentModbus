@@ -124,17 +124,7 @@ namespace ModbusTCP.NET
 
             while (true)
             {
-                var sw = Stopwatch.StartNew();
-
-                try
-                {
-                    length += _networkStream.Read(messageBuffer.Buffer, 0, messageBuffer.Buffer.Length);
-                }
-                catch (Exception)
-                {
-                    var b = sw.Elapsed;
-                    throw;
-                }
+                length += _networkStream.Read(messageBuffer.Buffer, 0, messageBuffer.Buffer.Length);
 
                 if (length >= 7)
                 {
