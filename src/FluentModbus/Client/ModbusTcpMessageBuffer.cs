@@ -2,7 +2,7 @@
 using System.Buffers;
 using System.IO;
 
-namespace ModbusTCP.NET
+namespace FluentModbus
 {
     public class ModbusTcpMessageBuffer : IDisposable
     {

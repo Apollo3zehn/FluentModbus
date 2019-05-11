@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ModbusTCP.NET\ModbusTCP.NET.csproj" />
+    <ProjectReference Include="..\..\src\FluentModbus\FluentModbus.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,10 +25,10 @@ before_build:
 - ps: "Get-ChildItem Env:"
 
 build_script:
-- ps: dotnet build ./src/ModbusTCP.NET/ModbusTCP.NET.csproj -c $Env:CONFIGURATION /p:Build=$Env:APPVEYOR_BUILD_NUMBER /p:IsFinalBuild=$Env:APPVEYOR_REPO_TAG
+- ps: dotnet build ./src/FluentModbus/FluentModbus.csproj -c $Env:CONFIGURATION /p:Build=$Env:APPVEYOR_BUILD_NUMBER /p:IsFinalBuild=$Env:APPVEYOR_REPO_TAG
 
 test_script:
-- ps: dotnet test ./tests/ModbusTCP.NET.Tests -c $Env:CONFIGURATION /p:BuildProjectReferences=false
+- ps: dotnet test ./tests/FluentModbus.Tests -c $Env:CONFIGURATION /p:BuildProjectReferences=false
 
 artifacts:
   - path: ./artifacts/packages/**/*.nupkg

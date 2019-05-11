@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Extremely lightweight and fast .NET Standard implementation of the Modbus TCP protocol.</Description>
+    <Description>Extremely lightweight and fast .NET Standard implementation of the Modbus protocol.</Description>
     <PackageTags>Modbus ModbusTCP .NET Standard Windows Linux</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>preview</LangVersion>
@@ -30,7 +30,7 @@
     <EmbeddedResource Update="Resources\ErrorMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ErrorMessage.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>ModbusTCP.NET</CustomToolNamespace>
+      <CustomToolNamespace>FluentModbus</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   

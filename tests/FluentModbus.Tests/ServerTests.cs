@@ -5,14 +5,12 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ModbusTCP.NET.Tests
+namespace FluentModbus.Tests
 {
     public class ServerTests
     {
         private ITestOutputHelper _logger;
         private IPEndPoint _endpoint;
-
-        private float[] _array;
 
         public ServerTests(ITestOutputHelper logger)
         {

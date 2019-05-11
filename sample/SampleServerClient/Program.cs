@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ModbusTCP.NET;
 using System;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SampleMaster
+namespace FluentModbus.SampleMaster
 {
     class Program
     {
@@ -44,6 +42,8 @@ namespace SampleMaster
                     // update server buffer content once per second
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
+
+                server.Dispose();
             }, cts.Token);
 
             /* run Modbus TCP client */
