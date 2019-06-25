@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>FluentModbus | FluentModbus </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="FluentModbus | FluentModbus ">
+    <meta name="generator" content="docfx 2.43.2.0">
+    
+    <link rel="shortcut icon" href="images/icon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="images/logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="fluentmodbus">FluentModbus</h1>
+
+<p><a href="https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus"><img src="https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true" alt="AppVeyor"></a></p>
+<p>FluentModbus is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Support for Modbus RTU and ASCII mode is planned for the next major version. Both, the server and the client, implement class 0 and class 1 functions of the <a href="http://www.modbus.org/specs.php">specification</a>. Namely, these are:</p>
+<h4 id="class-0">Class 0:</h4>
+<ul>
+<li>FC03: ReadHoldingRegisters</li>
+<li>FC16: WriteMultipleRegisters</li>
+</ul>
+<h4 id="class-1">Class 1:</h4>
+<ul>
+<li>FC01: ReadCoils</li>
+<li>FC02: ReadDiscreteInputs</li>
+<li>FC04: ReadInputRegisters</li>
+<li>FC05: WriteSingleCoil</li>
+<li>FC06: WriteSingleRegister</li>
+</ul>
+<p>Please see the following introduction and the <a href="sample/SampleServerClient">sample</a> application, to get started with FluentModbus.</p>
+<h3 id="a-few-words-to-spant">A few words to <code>Span&lt;T&gt;</code></h3>
+<p>The returned data of the read functions (FC01 to FC04) are always provided as <code>Span&lt;T&gt;</code> (<a href="https://msdn.microsoft.com/en-us/magazine/mt814808.aspx">What is this?</a>). In short, a <code>Span&lt;T&gt;</code> is a simple view of the underlying memory. With this type, the memory can be interpreted as <code>byte</code>, <code>int</code>, <code>float</code> or any other value type. A conversion from <code>Span&lt;byte&gt;</code> to other types can be efficiently achieved through:</p>
+<pre><code class="lang-cs">Span&lt;byte&gt; byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
+Span&lt;int&gt; intSpan = MemoryMarshal.Cast&lt;byte, int&gt;(byteSpan);
+Span&lt;float&gt; floatSpan = MemoryMarshal.Cast&lt;int, float&gt;(intSpan);
+</code></pre>
+<p>You can then access it like a any other array:</p>
+<pre><code class="lang-cs">var floatValue = myFloatSpan[0];
+</code></pre>
+<p>The data remain unchanged during all of these calls. <em>Only the interpretation changes.</em> However, one disadvantage is that this type cannot be used in all code locations (e.g. in <code>async</code> functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):</p>
+<pre><code class="lang-cs">float[] floatArray = floatSpan.ToArray();
+</code></pre>
+<h2 id="creating-a-modbus-tcp-client">Creating a Modbus TCP client</h2>
+<p>A new Modbus TCP client can be easily created with the following code:</p>
+<pre><code class="lang-cs">var client = new ModbusTcpClient();
+</code></pre>
+<p>Once you have an instance, connect to a server in one of the following ways:</p>
+<pre><code class="lang-cs">// use default IP address 127.0.0.1 and port 502
+client.Connect();
+
+// use specified IP address and default port 502
+client.Connect(IPAddress.Parse(&quot;127.0.0.1&quot;));
+
+// use specified IP adress and port
+client.Connect(new IPEndPoint(IPAddress.Parse(&quot;127.0.0.1&quot;), 502))
+</code></pre>
+<h3 id="reading-data">Reading data</h3>
+<h4 id="reading-integer-or-float">Reading integer or float</h4>
+<p>First, define the unit identifier, the starting address and the number of values to read (count):</p>
+<pre><code class="lang-cs">var unitIdentifier = (byte)0xFF; // 0x00 and 0xFF are the defaults for TCP/IP only Modbus devices.
+var startingAddress = (ushort)0;
+var count = (ushort)10;
+</code></pre>
+<p>Then, read the data:</p>
+<pre><code class="lang-cs">var shortData = client.ReadHoldingRegisters&lt;short&gt;(unitIdentifier, startingAddress, count);
+</code></pre>
+<p>As explained above, you can <em>interpret</em> the data in different ways using the generic overloads, which does the <code>MemoryMarshal.Cast&lt;T1, T2&gt;</code> work for you:</p>
+<pre><code class="lang-cs">// interpret data as float
+var floatData = client.ReadHoldingRegisters&lt;float&gt;(unitIdentifier, startingAddress, count);
+var firstValue = floatData[0];
+var lastValue = floatData[floatData.Length - 1];
+
+Console.WriteLine($&quot;Fist value is {firstValue}&quot;);
+Console.WriteLine($&quot;Last value is {lastValue}&quot;);
+</code></pre>
+<p>If you want to keep the data for later use or you want to use the Modbus TCP client in asynchronous methods, convert the <code>Span&lt;T&gt;</code> into a normal array with <code>ToArray()</code>:</p>
+<pre><code class="lang-cs">async byte[] DoAsync()
+{
+    var client = new ModbusTcpClient();
+    client.Connect(...);
+
+    await &lt;awaitsomething&gt;;
+
+    return client.ReadHoldingRegisters(1, 2, 3).ToArray();
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The generic overloads shown here are intended for normal use. Compared to that, the non-generic overloads like <code>client.ReadHoldingRegisters()</code> have slightly better performance. However, they achieve this by doing fewer checks and conversions. This means, these methods are less convenient to use and only recommended in high-performance scenarios, where raw data (i.e. byte arrays) are moved around.</p>
+</blockquote>
+<h4 id="reading-boolean">Reading boolean</h4>
+<p>Boolean values are returned as single bits (1 = true, 0 = false), which are packed into bytes. If you request 10 booleans you get a <code>Span&lt;byte&gt;</code> in return with a length of <code>2</code> bytes. In this example, the remaining <code>6</code> bits are fill values.</p>
+<pre><code class="lang-cs">var unitIdentifier = (byte)0xFF;
+var startingAddress = (ushort)0;
+var quantity = (ushort)10;
+
+var boolData = client.ReadCoils(unitIdentifier, startingAddress, quantity);
+</code></pre>
+<p>You can check if a certain bit (here: <code>bit 2</code>) is set with:</p>
+<pre><code class="lang-cs">var position = 2;
+var boolValue = ((boolData[0] &gt;&gt; position) &amp; 1) &gt; 0;
+</code></pre>
+<p>See also <a href="https://stackoverflow.com/questions/47981/how-do-you-set-clear-and-toggle-a-single-bit">this</a> overview to understand how to manipulate single bits.</p>
+<h3 id="writing-data">Writing data</h3>
+<h4 id="writing-integer-or-float">Writing integer or float</h4>
+<p>The following example shows how to write the number <code>4263</code> to the server:</p>
+<pre><code class="lang-cs">var unitIdentifier = (byte)0xFF;
+var startingAddress = (ushort)0;
+var registerAddress = (ushort)0;
+var quantity = (ushort)10;
+
+var shortData = new short[] { 4263 };
+client.WriteSingleRegister(unitIdentifier, registerAddress, shortData);
+
+// read back from server to prove correctness
+var shortDataResult = client.ReadHoldingRegisters&lt;short&gt;(unitIdentifier, startingAddress, 1);
+Console.WriteLine(shortDataResult[0]); // should print '4263'
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: The Modbus protocol defines a basic register size of 2 bytes. Thus, the write methods require input values (or arrays) with even number of bytes (2, 4, 6, ...). This means that a call to <code>client.WriteSingleRegister(0, 0, new byte { 1 })</code> will not work, but <code>client.WriteSingleRegister(0, 0, new short { 1 })</code> will do. Since the client validates all your inputs (and so the server does), you will get notified if anything is wrong.</p>
+</blockquote>
+<p>If you want to write float values, the procedure is the same as shown previously using the generic overload:</p>
+<pre><code class="lang-cs">var floatData = new float[] { 1.1F, 9557e3F };
+client.WriteMultipleRegisters(unitIdentifier, startingAddress, floatData);
+</code></pre>
+<h4 id="writing-boolean">Writing boolean</h4>
+<p>It's as simple as:</p>
+<pre><code class="lang-cs">client.WriteSingleCoil(unitIdentifier, registerAddress, true);
+</code></pre>
+<h2 id="creating-a-modbus-tcp-server">Creating a Modbus TCP server</h2>
+<p>First, you need to instantiate the Modbus TCP server:</p>
+<pre><code class="lang-cs">var server = new ModbusTcpServer();
+</code></pre>
+<p>Then you can start it:</p>
+<pre><code class="lang-cs">server.Start();
+</code></pre>
+<h3 id="option-1-asynchronous-operation">Option 1 (asynchronous operation)</h3>
+<p>There are two options to operate the server. The first one, which is the default, is asynchronous operation. This means all client requests are handled immediately. However, asynchronous operation requires a synchronization of data access, which can be accomplished using the <code>lock</code> keyword:</p>
+<pre><code class="lang-cs">var cts = new CancellationTokenSource();
+var random = new Random();
+var server = new ModbusTcpServer();
+
+server.Start();
+
+while (!cts.IsCancellationRequested)
+{
+    var intData = server.GetHoldingRegisterBuffer&lt;int&gt;();
+
+    // lock is required to synchronize buffer access between
+    // this application and one or more Modbus clients
+    lock (server.Lock)
+    {
+        intData[20] = random.Next(0, 100);
+    }
+
+    // update server buffer content only once per second
+    await Task.Delay(TimeSpan.FromSeconds(1));
+}
+
+server.Dispose();
+</code></pre>
+<h3 id="option-2-synchronous-operation">Option 2 (synchronous operation)</h3>
+<p>The second mode is the <em>synchronous</em> mode, which is useful for advanced scenarios, where a lock mechanism is undesirable. In this mode, the hosting application is responsible to trigger the data update method (<code>server.Update()</code>) regularly:</p>
+<pre><code class="lang-cs">var cts = new CancellationTokenSource();
+var random = new Random();
+var server = new ModbusTcpServer(isAsynchronous: false);
+
+server.Start();
+
+while (!cts.IsCancellationRequested)
+{
+    var intData = server.GetHoldingRegisterBuffer&lt;int&gt;();
+    intData[20] = random.Next(0, 100);
+
+    server.Update();
+
+    await Task.Delay(TimeSpan.FromMilliseconds(100));
+}
+</code></pre>
+<p>Note that in the second example, the <code>Task.Delay()</code> period is much lower. Since we want coordinated access between the application and the clients <em>without</em> locks, we need to ensure that at certain points in time, the application is safe to access the buffers. This is the case when the <code>IsReady</code> propery is <code>true</code> (when all client requests have been served). After the application finished manipulating the server data, it triggers the server to serve all accumulated client requests (via the <code>Update()</code> method). Finally, the process repeats.</p>
+<h2 id="see-also">See also</h2>
+<p>This implementation is based on <a href="http://www.modbus.org/specs.php">http://www.modbus.org/specs.php</a>:</p>
+<ul>
+<li>MODBUS APPLICATION PROTOCOL SPECIFICATION V1.1b3</li>
+<li>MODBUS MESSAGING ON TCP/IP IMPLEMENTATION GUIDE V1.0b</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/master/doc/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2019 Vincent Wilms
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

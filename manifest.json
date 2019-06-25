@@ -1,0 +1,269 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/wilvin/Desktop/FluentModbus/doc",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ExtendedBinaryReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ExtendedBinaryReader.html",
+          "hash": "D4NphvLDir/AMH7LetOpPQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ExtendedBinaryWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ExtendedBinaryWriter.html",
+          "hash": "WYleuvc0lXocKaBHgnXAeQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ModbusException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ModbusException.html",
+          "hash": "yx6oJWSu1Qpfu/vJ3t/tYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ModbusExceptionCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ModbusExceptionCode.html",
+          "hash": "kdwU8lNjr3y9D0YB2wCRqA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ModbusFunctionCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ModbusFunctionCode.html",
+          "hash": "5eFOZCBgNV+VH7FbVZh9vg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ModbusTcpClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ModbusTcpClient.html",
+          "hash": "cN6WZ6Vsumvay1KxEYkcfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ModbusTcpMessageBuffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ModbusTcpMessageBuffer.html",
+          "hash": "pkDo0qTq9VnubM1VE7culg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ModbusTcpRequestHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ModbusTcpRequestHandler.html",
+          "hash": "EjYVRk20lKfbx+RCAwTP1Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.ModbusTcpServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.ModbusTcpServer.html",
+          "hash": "fy5VihXuhNp1NHsMTN2BKQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.html",
+          "hash": "/nz7H8cWUd8fGeO+3qj23A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "K8KUWkbqzRHK2IcGPrA3Uw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/icon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "images/icon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.svg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "EJ90wTs4ORixZwD3L3+m3w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "samples/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "samples/intro.html",
+          "hash": "R2Sj/1GUeYSuR9GVi2xZDg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "samples/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "samples/toc.html",
+          "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "Q+nVGRz4/bJoQlRR52AkEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 10,
+          "skipped_file_count": 1
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 2
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
