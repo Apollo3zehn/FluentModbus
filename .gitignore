@@ -3,8 +3,10 @@
 artifacts/
 
 doc/_site
-doc/api
 /**/obj
+
+doc/api/*
+!doc/api/index.md
 
 
 *.suo
