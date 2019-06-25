@@ -1,0 +1,54 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "**/*.csproj"
+          ],
+          "src": "./../src"
+        }
+      ],
+      "dest": "./api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "*.md",
+          "toc.yml"
+        ]
+      },
+      {
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
+          "samples/**.md",
+          "samples/**/toc.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "dest": "_site",
+    "globalMetadata": {
+      "_appTitle": "FluentModbus",
+      "_appFooter": "Copyright © 2019 Vincent Wilms",
+      "_appFaviconPath": "images/icon.ico",
+      "_appLogoPath": "images/logo.svg"
+    },
+    "fileMetadataFiles": [],
+    "template":["default","templates/darkfx"],
+    "markdownEngineName": "markdig"
+  }
+}

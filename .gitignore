@@ -2,5 +2,10 @@
 .vscode/
 artifacts/
 
+doc/_site
+doc/api
+/**/obj
+
+
 *.suo
 *.user
