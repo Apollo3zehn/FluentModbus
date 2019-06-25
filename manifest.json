@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ExtendedBinaryReader.html",
-          "hash": "D4NphvLDir/AMH7LetOpPQ=="
+          "hash": "7OkYGnqxRK13m+oq64nqtw=="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ExtendedBinaryWriter.html",
-          "hash": "WYleuvc0lXocKaBHgnXAeQ=="
+          "hash": "JQMO0m7Z2qfQIq7qrpmyww=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusException.html",
-          "hash": "yx6oJWSu1Qpfu/vJ3t/tYw=="
+          "hash": "i8aIDi760unSPC+UencuOA=="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusExceptionCode.html",
-          "hash": "kdwU8lNjr3y9D0YB2wCRqA=="
+          "hash": "Eteon/kSrvPWvXLNNA0SZg=="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusFunctionCode.html",
-          "hash": "5eFOZCBgNV+VH7FbVZh9vg=="
+          "hash": "Y9JfNuGMWvpevcZls6Kh/A=="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusTcpClient.html",
-          "hash": "cN6WZ6Vsumvay1KxEYkcfw=="
+          "hash": "ruSK84KJWlJwiJQrdfm7fA=="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusTcpMessageBuffer.html",
-          "hash": "pkDo0qTq9VnubM1VE7culg=="
+          "hash": "8dLA7ZZIruQz2kKl2mhFow=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusTcpRequestHandler.html",
-          "hash": "EjYVRk20lKfbx+RCAwTP1Q=="
+          "hash": "zH3Pfb2mZcW8DJ1vh5zYxA=="
         }
       },
       "is_incremental": false,
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusTcpServer.html",
-          "hash": "fy5VihXuhNp1NHsMTN2BKQ=="
+          "hash": "/goWjLSx0T/olK6BIrU70w=="
         }
       },
       "is_incremental": false,
@@ -118,6 +118,18 @@
         ".html": {
           "relative_path": "api/FluentModbus.html",
           "hash": "/nz7H8cWUd8fGeO+3qj23A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "CkcVVd7dr86Ii+ZGkgEHKw=="
         }
       },
       "is_incremental": false,
@@ -169,7 +181,7 @@
           "hash": "EJ90wTs4ORixZwD3L3+m3w=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -181,7 +193,7 @@
           "hash": "R2Sj/1GUeYSuR9GVi2xZDg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -197,15 +209,12 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "Q+nVGRz4/bJoQlRR52AkEg=="
+          "hash": "fnWRLlWCjQ+oVvYV1HlcRA=="
         }
       },
       "is_incremental": false,
@@ -215,34 +224,36 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ResourceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
           "total_file_count": 0,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 10,
-          "skipped_file_count": 1
+          "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 2,
-          "skipped_file_count": 2
-        },
-        "TocDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 0
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
           "total_file_count": 0,
           "skipped_file_count": 0
@@ -251,8 +262,8 @@
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0
