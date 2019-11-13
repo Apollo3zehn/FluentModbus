@@ -38,7 +38,7 @@ namespace FluentModbus.Tests
                 // Assert
                 var elapsed = sw.ElapsedMilliseconds;
 
-                Assert.True(connectTimeout <= elapsed && elapsed < connectTimeout * 2, "The connect timeout is not respected.");
+                Assert.True(elapsed < connectTimeout * 2, "The connect timeout is not respected.");
             }
         }
     }
