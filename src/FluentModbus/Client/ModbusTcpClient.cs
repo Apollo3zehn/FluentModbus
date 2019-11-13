@@ -26,6 +26,16 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Gets or sets the connect timeout in milliseconds. Default is 1000 ms.
+        /// </summary>
+        public int ConnectTimeout { get; set; } = 1000;
+
+        /// <summary>
+        /// Gets or sets the connect timeout in milliseconds. Default is 1000 ms.
+        /// </summary>
+        public int ReadTimeout { get; set; } = 1000;
+
+        /// <summary>
         /// Gets the connection status of the underlying TCP client.
         /// </summary>
         public bool IsConnected
@@ -64,13 +74,13 @@ namespace FluentModbus
             _tcpClient?.Close();
             _tcpClient = new TcpClient();
 
-            if (!_tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(1000))
+            if (!_tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(this.ConnectTimeout))
             {
                 throw new Exception(ErrorMessage.ModbusClient_TcpConnectionTimeout);
             }
 
             _networkStream = _tcpClient.GetStream();
-            _networkStream.ReadTimeout = 1000;
+            _networkStream.ReadTimeout = this.ReadTimeout;
         }
 
         /// <summary>
