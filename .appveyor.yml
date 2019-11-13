@@ -2,8 +2,8 @@ version: '{build}'
 clone_depth: 1
 
 image:
-#- Ubuntu
-- Visual Studio 2017
+- Ubuntu
+- Visual Studio 2019
 
 environment:
   ApiKey:

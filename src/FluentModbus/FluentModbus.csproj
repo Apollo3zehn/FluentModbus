@@ -5,13 +5,12 @@
     <PackageTags>Modbus ModbusTCP .NET Standard Windows Linux</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>preview</LangVersion>
-    <!--<TargetFramework></TargetFramework>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>-->
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
-    <PackageReference Include="System.Memory" Version="4.5.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0" />
+    <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.1'">

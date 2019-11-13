@@ -23,7 +23,6 @@ namespace FluentModbus.Tests
         {
             // Arrange
             var server = new ModbusTcpServer();
-
             server.Start(_endpoint);
 
             // Act
@@ -72,12 +71,10 @@ namespace FluentModbus.Tests
         {
             // Arrange
             var server = new ModbusTcpServer();
-
             server.Start(_endpoint);
 
             // Act
             var client = new ModbusTcpClient();
-
             client.Connect(_endpoint);
 
             await Task.Run(() =>
