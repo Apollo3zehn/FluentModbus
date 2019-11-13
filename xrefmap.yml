@@ -13,11 +13,11 @@ references:
   commentId: T:FluentModbus.ExtendedBinaryReader
   fullName: FluentModbus.ExtendedBinaryReader
   nameWithType: ExtendedBinaryReader
-- uid: FluentModbus.ExtendedBinaryReader.#ctor(Stream)
+- uid: FluentModbus.ExtendedBinaryReader.#ctor(System.IO.Stream)
   name: ExtendedBinaryReader(Stream)
-  href: api/FluentModbus.ExtendedBinaryReader.html#FluentModbus_ExtendedBinaryReader__ctor_Stream_
-  commentId: M:FluentModbus.ExtendedBinaryReader.#ctor(Stream)
-  fullName: FluentModbus.ExtendedBinaryReader.ExtendedBinaryReader(Stream)
+  href: api/FluentModbus.ExtendedBinaryReader.html#FluentModbus_ExtendedBinaryReader__ctor_System_IO_Stream_
+  commentId: M:FluentModbus.ExtendedBinaryReader.#ctor(System.IO.Stream)
+  fullName: FluentModbus.ExtendedBinaryReader.ExtendedBinaryReader(System.IO.Stream)
   nameWithType: ExtendedBinaryReader.ExtendedBinaryReader(Stream)
 - uid: FluentModbus.ExtendedBinaryReader.#ctor*
   name: ExtendedBinaryReader
@@ -136,11 +136,11 @@ references:
   commentId: T:FluentModbus.ExtendedBinaryWriter
   fullName: FluentModbus.ExtendedBinaryWriter
   nameWithType: ExtendedBinaryWriter
-- uid: FluentModbus.ExtendedBinaryWriter.#ctor(Stream)
+- uid: FluentModbus.ExtendedBinaryWriter.#ctor(System.IO.Stream)
   name: ExtendedBinaryWriter(Stream)
-  href: api/FluentModbus.ExtendedBinaryWriter.html#FluentModbus_ExtendedBinaryWriter__ctor_Stream_
-  commentId: M:FluentModbus.ExtendedBinaryWriter.#ctor(Stream)
-  fullName: FluentModbus.ExtendedBinaryWriter.ExtendedBinaryWriter(Stream)
+  href: api/FluentModbus.ExtendedBinaryWriter.html#FluentModbus_ExtendedBinaryWriter__ctor_System_IO_Stream_
+  commentId: M:FluentModbus.ExtendedBinaryWriter.#ctor(System.IO.Stream)
+  fullName: FluentModbus.ExtendedBinaryWriter.ExtendedBinaryWriter(System.IO.Stream)
   nameWithType: ExtendedBinaryWriter.ExtendedBinaryWriter(Stream)
 - uid: FluentModbus.ExtendedBinaryWriter.#ctor*
   name: ExtendedBinaryWriter
@@ -404,17 +404,17 @@ references:
   commentId: M:FluentModbus.ModbusTcpClient.Connect
   fullName: FluentModbus.ModbusTcpClient.Connect()
   nameWithType: ModbusTcpClient.Connect()
-- uid: FluentModbus.ModbusTcpClient.Connect(IPAddress)
+- uid: FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)
   name: Connect(IPAddress)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_IPAddress_
-  commentId: M:FluentModbus.ModbusTcpClient.Connect(IPAddress)
-  fullName: FluentModbus.ModbusTcpClient.Connect(IPAddress)
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_Net_IPAddress_
+  commentId: M:FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)
+  fullName: FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)
   nameWithType: ModbusTcpClient.Connect(IPAddress)
-- uid: FluentModbus.ModbusTcpClient.Connect(IPEndPoint)
+- uid: FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)
   name: Connect(IPEndPoint)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_IPEndPoint_
-  commentId: M:FluentModbus.ModbusTcpClient.Connect(IPEndPoint)
-  fullName: FluentModbus.ModbusTcpClient.Connect(IPEndPoint)
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_Net_IPEndPoint_
+  commentId: M:FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)
+  fullName: FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)
   nameWithType: ModbusTcpClient.Connect(IPEndPoint)
 - uid: FluentModbus.ModbusTcpClient.Connect*
   name: Connect
@@ -423,6 +423,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpClient.Connect
   nameWithType: ModbusTcpClient.Connect
+- uid: FluentModbus.ModbusTcpClient.ConnectTimeout
+  name: ConnectTimeout
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ConnectTimeout
+  commentId: P:FluentModbus.ModbusTcpClient.ConnectTimeout
+  fullName: FluentModbus.ModbusTcpClient.ConnectTimeout
+  nameWithType: ModbusTcpClient.ConnectTimeout
+- uid: FluentModbus.ModbusTcpClient.ConnectTimeout*
+  name: ConnectTimeout
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ConnectTimeout_
+  commentId: Overload:FluentModbus.ModbusTcpClient.ConnectTimeout
+  isSpec: "True"
+  fullName: FluentModbus.ModbusTcpClient.ConnectTimeout
+  nameWithType: ModbusTcpClient.ConnectTimeout
 - uid: FluentModbus.ModbusTcpClient.Disconnect
   name: Disconnect()
   href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Disconnect
@@ -558,6 +571,19 @@ references:
   fullName.vb: FluentModbus.ModbusTcpClient.ReadInputRegisters(Of T)(System.Byte, System.UInt16, System.UInt16)
   nameWithType: ModbusTcpClient.ReadInputRegisters<T>(Byte, UInt16, UInt16)
   nameWithType.vb: ModbusTcpClient.ReadInputRegisters(Of T)(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusTcpClient.ReadTimeout
+  name: ReadTimeout
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadTimeout
+  commentId: P:FluentModbus.ModbusTcpClient.ReadTimeout
+  fullName: FluentModbus.ModbusTcpClient.ReadTimeout
+  nameWithType: ModbusTcpClient.ReadTimeout
+- uid: FluentModbus.ModbusTcpClient.ReadTimeout*
+  name: ReadTimeout
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadTimeout_
+  commentId: Overload:FluentModbus.ModbusTcpClient.ReadTimeout
+  isSpec: "True"
+  fullName: FluentModbus.ModbusTcpClient.ReadTimeout
+  nameWithType: ModbusTcpClient.ReadTimeout
 - uid: FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters
   name: ReadWriteMultipleRegisters()
   href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadWriteMultipleRegisters
@@ -746,11 +772,11 @@ references:
   commentId: T:FluentModbus.ModbusTcpRequestHandler
   fullName: FluentModbus.ModbusTcpRequestHandler
   nameWithType: ModbusTcpRequestHandler
-- uid: FluentModbus.ModbusTcpRequestHandler.#ctor(TcpClient,FluentModbus.ModbusTcpServer)
+- uid: FluentModbus.ModbusTcpRequestHandler.#ctor(System.Net.Sockets.TcpClient,FluentModbus.ModbusTcpServer)
   name: ModbusTcpRequestHandler(TcpClient, ModbusTcpServer)
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler__ctor_TcpClient_FluentModbus_ModbusTcpServer_
-  commentId: M:FluentModbus.ModbusTcpRequestHandler.#ctor(TcpClient,FluentModbus.ModbusTcpServer)
-  fullName: FluentModbus.ModbusTcpRequestHandler.ModbusTcpRequestHandler(TcpClient, FluentModbus.ModbusTcpServer)
+  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler__ctor_System_Net_Sockets_TcpClient_FluentModbus_ModbusTcpServer_
+  commentId: M:FluentModbus.ModbusTcpRequestHandler.#ctor(System.Net.Sockets.TcpClient,FluentModbus.ModbusTcpServer)
+  fullName: FluentModbus.ModbusTcpRequestHandler.ModbusTcpRequestHandler(System.Net.Sockets.TcpClient, FluentModbus.ModbusTcpServer)
   nameWithType: ModbusTcpRequestHandler.ModbusTcpRequestHandler(TcpClient, ModbusTcpServer)
 - uid: FluentModbus.ModbusTcpRequestHandler.#ctor*
   name: ModbusTcpRequestHandler
@@ -836,17 +862,17 @@ references:
   commentId: M:FluentModbus.ModbusTcpServer.#ctor
   fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer()
   nameWithType: ModbusTcpServer.ModbusTcpServer()
-- uid: FluentModbus.ModbusTcpServer.#ctor(ILogger)
+- uid: FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger)
   name: ModbusTcpServer(ILogger)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_ILogger_
-  commentId: M:FluentModbus.ModbusTcpServer.#ctor(ILogger)
-  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(ILogger)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_Microsoft_Extensions_Logging_ILogger_
+  commentId: M:FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger)
+  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(Microsoft.Extensions.Logging.ILogger)
   nameWithType: ModbusTcpServer.ModbusTcpServer(ILogger)
-- uid: FluentModbus.ModbusTcpServer.#ctor(ILogger,System.Boolean)
+- uid: FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger,System.Boolean)
   name: ModbusTcpServer(ILogger, Boolean)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_ILogger_System_Boolean_
-  commentId: M:FluentModbus.ModbusTcpServer.#ctor(ILogger,System.Boolean)
-  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(ILogger, System.Boolean)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_Microsoft_Extensions_Logging_ILogger_System_Boolean_
+  commentId: M:FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger,System.Boolean)
+  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(Microsoft.Extensions.Logging.ILogger, System.Boolean)
   nameWithType: ModbusTcpServer.ModbusTcpServer(ILogger, Boolean)
 - uid: FluentModbus.ModbusTcpServer.#ctor(System.Boolean)
   name: ModbusTcpServer(Boolean)
@@ -1117,17 +1143,17 @@ references:
   commentId: M:FluentModbus.ModbusTcpServer.Start
   fullName: FluentModbus.ModbusTcpServer.Start()
   nameWithType: ModbusTcpServer.Start()
-- uid: FluentModbus.ModbusTcpServer.Start(IPAddress)
+- uid: FluentModbus.ModbusTcpServer.Start(System.Net.IPAddress)
   name: Start(IPAddress)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Start_IPAddress_
-  commentId: M:FluentModbus.ModbusTcpServer.Start(IPAddress)
-  fullName: FluentModbus.ModbusTcpServer.Start(IPAddress)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Start_System_Net_IPAddress_
+  commentId: M:FluentModbus.ModbusTcpServer.Start(System.Net.IPAddress)
+  fullName: FluentModbus.ModbusTcpServer.Start(System.Net.IPAddress)
   nameWithType: ModbusTcpServer.Start(IPAddress)
-- uid: FluentModbus.ModbusTcpServer.Start(IPEndPoint)
+- uid: FluentModbus.ModbusTcpServer.Start(System.Net.IPEndPoint)
   name: Start(IPEndPoint)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Start_IPEndPoint_
-  commentId: M:FluentModbus.ModbusTcpServer.Start(IPEndPoint)
-  fullName: FluentModbus.ModbusTcpServer.Start(IPEndPoint)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Start_System_Net_IPEndPoint_
+  commentId: M:FluentModbus.ModbusTcpServer.Start(System.Net.IPEndPoint)
+  fullName: FluentModbus.ModbusTcpServer.Start(System.Net.IPEndPoint)
   nameWithType: ModbusTcpServer.Start(IPEndPoint)
 - uid: FluentModbus.ModbusTcpServer.Start*
   name: Start
