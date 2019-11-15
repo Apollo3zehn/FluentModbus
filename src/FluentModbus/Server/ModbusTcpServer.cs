@@ -328,7 +328,15 @@ namespace FluentModbus
             _task_remove_clients = null;
 
             _manualResetEvent?.Set();
-            _task_process_requests?.Wait();
+
+            try
+            {
+                _task_process_requests?.Wait();
+            }
+            catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
+            {
+                //
+            }
 
             _tcpListener?.Stop();
 

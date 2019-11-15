@@ -495,7 +495,15 @@ namespace FluentModbus
                     if (_modbusTcpServer.IsAsynchronous)
                     {
                         _cts?.Cancel();
-                        _task?.Wait();
+
+                        try
+                        {
+                            _task?.Wait();
+                        }
+                        catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
+                        {
+                            //
+                        }
                     }
                         
                     _tcpClient.Close();
