@@ -132,6 +132,7 @@ namespace FluentModbus
 
                             if (this.Length - 6 >= _bytesFollowing)
                             {
+                                this.LastRequest.Restart();
                                 break;
                             }
                         }
@@ -141,8 +142,6 @@ namespace FluentModbus
                         this.Length = 0;
                         break;
                     }
-
-                    this.LastRequest.Restart();
                 }
 
                 this.IsReady = true;
