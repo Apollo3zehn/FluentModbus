@@ -31,7 +31,7 @@ namespace FluentModbus
         public int ConnectTimeout { get; set; } = 1000;
 
         /// <summary>
-        /// Gets or sets the connect timeout in milliseconds. Default is 1000 ms.
+        /// Gets or sets the read timeout in milliseconds. Default is 1000 ms.
         /// </summary>
         public int ReadTimeout { get; set; } = 1000;
 
