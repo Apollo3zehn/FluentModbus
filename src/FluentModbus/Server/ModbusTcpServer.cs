@@ -90,6 +90,8 @@ namespace FluentModbus
             this.HoldingRegisterBufferPtr = Marshal.AllocHGlobal(_holdingRegisterSize);
             this.CoilBufferPtr = Marshal.AllocHGlobal(_coilSize);
             this.DiscreteInputBufferPtr = Marshal.AllocHGlobal(_discreteInputSize);
+
+            this.ConnectionTimeout = TimeSpan.FromMinutes(1);
         }
 
         #endregion
@@ -129,22 +131,27 @@ namespace FluentModbus
         /// <summary>
         /// Gets the maximum input register address.
         /// </summary>
-        public UInt16 MaxInputRegisterAddress { get; set; }
+        public UInt16 MaxInputRegisterAddress { get; private set; }
 
         /// <summary>
         /// Gets the maximum holding register address.
         /// </summary>
-        public UInt16 MaxHoldingRegisterAddress { get; set; }
+        public UInt16 MaxHoldingRegisterAddress { get; private set; }
 
         /// <summary>
         /// Gets the maximum coil address.
         /// </summary>
-        public UInt16 MaxCoilAddress { get; set; }
+        public UInt16 MaxCoilAddress { get; private set; }
 
         /// <summary>
         /// Gets the maximum discrete input address.
         /// </summary>
-        public UInt16 MaxDiscreteInputAddress { get; set; }
+        public UInt16 MaxDiscreteInputAddress { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the timeout for each client connection. Wenn the client does not send any request within the specified time span, the connection will be reset. Default timeout is 1 minute.
+        /// </summary>
+        public TimeSpan ConnectionTimeout { get; set; }
 
         private bool IsReady
         {
@@ -287,7 +294,7 @@ namespace FluentModbus
                         // https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connected?redirectedfrom=MSDN&view=netframework-4.8#System_Net_Sockets_TcpClient_Connected
                         foreach (var requestHandler in _requestHandlerSet.ToList())
                         {
-                            if (requestHandler.LastRequest.Elapsed > TimeSpan.FromMinutes(1))
+                            if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
                             {
                                 this.RemoveRequestHandler(requestHandler);
                                 requestHandler.Dispose();
@@ -328,7 +335,15 @@ namespace FluentModbus
             _task_remove_clients = null;
 
             _manualResetEvent?.Set();
-            _task_process_requests?.Wait();
+
+            try
+            {
+                _task_process_requests?.Wait();
+            }
+            catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
+            {
+                //
+            }
 
             _tcpListener?.Stop();
 

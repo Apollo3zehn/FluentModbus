@@ -11,9 +11,9 @@
 
   <PropertyGroup>
     <Major Condition="$(Major) == ''">1</Major>
-    <Minor Condition="$(Minor) == ''">3</Minor>
+    <Minor Condition="$(Minor) == ''">4</Minor>
     <Revision Condition="$(Revision) == ''">0</Revision>
-    <VersionSuffix Condition="$(VersionSuffix) == ''"></VersionSuffix>
+    <VersionSuffix Condition="$(VersionSuffix) == ''">alpha.1</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
