@@ -5,9 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("FluentModbus.Tests")]
 
 namespace FluentModbus
 {
@@ -16,7 +19,6 @@ namespace FluentModbus
         #region Fields
 
         private TcpListener _tcpListener;
-        private List<ModbusTcpRequestHandler> _requestHandlerSet;
 
         private Task _task_accept_clients;
         private Task _task_remove_clients;
@@ -153,6 +155,8 @@ namespace FluentModbus
         /// </summary>
         public TimeSpan ConnectionTimeout { get; set; }
 
+        internal List<ModbusTcpRequestHandler> RequestHandlerSet { get; private set; }
+
         private bool IsReady
         {
             get
@@ -256,7 +260,7 @@ namespace FluentModbus
         {
             this.Stop();
 
-            _requestHandlerSet = new List<ModbusTcpRequestHandler>();
+            this.RequestHandlerSet = new List<ModbusTcpRequestHandler>();
 
             _tcpListener = new TcpListener(localEndpoint);
             _tcpListener.Start();
@@ -292,7 +296,7 @@ namespace FluentModbus
                     {
                         // see remarks to "TcpClient.Connected" property
                         // https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connected?redirectedfrom=MSDN&view=netframework-4.8#System_Net_Sockets_TcpClient_Connected
-                        foreach (var requestHandler in _requestHandlerSet.ToList())
+                        foreach (var requestHandler in this.RequestHandlerSet.ToList())
                         {
                             if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
                             {
@@ -347,7 +351,7 @@ namespace FluentModbus
 
             _tcpListener?.Stop();
 
-            _requestHandlerSet?.ForEach(requestHandler =>
+            this.RequestHandlerSet?.ForEach(requestHandler =>
             {
                 requestHandler.Dispose();
             });
@@ -370,8 +374,8 @@ namespace FluentModbus
         {
             lock (this.Lock)
             {
-                _requestHandlerSet.Add(handler);
-                _logger.LogInformation($"{_requestHandlerSet.Count} {(_requestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
+                this.RequestHandlerSet.Add(handler);
+                _logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 
@@ -379,8 +383,8 @@ namespace FluentModbus
         {
             lock (this.Lock)
             {
-                _requestHandlerSet.Remove(handler);
-                _logger.LogInformation($"{_requestHandlerSet.Count} {(_requestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
+                this.RequestHandlerSet.Remove(handler);
+                _logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 
@@ -388,7 +392,7 @@ namespace FluentModbus
         {
             lock (this.Lock)
             {
-                foreach (var requestHandler in _requestHandlerSet)
+                foreach (var requestHandler in this.RequestHandlerSet)
                 {
                     if (requestHandler.IsReady)
                     {
