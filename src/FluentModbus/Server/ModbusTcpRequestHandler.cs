@@ -250,22 +250,22 @@ namespace FluentModbus
 
         private void WriteExceptionResponse(byte rawFunctionCode, ModbusExceptionCode exceptionCode)
         {
-            _responseWriter.Write((byte)(rawFunctionCode + 0x80));
+            _responseWriter.Write((byte)(ModbusFunctionCode.Error + rawFunctionCode));
             _responseWriter.Write((byte)exceptionCode);
         }
 
-        private bool CheckRegisterBounds(int startingAddress, int maxStartingAddress, int quantityOfRegisters, int maxQuantityOfRegisters)
+        private bool CheckRegisterBounds(ModbusFunctionCode functionCode, int startingAddress, int maxStartingAddress, int quantityOfRegisters, int maxQuantityOfRegisters)
         {
             if (startingAddress < 0 || startingAddress + quantityOfRegisters > maxStartingAddress)
             {
-                this.WriteExceptionResponse(ModbusFunctionCode.ReadHoldingRegisters, ModbusExceptionCode.IllegalDataAddress);
+                this.WriteExceptionResponse(functionCode, ModbusExceptionCode.IllegalDataAddress);
 
                 return false;
             }
 
             if (quantityOfRegisters <= 0 || quantityOfRegisters > maxQuantityOfRegisters)
             {
-                this.WriteExceptionResponse(ModbusFunctionCode.ReadHoldingRegisters, ModbusExceptionCode.IllegalDataValue);
+                this.WriteExceptionResponse(functionCode, ModbusExceptionCode.IllegalDataValue);
 
                 return false;
             }
@@ -282,7 +282,7 @@ namespace FluentModbus
             startingAddress = _requestReader.ReadUInt16Reverse();
             quantityOfRegisters = _requestReader.ReadUInt16Reverse();
 
-            if (this.CheckRegisterBounds(startingAddress, _modbusTcpServer.MaxHoldingRegisterAddress, quantityOfRegisters, 0x7D))
+            if (this.CheckRegisterBounds(ModbusFunctionCode.ReadHoldingRegisters, startingAddress, _modbusTcpServer.MaxHoldingRegisterAddress, quantityOfRegisters, 0x7D))
             {
                 _responseWriter.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);
                 _responseWriter.Write((byte)(quantityOfRegisters * 2));
@@ -300,7 +300,7 @@ namespace FluentModbus
             quantityOfRegisters = _requestReader.ReadUInt16Reverse();
             byteCount = _requestReader.ReadByte();
 
-            if (this.CheckRegisterBounds(startingAddress, _modbusTcpServer.MaxHoldingRegisterAddress, quantityOfRegisters, 0x7B))
+            if (this.CheckRegisterBounds(ModbusFunctionCode.WriteMultipleRegisters, startingAddress, _modbusTcpServer.MaxHoldingRegisterAddress, quantityOfRegisters, 0x7B))
             {
                 _requestReader.ReadBytes(byteCount).AsSpan().CopyTo(_modbusTcpServer.GetHoldingRegisterBuffer().Slice(startingAddress * 2));
 
@@ -329,7 +329,7 @@ namespace FluentModbus
             startingAddress = _requestReader.ReadUInt16Reverse();
             quantityOfCoils = _requestReader.ReadUInt16Reverse();
 
-            if (this.CheckRegisterBounds(startingAddress, _modbusTcpServer.MaxCoilAddress, quantityOfCoils, 0x7D0))
+            if (this.CheckRegisterBounds(ModbusFunctionCode.ReadCoils, startingAddress, _modbusTcpServer.MaxCoilAddress, quantityOfCoils, 0x7D0))
             {
                 byteCount = (byte)Math.Ceiling((double)quantityOfCoils / 8);
 
@@ -376,7 +376,7 @@ namespace FluentModbus
             startingAddress = _requestReader.ReadUInt16Reverse();
             quantityOfInputs = _requestReader.ReadUInt16Reverse();
 
-            if (this.CheckRegisterBounds(startingAddress, _modbusTcpServer.MaxInputRegisterAddress, quantityOfInputs, 0x7D0))
+            if (this.CheckRegisterBounds(ModbusFunctionCode.ReadDiscreteInputs, startingAddress, _modbusTcpServer.MaxInputRegisterAddress, quantityOfInputs, 0x7D0))
             {
                 byteCount = (byte)Math.Ceiling((double)quantityOfInputs / 8);
 
@@ -413,7 +413,7 @@ namespace FluentModbus
             startingAddress = _requestReader.ReadUInt16Reverse();
             quantityOfRegisters = _requestReader.ReadUInt16Reverse();
 
-            if (this.CheckRegisterBounds(startingAddress, _modbusTcpServer.MaxInputRegisterAddress, quantityOfRegisters, 0x7D))
+            if (this.CheckRegisterBounds(ModbusFunctionCode.ReadInputRegisters, startingAddress, _modbusTcpServer.MaxInputRegisterAddress, quantityOfRegisters, 0x7D))
             {
                 _responseWriter.Write((byte)ModbusFunctionCode.ReadInputRegisters);
                 _responseWriter.Write((byte)(quantityOfRegisters * 2));
@@ -432,7 +432,7 @@ namespace FluentModbus
             outputAddress = _requestReader.ReadUInt16Reverse();
             outputValue = _requestReader.ReadUInt16();
 
-            if (this.CheckRegisterBounds(outputAddress, _modbusTcpServer.MaxCoilAddress, 1, 1))
+            if (this.CheckRegisterBounds(ModbusFunctionCode.WriteSingleCoil, outputAddress, _modbusTcpServer.MaxCoilAddress, 1, 1))
             {
                 if (outputValue != 0x0000 && outputValue != 0x00FF)
                 {
@@ -469,7 +469,7 @@ namespace FluentModbus
             registerAddress = _requestReader.ReadUInt16Reverse();
             registerValue = _requestReader.ReadUInt16();
 
-            if (this.CheckRegisterBounds(registerAddress, _modbusTcpServer.MaxHoldingRegisterAddress, 1, 1))
+            if (this.CheckRegisterBounds(ModbusFunctionCode.WriteSingleRegister, registerAddress, _modbusTcpServer.MaxHoldingRegisterAddress, 1, 1))
             {
                 MemoryMarshal.Cast<byte, ushort>(_modbusTcpServer.GetHoldingRegisterBuffer())[registerAddress] = registerValue;
 
