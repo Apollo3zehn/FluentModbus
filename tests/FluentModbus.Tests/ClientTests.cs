@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace FluentModbus.Tests
 {
