@@ -10,7 +10,7 @@ namespace FluentModbus
 
         public ModbusTcpMessageBuffer()
         {
-            this.Buffer = ArrayPool<byte>.Shared.Rent(256);
+            this.Buffer = ArrayPool<byte>.Shared.Rent(260);
 
             this.RequestWriter = new ExtendedBinaryWriter(new MemoryStream(this.Buffer));
             this.ResponseReader = new ExtendedBinaryReader(new MemoryStream(this.Buffer));

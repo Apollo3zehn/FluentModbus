@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Buffers;
 using System.Diagnostics;
 using System.IO;
@@ -41,7 +41,7 @@ namespace FluentModbus
 
             _cts = new CancellationTokenSource();
             _networkStream = tcpClient.GetStream();
-            _buffer = ArrayPool<byte>.Shared.Rent(256);
+            _buffer = ArrayPool<byte>.Shared.Rent(260);
 
             _cts.Token.Register(() => _networkStream.Close());
 

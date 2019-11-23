@@ -93,6 +93,67 @@ namespace FluentModbus.Tests
         }
 
         [Fact]
+        public void CanReadMaximumNumberOfRegisters()
+        {
+            // Arrange
+            _server.Start(_endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(_endpoint);
+
+            // Act
+            client.ReadHoldingRegisters<ushort>(0, 0, 125);
+            client.ReadInputRegisters<ushort>(0, 0, 125);
+        }
+
+        [Fact]
+        public void CanWriteMaximumNumberOfRegisters()
+        {
+            // Arrange
+            _server.Start(_endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(_endpoint);
+
+            // Act
+            client.WriteMultipleRegisters<ushort>(0, 0, new ushort[123]);
+        }
+
+        [Fact]
+        public void ThrowsWhenReadingTooManyRegisters()
+        {
+            // Arrange
+            _server.Start(_endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(_endpoint);
+
+            // Act
+            Action action1 = () => client.ReadHoldingRegisters<ushort>(0, 0, 126);
+            Action action2 = () => client.ReadInputRegisters<ushort>(0, 0, 126);
+
+            // Assert
+            Assert.Throws<ModbusException>(action1);
+            Assert.Throws<ModbusException>(action2);
+        }
+
+        [Fact]
+        public void ThrowsWhenWritingTooManyRegisters()
+        {
+            // Arrange
+            _server.Start(_endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(_endpoint);
+
+            // Act
+            Action action = () => client.WriteMultipleRegisters<ushort>(0, 0, new ushort[124]);
+
+            // Assert
+            Assert.Throws<ModbusException>(action);
+        }
+
+        [Fact]
         public void ThrowsIfZeroBytesAreRequested()
         {
             // Arrange
