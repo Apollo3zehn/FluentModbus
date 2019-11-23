@@ -171,6 +171,9 @@
   <data name="ModbusClient_ResponseFunctionCodeInvalid" xml:space="preserve">
     <value>The responsed function code is invalid.</value>
   </data>
+  <data name="ModbusClient_TcpConnectionClosedUnexpectedly" xml:space="preserve">
+    <value>The TCP connection closed unexpectedly.</value>
+  </data>
   <data name="ModbusClient_TcpConnectionTimeout" xml:space="preserve">
     <value>The TCP connection timed out.</value>
   </data>

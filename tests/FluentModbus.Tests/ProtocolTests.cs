@@ -4,19 +4,19 @@ using Xunit;
 
 namespace FluentModbus.Tests
 {
-    public class CommunicationTests
+    public class ProtocolTests
     {
         private static ModbusTcpServer _server;
         private IPEndPoint _endpoint;
 
         private float[] _array;
 
-        static CommunicationTests()
+        static ProtocolTests()
         {
             _server = new ModbusTcpServer();
         }
 
-        public CommunicationTests()
+        public ProtocolTests()
         {
             _array = new float[] { 0, 0, 0, 0, 0, 65.455F, 24, 25, 0, 0 };
             _endpoint = new IPEndPoint(IPAddress.Loopback, 20000);

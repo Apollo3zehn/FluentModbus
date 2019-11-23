@@ -102,7 +102,8 @@ namespace FluentModbus
 
         private Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode modbusFunctionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
-            int length;
+            int totalLength;
+            int newLength;
 
             ushort transactionIdentifier;
             ushort protocolIdentifier;
@@ -118,25 +119,30 @@ namespace FluentModbus
             // build and send request
             messageBuffer.RequestWriter.Seek(7, SeekOrigin.Begin);
             extendFrame.Invoke(messageBuffer.RequestWriter);
-            length = (int)messageBuffer.RequestWriter.BaseStream.Position;
+            totalLength = (int)messageBuffer.RequestWriter.BaseStream.Position;
 
             messageBuffer.RequestWriter.Seek(0, SeekOrigin.Begin);
             messageBuffer.RequestWriter.WriteReverse(this.GetTransactionIdentifier());              // 00-01  Transaction Identifier
             messageBuffer.RequestWriter.WriteReverse((ushort)0);                                    // 02-03  Protocol Identifier
-            messageBuffer.RequestWriter.WriteReverse((ushort)(length - 6));                         // 04-05  Length
+            messageBuffer.RequestWriter.WriteReverse((ushort)(totalLength - 6));                    // 04-05  Length
             messageBuffer.RequestWriter.Write(unitIdentifier);                                      // 06     Unit Identifier
 
-            _networkStream.Write(messageBuffer.Buffer, 0, length);
+            _networkStream.Write(messageBuffer.Buffer, 0, totalLength);
 
             // wait for and process response
-            length = 0;
+            totalLength = 0;
             messageBuffer.ResponseReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             while (true)
             {
-                length += _networkStream.Read(messageBuffer.Buffer, 0, messageBuffer.Buffer.Length);
+                newLength = _networkStream.Read(messageBuffer.Buffer, 0, messageBuffer.Buffer.Length);
 
-                if (length >= 7)
+                if (newLength == 0)
+                    throw new InvalidOperationException(ErrorMessage.ModbusClient_TcpConnectionClosedUnexpectedly);
+
+                totalLength += newLength;
+
+                if (totalLength >= 7)
                 {
                     if (messageBuffer.ResponseReader.BaseStream.Position == 0)
                     {
@@ -152,7 +158,7 @@ namespace FluentModbus
                         }
                     }
 
-                    if (length - 6 >= bytesFollowing)
+                    if (totalLength - 6 >= bytesFollowing)
                     {
                         break;
                     }
@@ -209,7 +215,7 @@ namespace FluentModbus
                 throw new ModbusException(ErrorMessage.ModbusClient_ResponseFunctionCodeInvalid);
             }
 
-            return messageBuffer.Buffer.AsSpan(7, length - 7);
+            return messageBuffer.Buffer.AsSpan(7, totalLength - 7);
         }
 
         private ushort ConvertSize<T>(ushort count)

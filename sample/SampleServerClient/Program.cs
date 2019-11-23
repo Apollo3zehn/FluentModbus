@@ -14,6 +14,7 @@ namespace FluentModbus.SampleMaster
             var services = new ServiceCollection();
 
             ConfigureServices(services);
+
             /* create types */
             var provider = services.BuildServiceProvider();
             var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
