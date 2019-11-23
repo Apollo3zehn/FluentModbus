@@ -223,6 +223,15 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The TCP connection closed unexpectedly. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_TcpConnectionClosedUnexpectedly {
+            get {
+                return ResourceManager.GetString("ModbusClient_TcpConnectionClosedUnexpectedly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The TCP connection timed out. ähnelt.
         /// </summary>
         internal static string ModbusClient_TcpConnectionTimeout {
