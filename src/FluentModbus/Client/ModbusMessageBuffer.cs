@@ -4,13 +4,13 @@ using System.IO;
 
 namespace FluentModbus
 {
-    public class ModbusTcpMessageBuffer : IDisposable
+    public class ModbusMessageBuffer : IDisposable
     {
         #region Constructors
 
-        public ModbusTcpMessageBuffer()
+        public ModbusMessageBuffer(int size)
         {
-            this.Buffer = ArrayPool<byte>.Shared.Rent(260);
+            this.Buffer = ArrayPool<byte>.Shared.Rent(size);
 
             this.RequestWriter = new ExtendedBinaryWriter(new MemoryStream(this.Buffer));
             this.ResponseReader = new ExtendedBinaryReader(new MemoryStream(this.Buffer));
