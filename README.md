@@ -1,9 +1,9 @@
 # FluentModbus
 
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true&branch=master)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
 [![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
 
-FluentModbus is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
+FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
 
 #### Class 0:
 * FC03: ReadHoldingRegisters
@@ -18,26 +18,13 @@ FluentModbus is a .NET Standard library that provides a Modbus TCP server and cl
 
 Please see the following introduction and the [sample](sample/SampleServerClient) application, to get started with FluentModbus.
 
-### A few words to ```Span<T>```
+### Installing the package
 
-The returned data of the read functions (FC01 to FC04) are always provided as ```Span<T>``` ([What is this?](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx)). In short, a ```Span<T>``` is a simple view of the underlying memory. With this type, the memory can be interpreted as ```byte```, ```int```, ```float``` or any other value type. A conversion from ```Span<byte>``` to other types can be efficiently achieved through:
+Simply start a new .NET Core project with the `FluentModbus` package installed:
 
-```cs
-Span<byte> byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
-Span<int> intSpan = MemoryMarshal.Cast<byte, int>(byteSpan);
-Span<float> floatSpan = MemoryMarshal.Cast<int, float>(intSpan);
-```
-
-You can then access it like a any other array:
-
-```cs
-var floatValue = myFloatSpan[0];
-```
-
-The data remain unchanged during all of these calls. _Only the interpretation changes._ However, one disadvantage is that this type cannot be used in all code locations (e.g. in ```async``` functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):
-
-```cs
-float[] floatArray = floatSpan.ToArray();
+```powershell
+PS> dotnet new console
+PS> dotnet add package FluentModbus
 ```
 
 ## Creating a Modbus TCP client
@@ -75,13 +62,35 @@ Once you have an instance, connect to a COM port in one of the following ways:
 // use default COM port settings
 client.Connect("COM1");
 
-// pass custom COM port settings
+// use custom COM port settings
 client.Connect("COM1")
 {
 	BaudRate = 9600,
 	Parity = Parity.None,
 	StopBits = StopBits.Two
 }
+```
+
+### A few words to ```Span<T>```
+
+The returned data of the read functions (FC01 to FC04) are always provided as ```Span<T>``` ([What is this?](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx)). In short, a ```Span<T>``` is a simple view of the underlying memory. With this type, the memory can be interpreted as ```byte```, ```int```, ```float``` or any other value type. A conversion from ```Span<byte>``` to other types can be efficiently achieved through:
+
+```cs
+Span<byte> byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
+Span<int> intSpan = MemoryMarshal.Cast<byte, int>(byteSpan);
+Span<float> floatSpan = MemoryMarshal.Cast<int, float>(intSpan);
+```
+
+You can then access it like a any other array:
+
+```cs
+var floatValue = myFloatSpan[0];
+```
+
+The data remain unchanged during all of these calls. _Only the interpretation changes._ However, one disadvantage is that this type cannot be used in all code locations (e.g. in ```async``` functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):
+
+```cs
+float[] floatArray = floatSpan.ToArray();
 ```
 
 ### Reading data
