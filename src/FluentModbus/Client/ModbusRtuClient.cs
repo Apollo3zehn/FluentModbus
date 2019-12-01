@@ -4,21 +4,26 @@ using System.IO.Ports;
 
 namespace FluentModbus
 {
+    /// <summary>
+    /// A Modbu RTU client.
+    /// </summary>
     public class ModbusRtuClient : ModbusClient
     {
+#warning Implement broadcast mode
+#warning Implement ReadExceptionStatus and Diagnostics
+#warning Check multi threading
+
         #region Field
 
         private SerialPort _serialPort;
-        private ModbusMessageBuffer _messageBuffer;
+        private ModbusFrameBuffer _frameBuffer;
 
         #endregion
 
         #region Constructors
 
-#warning Check multi threading
-#warning Summary.
         /// <summary>
-        /// TODO
+        /// Creates a new Modbus RTU client for communication with Modbus RTU servers or bridges, routers and gateways for communication with TCP end units.
         /// </summary>
         public ModbusRtuClient()
         {
@@ -28,16 +33,6 @@ namespace FluentModbus
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the read timeout in milliseconds. Default is 1000 ms.
-        /// </summary>
-        public int ReadTimeout { get; set; } = 1000;
-
-        /// <summary>
-        /// Gets or sets the write timeout in milliseconds. Default is 1000 ms.
-        /// </summary>
-        public int WriteTimeout { get; set; } = 1000;
 
         /// <summary>
         /// Gets the connection status of the underlying serial port.
@@ -50,6 +45,36 @@ namespace FluentModbus
             }
         }
 
+        /// <summary>
+        /// Gets or sets the serial baud rate. Default is 9600.
+        /// </summary>
+        public int BaudRate { get; set; } = 9600;
+
+        /// <summary>
+        /// Gets or sets the handshaking protocol for serial port transmission of data. Default is <see cref="Handshake.None"/>.
+        /// </summary>
+        public Handshake Handshake { get; set; } = Handshake.None;
+
+        /// <summary>
+        /// Gets or sets the parity-checking protocol. Default is <see cref="Parity.Even"/>.
+        /// </summary>
+        public Parity Parity { get; set; } = Parity.Even;
+
+        /// <summary>
+        /// Gets or sets the standard number of stopbits per byte. Default is <see cref="StopBits.One"/>.
+        /// </summary>
+        public StopBits StopBits { get; set; } = StopBits.One;
+
+        /// <summary>
+        /// Gets or sets the read timeout in milliseconds. Default is 1000 ms.
+        /// </summary>
+        public int ReadTimeout { get; set; } = 1000;
+
+        /// <summary>
+        /// Gets or sets the write timeout in milliseconds. Default is 1000 ms.
+        /// </summary>
+        public int WriteTimeout { get; set; } = 1000;
+
         #endregion
 
         #region Methods
@@ -60,98 +85,129 @@ namespace FluentModbus
         /// <param name="portName">The name of the COM port to be used.</param>
         public void Connect(string portName)
         {
-#warning Expose SerialPort properties.
-            _messageBuffer = new ModbusMessageBuffer(256);
+            if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
+                throw new InvalidOperationException(ErrorMessage.ModbusClient_NoParityRequiresTwoStopBits);
+
+            _frameBuffer = new ModbusFrameBuffer(256);
 
             _serialPort?.Close();
-            _serialPort = new SerialPort(portName);
+
+            _serialPort = new SerialPort(portName)
+            {
+                BaudRate = this.BaudRate,
+                Handshake = this.Handshake,
+                Parity = this.Parity,
+                StopBits = this.StopBits,
+                ReadTimeout = this.ReadTimeout,
+                WriteTimeout = this.WriteTimeout
+            };
 
             _serialPort.Open();
-
-            _serialPort.ReadTimeout = this.ReadTimeout;
-            _serialPort.WriteTimeout = this.WriteTimeout;
         }
 
         /// <summary>
-        /// Disconnect from the end unit.
+        /// Closes the opened COM port and frees all resources.
         /// </summary>
-        public void Disconnect()
+        public void Close()
         {
             _serialPort?.Close();
-            _messageBuffer?.Dispose();
+            _frameBuffer?.Dispose();
         }
 
-        protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
+        internal protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
-            int totalLength;
-
+            int frameLength;
             byte rawFunctionCode;
-            byte newUnitIdentifier;
+            ushort crc;
 
-            ModbusMessageBuffer messageBuffer;
+            ModbusFrameBuffer frameBuffer;
             ExtendedBinaryWriter requestWriter;
             ExtendedBinaryReader responseReader;
 
-            messageBuffer = _messageBuffer;
-            requestWriter = _messageBuffer.RequestWriter;
-            responseReader = _messageBuffer.ResponseReader;
+            frameBuffer = _frameBuffer;
+            requestWriter = _frameBuffer.RequestWriter;
+            responseReader = _frameBuffer.ResponseReader;
 
-            // build and send request
+            // build request
+            if (!(1 <= unitIdentifier && unitIdentifier <= 247))
+                throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
+
             requestWriter.Seek(0, SeekOrigin.Begin);
             requestWriter.Write(unitIdentifier);                                      // 01     Unit Identifier
             extendFrame.Invoke(requestWriter);
-#warning Write CRC data
+            frameLength = (int)requestWriter.BaseStream.Position;
 
-            totalLength = (int)requestWriter.BaseStream.Position;
-            _serialPort.Write(messageBuffer.Buffer, 0, totalLength);
+            // add CRC
+            crc = ModbusUtils.CalculateCRC(frameBuffer.Buffer.AsSpan().Slice(0, frameLength));
+            requestWriter.Write(crc);
+            frameLength = (int)requestWriter.BaseStream.Position;
+
+            // send request
+            _serialPort.Write(frameBuffer.Buffer, 0, frameLength);
 
             // wait for and process response
-            totalLength = 0;
+            frameLength = 0;
             responseReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             while (true)
             {
-#warning _serialPort.BaseStream.ReadAsync + Timeout?
-                totalLength += _serialPort.Read(messageBuffer.Buffer, totalLength, messageBuffer.Buffer.Length - totalLength);
+                frameLength += _serialPort.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
 
-                if (this.ValidateFrame(messageBuffer.Buffer.AsSpan()[1..totalLength]))
+                if (this.DetectFrame(unitIdentifier, frameBuffer.Buffer.AsSpan().Slice(0, frameLength)))
                     break;
             }
 
-            newUnitIdentifier = responseReader.ReadByte();                           // 01     Unit Identifier
-
-            if (unitIdentifier != newUnitIdentifier)
-            {
-#warning Check that returning unit identifier is same as requested one
-                throw new ModbusException(ErrorMessage.ModbusClient_ProtocolIdentifierInvalid);
-            }
-
+            unitIdentifier = responseReader.ReadByte();
             rawFunctionCode = responseReader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)messageBuffer.Buffer[8]);
+                this.ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
             else if (rawFunctionCode != (byte)functionCode)
-                throw new ModbusException(ErrorMessage.ModbusClient_ResponseFunctionCodeInvalid);
+                throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
-            return messageBuffer.Buffer.AsSpan(1, totalLength - 3);
+            return frameBuffer.Buffer.AsSpan(1, frameLength - 3);
         }
 
-        private bool ValidateFrame(Span<byte> buffer)
+        private bool DetectFrame(byte unitIdentifier, Span<byte> frame)
         {
-#warning Check this.
-            if (buffer.Length < 6)
+            byte newUnitIdentifier;
+
+            /* Correct response frame (min. 6 bytes)
+             * 00 Unit Identifier
+             * 01 Function Code
+             * 02 Byte count
+             * 03 Minimum of 1 byte
+             * 04 CRC Byte 1
+             * 05 CRC Byte 2 
+             */
+
+            /* Error response frame (5 bytes)
+             * 00 Unit Identifier
+             * 01 Function Code + 0x80
+             * 02 Exception Code
+             * 03 CRC Byte 1
+             * 04 CRC Byte 2 
+             */
+
+            if (frame.Length < 5)
                 return false;
 
-#warning "as  described  in  the  previous  section  the  valid  slave  nodes  addresses  are  in  the  range  of  0  –  247"
-            if (buffer[0] < 1 || buffer[0] > 247)
+            newUnitIdentifier = frame[0];
+
+            if (newUnitIdentifier != unitIdentifier)
                 return false;
 
-#warning Check this.
             // CRC check
+            var crcBytes = frame.Slice(frame.Length - 2, 2);
+            var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
+            var expectedCRC = ModbusUtils.CalculateCRC(frame.Slice(0, frame.Length - 2));
+
+            if (actualCRC != expectedCRC)
+                return false;
 
             return true;
         }
 
-        #endregion
+#endregion
     }
 }

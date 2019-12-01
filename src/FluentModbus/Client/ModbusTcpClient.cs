@@ -5,6 +5,9 @@ using System.Net.Sockets;
 
 namespace FluentModbus
 {
+    /// <summary>
+    /// A Modbus TCP client.
+    /// </summary>
     public class ModbusTcpClient : ModbusClient
     {
         #region Fields
@@ -14,7 +17,7 @@ namespace FluentModbus
 
         private TcpClient _tcpClient;
         private NetworkStream _networkStream;
-        private ModbusMessageBuffer _messageBuffer;
+        private ModbusFrameBuffer _frameBuffer;
 
         #endregion
 
@@ -77,7 +80,7 @@ namespace FluentModbus
         /// <param name="remoteEndpoint">The IP address and port of the end unit.</param>
         public void Connect(IPEndPoint remoteEndpoint)
         {
-            _messageBuffer = new ModbusMessageBuffer(260);
+            _frameBuffer = new ModbusFrameBuffer(260);
 
             _tcpClient?.Close();
             _tcpClient = new TcpClient();
@@ -97,13 +100,13 @@ namespace FluentModbus
         public void Disconnect()
         {
             _tcpClient?.Close();
-            _messageBuffer?.Dispose();
+            _frameBuffer?.Dispose();
         }
 
-        protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
+        internal protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
-            int totalLength;
-            int newLength;
+            int frameLength;
+            int partialLength;
 
             ushort transactionIdentifier;
             ushort protocolIdentifier;
@@ -111,42 +114,43 @@ namespace FluentModbus
 
             byte rawFunctionCode;
 
-            ModbusMessageBuffer messageBuffer;
+            ModbusFrameBuffer frameBuffer;
             ExtendedBinaryWriter requestWriter;
             ExtendedBinaryReader responseReader;
 
             bytesFollowing = 0;
-            messageBuffer = _messageBuffer;
-            requestWriter = _messageBuffer.RequestWriter;
-            responseReader = _messageBuffer.ResponseReader;
+            frameBuffer = _frameBuffer;
+            requestWriter = _frameBuffer.RequestWriter;
+            responseReader = _frameBuffer.ResponseReader;
 
-            // build and send request
+            // build request
             requestWriter.Seek(7, SeekOrigin.Begin);
             extendFrame.Invoke(requestWriter);
-            totalLength = (int)requestWriter.BaseStream.Position;
+            frameLength = (int)requestWriter.BaseStream.Position;
 
             requestWriter.Seek(0, SeekOrigin.Begin);
             requestWriter.WriteReverse(this.GetTransactionIdentifier());              // 00-01  Transaction Identifier
             requestWriter.WriteReverse((ushort)0);                                    // 02-03  Protocol Identifier
-            requestWriter.WriteReverse((ushort)(totalLength - 6));                    // 04-05  Length
+            requestWriter.WriteReverse((ushort)(frameLength - 6));                    // 04-05  Length
             requestWriter.Write(unitIdentifier);                                      // 06     Unit Identifier
 
-            _networkStream.Write(messageBuffer.Buffer, 0, totalLength);
+            // send request
+            _networkStream.Write(frameBuffer.Buffer, 0, frameLength);
 
             // wait for and process response
-            totalLength = 0;
+            frameLength = 0;
             responseReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             while (true)
             {
-                newLength = _networkStream.Read(messageBuffer.Buffer, totalLength, messageBuffer.Buffer.Length - totalLength);
+                partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
 
-                if (newLength == 0)
+                if (partialLength == 0)
                     throw new InvalidOperationException(ErrorMessage.ModbusClient_TcpConnectionClosedUnexpectedly);
 
-                totalLength += newLength;
+                frameLength += partialLength;
 
-                if (totalLength >= 7)
+                if (frameLength >= 7)
                 {
                     if (responseReader.BaseStream.Position == 0) // read MBAP header only once
                     {
@@ -158,25 +162,23 @@ namespace FluentModbus
 
                         if (protocolIdentifier != 0)
                         {
-                            throw new ModbusException(ErrorMessage.ModbusClient_ProtocolIdentifierInvalid);
+                            throw new ModbusException(ErrorMessage.ModbusClient_InvalidProtocolIdentifier);
                         }
                     }
 
-                    if (totalLength - 6 >= bytesFollowing)
-                    {
+                    if (frameLength - 6 >= bytesFollowing)
                         break;
-                    }
                 }
             }
 
             rawFunctionCode = responseReader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)messageBuffer.Buffer[8]);
+                this.ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
             else if (rawFunctionCode != (byte)functionCode)
-                throw new ModbusException(ErrorMessage.ModbusClient_ResponseFunctionCodeInvalid);
+                throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
-            return messageBuffer.Buffer.AsSpan(7, totalLength - 7);
+            return frameBuffer.Buffer.AsSpan(7, frameLength - 7);
         }
 
         private ushort GetTransactionIdentifier()

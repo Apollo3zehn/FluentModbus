@@ -3,13 +3,16 @@ using System.Runtime.InteropServices;
 
 namespace FluentModbus
 {
+    /// <summary>
+    /// A base class for Modbus client implementations.
+    /// </summary>
     public abstract class ModbusClient
     {
         #region Methods
 
-        protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
+        internal protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
 
-        protected void ProcessError(ModbusFunctionCode functionCode, ModbusExceptionCode exceptionCode)
+        internal void ProcessError(ModbusFunctionCode functionCode, ModbusExceptionCode exceptionCode)
         {
             switch (exceptionCode)
             {

@@ -4,11 +4,11 @@ using System.IO;
 
 namespace FluentModbus
 {
-    public class ModbusMessageBuffer : IDisposable
+    internal class ModbusFrameBuffer : IDisposable
     {
         #region Constructors
 
-        public ModbusMessageBuffer(int size)
+        public ModbusFrameBuffer(int size)
         {
             this.Buffer = ArrayPool<byte>.Shared.Rent(size);
 

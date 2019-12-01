@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
+    /// <summary>
+    /// A Modbus TCP server.
+    /// </summary>
     public class ModbusTcpServer : IDisposable
     {
         #region Fields

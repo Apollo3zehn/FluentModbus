@@ -159,17 +159,23 @@
   <data name="ModbusClient_ArrayLengthMustBeGreaterThanTwoAndEven" xml:space="preserve">
     <value>Array length must be greater than two bytes and even.</value>
   </data>
+  <data name="ModbusClient_InvalidProtocolIdentifier" xml:space="preserve">
+    <value>The protocol identifier is invalid.</value>
+  </data>
+  <data name="ModbusClient_InvalidResponseFunctionCode" xml:space="preserve">
+    <value>The responsed function code is invalid.</value>
+  </data>
   <data name="ModbusClient_InvalidResponseMessageLength" xml:space="preserve">
     <value>The response message length is invalid.</value>
   </data>
-  <data name="ModbusClient_ProtocolIdentifierInvalid" xml:space="preserve">
-    <value>The protocol identifier is invalid.</value>
+  <data name="ModbusClient_InvalidUnitIdentifier" xml:space="preserve">
+    <value>The unit identifier is invalid. The valid slave nodes addresses are in the range of 0 - 247. Use address '0' to broadcast write command to all available servers.</value>
+  </data>
+  <data name="ModbusClient_NoParityRequiresTwoStopBits" xml:space="preserve">
+    <value>The use of no parity requires 2 stop bits.</value>
   </data>
   <data name="ModbusClient_QuantityMustBePositiveInteger" xml:space="preserve">
     <value>Quantity must be a positive integer number. Choose the 'count' parameter such that an even number of bytes is requested.</value>
-  </data>
-  <data name="ModbusClient_ResponseFunctionCodeInvalid" xml:space="preserve">
-    <value>The responsed function code is invalid.</value>
   </data>
   <data name="ModbusClient_TcpConnectionClosedUnexpectedly" xml:space="preserve">
     <value>The TCP connection closed unexpectedly.</value>

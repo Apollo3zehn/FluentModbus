@@ -187,6 +187,24 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The protocol identifier is invalid. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_InvalidProtocolIdentifier {
+            get {
+                return ResourceManager.GetString("ModbusClient_InvalidProtocolIdentifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The responsed function code is invalid. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_InvalidResponseFunctionCode {
+            get {
+                return ResourceManager.GetString("ModbusClient_InvalidResponseFunctionCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The response message length is invalid. ähnelt.
         /// </summary>
         internal static string ModbusClient_InvalidResponseMessageLength {
@@ -196,11 +214,20 @@ namespace FluentModbus {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The protocol identifier is invalid. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The unit identifier is invalid. The valid slave nodes addresses are in the range of 0 - 247. Use address &apos;0&apos; to broadcast write command to all available servers. ähnelt.
         /// </summary>
-        internal static string ModbusClient_ProtocolIdentifierInvalid {
+        internal static string ModbusClient_InvalidUnitIdentifier {
             get {
-                return ResourceManager.GetString("ModbusClient_ProtocolIdentifierInvalid", resourceCulture);
+                return ResourceManager.GetString("ModbusClient_InvalidUnitIdentifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The use of no parity requires 2 stop bits. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_NoParityRequiresTwoStopBits {
+            get {
+                return ResourceManager.GetString("ModbusClient_NoParityRequiresTwoStopBits", resourceCulture);
             }
         }
         
@@ -210,15 +237,6 @@ namespace FluentModbus {
         internal static string ModbusClient_QuantityMustBePositiveInteger {
             get {
                 return ResourceManager.GetString("ModbusClient_QuantityMustBePositiveInteger", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The responsed function code is invalid. ähnelt.
-        /// </summary>
-        internal static string ModbusClient_ResponseFunctionCodeInvalid {
-            get {
-                return ResourceManager.GetString("ModbusClient_ResponseFunctionCodeInvalid", resourceCulture);
             }
         }
         

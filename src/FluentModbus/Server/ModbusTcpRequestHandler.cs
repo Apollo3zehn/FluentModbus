@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-    public class ModbusTcpRequestHandler : IDisposable
+    internal class ModbusTcpRequestHandler : IDisposable
     {
         #region Fields
 
