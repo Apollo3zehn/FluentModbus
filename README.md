@@ -3,7 +3,7 @@
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
 [![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
 
-FluentModbus is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Support for Modbus RTU and ASCII mode is planned for the next major version. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
+FluentModbus is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
 
 #### Class 0:
 * FC03: ReadHoldingRegisters
@@ -59,6 +59,29 @@ client.Connect(IPAddress.Parse("127.0.0.1"));
 
 // use specified IP adress and port
 client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502))
+```
+
+## Creating a Modbus RTU client
+
+Alternatively, new Modbus RTU client can be created with the following code:
+
+```cs
+var client = new ModbusTcpClient();
+```
+
+Once you have an instance, connect to a COM port in one of the following ways:
+
+```cs
+// use default COM port settings
+client.Connect("COM1");
+
+// pass custom COM port settings
+client.Connect("COM1")
+{
+	BaudRate = 9600,
+	Parity = Parity.None,
+	StopBits = StopBits.Two
+}
 ```
 
 ### Reading data
@@ -237,4 +260,5 @@ Note that in the second example, the ```Task.Delay()``` period is much lower. Si
 This implementation is based on http://www.modbus.org/specs.php:
 
 * MODBUS APPLICATION PROTOCOL SPECIFICATION V1.1b3
+* MODBUS over Serial Line Specification and Implementation Guide V1.02
 * MODBUS MESSAGING ON TCP/IP IMPLEMENTATION GUIDE V1.0b 
