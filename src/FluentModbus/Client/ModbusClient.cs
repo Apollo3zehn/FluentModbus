@@ -100,11 +100,11 @@ namespace FluentModbus
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, writer =>
             {
-                requestWriter.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);              // 07     Function Code
-                requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                requestWriter.WriteReverse(quantity);                                            // 10-11  Quantity of Input Registers
+                writer.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);              // 07     Function Code
+                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
+                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Input Registers
             }).Slice(2);
 
             if (buffer.Length < quantity * 2)
@@ -144,14 +144,14 @@ namespace FluentModbus
 
             quantity = dataset.Length / 2;
 
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteMultipleRegisters, requestWriter =>
+            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteMultipleRegisters, writer =>
             {
-                requestWriter.Write((byte)ModbusFunctionCode.WriteMultipleRegisters);            // 07     Function Code
-                requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                requestWriter.WriteReverse((ushort)quantity);                                    // 10-11  Quantity of Registers
-                requestWriter.Write((byte)(quantity * 2));                                       // 12     Byte Count = Quantity of Registers * 2
+                writer.Write((byte)ModbusFunctionCode.WriteMultipleRegisters);            // 07     Function Code
+                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
+                writer.WriteReverse((ushort)quantity);                                    // 10-11  Quantity of Registers
+                writer.Write((byte)(quantity * 2));                                       // 12     Byte Count = Quantity of Registers * 2
 
-                requestWriter.Write(dataset, 0, dataset.Length);
+                writer.Write(dataset, 0, dataset.Length);
             });
         }
 
@@ -167,11 +167,11 @@ namespace FluentModbus
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadCoils, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadCoils, writer =>
             {
-                requestWriter.Write((byte)ModbusFunctionCode.ReadCoils);                         // 07     Function Code
-                requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                requestWriter.WriteReverse(quantity);                                            // 10-11  Quantity of Coils
+                writer.Write((byte)ModbusFunctionCode.ReadCoils);                         // 07     Function Code
+                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
+                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Coils
             }).Slice(2);
 
             if (buffer.Length < (byte)Math.Ceiling((double)quantity / 8))
@@ -192,11 +192,11 @@ namespace FluentModbus
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadDiscreteInputs, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadDiscreteInputs, writer =>
             {
-                requestWriter.Write((byte)ModbusFunctionCode.ReadDiscreteInputs);                // 07     Function Code
-                requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                requestWriter.WriteReverse(quantity);                                            // 10-11  Quantity of Coils
+                writer.Write((byte)ModbusFunctionCode.ReadDiscreteInputs);                // 07     Function Code
+                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
+                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Coils
             }).Slice(2);
 
             if (buffer.Length < (byte)Math.Ceiling((double)quantity / 8))
@@ -229,11 +229,11 @@ namespace FluentModbus
         {
             Span<byte> buffer;
 
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, requestWriter =>
+            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, writer =>
             {
-                requestWriter.Write((byte)ModbusFunctionCode.ReadInputRegisters);                // 07     Function Code
-                requestWriter.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                requestWriter.WriteReverse(quantity);                                            // 10-11  Quantity of Input Registers
+                writer.Write((byte)ModbusFunctionCode.ReadInputRegisters);                // 07     Function Code
+                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
+                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Input Registers
             }).Slice(2);
 
             if (buffer.Length < quantity * 2)
@@ -252,11 +252,11 @@ namespace FluentModbus
         /// <param name="value">The value to write to the server.</param>
         public void WriteSingleCoil(byte unitIdentifier, ushort registerAddress, bool value)
         {
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleCoil, requestWriter =>
+            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleCoil, writer =>
             {
-                requestWriter.Write((byte)ModbusFunctionCode.WriteSingleCoil);                   // 07     Function Code
-                requestWriter.WriteReverse(registerAddress);                                     // 08-09  Starting Address
-                requestWriter.WriteReverse((ushort)(value ? 0xFF00 : 0x0000));                   // 10-11  Value
+                writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);                   // 07     Function Code
+                writer.WriteReverse(registerAddress);                                     // 08-09  Starting Address
+                writer.WriteReverse((ushort)(value ? 0xFF00 : 0x0000));                   // 10-11  Value
             });
         }
 
@@ -295,11 +295,11 @@ namespace FluentModbus
                 throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_ArrayLengthMustBeEqualToTwo);
             };
 
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, requestWriter =>
+            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, writer =>
             {
-                requestWriter.Write((byte)ModbusFunctionCode.WriteSingleRegister);               // 07     Function Code
-                requestWriter.WriteReverse(registerAddress);                                     // 08-09  Starting Address
-                requestWriter.Write(value);                                                      // 10-11  Value
+                writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);               // 07     Function Code
+                writer.WriteReverse(registerAddress);                                     // 08-09  Starting Address
+                writer.Write(value);                                                      // 10-11  Value
             });
         }
 

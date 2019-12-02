@@ -88,6 +88,7 @@ namespace FluentModbus
             if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
                 throw new InvalidOperationException(ErrorMessage.ModbusClient_NoParityRequiresTwoStopBits);
 
+#warning Alternatively, put this to base class' constructor and implement IDisposable
             _frameBuffer = new ModbusFrameBuffer(256);
 
             _serialPort?.Close();
@@ -120,94 +121,46 @@ namespace FluentModbus
             byte rawFunctionCode;
             ushort crc;
 
-            ModbusFrameBuffer frameBuffer;
-            ExtendedBinaryWriter requestWriter;
-            ExtendedBinaryReader responseReader;
-
-            frameBuffer = _frameBuffer;
-            requestWriter = _frameBuffer.RequestWriter;
-            responseReader = _frameBuffer.ResponseReader;
-
             // build request
             if (!(1 <= unitIdentifier && unitIdentifier <= 247))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
 
-            requestWriter.Seek(0, SeekOrigin.Begin);
-            requestWriter.Write(unitIdentifier);                                      // 01     Unit Identifier
-            extendFrame.Invoke(requestWriter);
-            frameLength = (int)requestWriter.BaseStream.Position;
+            _frameBuffer.Writer.Seek(0, SeekOrigin.Begin);
+            _frameBuffer.Writer.Write(unitIdentifier);                                      // 00     Unit Identifier
+            extendFrame(_frameBuffer.Writer);
+            frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // add CRC
-            crc = ModbusUtils.CalculateCRC(frameBuffer.Buffer.AsSpan().Slice(0, frameLength));
-            requestWriter.Write(crc);
-            frameLength = (int)requestWriter.BaseStream.Position;
+            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsSpan().Slice(0, frameLength));
+            _frameBuffer.Writer.Write(crc);
+            frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // send request
-            _serialPort.Write(frameBuffer.Buffer, 0, frameLength);
+            _serialPort.Write(_frameBuffer.Buffer, 0, frameLength);
 
             // wait for and process response
             frameLength = 0;
-            responseReader.BaseStream.Seek(0, SeekOrigin.Begin);
+            _frameBuffer.Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             while (true)
             {
-                frameLength += _serialPort.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
+                frameLength += _serialPort.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
 
-                if (this.DetectFrame(unitIdentifier, frameBuffer.Buffer.AsSpan().Slice(0, frameLength)))
+                if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsSpan().Slice(0, frameLength)))
                     break;
             }
 
-            unitIdentifier = responseReader.ReadByte();
-            rawFunctionCode = responseReader.ReadByte();
+            unitIdentifier = _frameBuffer.Reader.ReadByte();
+            rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
+                this.ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[8]);
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
-            return frameBuffer.Buffer.AsSpan(1, frameLength - 3);
+            return _frameBuffer.Buffer.AsSpan(1, frameLength - 3);
         }
 
-        private bool DetectFrame(byte unitIdentifier, Span<byte> frame)
-        {
-            byte newUnitIdentifier;
-
-            /* Correct response frame (min. 6 bytes)
-             * 00 Unit Identifier
-             * 01 Function Code
-             * 02 Byte count
-             * 03 Minimum of 1 byte
-             * 04 CRC Byte 1
-             * 05 CRC Byte 2 
-             */
-
-            /* Error response frame (5 bytes)
-             * 00 Unit Identifier
-             * 01 Function Code + 0x80
-             * 02 Exception Code
-             * 03 CRC Byte 1
-             * 04 CRC Byte 2 
-             */
-
-            if (frame.Length < 5)
-                return false;
-
-            newUnitIdentifier = frame[0];
-
-            if (newUnitIdentifier != unitIdentifier)
-                return false;
-
-            // CRC check
-            var crcBytes = frame.Slice(frame.Length - 2, 2);
-            var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
-            var expectedCRC = ModbusUtils.CalculateCRC(frame.Slice(0, frame.Length - 2));
-
-            if (actualCRC != expectedCRC)
-                return false;
-
-            return true;
-        }
-
-#endregion
+        #endregion
     }
 }

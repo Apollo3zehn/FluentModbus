@@ -114,32 +114,35 @@ namespace FluentModbus
 
             byte rawFunctionCode;
 
+            bool isParsed;
+
             ModbusFrameBuffer frameBuffer;
-            ExtendedBinaryWriter requestWriter;
-            ExtendedBinaryReader responseReader;
+            ExtendedBinaryWriter writer;
+            ExtendedBinaryReader reader;
 
             bytesFollowing = 0;
             frameBuffer = _frameBuffer;
-            requestWriter = _frameBuffer.RequestWriter;
-            responseReader = _frameBuffer.ResponseReader;
+            writer = _frameBuffer.Writer;
+            reader = _frameBuffer.Reader;
 
             // build request
-            requestWriter.Seek(7, SeekOrigin.Begin);
-            extendFrame.Invoke(requestWriter);
-            frameLength = (int)requestWriter.BaseStream.Position;
+            writer.Seek(7, SeekOrigin.Begin);
+            extendFrame(writer);
+            frameLength = (int)writer.BaseStream.Position;
 
-            requestWriter.Seek(0, SeekOrigin.Begin);
-            requestWriter.WriteReverse(this.GetTransactionIdentifier());              // 00-01  Transaction Identifier
-            requestWriter.WriteReverse((ushort)0);                                    // 02-03  Protocol Identifier
-            requestWriter.WriteReverse((ushort)(frameLength - 6));                    // 04-05  Length
-            requestWriter.Write(unitIdentifier);                                      // 06     Unit Identifier
+            writer.Seek(0, SeekOrigin.Begin);
+            writer.WriteReverse(this.GetTransactionIdentifier());              // 00-01  Transaction Identifier
+            writer.WriteReverse((ushort)0);                                    // 02-03  Protocol Identifier
+            writer.WriteReverse((ushort)(frameLength - 6));                    // 04-05  Length
+            writer.Write(unitIdentifier);                                      // 06     Unit Identifier
 
             // send request
             _networkStream.Write(frameBuffer.Buffer, 0, frameLength);
 
             // wait for and process response
             frameLength = 0;
-            responseReader.BaseStream.Seek(0, SeekOrigin.Begin);
+            isParsed = false;
+            reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             while (true)
             {
@@ -152,26 +155,27 @@ namespace FluentModbus
 
                 if (frameLength >= 7)
                 {
-                    if (responseReader.BaseStream.Position == 0) // read MBAP header only once
+                    if (!isParsed) // read MBAP header only once
                     {
                         // read MBAP header
-                        transactionIdentifier = responseReader.ReadUInt16Reverse();              // 00-01  Transaction Identifier
-                        protocolIdentifier = responseReader.ReadUInt16Reverse();                 // 02-03  Protocol Identifier               
-                        bytesFollowing = responseReader.ReadUInt16Reverse();                     // 04-05  Length
-                        unitIdentifier = responseReader.ReadByte();                              // 06     Unit Identifier
+                        transactionIdentifier = reader.ReadUInt16Reverse();              // 00-01  Transaction Identifier
+                        protocolIdentifier = reader.ReadUInt16Reverse();                 // 02-03  Protocol Identifier               
+                        bytesFollowing = reader.ReadUInt16Reverse();                     // 04-05  Length
+                        unitIdentifier = reader.ReadByte();                              // 06     Unit Identifier
 
                         if (protocolIdentifier != 0)
-                        {
                             throw new ModbusException(ErrorMessage.ModbusClient_InvalidProtocolIdentifier);
-                        }
+
+                        isParsed = true;
                     }
 
+                    // full frame received
                     if (frameLength - 6 >= bytesFollowing)
                         break;
                 }
             }
 
-            rawFunctionCode = responseReader.ReadByte();
+            rawFunctionCode = reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 this.ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);

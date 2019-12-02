@@ -12,18 +12,18 @@ namespace FluentModbus
         {
             this.Buffer = ArrayPool<byte>.Shared.Rent(size);
 
-            this.RequestWriter = new ExtendedBinaryWriter(new MemoryStream(this.Buffer));
-            this.ResponseReader = new ExtendedBinaryReader(new MemoryStream(this.Buffer));
+            this.Writer = new ExtendedBinaryWriter(new MemoryStream(this.Buffer));
+            this.Reader = new ExtendedBinaryReader(new MemoryStream(this.Buffer));
         }
 
         #endregion
 
         #region Properties
 
-        public byte[] Buffer { get; private set; }
+        public byte[] Buffer { get; }
 
-        public ExtendedBinaryWriter RequestWriter { get; private set; }
-        public ExtendedBinaryReader ResponseReader { get; private set; }
+        public ExtendedBinaryWriter Writer { get; }
+        public ExtendedBinaryReader Reader { get; }
 
         #endregion
 
@@ -37,8 +37,8 @@ namespace FluentModbus
             {
                 if (disposing)
                 {
-                    this.RequestWriter.Dispose();
-                    this.ResponseReader.Dispose();
+                    this.Writer.Dispose();
+                    this.Reader.Dispose();
 
                     ArrayPool<byte>.Shared.Return(this.Buffer);
                 }
