@@ -28,7 +28,7 @@ namespace FluentModbus
 
         public ModbusRtuServer ModbusRtuServer { get; }
 
-        public bool IsResponseRequired => this.UnitIdentifier == this.ModbusRtuServer.UnitIdentifier;
+        protected override bool IsResponseRequired => this.UnitIdentifier == this.ModbusRtuServer.UnitIdentifier;
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace FluentModbus
 
                 this.IsReady = true; // only when IsReady = true, this.WriteResponse() can be called
 
-                if (this.IsResponseRequired && this.ModbusServer.IsAsynchronous)
+                if (this.ModbusServer.IsAsynchronous)
                     this.WriteResponse();
             }
             catch (Exception)

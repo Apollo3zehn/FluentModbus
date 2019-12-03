@@ -148,11 +148,12 @@ namespace FluentModbus
 
         }
 
+        [HideFromApi]
         internal protected override void ProcessRequests()
         {
             lock (this.Lock)
             {
-                if (this.RequestHandler.IsResponseRequired && this.RequestHandler.IsReady)
+                if (this.RequestHandler.IsReady)
                 {
                     if (this.RequestHandler.Length > 0)
                         this.RequestHandler.WriteResponse();

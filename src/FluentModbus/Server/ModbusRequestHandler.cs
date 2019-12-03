@@ -52,6 +52,8 @@ namespace FluentModbus
         protected CancellationTokenSource CTS { get; }
         protected ModbusFrameBuffer FrameBuffer { get; }
 
+        protected abstract bool IsResponseRequired { get; }
+
         #endregion
 
         #region Methods
@@ -63,6 +65,9 @@ namespace FluentModbus
 
             ModbusFunctionCode functionCode;
             Action processingMethod;
+
+            if (!this.IsResponseRequired)
+                return;
 
             if (!(this.IsReady && this.Length > 0))
                 throw new Exception(ErrorMessage.ModbusTcpRequestHandler_NoValidRequestAvailable);

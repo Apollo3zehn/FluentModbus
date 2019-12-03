@@ -167,6 +167,7 @@ namespace FluentModbus
             });
         }
 
+        [HideFromApi]
         internal protected override void ProcessRequests()
         {
             lock (this.Lock)

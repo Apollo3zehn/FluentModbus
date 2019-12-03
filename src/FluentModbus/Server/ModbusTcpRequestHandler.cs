@@ -30,6 +30,12 @@ namespace FluentModbus
 
         #endregion
 
+        #region Properties
+
+        protected override bool IsResponseRequired => true;
+
+        #endregion
+
         #region Methods
 
         internal override async Task ReceiveRequestAsync()
