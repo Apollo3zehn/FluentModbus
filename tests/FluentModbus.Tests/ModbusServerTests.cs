@@ -10,23 +10,23 @@ namespace FluentModbus.Tests
     public class ModbusServerTests
     {
         private ITestOutputHelper _logger;
-        private IPEndPoint _endpoint;
 
         public ModbusServerTests(ITestOutputHelper logger)
         {
             _logger = logger;
-            _endpoint = new IPEndPoint(IPAddress.Loopback, 20000);
         }
 
         [Fact]
         public async void TimeoutIsResetAfterRequest()
         {
             // Arrange
+            var endpoint = EndpointSource.GetNext();
+
             var server = new ModbusTcpServer();
-            server.Start(_endpoint);
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
-            client.Connect(_endpoint);
+            client.Connect(endpoint);
 
             var delay = TimeSpan.FromSeconds(1);
 

@@ -48,39 +48,13 @@ namespace FluentModbus
         public int Length { get; protected set; }
         public bool IsReady { get; protected set; }
 
-        protected byte UnitIdentifier {get; set;}
+        protected byte UnitIdentifier { get; set; }
         protected CancellationTokenSource CTS { get; }
         protected ModbusFrameBuffer FrameBuffer { get; }
 
         #endregion
 
         #region Methods
-
-        public async Task ReceiveRequestAsync()
-        {
-            bool isValid;
-
-            if (this.CTS.IsCancellationRequested)
-                return;
-
-            this.IsReady = false;
-            this.Length = 0;
-
-            try
-            {
-                isValid = await this.InternalReceiveRequestAsync();
-
-#warning When Modbus address is '0', do not respond ... except if you are a TCP server -.-
-                if (isValid && this.ModbusServer.IsAsynchronous)
-                    this.WriteResponse();
-
-                this.IsReady = true;
-            }
-            catch (Exception)
-            {
-                this.CTS.Cancel();
-            }
-        }
 
         public void WriteResponse()
         {
@@ -149,7 +123,7 @@ namespace FluentModbus
             this.OnResponseReady(frameLength);
         }
 
-        protected abstract Task<bool> InternalReceiveRequestAsync();
+        internal abstract Task ReceiveRequestAsync();
 
         protected abstract int WriteFrame(Action extendFrame);
 

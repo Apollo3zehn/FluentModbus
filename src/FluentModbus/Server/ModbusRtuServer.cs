@@ -13,9 +13,8 @@ namespace FluentModbus
         #region Fields
 
         private IModbusRtuSerialPort _serialPort;
-        private Task _task_process_requests;
-        private ManualResetEventSlim _manualResetEvent;
-        private CancellationTokenSource _cts;
+
+        private byte _unitIdentifier;
 
         #endregion
 
@@ -38,13 +37,29 @@ namespace FluentModbus
         public ModbusRtuServer(byte unitIdentifier, bool isAsynchronous) : base(isAsynchronous)
         {
             this.UnitIdentifier = unitIdentifier;
-
-            _manualResetEvent = new ManualResetEventSlim(false);
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the unit identifier.
+        /// </summary>
+        public byte UnitIdentifier
+        {
+            get
+            {
+                return _unitIdentifier;
+            }
+            set
+            {
+                if (!(1 <= value && value <= 247))
+                    throw new Exception(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
+
+                _unitIdentifier = value;
+            }
+        }
 
         /// <summary>
         /// Gets the connection status of the underlying serial port.
@@ -89,14 +104,6 @@ namespace FluentModbus
 
         internal ModbusRtuRequestHandler RequestHandler { get; private set; }
 
-        private bool IsReady
-        {
-            get
-            {
-                return !_manualResetEvent.Wait(TimeSpan.Zero);
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -117,76 +124,35 @@ namespace FluentModbus
                 WriteTimeout = this.WriteTimeout
             });
 
+            _serialPort = serialPort;
+
             this.Start(serialPort);
         }
         
-        internal void Start(IModbusRtuSerialPort serialPort)
-        {
-            this.Stop();
-
-            _serialPort = serialPort;
-            _serialPort.Open();
-
-            _cts = new CancellationTokenSource();
-
-            this.RequestHandler = new ModbusRtuRequestHandler(_serialPort, this);
-
-            if (!this.IsAsynchronous)
-            {
-                // only process requests when it is explicitly triggered
-                _task_process_requests = Task.Run(() =>
-                {
-                    _manualResetEvent.Wait(_cts.Token);
-
-                    while (!_cts.IsCancellationRequested)
-                    {
-                        this.ProcessRequests();
-
-                        _manualResetEvent.Reset();
-                        _manualResetEvent.Wait(_cts.Token);
-                    }
-                }, _cts.Token);
-            }
-        }
-
         /// <summary>
         /// Stops the server and closes the underlying serial port.
         /// </summary>
         public override void Stop()
         {
-            _cts?.Cancel();
-            _manualResetEvent?.Set();
+            base.Stop();
 
-            try
-            {
-                _task_process_requests?.Wait();
-            }
-            catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
-            {
-                //
-            }
-
-            _serialPort?.Close();
-            this.RequestHandler?.Dispose();
-            this.ClearBuffers();
+            this.RequestHandler?.Dispose();            
         }
 
-        /// <summary>
-        /// Serves an available client request. For synchronous operation only.
-        /// </summary>
-        public void Update()
+        internal void Start(IModbusRtuSerialPort serialPort)
         {
-            if (this.IsAsynchronous || !this.IsReady)
-                return;
+            base.Stop();
+            base.Start(); // "base..." is important!
 
-            _manualResetEvent.Set();
+            this.RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
+
         }
 
-        private void ProcessRequests()
+        internal protected override void ProcessRequests()
         {
             lock (this.Lock)
             {
-                if (this.RequestHandler.IsReady)
+                if (this.RequestHandler.IsResponseRequired && this.RequestHandler.IsReady)
                 {
                     if (this.RequestHandler.Length > 0)
                         this.RequestHandler.WriteResponse();

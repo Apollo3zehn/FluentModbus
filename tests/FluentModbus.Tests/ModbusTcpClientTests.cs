@@ -7,17 +7,11 @@ namespace FluentModbus.Tests
 {
     public class ModbusTcpClientTests
     {
-        private IPEndPoint _endpoint;
-
-        public ModbusTcpClientTests()
-        {
-            _endpoint = new IPEndPoint(IPAddress.Loopback, 20001);
-        }
-
         [Fact]
         public void ClientRespectsConnectTimeout()
         {
             // Arrange
+            var endpoint = EndpointSource.GetNext();
             var connectTimeout = 500;
 
             var client = new ModbusTcpClient()
@@ -30,7 +24,7 @@ namespace FluentModbus.Tests
 
             try
             {
-                client.Connect(_endpoint);
+                client.Connect(endpoint);
             }
             catch (Exception)
             {

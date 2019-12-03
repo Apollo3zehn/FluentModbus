@@ -32,7 +32,55 @@ namespace FluentModbus
 
         #region Methods
 
-        protected override async Task<bool> InternalReceiveRequestAsync()
+        internal override async Task ReceiveRequestAsync()
+        {
+            if (this.CTS.IsCancellationRequested)
+                return;
+
+            this.IsReady = false;
+            this.Length = 0;
+
+            try
+            {
+                await this.InternalReceiveRequestAsync();
+
+                this.IsReady = true; // only when IsReady = true, this.WriteResponse() can be called
+
+                if (this.ModbusServer.IsAsynchronous)
+                    this.WriteResponse();
+            }
+            catch (Exception)
+            {
+                this.CTS.Cancel();
+            }
+        }
+
+        protected override int WriteFrame(Action extendFrame)
+        {
+            int length;
+
+            this.FrameBuffer.Writer.Seek(7, SeekOrigin.Begin);
+
+            // add PDU
+            extendFrame.Invoke();
+
+            // add MBAP
+            length = (int)this.FrameBuffer.Writer.BaseStream.Position;
+            this.FrameBuffer.Writer.Seek(0, SeekOrigin.Begin);
+            this.FrameBuffer.Writer.WriteReverse(_transactionIdentifier);
+            this.FrameBuffer.Writer.WriteReverse(_protocolIdentifier);
+            this.FrameBuffer.Writer.WriteReverse((byte)(length - 6));
+            this.FrameBuffer.Writer.Write(this.UnitIdentifier);
+
+            return length;
+        }
+
+        protected override void OnResponseReady(int frameLength)
+        {
+            _networkStream.Write(this.FrameBuffer.Buffer, 0, frameLength);
+        }
+
+        private async Task<bool> InternalReceiveRequestAsync()
         {
             int partialLength;
             bool isParsed;
@@ -94,31 +142,6 @@ namespace FluentModbus
             }
 
             return true; // accept all incoming Modbus frames, no matter which unit identifier is set
-        }
-
-        protected override int WriteFrame(Action extendFrame)
-        {
-            int length;
-
-            this.FrameBuffer.Writer.Seek(7, SeekOrigin.Begin);
-
-            // add PDU
-            extendFrame.Invoke();
-
-            // add MBAP
-            length = (int)this.FrameBuffer.Writer.BaseStream.Position;
-            this.FrameBuffer.Writer.Seek(0, SeekOrigin.Begin);
-            this.FrameBuffer.Writer.WriteReverse(_transactionIdentifier);
-            this.FrameBuffer.Writer.WriteReverse(_protocolIdentifier);
-            this.FrameBuffer.Writer.WriteReverse((byte)(length - 6));
-            this.FrameBuffer.Writer.Write(this.UnitIdentifier);
-
-            return length;
-        }
-
-        protected override void OnResponseReady(int frameLength)
-        {
-            _networkStream.Write(this.FrameBuffer.Buffer, 0, frameLength);
         }
 
         #endregion

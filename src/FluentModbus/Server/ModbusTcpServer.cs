@@ -21,10 +21,6 @@ namespace FluentModbus
 
         private Task _task_accept_clients;
         private Task _task_remove_clients;
-        private Task _task_process_requests;
-
-        private ManualResetEventSlim _manualResetEvent;
-        private CancellationTokenSource _cts;
 
         ILogger _logger;
 
@@ -67,8 +63,6 @@ namespace FluentModbus
         {
             _logger = logger;
 
-            _manualResetEvent = new ManualResetEventSlim(false);
-
             this.ConnectionTimeout = TimeSpan.FromMinutes(1);
         }
 
@@ -83,14 +77,6 @@ namespace FluentModbus
 
         internal List<ModbusTcpRequestHandler> RequestHandlerSet { get; private set; }
 
-        private bool IsReady
-        {
-            get
-            {
-                return !_manualResetEvent.Wait(TimeSpan.Zero);
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -98,7 +84,7 @@ namespace FluentModbus
         /// <summary>
         /// Starts the server. It will listen on any IP address on port 502.
         /// </summary>
-        public void Start()
+        public new void Start()
         {
             this.Start(new IPEndPoint(IPAddress.Any, 502));
         }
@@ -116,16 +102,13 @@ namespace FluentModbus
         /// </summary>
         public void Start(IPEndPoint localEndpoint)
         {
-            this.Stop();
+            base.Stop();
+            base.Start(); // "base..." is important!
 
             this.RequestHandlerSet = new List<ModbusTcpRequestHandler>();
 
             _tcpListener = new TcpListener(localEndpoint);
             _tcpListener.Start();
-
-            _cts = new CancellationTokenSource();
-
-            this.ClearBuffers();
 
             // accept clients asynchronously
             _task_accept_clients = Task.Run(async () =>
@@ -133,19 +116,19 @@ namespace FluentModbus
                 ModbusTcpRequestHandler handler;
                 TcpClient tcpClient;
 
-                while (!_cts.IsCancellationRequested)
+                while (!this.CTS.IsCancellationRequested)
                 {
                     tcpClient = await _tcpListener.AcceptTcpClientAsync();
                     handler = new ModbusTcpRequestHandler(tcpClient, this);
 
                     this.AddRequestHandler(handler);
                 }
-            }, _cts.Token);
+            }, this.CTS.Token);
 
             // remove clients asynchronously
             _task_remove_clients = Task.Run(async () =>
             {
-                while (!_cts.IsCancellationRequested)
+                while (!this.CTS.IsCancellationRequested)
                 {
                     lock (this.Lock)
                     {
@@ -163,46 +146,18 @@ namespace FluentModbus
 
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
-            }, _cts.Token);
-
-            if (!this.IsAsynchronous)
-            {
-                // only process requests when it is explicitly triggered
-                _task_process_requests = Task.Run(() =>
-                {
-                    _manualResetEvent.Wait(_cts.Token);
-
-                    while (!_cts.IsCancellationRequested)
-                    {
-                        this.ProcessRequests();
-
-                        _manualResetEvent.Reset();
-                        _manualResetEvent.Wait(_cts.Token);
-                    }
-                }, _cts.Token);
-            }
+            }, this.CTS.Token);
         }
 
         /// <summary>
-        /// Stops the server and closes all open client connections.
+        /// Stops the server and closes all open TCP connections.
         /// </summary>
         public override void Stop()
         {
-            _cts?.Cancel();
+            base.Stop();
 
             _task_accept_clients = null;
             _task_remove_clients = null;
-
-            _manualResetEvent?.Set();
-
-            try
-            {
-                _task_process_requests?.Wait();
-            }
-            catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
-            {
-                //
-            }
 
             _tcpListener?.Stop();
 
@@ -212,15 +167,21 @@ namespace FluentModbus
             });
         }
 
-        /// <summary>
-        /// Serve all available client requests. For synchronous operation only.
-        /// </summary>
-        public void Update()
+        internal protected override void ProcessRequests()
         {
-            if (this.IsAsynchronous || !this.IsReady)
-                return;
+            lock (this.Lock)
+            {
+                foreach (var requestHandler in this.RequestHandlerSet)
+                {
+                    if (requestHandler.IsReady)
+                    {
+                        if (requestHandler.Length > 0)
+                            requestHandler.WriteResponse();
 
-            _manualResetEvent.Set();
+                        _ = requestHandler.ReceiveRequestAsync();
+                    }
+                }
+            }
         }
 
         private void AddRequestHandler(ModbusTcpRequestHandler handler)
@@ -238,23 +199,6 @@ namespace FluentModbus
             {
                 this.RequestHandlerSet.Remove(handler);
                 _logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
-            }
-        }
-
-        private void ProcessRequests()
-        {
-            lock (this.Lock)
-            {
-                foreach (var requestHandler in this.RequestHandlerSet)
-                {
-                    if (requestHandler.IsReady)
-                    {
-                        if (requestHandler.Length > 0)
-                            requestHandler.WriteResponse();
-
-                        _ = requestHandler.ReceiveRequestAsync();
-                    }
-                }
             }
         }
 

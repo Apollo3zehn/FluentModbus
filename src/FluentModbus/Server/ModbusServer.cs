@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("FluentModbus.Tests")]
 
@@ -13,7 +15,8 @@ namespace FluentModbus
     {
         #region Fields
 
-        private byte _unitIdentifier;
+        private Task _task_process_requests;
+        private ManualResetEventSlim _manualResetEvent;
 
         private int _inputRegisterSize;
         private int _holdingRegisterSize;
@@ -43,29 +46,13 @@ namespace FluentModbus
             this.HoldingRegisterBufferPtr = Marshal.AllocHGlobal(_holdingRegisterSize);
             this.CoilBufferPtr = Marshal.AllocHGlobal(_coilSize);
             this.DiscreteInputBufferPtr = Marshal.AllocHGlobal(_discreteInputSize);
+
+            _manualResetEvent = new ManualResetEventSlim(false);
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the unit identifier.
-        /// </summary>
-        public byte UnitIdentifier
-        {
-            get
-            {
-                return _unitIdentifier;
-            }
-            set
-            {
-                if (!(1 <= _unitIdentifier && _unitIdentifier <= 247))
-                    throw new Exception(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
-
-                _unitIdentifier = value;
-            }
-        }
 
         /// <summary>
         /// Gets the lock object. For synchronous operation only.
@@ -116,6 +103,18 @@ namespace FluentModbus
         /// Gets the maximum discrete input address.
         /// </summary>
         public UInt16 MaxDiscreteInputAddress { get; }
+
+        [HideFromApi]
+        internal protected CancellationTokenSource CTS { get; private set; }
+
+        [HideFromApi]
+        internal protected bool IsReady
+        {
+            get
+            {
+                return !_manualResetEvent.Wait(TimeSpan.Zero);
+            }
+        }
 
         #endregion
 
@@ -201,9 +200,63 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Serve all available client requests. For synchronous operation only.
+        /// </summary>
+        public void Update()
+        {
+            if (this.IsAsynchronous || !this.IsReady)
+                return;
+
+            _manualResetEvent.Set();
+        }
+
+        /// <summary>
         /// Stops the server operation.
         /// </summary>
-        public abstract void Stop();
+        public virtual void Stop()
+        {
+            this.CTS?.Cancel();
+            _manualResetEvent?.Set();
+
+            try
+            {
+                _task_process_requests?.Wait();
+            }
+            catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
+            {
+                //
+            }
+
+            this.ClearBuffers();
+        }
+
+        /// <summary>
+        /// Starts the server operation.
+        /// </summary>
+        protected virtual void Start()
+        {
+            this.CTS = new CancellationTokenSource();
+
+            if (!this.IsAsynchronous)
+            {
+                // only process requests when it is explicitly triggered
+                _task_process_requests = Task.Run(() =>
+                {
+                    _manualResetEvent.Wait(this.CTS.Token);
+
+                    while (!this.CTS.IsCancellationRequested)
+                    {
+                        this.ProcessRequests();
+
+                        _manualResetEvent.Reset();
+                        _manualResetEvent.Wait(this.CTS.Token);
+                    }
+                }, this.CTS.Token);
+            }
+        }
+
+        [HideFromApi]
+        internal protected abstract void ProcessRequests();
 
         #endregion
 
