@@ -16,8 +16,6 @@ namespace FluentModbus
         private ushort _protocolIdentifier;
         private ushort _bytesFollowing;
 
-        private byte _unitIdentifier;
-
         #endregion
 
         #region Constructors
@@ -34,7 +32,7 @@ namespace FluentModbus
 
         #region Methods
 
-        protected override async Task InternalReceiveRequestAsync()
+        protected override async Task<bool> InternalReceiveRequestAsync()
         {
             int partialLength;
             bool isParsed;
@@ -69,7 +67,7 @@ namespace FluentModbus
                             _transactionIdentifier = this.FrameBuffer.Reader.ReadUInt16Reverse();       // 00-01  Transaction Identifier
                             _protocolIdentifier = this.FrameBuffer.Reader.ReadUInt16Reverse();          // 02-03  Protocol Identifier               
                             _bytesFollowing = this.FrameBuffer.Reader.ReadUInt16Reverse();              // 04-05  Length
-                            _unitIdentifier = this.FrameBuffer.Reader.ReadByte();                       // 06     Unit Identifier
+                            this.UnitIdentifier = this.FrameBuffer.Reader.ReadByte();                   // 06     Unit Identifier
 
                             if (_protocolIdentifier != 0)
                             {
@@ -94,6 +92,8 @@ namespace FluentModbus
                     break;
                 }
             }
+
+            return true; // accept all incoming Modbus frames, no matter which unit identifier is set
         }
 
         protected override int WriteFrame(Action extendFrame)
@@ -111,7 +111,7 @@ namespace FluentModbus
             this.FrameBuffer.Writer.WriteReverse(_transactionIdentifier);
             this.FrameBuffer.Writer.WriteReverse(_protocolIdentifier);
             this.FrameBuffer.Writer.WriteReverse((byte)(length - 6));
-            this.FrameBuffer.Writer.Write(_unitIdentifier);
+            this.FrameBuffer.Writer.Write(this.UnitIdentifier);
 
             return length;
         }

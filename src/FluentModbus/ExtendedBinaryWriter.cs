@@ -4,7 +4,7 @@ using System.IO;
 namespace FluentModbus
 {
     /// <summary>
-    /// A binary writer with extended capability to optionally reverse written bytes.
+    /// A binary writer with extended capability to handle big-endian data.
     /// </summary>
     public class ExtendedBinaryWriter : BinaryWriter
     {

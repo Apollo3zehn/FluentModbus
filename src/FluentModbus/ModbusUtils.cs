@@ -4,7 +4,6 @@ namespace FluentModbus
 {
     internal static class ModbusUtils
     {
-#warning Add CRC unit test.
         public static ushort CalculateCRC(Span<byte> buffer)
         {
             ushort crc = 0xFFFF;

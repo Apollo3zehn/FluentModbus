@@ -5,17 +5,13 @@ using System.IO.Ports;
 namespace FluentModbus
 {
     /// <summary>
-    /// A Modbu RTU client.
+    /// A Modbus RTU client.
     /// </summary>
     public class ModbusRtuClient : ModbusClient
     {
-#warning Implement broadcast mode
-#warning Implement ReadExceptionStatus and Diagnostics
-#warning Check multi threading
-
         #region Field
 
-        private SerialPort _serialPort;
+        private IModbusRtuSerialPort _serialPort;
         private ModbusFrameBuffer _frameBuffer;
 
         #endregion
@@ -80,20 +76,14 @@ namespace FluentModbus
         #region Methods
 
         /// <summary>
-        /// Connect to the specified <paramref name="portName"/>.
+        /// Connect to the specified <paramref name="port"/>.
         /// </summary>
-        /// <param name="portName">The name of the COM port to be used.</param>
-        public void Connect(string portName)
+        /// <param name="port">The COM port to be used, e.g. COM1.</param>
+        public void Connect(string port)
         {
-            if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
-                throw new InvalidOperationException(ErrorMessage.ModbusClient_NoParityRequiresTwoStopBits);
+            IModbusRtuSerialPort serialPort;
 
-#warning Alternatively, put this to base class' constructor and implement IDisposable
-            _frameBuffer = new ModbusFrameBuffer(256);
-
-            _serialPort?.Close();
-
-            _serialPort = new SerialPort(portName)
+            serialPort = new ModbusRtuSerialPort(new SerialPort(port)
             {
                 BaudRate = this.BaudRate,
                 Handshake = this.Handshake,
@@ -101,8 +91,20 @@ namespace FluentModbus
                 StopBits = this.StopBits,
                 ReadTimeout = this.ReadTimeout,
                 WriteTimeout = this.WriteTimeout
-            };
+            });
 
+            this.Connect(serialPort);
+        }
+
+        internal void Connect(IModbusRtuSerialPort serialPort)
+        {
+            if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
+                throw new InvalidOperationException(ErrorMessage.ModbusClient_NoParityRequiresTwoStopBits);
+
+            _frameBuffer = new ModbusFrameBuffer(256);
+
+            _serialPort?.Close();
+            _serialPort = serialPort;
             _serialPort.Open();
         }
 
@@ -115,6 +117,7 @@ namespace FluentModbus
             _frameBuffer?.Dispose();
         }
 
+        [HideFromApi]
         internal protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
             int frameLength;
@@ -122,8 +125,25 @@ namespace FluentModbus
             ushort crc;
 
             // build request
-            if (!(1 <= unitIdentifier && unitIdentifier <= 247))
+            if (!(0 <= unitIdentifier && unitIdentifier <= 247))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
+
+            // special case: broadcast (only for write commands)
+            if (unitIdentifier == 0)
+            {
+                switch (functionCode)
+                {
+                    case ModbusFunctionCode.WriteMultipleRegisters:
+                    case ModbusFunctionCode.WriteSingleCoil:
+                    case ModbusFunctionCode.WriteSingleRegister:
+                    case ModbusFunctionCode.WriteMultipleCoils:
+                    case ModbusFunctionCode.WriteFileRecord:
+                    case ModbusFunctionCode.MaskWriteRegister:
+                        break;
+                    default:
+                        throw new ModbusException(ErrorMessage.Modbus_InvalidUseOfBroadcast);
+                }
+            }
 
             _frameBuffer.Writer.Seek(0, SeekOrigin.Begin);
             _frameBuffer.Writer.Write(unitIdentifier);                                      // 00     Unit Identifier
@@ -137,6 +157,12 @@ namespace FluentModbus
 
             // send request
             _serialPort.Write(_frameBuffer.Buffer, 0, frameLength);
+
+            // special case: broadcast (only for write commands)
+            if (unitIdentifier == 0)
+            {
+                return _frameBuffer.Buffer.AsSpan(0, 0);
+            }
 
             // wait for and process response
             frameLength = 0;
@@ -154,7 +180,7 @@ namespace FluentModbus
             rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[8]);
+                this.ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 

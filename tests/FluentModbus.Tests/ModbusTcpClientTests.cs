@@ -5,13 +5,13 @@ using Xunit;
 
 namespace FluentModbus.Tests
 {
-    public class ClientTests
+    public class ModbusTcpClientTests
     {
         private IPEndPoint _endpoint;
 
-        public ClientTests()
+        public ModbusTcpClientTests()
         {
-            _endpoint = new IPEndPoint(IPAddress.Loopback, 20002);
+            _endpoint = new IPEndPoint(IPAddress.Loopback, 20001);
         }
 
         [Fact]

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO.Ports;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -13,6 +12,8 @@ namespace FluentModbus
     public abstract class ModbusServer : IDisposable
     {
         #region Fields
+
+        private byte _unitIdentifier;
 
         private int _inputRegisterSize;
         private int _holdingRegisterSize;
@@ -47,6 +48,24 @@ namespace FluentModbus
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the unit identifier.
+        /// </summary>
+        public byte UnitIdentifier
+        {
+            get
+            {
+                return _unitIdentifier;
+            }
+            set
+            {
+                if (!(1 <= _unitIdentifier && _unitIdentifier <= 247))
+                    throw new Exception(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
+
+                _unitIdentifier = value;
+            }
+        }
 
         /// <summary>
         /// Gets the lock object. For synchronous operation only.

@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.IO.Ports;
 using System.Threading.Tasks;
 
 namespace FluentModbus
@@ -9,14 +8,13 @@ namespace FluentModbus
     {
         #region Fields
 
-        private SerialPort _serialPort;
-        private byte _unitIdentifier;
+        private IModbusRtuSerialPort _serialPort;
 
         #endregion
 
         #region Constructors
 
-        public ModbusRtuRequestHandler(SerialPort serialPort, ModbusRtuServer rtuServer) : base(rtuServer, 256)
+        public ModbusRtuRequestHandler(IModbusRtuSerialPort serialPort, ModbusRtuServer rtuServer) : base(rtuServer, 256)
         {
             _serialPort = serialPort;
         }
@@ -25,13 +23,13 @@ namespace FluentModbus
 
         #region Methods
 
-        protected override async Task InternalReceiveRequestAsync()
+        protected override async Task<bool> InternalReceiveRequestAsync()
         {
             try
             {
                 while (true)
                 {
-                    this.Length += await _serialPort.BaseStream.ReadAsync(this.FrameBuffer.Buffer, this.Length, this.FrameBuffer.Buffer.Length - this.Length);
+                    this.Length += await _serialPort.ReadAsync(this.FrameBuffer.Buffer, this.Length, this.FrameBuffer.Buffer.Length - this.Length, this.CTS.Token);
 
                     // full frame received
                     if (ModbusUtils.DetectFrame(255, this.FrameBuffer.Buffer.AsSpan().Slice(0, this.Length)))
@@ -39,10 +37,8 @@ namespace FluentModbus
                         this.FrameBuffer.Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                         // read unit identifier
-#warning Handle broadcasts
-                        _unitIdentifier = this.FrameBuffer.Reader.ReadByte();
+                        this.UnitIdentifier = this.FrameBuffer.Reader.ReadByte();
 
-                        this.LastRequest.Restart();
                         break;
                     }
                 }
@@ -50,6 +46,17 @@ namespace FluentModbus
             catch (TimeoutException)
             {
                 this.Length = 0;
+            }
+
+            // make sure that the incoming frame is actually adressed to this server
+            if (this.UnitIdentifier == this.ModbusServer.UnitIdentifier)
+            {
+                this.LastRequest.Restart();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -61,7 +68,7 @@ namespace FluentModbus
             this.FrameBuffer.Writer.Seek(0, SeekOrigin.Begin);
 
             // add unit identifier
-            this.FrameBuffer.Writer.Write(_unitIdentifier);
+            this.FrameBuffer.Writer.Write(this.UnitIdentifier);
 
             // add PDU
             extendFrame();

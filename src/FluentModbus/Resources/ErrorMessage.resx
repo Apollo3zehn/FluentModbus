@@ -159,6 +159,9 @@
   <data name="ModbusClient_ArrayLengthMustBeGreaterThanTwoAndEven" xml:space="preserve">
     <value>Array length must be greater than two bytes and even.</value>
   </data>
+  <data name="ModbusClient_InvalidExceptionCode" xml:space="preserve">
+    <value>The exception code received from the server is invalid.</value>
+  </data>
   <data name="ModbusClient_InvalidProtocolIdentifier" xml:space="preserve">
     <value>The protocol identifier is invalid.</value>
   </data>
@@ -169,7 +172,7 @@
     <value>The response message length is invalid.</value>
   </data>
   <data name="ModbusClient_InvalidUnitIdentifier" xml:space="preserve">
-    <value>The unit identifier is invalid. The valid slave nodes addresses are in the range of 0 - 247. Use address '0' to broadcast write command to all available servers.</value>
+    <value>The unit identifier is invalid. Valid node addresses are in the range of 0 - 247. Use address '0' to broadcast write command to all available servers.</value>
   </data>
   <data name="ModbusClient_NoParityRequiresTwoStopBits" xml:space="preserve">
     <value>The use of no parity requires 2 stop bits.</value>
@@ -183,7 +186,13 @@
   <data name="ModbusClient_TcpConnectionTimeout" xml:space="preserve">
     <value>The TCP connection timed out.</value>
   </data>
+  <data name="ModbusServer_InvalidUnitIdentifier" xml:space="preserve">
+    <value>The unit identifier is invalid. Valid node addresses are in the range of 1 - 247.</value>
+  </data>
   <data name="ModbusTcpRequestHandler_NoValidRequestAvailable" xml:space="preserve">
     <value>There is no valid request available.</value>
+  </data>
+  <data name="Modbus_InvalidUseOfBroadcast" xml:space="preserve">
+    <value>Invalid use of broadcast: Unit identifier '0' can only be used for write operations.</value>
   </data>
 </root>

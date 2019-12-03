@@ -10,6 +10,7 @@ namespace FluentModbus
     {
         #region Methods
 
+        [HideFromApi]
         internal protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
 
         internal void ProcessError(ModbusFunctionCode functionCode, ModbusExceptionCode exceptionCode)
@@ -52,7 +53,7 @@ namespace FluentModbus
                 case ModbusExceptionCode.GatewayTargetDeviceFailedToRespond:
                     throw new ModbusException(ErrorMessage.ModbusClient_0x0B_GatewayTargetDeviceFailedToRespond);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_InvalidExceptionCode);
             }
         }
 

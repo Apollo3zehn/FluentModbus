@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -8,12 +7,12 @@ using Xunit.Abstractions;
 
 namespace FluentModbus.Tests
 {
-    public class ServerTests
+    public class ModbusTcpServerTests
     {
         private ITestOutputHelper _logger;
         private IPEndPoint _endpoint;
 
-        public ServerTests(ITestOutputHelper logger)
+        public ModbusTcpServerTests(ITestOutputHelper logger)
         {
             _logger = logger;
             _endpoint = new IPEndPoint(IPAddress.Loopback, 20002);
@@ -97,38 +96,6 @@ namespace FluentModbus.Tests
             server.Stop();
 
             // Assert
-        }
-
-        [Fact]
-        public async void TimeoutIsResetAfterRequest()
-        {
-            // Arrange
-            var server = new ModbusTcpServer();
-            server.Start(_endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(_endpoint);
-
-            var delay = TimeSpan.FromSeconds(1);
-
-            await Task.Run(async () =>
-            {
-                var data = Enumerable.Range(0, 20).Select(i => (float)i).ToArray();
-
-                // Act
-                await Task.Delay(delay);
-                var lastRequest1 = server.RequestHandlerSet.First().LastRequest.Elapsed;
-                client.WriteMultipleRegisters(0, 0, data);
-                var lastRequest2 = server.RequestHandlerSet.First().LastRequest.Elapsed;
-
-                client.Disconnect();
-
-                // Assert
-                Assert.True(lastRequest1 >= delay);
-                Assert.True(lastRequest2 < delay);
-            });
-
-            server.Stop();
         }
     }
 }

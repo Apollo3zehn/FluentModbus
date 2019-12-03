@@ -44,12 +44,12 @@ namespace FluentModbus
         #region Properties
 
         public ModbusServer ModbusServer { get; }
-
         public Stopwatch LastRequest { get; protected set; }
         public int Length { get; protected set; }
         public bool IsReady { get; protected set; }
 
-        protected CancellationTokenSource CTS;
+        protected byte UnitIdentifier {get; set;}
+        protected CancellationTokenSource CTS { get; }
         protected ModbusFrameBuffer FrameBuffer { get; }
 
         #endregion
@@ -58,6 +58,8 @@ namespace FluentModbus
 
         public async Task ReceiveRequestAsync()
         {
+            bool isValid;
+
             if (this.CTS.IsCancellationRequested)
                 return;
 
@@ -66,12 +68,13 @@ namespace FluentModbus
 
             try
             {
-                await this.InternalReceiveRequestAsync();
+                isValid = await this.InternalReceiveRequestAsync();
+
+#warning When Modbus address is '0', do not respond ... except if you are a TCP server -.-
+                if (isValid && this.ModbusServer.IsAsynchronous)
+                    this.WriteResponse();
 
                 this.IsReady = true;
-
-                if (this.ModbusServer.IsAsynchronous)
-                    this.WriteResponse();
             }
             catch (Exception)
             {
@@ -102,13 +105,13 @@ namespace FluentModbus
                 {
                     processingMethod = functionCode switch
                     {
-                        ModbusFunctionCode.ReadHoldingRegisters => () => this.ProcessReadHoldingRegisters(),
-                        ModbusFunctionCode.WriteMultipleRegisters => () => this.ProcessWriteMultipleRegisters(),
-                        ModbusFunctionCode.ReadCoils => () => this.ProcessReadCoils(),
-                        ModbusFunctionCode.ReadDiscreteInputs => () => this.ProcessReadDiscreteInputs(),
-                        ModbusFunctionCode.ReadInputRegisters => () => this.ProcessReadInputRegisters(),
-                        ModbusFunctionCode.WriteSingleCoil => () => this.ProcessWriteSingleCoil(),
-                        ModbusFunctionCode.WriteSingleRegister => () => this.ProcessWriteSingleRegister(),
+                        ModbusFunctionCode.ReadHoldingRegisters => this.ProcessReadHoldingRegisters,
+                        ModbusFunctionCode.WriteMultipleRegisters => this.ProcessWriteMultipleRegisters,
+                        ModbusFunctionCode.ReadCoils => this.ProcessReadCoils,
+                        ModbusFunctionCode.ReadDiscreteInputs => this.ProcessReadDiscreteInputs,
+                        ModbusFunctionCode.ReadInputRegisters => this.ProcessReadInputRegisters,
+                        ModbusFunctionCode.WriteSingleCoil => this.ProcessWriteSingleCoil,
+                        ModbusFunctionCode.WriteSingleRegister => this.ProcessWriteSingleRegister,
                         //ModbusFunctionCode.ReadExceptionStatus
                         //ModbusFunctionCode.WriteMultipleCoils
                         //ModbusFunctionCode.ReadFileRecord
@@ -117,7 +120,7 @@ namespace FluentModbus
                         //ModbusFunctionCode.ReadWriteMultipleRegisters
                         //ModbusFunctionCode.ReadFifoQueue
                         //ModbusFunctionCode.Error
-                        _ => (Action)(() => this.WriteExceptionResponse(rawFunctionCode, ModbusExceptionCode.IllegalFunction))
+                        _ => () => this.WriteExceptionResponse(rawFunctionCode, ModbusExceptionCode.IllegalFunction)
                     };
                 }
                 catch (Exception)
@@ -140,13 +143,13 @@ namespace FluentModbus
             }
             else
             {
-                frameLength= this.WriteFrame(processingMethod);
+                frameLength = this.WriteFrame(processingMethod);
             }
 
             this.OnResponseReady(frameLength);
         }
 
-        protected abstract Task InternalReceiveRequestAsync();
+        protected abstract Task<bool> InternalReceiveRequestAsync();
 
         protected abstract int WriteFrame(Action extendFrame);
 
@@ -201,9 +204,9 @@ namespace FluentModbus
 
         private void ProcessWriteMultipleRegisters()
         {
-            int startingAddress;
-            int quantityOfRegisters;
-            int byteCount;
+            ushort startingAddress;
+            ushort quantityOfRegisters;
+            byte byteCount;
 
             startingAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             quantityOfRegisters = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -332,10 +335,12 @@ namespace FluentModbus
 
         private void ProcessWriteSingleCoil()
         {
-            int outputAddress;
             int bufferByteIndex;
             int bufferBitIndex;
+
+            ushort outputAddress;
             ushort outputValue;
+
             Span<byte> coilBuffer;
 
             outputAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -372,7 +377,7 @@ namespace FluentModbus
 
         private void ProcessWriteSingleRegister()
         {
-            int registerAddress;
+            ushort registerAddress;
             ushort registerValue;
 
             registerAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -410,7 +415,7 @@ namespace FluentModbus
                         }
                         catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
                         {
-                            //
+                            // Actually, TaskCanceledException is not expected because it is catched in ReceiveRequestAsync() method.
                         }
                     }
 

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace FluentModbus
 {
     /// <summary>
-    /// A binary reader with extended capability to optionally reverse read bytes.
+    /// A binary reader with extended capability to handle big-endian data.
     /// </summary>
     public class ExtendedBinaryReader : BinaryReader
     {

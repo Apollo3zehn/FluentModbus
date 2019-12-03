@@ -1,11 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO.Ports;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,10 +10,9 @@ namespace FluentModbus
     /// </summary>
     public class ModbusRtuServer : ModbusServer
     {
-#warning TODO: Check and test Modbus RTU server and all related classes
         #region Fields
 
-        private SerialPort _serialPort;
+        private IModbusRtuSerialPort _serialPort;
         private Task _task_process_requests;
         private ManualResetEventSlim _manualResetEvent;
         private CancellationTokenSource _cts;
@@ -31,9 +24,21 @@ namespace FluentModbus
         /// <summary>
         /// Creates a Modbus RTU server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
         /// </summary>
-        /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
-        public ModbusRtuServer(bool isAsynchronous) : base(isAsynchronous)
+        /// <param name="unitIdentifier">The unique Modbus RTU unit identifier.</param>
+        public ModbusRtuServer(byte unitIdentifier) : this(unitIdentifier, true)
         {
+            //
+        }
+
+        /// <summary>
+        /// Creates a Modbus RTU server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
+        /// </summary>
+        /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
+        /// <param name="unitIdentifier">The unique Modbus RTU unit identifier.</param>
+        public ModbusRtuServer(byte unitIdentifier, bool isAsynchronous) : base(isAsynchronous)
+        {
+            this.UnitIdentifier = unitIdentifier;
+
             _manualResetEvent = new ManualResetEventSlim(false);
         }
 
@@ -97,13 +102,12 @@ namespace FluentModbus
         #region Methods
 
         /// <summary>
-        /// Starts the server. It will listen on the provided COM <paramref name="port"/>.
+        /// Starts the server. It will listen on the provided <paramref name="port"/>.
         /// </summary>
+        /// <param name="port">The COM port to be used, e.g. COM1.</param>
         public void Start(string port)
         {
-            this.Stop();
-
-            _serialPort = new SerialPort(port)
+            IModbusRtuSerialPort serialPort = new ModbusRtuSerialPort(new SerialPort(port)
             {
                 BaudRate = this.BaudRate,
                 Handshake = this.Handshake,
@@ -111,15 +115,21 @@ namespace FluentModbus
                 StopBits = this.StopBits,
                 ReadTimeout = this.ReadTimeout,
                 WriteTimeout = this.WriteTimeout
-            };
+            });
 
+            this.Start(serialPort);
+        }
+        
+        internal void Start(IModbusRtuSerialPort serialPort)
+        {
+            this.Stop();
+
+            _serialPort = serialPort;
             _serialPort.Open();
-
-            this.RequestHandler = new ModbusRtuRequestHandler(_serialPort, this);
 
             _cts = new CancellationTokenSource();
 
-            this.ClearBuffers();
+            this.RequestHandler = new ModbusRtuRequestHandler(_serialPort, this);
 
             if (!this.IsAsynchronous)
             {
@@ -157,11 +167,12 @@ namespace FluentModbus
             }
 
             _serialPort?.Close();
-            this.RequestHandler.Dispose();
+            this.RequestHandler?.Dispose();
+            this.ClearBuffers();
         }
 
         /// <summary>
-        /// Serve a possibly available client request. For synchronous operation only.
+        /// Serves an available client request. For synchronous operation only.
         /// </summary>
         public void Update()
         {
