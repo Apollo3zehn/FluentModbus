@@ -5,7 +5,7 @@ The following sample show how a ModbusRTU [server](xref:FluentModbus.ModbusRtuSe
 ## Notes
 
 > [!NOTE]
-> In this sample, the server runs in ```asynchronous``` mode, i.e. the client request is answered immediately. Since this can potentially slow down the server when there are too many requests within short time, there is also the ```synchronous``` operating mode, which can be opted-in via ```new ModbusRtuServer(isAsynchronous: true)```. When you do so, the accumulated client requests are processed with a call to ```server.Update();```. See the repository's README file for a short sample.
+> In this sample, the server runs in ```asynchronous``` mode, i.e. the client request is answered immediately. Since this can potentially slow down the server when there are too many requests within short time, there is also the ```synchronous``` operating mode, which can be opted-in via ```new ModbusRtuServer(isAsynchronous: true)```. When you do so, the accumulated client requests are processed with a call to ```server.Update()```. See the [introduction](../index.md) for a short sample.
 
 ## Setup
 
