@@ -8,6 +8,7 @@
     <Error Condition="$(Revision) == ''" Text="The Revision property must be set." />
     <Error Condition="$(PackageProjectUrl) == ''" Text="The PackageProjectUrl property must be set." />
     <Error Condition="$(PackageLicenseExpression) == ''" Text="The PackageLicenseExpression property must be set." />
+    <Error Condition="$(RepositoryUrl) == ''" Text="The RepositoryUrl property must be set." />
 
     <!-- build properties -->
     <PropertyGroup>
