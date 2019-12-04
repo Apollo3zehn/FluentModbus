@@ -59,9 +59,8 @@ namespace FluentModbus
                 if (this.ModbusServer.IsAsynchronous)
                     this.WriteResponse();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ((ModbusTcpServer)this.ModbusServer).Logger.LogWarning($"Exception occured. Message: {ex.ToString()}");
                 this.CTS.Cancel();
             }
         }

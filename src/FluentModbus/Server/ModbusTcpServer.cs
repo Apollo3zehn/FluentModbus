@@ -74,7 +74,7 @@ namespace FluentModbus
 
         internal List<ModbusTcpRequestHandler> RequestHandlerSet { get; private set; }
 
-        internal ILogger Logger { get; }
+        private ILogger Logger { get; }
 
         #endregion
 
