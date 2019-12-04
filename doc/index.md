@@ -16,7 +16,7 @@ FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP
 * FC05: WriteSingleCoil
 * FC06: WriteSingleRegister
 
-Please see the [introduction](https://apollo3zehn.github.io/ImcFamosFile/how_to/1_introduction.html) to get a more detailed description on how to use this library!
+Please see the introduction below to get a more detailed description on how to use this library!
 
 Below is a screenshot of the [sample](samples/modbus_tcp.md) console output using a Modbus TCP server and client:
 
