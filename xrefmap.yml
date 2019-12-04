@@ -1294,6 +1294,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpClient.ReadTimeout
   nameWithType: ModbusTcpClient.ReadTimeout
+- uid: FluentModbus.ModbusTcpClient.WriteTimeout
+  name: WriteTimeout
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteTimeout
+  commentId: P:FluentModbus.ModbusTcpClient.WriteTimeout
+  fullName: FluentModbus.ModbusTcpClient.WriteTimeout
+  nameWithType: ModbusTcpClient.WriteTimeout
+- uid: FluentModbus.ModbusTcpClient.WriteTimeout*
+  name: WriteTimeout
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteTimeout_
+  commentId: Overload:FluentModbus.ModbusTcpClient.WriteTimeout
+  isSpec: "True"
+  fullName: FluentModbus.ModbusTcpClient.WriteTimeout
+  nameWithType: ModbusTcpClient.WriteTimeout
 - uid: FluentModbus.ModbusTcpServer
   name: ModbusTcpServer
   href: api/FluentModbus.ModbusTcpServer.html
