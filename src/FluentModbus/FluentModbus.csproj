@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Extremely lightweight and fast .NET Standard implementation of the Modbus protocol.</Description>
-    <PackageTags>Modbus ModbusTCP .NET Standard Windows Linux</PackageTags>
+    <Description>Extremely lightweight and fast client and server implementation of the Modbus protocol (TCP/RTU).</Description>
+    <PackageTags>Modbus ModbusTCP ModbusRTU .NET Standard Windows Linux</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>preview</LangVersion>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
