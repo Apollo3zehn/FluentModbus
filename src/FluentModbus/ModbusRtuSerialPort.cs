@@ -22,11 +22,15 @@ namespace FluentModbus
 
         #endregion
 
-        #region Methods
+        #region Properties
 
-        public Stream BaseStream => _serialPort.BaseStream;
+        public string PortName => _serialPort.PortName;
 
         public bool IsOpen => _serialPort.IsOpen;
+
+        #endregion
+
+        #region Methods
 
         public void Open()
         {

@@ -183,8 +183,8 @@
   <data name="ModbusClient_TcpConnectionClosedUnexpectedly" xml:space="preserve">
     <value>The TCP connection closed unexpectedly.</value>
   </data>
-  <data name="ModbusClient_TcpConnectionTimeout" xml:space="preserve">
-    <value>The TCP connection timed out.</value>
+  <data name="ModbusClient_TcpConnectTimeout" xml:space="preserve">
+    <value>Could not connect within the specified time.</value>
   </data>
   <data name="ModbusServer_InvalidUnitIdentifier" xml:space="preserve">
     <value>The unit identifier is invalid. Valid node addresses are in the range of 1 - 247.</value>

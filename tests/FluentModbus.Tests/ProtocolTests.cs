@@ -1,19 +1,12 @@
 using System;
 using System.Linq;
-using System.Net;
 using Xunit;
 
 namespace FluentModbus.Tests
 {
-    public class ProtocolTests
+    public class ProtocolTests : IClassFixture<XUnitFixture>
     {
-        private static ModbusTcpServer _server;
         private float[] _array;
-
-        static ProtocolTests()
-        {
-            _server = new ModbusTcpServer();
-        }
 
         public ProtocolTests()
         {
@@ -27,11 +20,12 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
             
-            lock (_server.Lock)
+            lock (server.Lock)
             {
-                var buffer = _server.GetHoldingRegisterBuffer<float>();
+                var buffer = server.GetHoldingRegisterBuffer<float>();
 
                 buffer[6] = 65.455F;
                 buffer[7] = 24;
@@ -57,7 +51,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -68,9 +63,9 @@ namespace FluentModbus.Tests
             // Assert
             var expected = _array;
 
-            lock (_server.Lock)
+            lock (server.Lock)
             {
-                var actual = _server.GetHoldingRegisterBuffer<float>().Slice(1, 10);
+                var actual = server.GetHoldingRegisterBuffer<float>().Slice(1, 10);
                 Assert.True(expected.SequenceEqual(actual.ToArray()));
             }
         }
@@ -82,11 +77,12 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
-            lock (_server.Lock)
+            lock (server.Lock)
             {
-                var buffer = _server.GetCoilBuffer<byte>();
+                var buffer = server.GetCoilBuffer<byte>();
 
                 buffer[1] = 9;
                 buffer[2] = 0;
@@ -109,14 +105,15 @@ namespace FluentModbus.Tests
         [Fact]
         public void FC02Test()
         {
+            // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            // Arrange
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
-            lock (_server.Lock)
+            lock (server.Lock)
             {
-                var buffer = _server.GetDiscreteInputBuffer<byte>();
+                var buffer = server.GetDiscreteInputBuffer<byte>();
 
                 buffer[1] = 9;
                 buffer[2] = 0;
@@ -142,11 +139,12 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);         
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
-            lock (_server.Lock)
+            lock (server.Lock)
             {
-                var buffer = _server.GetInputRegisterBuffer<float>();
+                var buffer = server.GetInputRegisterBuffer<float>();
 
                 buffer[6] = 65.455F;
                 buffer[7] = 24;
@@ -169,10 +167,11 @@ namespace FluentModbus.Tests
         [Fact]
         public void FC05Test()
         {
+            // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            // Arrange
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -186,9 +185,9 @@ namespace FluentModbus.Tests
             // Assert
             var expected = new byte[] { 132, 2, 0, 4 };
 
-            lock (_server.Lock)
+            lock (server.Lock)
             {
-                var actual = _server.GetCoilBuffer<byte>().Slice(0, 4);
+                var actual = server.GetCoilBuffer<byte>().Slice(0, 4);
                 Assert.True(expected.SequenceEqual(actual.ToArray()));
             }
         }
@@ -200,7 +199,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -214,9 +214,9 @@ namespace FluentModbus.Tests
             // Assert
             var expected = new short[] { 0, 0, 259, 0, 0, 0, 0, 0, 0, 0, 125, 16544, 4848 };
 
-            lock (_server.Lock)
+            lock (server.Lock)
             {
-                var actual = _server.GetHoldingRegisterBuffer<short>().Slice(0, 13);
+                var actual = server.GetHoldingRegisterBuffer<short>().Slice(0, 13);
                 Assert.True(expected.SequenceEqual(actual.ToArray()));
             }
         }
@@ -229,7 +229,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -249,7 +250,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -269,7 +271,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -289,7 +292,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -309,7 +313,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -325,7 +330,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -340,7 +346,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -360,7 +367,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -378,7 +386,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);
@@ -396,7 +405,8 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            _server.Start(endpoint);
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);

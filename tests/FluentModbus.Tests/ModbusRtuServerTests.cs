@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 
 namespace FluentModbus.Tests
 {
-    public class ModbusRtuServerTests
+    public class ModbusRtuServerTests : IClassFixture<XUnitFixture>
     {
         private ITestOutputHelper _logger;
 
@@ -31,14 +31,15 @@ namespace FluentModbus.Tests
             {
                 var data = Enumerable.Range(0, 20).Select(i => (float)i).ToArray();
                 var sw = Stopwatch.StartNew();
+                var iterations = 10000;
 
-                for (int i = 0; i < 10000; i++)
+                for (int i = 0; i < iterations; i++)
                 {
-                    client.WriteMultipleRegisters(1, 0, data);
+                    client.WriteMultipleRegisters(0, 0, data);
                 }
 
-                var timePerRequest = sw.Elapsed.TotalMilliseconds / 10000 * 1000;
-                _logger.WriteLine($"Time per request: {timePerRequest:F0} us. Frequency: {1 / timePerRequest * 1000 * 1000:F0} requests per second.");
+                var timePerRequest = sw.Elapsed.TotalMilliseconds / iterations;
+                _logger.WriteLine($"Time per request: {timePerRequest * 1000:F0} us. Frequency: {1 / timePerRequest * 1000:F0} requests per second.");
 
                 client.Close();
             });

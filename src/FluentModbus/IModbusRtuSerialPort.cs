@@ -17,6 +17,7 @@ namespace FluentModbus
 
         #region Properties
 
+        string PortName { get; }
         bool IsOpen { get; }
 
         #endregion

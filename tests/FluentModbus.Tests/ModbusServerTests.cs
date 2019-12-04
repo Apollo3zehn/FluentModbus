@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace FluentModbus.Tests
 {
-    public class ModbusServerTests
+    public class ModbusServerTests : IClassFixture<XUnitFixture>
     {
         private ITestOutputHelper _logger;
 

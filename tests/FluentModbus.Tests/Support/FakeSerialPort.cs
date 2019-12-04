@@ -26,6 +26,8 @@ namespace FluentModbus
 
         #region Properties
 
+        public string PortName => "fake port";
+
         public bool IsOpen { get; set; }
 
         #endregion

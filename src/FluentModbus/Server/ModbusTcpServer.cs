@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace FluentModbus
@@ -21,8 +20,6 @@ namespace FluentModbus
 
         private Task _task_accept_clients;
         private Task _task_remove_clients;
-
-        ILogger _logger;
 
         #endregion
 
@@ -61,9 +58,7 @@ namespace FluentModbus
         /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
         public ModbusTcpServer(ILogger logger, bool isAsynchronous) : base(isAsynchronous)
         {
-            _logger = logger;
-
-            this.ConnectionTimeout = TimeSpan.FromMinutes(1);
+            this.Logger = logger;
         }
 
         #endregion
@@ -71,11 +66,15 @@ namespace FluentModbus
         #region Properties
 
         /// <summary>
-        /// Gets or sets the timeout for each client connection. Wenn the client does not send any request within the specified time span, the connection will be reset. Default timeout is 1 minute.
+        /// Gets or sets the timeout for each client connection. Wenn the client does not send any request within the specified time span, the connection will be reset. Default is 1 minute.
         /// </summary>
-        public TimeSpan ConnectionTimeout { get; set; }
+        public TimeSpan ConnectionTimeout { get; set; } = ModbusTcpServer.DefaultConnectionTimeout;
+
+        internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
         internal List<ModbusTcpRequestHandler> RequestHandlerSet { get; private set; }
+
+        internal ILogger Logger { get; }
 
         #endregion
 
@@ -119,6 +118,8 @@ namespace FluentModbus
 
                 while (!this.CTS.IsCancellationRequested)
                 {
+                    // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
+                    // use ConnectionTimeout instead.
                     tcpClient = await _tcpListener.AcceptTcpClientAsync();
                     handler = new ModbusTcpRequestHandler(tcpClient, this);
 
@@ -139,6 +140,7 @@ namespace FluentModbus
                         {
                             if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
                             {
+                                this.Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
                                 this.RemoveRequestHandler(requestHandler);
                                 requestHandler.Dispose();
                             }
@@ -188,7 +190,7 @@ namespace FluentModbus
             lock (this.Lock)
             {
                 this.RequestHandlerSet.Add(handler);
-                _logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
+                this.Logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 
@@ -197,7 +199,7 @@ namespace FluentModbus
             lock (this.Lock)
             {
                 this.RequestHandlerSet.Remove(handler);
-                _logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
+                this.Logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 

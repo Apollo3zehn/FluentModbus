@@ -1,5 +1,7 @@
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
@@ -32,6 +34,8 @@ namespace FluentModbus
 
         #region Properties
 
+        public override string DisplayName => ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
+
         protected override bool IsResponseRequired => true;
 
         #endregion
@@ -55,8 +59,9 @@ namespace FluentModbus
                 if (this.ModbusServer.IsAsynchronous)
                     this.WriteResponse();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ((ModbusTcpServer)this.ModbusServer).Logger.LogWarning($"Exception occured. Message: {ex.ToString()}");
                 this.CTS.Cancel();
             }
         }

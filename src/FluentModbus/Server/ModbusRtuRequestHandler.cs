@@ -28,6 +28,8 @@ namespace FluentModbus
 
         public ModbusRtuServer ModbusRtuServer { get; }
 
+        public override string DisplayName => _serialPort.PortName;
+
         protected override bool IsResponseRequired => this.UnitIdentifier == this.ModbusRtuServer.UnitIdentifier;
 
         #endregion

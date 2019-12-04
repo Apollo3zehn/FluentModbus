@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace FluentModbus
 {
@@ -34,17 +35,28 @@ namespace FluentModbus
 
         #endregion
 
-        #region Methods
+        #region Properties
 
         /// <summary>
         /// Gets or sets the connect timeout in milliseconds. Default is 1000 ms.
         /// </summary>
-        public int ConnectTimeout { get; set; } = 1000;
+        public int ConnectTimeout { get; set; } = ModbusTcpClient.DefaultConnectTimeout;
 
         /// <summary>
-        /// Gets or sets the read timeout in milliseconds. Default is 1000 ms.
+        /// Gets or sets the read timeout in milliseconds. Default is <see cref="Timeout.Infinite"/>.
         /// </summary>
-        public int ReadTimeout { get; set; } = 1000;
+        public int ReadTimeout { get; set; } = Timeout.Infinite;
+
+        /// <summary>
+        /// Gets or sets the write timeout in milliseconds. Default is <see cref="Timeout.Infinite"/>.
+        /// </summary>
+        public int WriteTimeout { get; set; } = Timeout.Infinite;
+
+        internal static int DefaultConnectTimeout { get; set; } = (int)TimeSpan.FromSeconds(1).TotalMilliseconds;
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Gets the connection status of the underlying TCP client.
@@ -87,11 +99,12 @@ namespace FluentModbus
 
             if (!_tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(this.ConnectTimeout))
             {
-                throw new Exception(ErrorMessage.ModbusClient_TcpConnectionTimeout);
+                throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
             }
 
             _networkStream = _tcpClient.GetStream();
             _networkStream.ReadTimeout = this.ReadTimeout;
+            _networkStream.WriteTimeout = this.WriteTimeout;
         }
 
         /// <summary>
@@ -149,6 +162,15 @@ namespace FluentModbus
             {
                 partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
 
+                /* From MSDN (https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.read):
+                 * Implementations of this method read a maximum of count bytes from the current stream and store 
+                 * them in buffer beginning at offset. The current position within the stream is advanced by the 
+                 * number of bytes read; however, if an exception occurs, the current position within the stream 
+                 * remains unchanged. Implementations return the number of bytes read. The implementation will block 
+                 * until at least one byte of data can be read, in the event that no data is available. Read returns
+                 * 0 only when there is no more data in the stream and no more is expected (such as a closed socket or end of file).
+                 * An implementation is free to return fewer bytes than requested even if the end of the stream has not been reached.
+                 */
                 if (partialLength == 0)
                     throw new InvalidOperationException(ErrorMessage.ModbusClient_TcpConnectionClosedUnexpectedly);
 

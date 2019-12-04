@@ -2,7 +2,7 @@ using Xunit;
 
 namespace FluentModbus.Tests
 {
-    public class ModbusUtilsTests
+    public class ModbusUtilsTests : IClassFixture<XUnitFixture>
     {
         [Fact]
         public void CalculatesCrcCorrectly()

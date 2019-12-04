@@ -1,11 +1,10 @@
 using System;
 using System.Diagnostics;
-using System.Net;
 using Xunit;
 
 namespace FluentModbus.Tests
 {
-    public class ModbusTcpClientTests
+    public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
     {
         [Fact]
         public void ClientRespectsConnectTimeout()

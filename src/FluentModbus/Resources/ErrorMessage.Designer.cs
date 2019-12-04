@@ -268,11 +268,11 @@ namespace FluentModbus {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The TCP connection timed out. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not connect within the specified time. ähnelt.
         /// </summary>
-        internal static string ModbusClient_TcpConnectionTimeout {
+        internal static string ModbusClient_TcpConnectTimeout {
             get {
-                return ResourceManager.GetString("ModbusClient_TcpConnectionTimeout", resourceCulture);
+                return ResourceManager.GetString("ModbusClient_TcpConnectTimeout", resourceCulture);
             }
         }
         

@@ -48,6 +48,8 @@ namespace FluentModbus
         public int Length { get; protected set; }
         public bool IsReady { get; protected set; }
 
+        public abstract string DisplayName { get; }
+
         protected byte UnitIdentifier { get; set; }
         protected CancellationTokenSource CTS { get; }
         protected ModbusFrameBuffer FrameBuffer { get; }
