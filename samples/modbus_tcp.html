@@ -73,7 +73,7 @@
 <h2 id="notes">Notes</h2>
 <div class="NOTE">
 <h5>Note</h5>
-<p>In this sample, the server runs in <code>asynchronous</code> mode, i.e. all client requests are answered immediately. Since this can potentially slow down the server when there are too many requests within short time, there is also the <code>synchronous</code> operating mode, which can be opted-in via <code>new ModbusTcpServer(isAsynchronous: true)</code>. When you do so, the accumulated client requests are processed with a call to <code>server.Update();</code>. See the repository's README file for a short sample.</p>
+<p>In this sample, the server runs in <code>asynchronous</code> mode, i.e. all client requests are answered immediately. Since this can potentially slow down the server when there are too many requests within short time, there is also the <code>synchronous</code> operating mode, which can be opted-in via <code>new ModbusTcpServer(isAsynchronous: true)</code>. When you do so, the accumulated client requests are processed with a call to <code>server.Update()</code>. See the <a href="../index.html">introduction</a> for a short sample.</p>
 </div>
 <h2 id="setup">Setup</h2>
 <p>First, create the server and client instances and a logger to print the progress to the console:</p>

@@ -210,10 +210,10 @@
       "output": {
         ".html": {
           "relative_path": "samples/modbus_rtu.html",
-          "hash": "ppAun/5fwOFUFpKsMl4ycQ=="
+          "hash": "aGhVp1YEHTteQEUmtlX0bA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -222,10 +222,10 @@
       "output": {
         ".html": {
           "relative_path": "samples/modbus_tcp.html",
-          "hash": "qUn+q4Ii4Wp2/tnHYR2W7g=="
+          "hash": "ecjK81aYBOXM9zjApAeWJQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -262,12 +262,11 @@
         "skipped_file_count": 0
       },
       "processors": {
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
+          "total_file_count": 3,
+          "skipped_file_count": 1
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
@@ -275,11 +274,12 @@
           "total_file_count": 12,
           "skipped_file_count": 12
         },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 3,
-          "skipped_file_count": 2
+          "total_file_count": 0,
+          "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
           "can_incremental": false,
