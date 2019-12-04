@@ -204,25 +204,232 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ExtendedBinaryWriter.WriteReverse
   nameWithType: ExtendedBinaryWriter.WriteReverse
+- uid: FluentModbus.ModbusClient
+  name: ModbusClient
+  href: api/FluentModbus.ModbusClient.html
+  commentId: T:FluentModbus.ModbusClient
+  fullName: FluentModbus.ModbusClient
+  nameWithType: ModbusClient
+- uid: FluentModbus.ModbusClient.MaskWriteRegister
+  name: MaskWriteRegister()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_MaskWriteRegister
+  commentId: M:FluentModbus.ModbusClient.MaskWriteRegister
+  fullName: FluentModbus.ModbusClient.MaskWriteRegister()
+  nameWithType: ModbusClient.MaskWriteRegister()
+- uid: FluentModbus.ModbusClient.MaskWriteRegister*
+  name: MaskWriteRegister
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_MaskWriteRegister_
+  commentId: Overload:FluentModbus.ModbusClient.MaskWriteRegister
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.MaskWriteRegister
+  nameWithType: ModbusClient.MaskWriteRegister
+- uid: FluentModbus.ModbusClient.ReadCoils(System.Byte,System.UInt16,System.UInt16)
+  name: ReadCoils(Byte, UInt16, UInt16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadCoils_System_Byte_System_UInt16_System_UInt16_
+  commentId: M:FluentModbus.ModbusClient.ReadCoils(System.Byte,System.UInt16,System.UInt16)
+  fullName: FluentModbus.ModbusClient.ReadCoils(System.Byte, System.UInt16, System.UInt16)
+  nameWithType: ModbusClient.ReadCoils(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusClient.ReadCoils*
+  name: ReadCoils
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadCoils_
+  commentId: Overload:FluentModbus.ModbusClient.ReadCoils
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadCoils
+  nameWithType: ModbusClient.ReadCoils
+- uid: FluentModbus.ModbusClient.ReadDiscreteInputs(System.Byte,System.UInt16,System.UInt16)
+  name: ReadDiscreteInputs(Byte, UInt16, UInt16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadDiscreteInputs_System_Byte_System_UInt16_System_UInt16_
+  commentId: M:FluentModbus.ModbusClient.ReadDiscreteInputs(System.Byte,System.UInt16,System.UInt16)
+  fullName: FluentModbus.ModbusClient.ReadDiscreteInputs(System.Byte, System.UInt16, System.UInt16)
+  nameWithType: ModbusClient.ReadDiscreteInputs(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusClient.ReadDiscreteInputs*
+  name: ReadDiscreteInputs
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadDiscreteInputs_
+  commentId: Overload:FluentModbus.ModbusClient.ReadDiscreteInputs
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadDiscreteInputs
+  nameWithType: ModbusClient.ReadDiscreteInputs
+- uid: FluentModbus.ModbusClient.ReadFifoQueue
+  name: ReadFifoQueue()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFifoQueue
+  commentId: M:FluentModbus.ModbusClient.ReadFifoQueue
+  fullName: FluentModbus.ModbusClient.ReadFifoQueue()
+  nameWithType: ModbusClient.ReadFifoQueue()
+- uid: FluentModbus.ModbusClient.ReadFifoQueue*
+  name: ReadFifoQueue
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFifoQueue_
+  commentId: Overload:FluentModbus.ModbusClient.ReadFifoQueue
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadFifoQueue
+  nameWithType: ModbusClient.ReadFifoQueue
+- uid: FluentModbus.ModbusClient.ReadFileRecord
+  name: ReadFileRecord()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFileRecord
+  commentId: M:FluentModbus.ModbusClient.ReadFileRecord
+  fullName: FluentModbus.ModbusClient.ReadFileRecord()
+  nameWithType: ModbusClient.ReadFileRecord()
+- uid: FluentModbus.ModbusClient.ReadFileRecord*
+  name: ReadFileRecord
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFileRecord_
+  commentId: Overload:FluentModbus.ModbusClient.ReadFileRecord
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadFileRecord
+  nameWithType: ModbusClient.ReadFileRecord
+- uid: FluentModbus.ModbusClient.ReadHoldingRegisters(System.Byte,System.UInt16,System.UInt16)
+  name: ReadHoldingRegisters(Byte, UInt16, UInt16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegisters_System_Byte_System_UInt16_System_UInt16_
+  commentId: M:FluentModbus.ModbusClient.ReadHoldingRegisters(System.Byte,System.UInt16,System.UInt16)
+  fullName: FluentModbus.ModbusClient.ReadHoldingRegisters(System.Byte, System.UInt16, System.UInt16)
+  nameWithType: ModbusClient.ReadHoldingRegisters(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusClient.ReadHoldingRegisters*
+  name: ReadHoldingRegisters
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegisters_
+  commentId: Overload:FluentModbus.ModbusClient.ReadHoldingRegisters
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadHoldingRegisters
+  nameWithType: ModbusClient.ReadHoldingRegisters
+- uid: FluentModbus.ModbusClient.ReadHoldingRegisters``1(System.Byte,System.UInt16,System.UInt16)
+  name: ReadHoldingRegisters<T>(Byte, UInt16, UInt16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegisters__1_System_Byte_System_UInt16_System_UInt16_
+  commentId: M:FluentModbus.ModbusClient.ReadHoldingRegisters``1(System.Byte,System.UInt16,System.UInt16)
+  name.vb: ReadHoldingRegisters(Of T)(Byte, UInt16, UInt16)
+  fullName: FluentModbus.ModbusClient.ReadHoldingRegisters<T>(System.Byte, System.UInt16, System.UInt16)
+  fullName.vb: FluentModbus.ModbusClient.ReadHoldingRegisters(Of T)(System.Byte, System.UInt16, System.UInt16)
+  nameWithType: ModbusClient.ReadHoldingRegisters<T>(Byte, UInt16, UInt16)
+  nameWithType.vb: ModbusClient.ReadHoldingRegisters(Of T)(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusClient.ReadInputRegisters(System.Byte,System.UInt16,System.UInt16)
+  name: ReadInputRegisters(Byte, UInt16, UInt16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegisters_System_Byte_System_UInt16_System_UInt16_
+  commentId: M:FluentModbus.ModbusClient.ReadInputRegisters(System.Byte,System.UInt16,System.UInt16)
+  fullName: FluentModbus.ModbusClient.ReadInputRegisters(System.Byte, System.UInt16, System.UInt16)
+  nameWithType: ModbusClient.ReadInputRegisters(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusClient.ReadInputRegisters*
+  name: ReadInputRegisters
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegisters_
+  commentId: Overload:FluentModbus.ModbusClient.ReadInputRegisters
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadInputRegisters
+  nameWithType: ModbusClient.ReadInputRegisters
+- uid: FluentModbus.ModbusClient.ReadInputRegisters``1(System.Byte,System.UInt16,System.UInt16)
+  name: ReadInputRegisters<T>(Byte, UInt16, UInt16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegisters__1_System_Byte_System_UInt16_System_UInt16_
+  commentId: M:FluentModbus.ModbusClient.ReadInputRegisters``1(System.Byte,System.UInt16,System.UInt16)
+  name.vb: ReadInputRegisters(Of T)(Byte, UInt16, UInt16)
+  fullName: FluentModbus.ModbusClient.ReadInputRegisters<T>(System.Byte, System.UInt16, System.UInt16)
+  fullName.vb: FluentModbus.ModbusClient.ReadInputRegisters(Of T)(System.Byte, System.UInt16, System.UInt16)
+  nameWithType: ModbusClient.ReadInputRegisters<T>(Byte, UInt16, UInt16)
+  nameWithType.vb: ModbusClient.ReadInputRegisters(Of T)(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegisters
+  name: ReadWriteMultipleRegisters()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters
+  commentId: M:FluentModbus.ModbusClient.ReadWriteMultipleRegisters
+  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegisters()
+  nameWithType: ModbusClient.ReadWriteMultipleRegisters()
+- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegisters*
+  name: ReadWriteMultipleRegisters
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters_
+  commentId: Overload:FluentModbus.ModbusClient.ReadWriteMultipleRegisters
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegisters
+  nameWithType: ModbusClient.ReadWriteMultipleRegisters
+- uid: FluentModbus.ModbusClient.WriteFileRecord
+  name: WriteFileRecord()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteFileRecord
+  commentId: M:FluentModbus.ModbusClient.WriteFileRecord
+  fullName: FluentModbus.ModbusClient.WriteFileRecord()
+  nameWithType: ModbusClient.WriteFileRecord()
+- uid: FluentModbus.ModbusClient.WriteFileRecord*
+  name: WriteFileRecord
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteFileRecord_
+  commentId: Overload:FluentModbus.ModbusClient.WriteFileRecord
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteFileRecord
+  nameWithType: ModbusClient.WriteFileRecord
+- uid: FluentModbus.ModbusClient.WriteMultipleCoils
+  name: WriteMultipleCoils()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleCoils
+  commentId: M:FluentModbus.ModbusClient.WriteMultipleCoils
+  fullName: FluentModbus.ModbusClient.WriteMultipleCoils()
+  nameWithType: ModbusClient.WriteMultipleCoils()
+- uid: FluentModbus.ModbusClient.WriteMultipleCoils*
+  name: WriteMultipleCoils
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleCoils_
+  commentId: Overload:FluentModbus.ModbusClient.WriteMultipleCoils
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteMultipleCoils
+  nameWithType: ModbusClient.WriteMultipleCoils
+- uid: FluentModbus.ModbusClient.WriteMultipleRegisters(System.Byte,System.UInt16,System.Byte[])
+  name: WriteMultipleRegisters(Byte, UInt16, Byte[])
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegisters_System_Byte_System_UInt16_System_Byte___
+  commentId: M:FluentModbus.ModbusClient.WriteMultipleRegisters(System.Byte,System.UInt16,System.Byte[])
+  name.vb: WriteMultipleRegisters(Byte, UInt16, Byte())
+  fullName: FluentModbus.ModbusClient.WriteMultipleRegisters(System.Byte, System.UInt16, System.Byte[])
+  fullName.vb: FluentModbus.ModbusClient.WriteMultipleRegisters(System.Byte, System.UInt16, System.Byte())
+  nameWithType: ModbusClient.WriteMultipleRegisters(Byte, UInt16, Byte[])
+  nameWithType.vb: ModbusClient.WriteMultipleRegisters(Byte, UInt16, Byte())
+- uid: FluentModbus.ModbusClient.WriteMultipleRegisters*
+  name: WriteMultipleRegisters
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegisters_
+  commentId: Overload:FluentModbus.ModbusClient.WriteMultipleRegisters
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteMultipleRegisters
+  nameWithType: ModbusClient.WriteMultipleRegisters
+- uid: FluentModbus.ModbusClient.WriteMultipleRegisters``1(System.Byte,System.UInt16,``0[])
+  name: WriteMultipleRegisters<T>(Byte, UInt16, T[])
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegisters__1_System_Byte_System_UInt16___0___
+  commentId: M:FluentModbus.ModbusClient.WriteMultipleRegisters``1(System.Byte,System.UInt16,``0[])
+  name.vb: WriteMultipleRegisters(Of T)(Byte, UInt16, T())
+  fullName: FluentModbus.ModbusClient.WriteMultipleRegisters<T>(System.Byte, System.UInt16, T[])
+  fullName.vb: FluentModbus.ModbusClient.WriteMultipleRegisters(Of T)(System.Byte, System.UInt16, T())
+  nameWithType: ModbusClient.WriteMultipleRegisters<T>(Byte, UInt16, T[])
+  nameWithType.vb: ModbusClient.WriteMultipleRegisters(Of T)(Byte, UInt16, T())
+- uid: FluentModbus.ModbusClient.WriteSingleCoil(System.Byte,System.UInt16,System.Boolean)
+  name: WriteSingleCoil(Byte, UInt16, Boolean)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleCoil_System_Byte_System_UInt16_System_Boolean_
+  commentId: M:FluentModbus.ModbusClient.WriteSingleCoil(System.Byte,System.UInt16,System.Boolean)
+  fullName: FluentModbus.ModbusClient.WriteSingleCoil(System.Byte, System.UInt16, System.Boolean)
+  nameWithType: ModbusClient.WriteSingleCoil(Byte, UInt16, Boolean)
+- uid: FluentModbus.ModbusClient.WriteSingleCoil*
+  name: WriteSingleCoil
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleCoil_
+  commentId: Overload:FluentModbus.ModbusClient.WriteSingleCoil
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteSingleCoil
+  nameWithType: ModbusClient.WriteSingleCoil
+- uid: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.Byte[])
+  name: WriteSingleRegister(Byte, UInt16, Byte[])
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_System_Byte_System_UInt16_System_Byte___
+  commentId: M:FluentModbus.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.Byte[])
+  name.vb: WriteSingleRegister(Byte, UInt16, Byte())
+  fullName: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte, System.UInt16, System.Byte[])
+  fullName.vb: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte, System.UInt16, System.Byte())
+  nameWithType: ModbusClient.WriteSingleRegister(Byte, UInt16, Byte[])
+  nameWithType.vb: ModbusClient.WriteSingleRegister(Byte, UInt16, Byte())
+- uid: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.Int16)
+  name: WriteSingleRegister(Byte, UInt16, Int16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_System_Byte_System_UInt16_System_Int16_
+  commentId: M:FluentModbus.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.Int16)
+  fullName: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte, System.UInt16, System.Int16)
+  nameWithType: ModbusClient.WriteSingleRegister(Byte, UInt16, Int16)
+- uid: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.UInt16)
+  name: WriteSingleRegister(Byte, UInt16, UInt16)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_System_Byte_System_UInt16_System_UInt16_
+  commentId: M:FluentModbus.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.UInt16)
+  fullName: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte, System.UInt16, System.UInt16)
+  nameWithType: ModbusClient.WriteSingleRegister(Byte, UInt16, UInt16)
+- uid: FluentModbus.ModbusClient.WriteSingleRegister*
+  name: WriteSingleRegister
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_
+  commentId: Overload:FluentModbus.ModbusClient.WriteSingleRegister
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteSingleRegister
+  nameWithType: ModbusClient.WriteSingleRegister
 - uid: FluentModbus.ModbusException
   name: ModbusException
   href: api/FluentModbus.ModbusException.html
   commentId: T:FluentModbus.ModbusException
   fullName: FluentModbus.ModbusException
   nameWithType: ModbusException
-- uid: FluentModbus.ModbusException.#ctor(System.String)
-  name: ModbusException(String)
-  href: api/FluentModbus.ModbusException.html#FluentModbus_ModbusException__ctor_System_String_
-  commentId: M:FluentModbus.ModbusException.#ctor(System.String)
-  fullName: FluentModbus.ModbusException.ModbusException(System.String)
-  nameWithType: ModbusException.ModbusException(String)
-- uid: FluentModbus.ModbusException.#ctor*
-  name: ModbusException
-  href: api/FluentModbus.ModbusException.html#FluentModbus_ModbusException__ctor_
-  commentId: Overload:FluentModbus.ModbusException.#ctor
-  isSpec: "True"
-  fullName: FluentModbus.ModbusException.ModbusException
-  nameWithType: ModbusException.ModbusException
 - uid: FluentModbus.ModbusExceptionCode
   name: ModbusExceptionCode
   href: api/FluentModbus.ModbusExceptionCode.html
@@ -379,6 +586,618 @@ references:
   commentId: F:FluentModbus.ModbusFunctionCode.WriteSingleRegister
   fullName: FluentModbus.ModbusFunctionCode.WriteSingleRegister
   nameWithType: ModbusFunctionCode.WriteSingleRegister
+- uid: FluentModbus.ModbusRtuClient
+  name: ModbusRtuClient
+  href: api/FluentModbus.ModbusRtuClient.html
+  commentId: T:FluentModbus.ModbusRtuClient
+  fullName: FluentModbus.ModbusRtuClient
+  nameWithType: ModbusRtuClient
+- uid: FluentModbus.ModbusRtuClient.#ctor
+  name: ModbusRtuClient()
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient__ctor
+  commentId: M:FluentModbus.ModbusRtuClient.#ctor
+  fullName: FluentModbus.ModbusRtuClient.ModbusRtuClient()
+  nameWithType: ModbusRtuClient.ModbusRtuClient()
+- uid: FluentModbus.ModbusRtuClient.#ctor*
+  name: ModbusRtuClient
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient__ctor_
+  commentId: Overload:FluentModbus.ModbusRtuClient.#ctor
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.ModbusRtuClient
+  nameWithType: ModbusRtuClient.ModbusRtuClient
+- uid: FluentModbus.ModbusRtuClient.BaudRate
+  name: BaudRate
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_BaudRate
+  commentId: P:FluentModbus.ModbusRtuClient.BaudRate
+  fullName: FluentModbus.ModbusRtuClient.BaudRate
+  nameWithType: ModbusRtuClient.BaudRate
+- uid: FluentModbus.ModbusRtuClient.BaudRate*
+  name: BaudRate
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_BaudRate_
+  commentId: Overload:FluentModbus.ModbusRtuClient.BaudRate
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.BaudRate
+  nameWithType: ModbusRtuClient.BaudRate
+- uid: FluentModbus.ModbusRtuClient.Close
+  name: Close()
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Close
+  commentId: M:FluentModbus.ModbusRtuClient.Close
+  fullName: FluentModbus.ModbusRtuClient.Close()
+  nameWithType: ModbusRtuClient.Close()
+- uid: FluentModbus.ModbusRtuClient.Close*
+  name: Close
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Close_
+  commentId: Overload:FluentModbus.ModbusRtuClient.Close
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.Close
+  nameWithType: ModbusRtuClient.Close
+- uid: FluentModbus.ModbusRtuClient.Connect(System.String)
+  name: Connect(String)
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Connect_System_String_
+  commentId: M:FluentModbus.ModbusRtuClient.Connect(System.String)
+  fullName: FluentModbus.ModbusRtuClient.Connect(System.String)
+  nameWithType: ModbusRtuClient.Connect(String)
+- uid: FluentModbus.ModbusRtuClient.Connect*
+  name: Connect
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Connect_
+  commentId: Overload:FluentModbus.ModbusRtuClient.Connect
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.Connect
+  nameWithType: ModbusRtuClient.Connect
+- uid: FluentModbus.ModbusRtuClient.Handshake
+  name: Handshake
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Handshake
+  commentId: P:FluentModbus.ModbusRtuClient.Handshake
+  fullName: FluentModbus.ModbusRtuClient.Handshake
+  nameWithType: ModbusRtuClient.Handshake
+- uid: FluentModbus.ModbusRtuClient.Handshake*
+  name: Handshake
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Handshake_
+  commentId: Overload:FluentModbus.ModbusRtuClient.Handshake
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.Handshake
+  nameWithType: ModbusRtuClient.Handshake
+- uid: FluentModbus.ModbusRtuClient.IsConnected
+  name: IsConnected
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_IsConnected
+  commentId: P:FluentModbus.ModbusRtuClient.IsConnected
+  fullName: FluentModbus.ModbusRtuClient.IsConnected
+  nameWithType: ModbusRtuClient.IsConnected
+- uid: FluentModbus.ModbusRtuClient.IsConnected*
+  name: IsConnected
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_IsConnected_
+  commentId: Overload:FluentModbus.ModbusRtuClient.IsConnected
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.IsConnected
+  nameWithType: ModbusRtuClient.IsConnected
+- uid: FluentModbus.ModbusRtuClient.Parity
+  name: Parity
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Parity
+  commentId: P:FluentModbus.ModbusRtuClient.Parity
+  fullName: FluentModbus.ModbusRtuClient.Parity
+  nameWithType: ModbusRtuClient.Parity
+- uid: FluentModbus.ModbusRtuClient.Parity*
+  name: Parity
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Parity_
+  commentId: Overload:FluentModbus.ModbusRtuClient.Parity
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.Parity
+  nameWithType: ModbusRtuClient.Parity
+- uid: FluentModbus.ModbusRtuClient.ReadTimeout
+  name: ReadTimeout
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_ReadTimeout
+  commentId: P:FluentModbus.ModbusRtuClient.ReadTimeout
+  fullName: FluentModbus.ModbusRtuClient.ReadTimeout
+  nameWithType: ModbusRtuClient.ReadTimeout
+- uid: FluentModbus.ModbusRtuClient.ReadTimeout*
+  name: ReadTimeout
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_ReadTimeout_
+  commentId: Overload:FluentModbus.ModbusRtuClient.ReadTimeout
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.ReadTimeout
+  nameWithType: ModbusRtuClient.ReadTimeout
+- uid: FluentModbus.ModbusRtuClient.StopBits
+  name: StopBits
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_StopBits
+  commentId: P:FluentModbus.ModbusRtuClient.StopBits
+  fullName: FluentModbus.ModbusRtuClient.StopBits
+  nameWithType: ModbusRtuClient.StopBits
+- uid: FluentModbus.ModbusRtuClient.StopBits*
+  name: StopBits
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_StopBits_
+  commentId: Overload:FluentModbus.ModbusRtuClient.StopBits
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.StopBits
+  nameWithType: ModbusRtuClient.StopBits
+- uid: FluentModbus.ModbusRtuClient.WriteTimeout
+  name: WriteTimeout
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_WriteTimeout
+  commentId: P:FluentModbus.ModbusRtuClient.WriteTimeout
+  fullName: FluentModbus.ModbusRtuClient.WriteTimeout
+  nameWithType: ModbusRtuClient.WriteTimeout
+- uid: FluentModbus.ModbusRtuClient.WriteTimeout*
+  name: WriteTimeout
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_WriteTimeout_
+  commentId: Overload:FluentModbus.ModbusRtuClient.WriteTimeout
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuClient.WriteTimeout
+  nameWithType: ModbusRtuClient.WriteTimeout
+- uid: FluentModbus.ModbusRtuServer
+  name: ModbusRtuServer
+  href: api/FluentModbus.ModbusRtuServer.html
+  commentId: T:FluentModbus.ModbusRtuServer
+  fullName: FluentModbus.ModbusRtuServer
+  nameWithType: ModbusRtuServer
+- uid: FluentModbus.ModbusRtuServer.#ctor(System.Byte)
+  name: ModbusRtuServer(Byte)
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer__ctor_System_Byte_
+  commentId: M:FluentModbus.ModbusRtuServer.#ctor(System.Byte)
+  fullName: FluentModbus.ModbusRtuServer.ModbusRtuServer(System.Byte)
+  nameWithType: ModbusRtuServer.ModbusRtuServer(Byte)
+- uid: FluentModbus.ModbusRtuServer.#ctor(System.Byte,System.Boolean)
+  name: ModbusRtuServer(Byte, Boolean)
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer__ctor_System_Byte_System_Boolean_
+  commentId: M:FluentModbus.ModbusRtuServer.#ctor(System.Byte,System.Boolean)
+  fullName: FluentModbus.ModbusRtuServer.ModbusRtuServer(System.Byte, System.Boolean)
+  nameWithType: ModbusRtuServer.ModbusRtuServer(Byte, Boolean)
+- uid: FluentModbus.ModbusRtuServer.#ctor*
+  name: ModbusRtuServer
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer__ctor_
+  commentId: Overload:FluentModbus.ModbusRtuServer.#ctor
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.ModbusRtuServer
+  nameWithType: ModbusRtuServer.ModbusRtuServer
+- uid: FluentModbus.ModbusRtuServer.BaudRate
+  name: BaudRate
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_BaudRate
+  commentId: P:FluentModbus.ModbusRtuServer.BaudRate
+  fullName: FluentModbus.ModbusRtuServer.BaudRate
+  nameWithType: ModbusRtuServer.BaudRate
+- uid: FluentModbus.ModbusRtuServer.BaudRate*
+  name: BaudRate
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_BaudRate_
+  commentId: Overload:FluentModbus.ModbusRtuServer.BaudRate
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.BaudRate
+  nameWithType: ModbusRtuServer.BaudRate
+- uid: FluentModbus.ModbusRtuServer.Handshake
+  name: Handshake
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Handshake
+  commentId: P:FluentModbus.ModbusRtuServer.Handshake
+  fullName: FluentModbus.ModbusRtuServer.Handshake
+  nameWithType: ModbusRtuServer.Handshake
+- uid: FluentModbus.ModbusRtuServer.Handshake*
+  name: Handshake
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Handshake_
+  commentId: Overload:FluentModbus.ModbusRtuServer.Handshake
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.Handshake
+  nameWithType: ModbusRtuServer.Handshake
+- uid: FluentModbus.ModbusRtuServer.IsConnected
+  name: IsConnected
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_IsConnected
+  commentId: P:FluentModbus.ModbusRtuServer.IsConnected
+  fullName: FluentModbus.ModbusRtuServer.IsConnected
+  nameWithType: ModbusRtuServer.IsConnected
+- uid: FluentModbus.ModbusRtuServer.IsConnected*
+  name: IsConnected
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_IsConnected_
+  commentId: Overload:FluentModbus.ModbusRtuServer.IsConnected
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.IsConnected
+  nameWithType: ModbusRtuServer.IsConnected
+- uid: FluentModbus.ModbusRtuServer.Parity
+  name: Parity
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Parity
+  commentId: P:FluentModbus.ModbusRtuServer.Parity
+  fullName: FluentModbus.ModbusRtuServer.Parity
+  nameWithType: ModbusRtuServer.Parity
+- uid: FluentModbus.ModbusRtuServer.Parity*
+  name: Parity
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Parity_
+  commentId: Overload:FluentModbus.ModbusRtuServer.Parity
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.Parity
+  nameWithType: ModbusRtuServer.Parity
+- uid: FluentModbus.ModbusRtuServer.ReadTimeout
+  name: ReadTimeout
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_ReadTimeout
+  commentId: P:FluentModbus.ModbusRtuServer.ReadTimeout
+  fullName: FluentModbus.ModbusRtuServer.ReadTimeout
+  nameWithType: ModbusRtuServer.ReadTimeout
+- uid: FluentModbus.ModbusRtuServer.ReadTimeout*
+  name: ReadTimeout
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_ReadTimeout_
+  commentId: Overload:FluentModbus.ModbusRtuServer.ReadTimeout
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.ReadTimeout
+  nameWithType: ModbusRtuServer.ReadTimeout
+- uid: FluentModbus.ModbusRtuServer.Start(System.String)
+  name: Start(String)
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Start_System_String_
+  commentId: M:FluentModbus.ModbusRtuServer.Start(System.String)
+  fullName: FluentModbus.ModbusRtuServer.Start(System.String)
+  nameWithType: ModbusRtuServer.Start(String)
+- uid: FluentModbus.ModbusRtuServer.Start*
+  name: Start
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Start_
+  commentId: Overload:FluentModbus.ModbusRtuServer.Start
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.Start
+  nameWithType: ModbusRtuServer.Start
+- uid: FluentModbus.ModbusRtuServer.Stop
+  name: Stop()
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Stop
+  commentId: M:FluentModbus.ModbusRtuServer.Stop
+  fullName: FluentModbus.ModbusRtuServer.Stop()
+  nameWithType: ModbusRtuServer.Stop()
+- uid: FluentModbus.ModbusRtuServer.Stop*
+  name: Stop
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_Stop_
+  commentId: Overload:FluentModbus.ModbusRtuServer.Stop
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.Stop
+  nameWithType: ModbusRtuServer.Stop
+- uid: FluentModbus.ModbusRtuServer.StopBits
+  name: StopBits
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_StopBits
+  commentId: P:FluentModbus.ModbusRtuServer.StopBits
+  fullName: FluentModbus.ModbusRtuServer.StopBits
+  nameWithType: ModbusRtuServer.StopBits
+- uid: FluentModbus.ModbusRtuServer.StopBits*
+  name: StopBits
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_StopBits_
+  commentId: Overload:FluentModbus.ModbusRtuServer.StopBits
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.StopBits
+  nameWithType: ModbusRtuServer.StopBits
+- uid: FluentModbus.ModbusRtuServer.UnitIdentifier
+  name: UnitIdentifier
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_UnitIdentifier
+  commentId: P:FluentModbus.ModbusRtuServer.UnitIdentifier
+  fullName: FluentModbus.ModbusRtuServer.UnitIdentifier
+  nameWithType: ModbusRtuServer.UnitIdentifier
+- uid: FluentModbus.ModbusRtuServer.UnitIdentifier*
+  name: UnitIdentifier
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_UnitIdentifier_
+  commentId: Overload:FluentModbus.ModbusRtuServer.UnitIdentifier
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.UnitIdentifier
+  nameWithType: ModbusRtuServer.UnitIdentifier
+- uid: FluentModbus.ModbusRtuServer.WriteTimeout
+  name: WriteTimeout
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_WriteTimeout
+  commentId: P:FluentModbus.ModbusRtuServer.WriteTimeout
+  fullName: FluentModbus.ModbusRtuServer.WriteTimeout
+  nameWithType: ModbusRtuServer.WriteTimeout
+- uid: FluentModbus.ModbusRtuServer.WriteTimeout*
+  name: WriteTimeout
+  href: api/FluentModbus.ModbusRtuServer.html#FluentModbus_ModbusRtuServer_WriteTimeout_
+  commentId: Overload:FluentModbus.ModbusRtuServer.WriteTimeout
+  isSpec: "True"
+  fullName: FluentModbus.ModbusRtuServer.WriteTimeout
+  nameWithType: ModbusRtuServer.WriteTimeout
+- uid: FluentModbus.ModbusServer
+  name: ModbusServer
+  href: api/FluentModbus.ModbusServer.html
+  commentId: T:FluentModbus.ModbusServer
+  fullName: FluentModbus.ModbusServer
+  nameWithType: ModbusServer
+- uid: FluentModbus.ModbusServer.#ctor(System.Boolean)
+  name: ModbusServer(Boolean)
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer__ctor_System_Boolean_
+  commentId: M:FluentModbus.ModbusServer.#ctor(System.Boolean)
+  fullName: FluentModbus.ModbusServer.ModbusServer(System.Boolean)
+  nameWithType: ModbusServer.ModbusServer(Boolean)
+- uid: FluentModbus.ModbusServer.#ctor*
+  name: ModbusServer
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer__ctor_
+  commentId: Overload:FluentModbus.ModbusServer.#ctor
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.ModbusServer
+  nameWithType: ModbusServer.ModbusServer
+- uid: FluentModbus.ModbusServer.ClearBuffers
+  name: ClearBuffers()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_ClearBuffers
+  commentId: M:FluentModbus.ModbusServer.ClearBuffers
+  fullName: FluentModbus.ModbusServer.ClearBuffers()
+  nameWithType: ModbusServer.ClearBuffers()
+- uid: FluentModbus.ModbusServer.ClearBuffers*
+  name: ClearBuffers
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_ClearBuffers_
+  commentId: Overload:FluentModbus.ModbusServer.ClearBuffers
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.ClearBuffers
+  nameWithType: ModbusServer.ClearBuffers
+- uid: FluentModbus.ModbusServer.CoilBufferPtr
+  name: CoilBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_CoilBufferPtr
+  commentId: P:FluentModbus.ModbusServer.CoilBufferPtr
+  fullName: FluentModbus.ModbusServer.CoilBufferPtr
+  nameWithType: ModbusServer.CoilBufferPtr
+- uid: FluentModbus.ModbusServer.CoilBufferPtr*
+  name: CoilBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_CoilBufferPtr_
+  commentId: Overload:FluentModbus.ModbusServer.CoilBufferPtr
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.CoilBufferPtr
+  nameWithType: ModbusServer.CoilBufferPtr
+- uid: FluentModbus.ModbusServer.DiscreteInputBufferPtr
+  name: DiscreteInputBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_DiscreteInputBufferPtr
+  commentId: P:FluentModbus.ModbusServer.DiscreteInputBufferPtr
+  fullName: FluentModbus.ModbusServer.DiscreteInputBufferPtr
+  nameWithType: ModbusServer.DiscreteInputBufferPtr
+- uid: FluentModbus.ModbusServer.DiscreteInputBufferPtr*
+  name: DiscreteInputBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_DiscreteInputBufferPtr_
+  commentId: Overload:FluentModbus.ModbusServer.DiscreteInputBufferPtr
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.DiscreteInputBufferPtr
+  nameWithType: ModbusServer.DiscreteInputBufferPtr
+- uid: FluentModbus.ModbusServer.Dispose
+  name: Dispose()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Dispose
+  commentId: M:FluentModbus.ModbusServer.Dispose
+  fullName: FluentModbus.ModbusServer.Dispose()
+  nameWithType: ModbusServer.Dispose()
+- uid: FluentModbus.ModbusServer.Dispose(System.Boolean)
+  name: Dispose(Boolean)
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Dispose_System_Boolean_
+  commentId: M:FluentModbus.ModbusServer.Dispose(System.Boolean)
+  fullName: FluentModbus.ModbusServer.Dispose(System.Boolean)
+  nameWithType: ModbusServer.Dispose(Boolean)
+- uid: FluentModbus.ModbusServer.Dispose*
+  name: Dispose
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Dispose_
+  commentId: Overload:FluentModbus.ModbusServer.Dispose
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.Dispose
+  nameWithType: ModbusServer.Dispose
+- uid: FluentModbus.ModbusServer.Finalize
+  name: Finalize()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Finalize
+  commentId: M:FluentModbus.ModbusServer.Finalize
+  fullName: FluentModbus.ModbusServer.Finalize()
+  nameWithType: ModbusServer.Finalize()
+- uid: FluentModbus.ModbusServer.Finalize*
+  name: Finalize
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Finalize_
+  commentId: Overload:FluentModbus.ModbusServer.Finalize
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.Finalize
+  nameWithType: ModbusServer.Finalize
+- uid: FluentModbus.ModbusServer.GetCoilBuffer
+  name: GetCoilBuffer()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoilBuffer
+  commentId: M:FluentModbus.ModbusServer.GetCoilBuffer
+  fullName: FluentModbus.ModbusServer.GetCoilBuffer()
+  nameWithType: ModbusServer.GetCoilBuffer()
+- uid: FluentModbus.ModbusServer.GetCoilBuffer*
+  name: GetCoilBuffer
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoilBuffer_
+  commentId: Overload:FluentModbus.ModbusServer.GetCoilBuffer
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetCoilBuffer
+  nameWithType: ModbusServer.GetCoilBuffer
+- uid: FluentModbus.ModbusServer.GetCoilBuffer``1
+  name: GetCoilBuffer<T>()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoilBuffer__1
+  commentId: M:FluentModbus.ModbusServer.GetCoilBuffer``1
+  name.vb: GetCoilBuffer(Of T)()
+  fullName: FluentModbus.ModbusServer.GetCoilBuffer<T>()
+  fullName.vb: FluentModbus.ModbusServer.GetCoilBuffer(Of T)()
+  nameWithType: ModbusServer.GetCoilBuffer<T>()
+  nameWithType.vb: ModbusServer.GetCoilBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.GetDiscreteInputBuffer
+  name: GetDiscreteInputBuffer()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer
+  commentId: M:FluentModbus.ModbusServer.GetDiscreteInputBuffer
+  fullName: FluentModbus.ModbusServer.GetDiscreteInputBuffer()
+  nameWithType: ModbusServer.GetDiscreteInputBuffer()
+- uid: FluentModbus.ModbusServer.GetDiscreteInputBuffer*
+  name: GetDiscreteInputBuffer
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer_
+  commentId: Overload:FluentModbus.ModbusServer.GetDiscreteInputBuffer
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetDiscreteInputBuffer
+  nameWithType: ModbusServer.GetDiscreteInputBuffer
+- uid: FluentModbus.ModbusServer.GetDiscreteInputBuffer``1
+  name: GetDiscreteInputBuffer<T>()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer__1
+  commentId: M:FluentModbus.ModbusServer.GetDiscreteInputBuffer``1
+  name.vb: GetDiscreteInputBuffer(Of T)()
+  fullName: FluentModbus.ModbusServer.GetDiscreteInputBuffer<T>()
+  fullName.vb: FluentModbus.ModbusServer.GetDiscreteInputBuffer(Of T)()
+  nameWithType: ModbusServer.GetDiscreteInputBuffer<T>()
+  nameWithType.vb: ModbusServer.GetDiscreteInputBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.GetHoldingRegisterBuffer
+  name: GetHoldingRegisterBuffer()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer
+  commentId: M:FluentModbus.ModbusServer.GetHoldingRegisterBuffer
+  fullName: FluentModbus.ModbusServer.GetHoldingRegisterBuffer()
+  nameWithType: ModbusServer.GetHoldingRegisterBuffer()
+- uid: FluentModbus.ModbusServer.GetHoldingRegisterBuffer*
+  name: GetHoldingRegisterBuffer
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer_
+  commentId: Overload:FluentModbus.ModbusServer.GetHoldingRegisterBuffer
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetHoldingRegisterBuffer
+  nameWithType: ModbusServer.GetHoldingRegisterBuffer
+- uid: FluentModbus.ModbusServer.GetHoldingRegisterBuffer``1
+  name: GetHoldingRegisterBuffer<T>()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer__1
+  commentId: M:FluentModbus.ModbusServer.GetHoldingRegisterBuffer``1
+  name.vb: GetHoldingRegisterBuffer(Of T)()
+  fullName: FluentModbus.ModbusServer.GetHoldingRegisterBuffer<T>()
+  fullName.vb: FluentModbus.ModbusServer.GetHoldingRegisterBuffer(Of T)()
+  nameWithType: ModbusServer.GetHoldingRegisterBuffer<T>()
+  nameWithType.vb: ModbusServer.GetHoldingRegisterBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.GetInputRegisterBuffer
+  name: GetInputRegisterBuffer()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer
+  commentId: M:FluentModbus.ModbusServer.GetInputRegisterBuffer
+  fullName: FluentModbus.ModbusServer.GetInputRegisterBuffer()
+  nameWithType: ModbusServer.GetInputRegisterBuffer()
+- uid: FluentModbus.ModbusServer.GetInputRegisterBuffer*
+  name: GetInputRegisterBuffer
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer_
+  commentId: Overload:FluentModbus.ModbusServer.GetInputRegisterBuffer
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetInputRegisterBuffer
+  nameWithType: ModbusServer.GetInputRegisterBuffer
+- uid: FluentModbus.ModbusServer.GetInputRegisterBuffer``1
+  name: GetInputRegisterBuffer<T>()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer__1
+  commentId: M:FluentModbus.ModbusServer.GetInputRegisterBuffer``1
+  name.vb: GetInputRegisterBuffer(Of T)()
+  fullName: FluentModbus.ModbusServer.GetInputRegisterBuffer<T>()
+  fullName.vb: FluentModbus.ModbusServer.GetInputRegisterBuffer(Of T)()
+  nameWithType: ModbusServer.GetInputRegisterBuffer<T>()
+  nameWithType.vb: ModbusServer.GetInputRegisterBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.HoldingRegisterBufferPtr
+  name: HoldingRegisterBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_HoldingRegisterBufferPtr
+  commentId: P:FluentModbus.ModbusServer.HoldingRegisterBufferPtr
+  fullName: FluentModbus.ModbusServer.HoldingRegisterBufferPtr
+  nameWithType: ModbusServer.HoldingRegisterBufferPtr
+- uid: FluentModbus.ModbusServer.HoldingRegisterBufferPtr*
+  name: HoldingRegisterBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_HoldingRegisterBufferPtr_
+  commentId: Overload:FluentModbus.ModbusServer.HoldingRegisterBufferPtr
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.HoldingRegisterBufferPtr
+  nameWithType: ModbusServer.HoldingRegisterBufferPtr
+- uid: FluentModbus.ModbusServer.InputRegisterBufferPtr
+  name: InputRegisterBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_InputRegisterBufferPtr
+  commentId: P:FluentModbus.ModbusServer.InputRegisterBufferPtr
+  fullName: FluentModbus.ModbusServer.InputRegisterBufferPtr
+  nameWithType: ModbusServer.InputRegisterBufferPtr
+- uid: FluentModbus.ModbusServer.InputRegisterBufferPtr*
+  name: InputRegisterBufferPtr
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_InputRegisterBufferPtr_
+  commentId: Overload:FluentModbus.ModbusServer.InputRegisterBufferPtr
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.InputRegisterBufferPtr
+  nameWithType: ModbusServer.InputRegisterBufferPtr
+- uid: FluentModbus.ModbusServer.IsAsynchronous
+  name: IsAsynchronous
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_IsAsynchronous
+  commentId: P:FluentModbus.ModbusServer.IsAsynchronous
+  fullName: FluentModbus.ModbusServer.IsAsynchronous
+  nameWithType: ModbusServer.IsAsynchronous
+- uid: FluentModbus.ModbusServer.IsAsynchronous*
+  name: IsAsynchronous
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_IsAsynchronous_
+  commentId: Overload:FluentModbus.ModbusServer.IsAsynchronous
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.IsAsynchronous
+  nameWithType: ModbusServer.IsAsynchronous
+- uid: FluentModbus.ModbusServer.Lock
+  name: Lock
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Lock
+  commentId: P:FluentModbus.ModbusServer.Lock
+  fullName: FluentModbus.ModbusServer.Lock
+  nameWithType: ModbusServer.Lock
+- uid: FluentModbus.ModbusServer.Lock*
+  name: Lock
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Lock_
+  commentId: Overload:FluentModbus.ModbusServer.Lock
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.Lock
+  nameWithType: ModbusServer.Lock
+- uid: FluentModbus.ModbusServer.MaxCoilAddress
+  name: MaxCoilAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxCoilAddress
+  commentId: P:FluentModbus.ModbusServer.MaxCoilAddress
+  fullName: FluentModbus.ModbusServer.MaxCoilAddress
+  nameWithType: ModbusServer.MaxCoilAddress
+- uid: FluentModbus.ModbusServer.MaxCoilAddress*
+  name: MaxCoilAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxCoilAddress_
+  commentId: Overload:FluentModbus.ModbusServer.MaxCoilAddress
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.MaxCoilAddress
+  nameWithType: ModbusServer.MaxCoilAddress
+- uid: FluentModbus.ModbusServer.MaxDiscreteInputAddress
+  name: MaxDiscreteInputAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxDiscreteInputAddress
+  commentId: P:FluentModbus.ModbusServer.MaxDiscreteInputAddress
+  fullName: FluentModbus.ModbusServer.MaxDiscreteInputAddress
+  nameWithType: ModbusServer.MaxDiscreteInputAddress
+- uid: FluentModbus.ModbusServer.MaxDiscreteInputAddress*
+  name: MaxDiscreteInputAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxDiscreteInputAddress_
+  commentId: Overload:FluentModbus.ModbusServer.MaxDiscreteInputAddress
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.MaxDiscreteInputAddress
+  nameWithType: ModbusServer.MaxDiscreteInputAddress
+- uid: FluentModbus.ModbusServer.MaxHoldingRegisterAddress
+  name: MaxHoldingRegisterAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxHoldingRegisterAddress
+  commentId: P:FluentModbus.ModbusServer.MaxHoldingRegisterAddress
+  fullName: FluentModbus.ModbusServer.MaxHoldingRegisterAddress
+  nameWithType: ModbusServer.MaxHoldingRegisterAddress
+- uid: FluentModbus.ModbusServer.MaxHoldingRegisterAddress*
+  name: MaxHoldingRegisterAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxHoldingRegisterAddress_
+  commentId: Overload:FluentModbus.ModbusServer.MaxHoldingRegisterAddress
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.MaxHoldingRegisterAddress
+  nameWithType: ModbusServer.MaxHoldingRegisterAddress
+- uid: FluentModbus.ModbusServer.MaxInputRegisterAddress
+  name: MaxInputRegisterAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxInputRegisterAddress
+  commentId: P:FluentModbus.ModbusServer.MaxInputRegisterAddress
+  fullName: FluentModbus.ModbusServer.MaxInputRegisterAddress
+  nameWithType: ModbusServer.MaxInputRegisterAddress
+- uid: FluentModbus.ModbusServer.MaxInputRegisterAddress*
+  name: MaxInputRegisterAddress
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_MaxInputRegisterAddress_
+  commentId: Overload:FluentModbus.ModbusServer.MaxInputRegisterAddress
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.MaxInputRegisterAddress
+  nameWithType: ModbusServer.MaxInputRegisterAddress
+- uid: FluentModbus.ModbusServer.Start
+  name: Start()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Start
+  commentId: M:FluentModbus.ModbusServer.Start
+  fullName: FluentModbus.ModbusServer.Start()
+  nameWithType: ModbusServer.Start()
+- uid: FluentModbus.ModbusServer.Start*
+  name: Start
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Start_
+  commentId: Overload:FluentModbus.ModbusServer.Start
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.Start
+  nameWithType: ModbusServer.Start
+- uid: FluentModbus.ModbusServer.Stop
+  name: Stop()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Stop
+  commentId: M:FluentModbus.ModbusServer.Stop
+  fullName: FluentModbus.ModbusServer.Stop()
+  nameWithType: ModbusServer.Stop()
+- uid: FluentModbus.ModbusServer.Stop*
+  name: Stop
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Stop_
+  commentId: Overload:FluentModbus.ModbusServer.Stop
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.Stop
+  nameWithType: ModbusServer.Stop
+- uid: FluentModbus.ModbusServer.Update
+  name: Update()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Update
+  commentId: M:FluentModbus.ModbusServer.Update
+  fullName: FluentModbus.ModbusServer.Update()
+  nameWithType: ModbusServer.Update()
+- uid: FluentModbus.ModbusServer.Update*
+  name: Update
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Update_
+  commentId: Overload:FluentModbus.ModbusServer.Update
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.Update
+  nameWithType: ModbusServer.Update
 - uid: FluentModbus.ModbusTcpClient
   name: ModbusTcpClient
   href: api/FluentModbus.ModbusTcpClient.html
@@ -462,115 +1281,6 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpClient.IsConnected
   nameWithType: ModbusTcpClient.IsConnected
-- uid: FluentModbus.ModbusTcpClient.MaskWriteRegister
-  name: MaskWriteRegister()
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_MaskWriteRegister
-  commentId: M:FluentModbus.ModbusTcpClient.MaskWriteRegister
-  fullName: FluentModbus.ModbusTcpClient.MaskWriteRegister()
-  nameWithType: ModbusTcpClient.MaskWriteRegister()
-- uid: FluentModbus.ModbusTcpClient.MaskWriteRegister*
-  name: MaskWriteRegister
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_MaskWriteRegister_
-  commentId: Overload:FluentModbus.ModbusTcpClient.MaskWriteRegister
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.MaskWriteRegister
-  nameWithType: ModbusTcpClient.MaskWriteRegister
-- uid: FluentModbus.ModbusTcpClient.ReadCoils(System.Byte,System.UInt16,System.UInt16)
-  name: ReadCoils(Byte, UInt16, UInt16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadCoils_System_Byte_System_UInt16_System_UInt16_
-  commentId: M:FluentModbus.ModbusTcpClient.ReadCoils(System.Byte,System.UInt16,System.UInt16)
-  fullName: FluentModbus.ModbusTcpClient.ReadCoils(System.Byte, System.UInt16, System.UInt16)
-  nameWithType: ModbusTcpClient.ReadCoils(Byte, UInt16, UInt16)
-- uid: FluentModbus.ModbusTcpClient.ReadCoils*
-  name: ReadCoils
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadCoils_
-  commentId: Overload:FluentModbus.ModbusTcpClient.ReadCoils
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.ReadCoils
-  nameWithType: ModbusTcpClient.ReadCoils
-- uid: FluentModbus.ModbusTcpClient.ReadDiscreteInputs(System.Byte,System.UInt16,System.UInt16)
-  name: ReadDiscreteInputs(Byte, UInt16, UInt16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadDiscreteInputs_System_Byte_System_UInt16_System_UInt16_
-  commentId: M:FluentModbus.ModbusTcpClient.ReadDiscreteInputs(System.Byte,System.UInt16,System.UInt16)
-  fullName: FluentModbus.ModbusTcpClient.ReadDiscreteInputs(System.Byte, System.UInt16, System.UInt16)
-  nameWithType: ModbusTcpClient.ReadDiscreteInputs(Byte, UInt16, UInt16)
-- uid: FluentModbus.ModbusTcpClient.ReadDiscreteInputs*
-  name: ReadDiscreteInputs
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadDiscreteInputs_
-  commentId: Overload:FluentModbus.ModbusTcpClient.ReadDiscreteInputs
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.ReadDiscreteInputs
-  nameWithType: ModbusTcpClient.ReadDiscreteInputs
-- uid: FluentModbus.ModbusTcpClient.ReadFifoQueue
-  name: ReadFifoQueue()
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadFifoQueue
-  commentId: M:FluentModbus.ModbusTcpClient.ReadFifoQueue
-  fullName: FluentModbus.ModbusTcpClient.ReadFifoQueue()
-  nameWithType: ModbusTcpClient.ReadFifoQueue()
-- uid: FluentModbus.ModbusTcpClient.ReadFifoQueue*
-  name: ReadFifoQueue
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadFifoQueue_
-  commentId: Overload:FluentModbus.ModbusTcpClient.ReadFifoQueue
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.ReadFifoQueue
-  nameWithType: ModbusTcpClient.ReadFifoQueue
-- uid: FluentModbus.ModbusTcpClient.ReadFileRecord
-  name: ReadFileRecord()
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadFileRecord
-  commentId: M:FluentModbus.ModbusTcpClient.ReadFileRecord
-  fullName: FluentModbus.ModbusTcpClient.ReadFileRecord()
-  nameWithType: ModbusTcpClient.ReadFileRecord()
-- uid: FluentModbus.ModbusTcpClient.ReadFileRecord*
-  name: ReadFileRecord
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadFileRecord_
-  commentId: Overload:FluentModbus.ModbusTcpClient.ReadFileRecord
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.ReadFileRecord
-  nameWithType: ModbusTcpClient.ReadFileRecord
-- uid: FluentModbus.ModbusTcpClient.ReadHoldingRegisters(System.Byte,System.UInt16,System.UInt16)
-  name: ReadHoldingRegisters(Byte, UInt16, UInt16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadHoldingRegisters_System_Byte_System_UInt16_System_UInt16_
-  commentId: M:FluentModbus.ModbusTcpClient.ReadHoldingRegisters(System.Byte,System.UInt16,System.UInt16)
-  fullName: FluentModbus.ModbusTcpClient.ReadHoldingRegisters(System.Byte, System.UInt16, System.UInt16)
-  nameWithType: ModbusTcpClient.ReadHoldingRegisters(Byte, UInt16, UInt16)
-- uid: FluentModbus.ModbusTcpClient.ReadHoldingRegisters*
-  name: ReadHoldingRegisters
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadHoldingRegisters_
-  commentId: Overload:FluentModbus.ModbusTcpClient.ReadHoldingRegisters
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.ReadHoldingRegisters
-  nameWithType: ModbusTcpClient.ReadHoldingRegisters
-- uid: FluentModbus.ModbusTcpClient.ReadHoldingRegisters``1(System.Byte,System.UInt16,System.UInt16)
-  name: ReadHoldingRegisters<T>(Byte, UInt16, UInt16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadHoldingRegisters__1_System_Byte_System_UInt16_System_UInt16_
-  commentId: M:FluentModbus.ModbusTcpClient.ReadHoldingRegisters``1(System.Byte,System.UInt16,System.UInt16)
-  name.vb: ReadHoldingRegisters(Of T)(Byte, UInt16, UInt16)
-  fullName: FluentModbus.ModbusTcpClient.ReadHoldingRegisters<T>(System.Byte, System.UInt16, System.UInt16)
-  fullName.vb: FluentModbus.ModbusTcpClient.ReadHoldingRegisters(Of T)(System.Byte, System.UInt16, System.UInt16)
-  nameWithType: ModbusTcpClient.ReadHoldingRegisters<T>(Byte, UInt16, UInt16)
-  nameWithType.vb: ModbusTcpClient.ReadHoldingRegisters(Of T)(Byte, UInt16, UInt16)
-- uid: FluentModbus.ModbusTcpClient.ReadInputRegisters(System.Byte,System.UInt16,System.UInt16)
-  name: ReadInputRegisters(Byte, UInt16, UInt16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadInputRegisters_System_Byte_System_UInt16_System_UInt16_
-  commentId: M:FluentModbus.ModbusTcpClient.ReadInputRegisters(System.Byte,System.UInt16,System.UInt16)
-  fullName: FluentModbus.ModbusTcpClient.ReadInputRegisters(System.Byte, System.UInt16, System.UInt16)
-  nameWithType: ModbusTcpClient.ReadInputRegisters(Byte, UInt16, UInt16)
-- uid: FluentModbus.ModbusTcpClient.ReadInputRegisters*
-  name: ReadInputRegisters
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadInputRegisters_
-  commentId: Overload:FluentModbus.ModbusTcpClient.ReadInputRegisters
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.ReadInputRegisters
-  nameWithType: ModbusTcpClient.ReadInputRegisters
-- uid: FluentModbus.ModbusTcpClient.ReadInputRegisters``1(System.Byte,System.UInt16,System.UInt16)
-  name: ReadInputRegisters<T>(Byte, UInt16, UInt16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadInputRegisters__1_System_Byte_System_UInt16_System_UInt16_
-  commentId: M:FluentModbus.ModbusTcpClient.ReadInputRegisters``1(System.Byte,System.UInt16,System.UInt16)
-  name.vb: ReadInputRegisters(Of T)(Byte, UInt16, UInt16)
-  fullName: FluentModbus.ModbusTcpClient.ReadInputRegisters<T>(System.Byte, System.UInt16, System.UInt16)
-  fullName.vb: FluentModbus.ModbusTcpClient.ReadInputRegisters(Of T)(System.Byte, System.UInt16, System.UInt16)
-  nameWithType: ModbusTcpClient.ReadInputRegisters<T>(Byte, UInt16, UInt16)
-  nameWithType.vb: ModbusTcpClient.ReadInputRegisters(Of T)(Byte, UInt16, UInt16)
 - uid: FluentModbus.ModbusTcpClient.ReadTimeout
   name: ReadTimeout
   href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadTimeout
@@ -584,272 +1294,6 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpClient.ReadTimeout
   nameWithType: ModbusTcpClient.ReadTimeout
-- uid: FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters
-  name: ReadWriteMultipleRegisters()
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadWriteMultipleRegisters
-  commentId: M:FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters
-  fullName: FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters()
-  nameWithType: ModbusTcpClient.ReadWriteMultipleRegisters()
-- uid: FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters*
-  name: ReadWriteMultipleRegisters
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_ReadWriteMultipleRegisters_
-  commentId: Overload:FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters
-  nameWithType: ModbusTcpClient.ReadWriteMultipleRegisters
-- uid: FluentModbus.ModbusTcpClient.WriteFileRecord
-  name: WriteFileRecord()
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteFileRecord
-  commentId: M:FluentModbus.ModbusTcpClient.WriteFileRecord
-  fullName: FluentModbus.ModbusTcpClient.WriteFileRecord()
-  nameWithType: ModbusTcpClient.WriteFileRecord()
-- uid: FluentModbus.ModbusTcpClient.WriteFileRecord*
-  name: WriteFileRecord
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteFileRecord_
-  commentId: Overload:FluentModbus.ModbusTcpClient.WriteFileRecord
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.WriteFileRecord
-  nameWithType: ModbusTcpClient.WriteFileRecord
-- uid: FluentModbus.ModbusTcpClient.WriteMultipleCoils
-  name: WriteMultipleCoils()
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteMultipleCoils
-  commentId: M:FluentModbus.ModbusTcpClient.WriteMultipleCoils
-  fullName: FluentModbus.ModbusTcpClient.WriteMultipleCoils()
-  nameWithType: ModbusTcpClient.WriteMultipleCoils()
-- uid: FluentModbus.ModbusTcpClient.WriteMultipleCoils*
-  name: WriteMultipleCoils
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteMultipleCoils_
-  commentId: Overload:FluentModbus.ModbusTcpClient.WriteMultipleCoils
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.WriteMultipleCoils
-  nameWithType: ModbusTcpClient.WriteMultipleCoils
-- uid: FluentModbus.ModbusTcpClient.WriteMultipleRegisters(System.Byte,System.UInt16,System.Byte[])
-  name: WriteMultipleRegisters(Byte, UInt16, Byte[])
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteMultipleRegisters_System_Byte_System_UInt16_System_Byte___
-  commentId: M:FluentModbus.ModbusTcpClient.WriteMultipleRegisters(System.Byte,System.UInt16,System.Byte[])
-  name.vb: WriteMultipleRegisters(Byte, UInt16, Byte())
-  fullName: FluentModbus.ModbusTcpClient.WriteMultipleRegisters(System.Byte, System.UInt16, System.Byte[])
-  fullName.vb: FluentModbus.ModbusTcpClient.WriteMultipleRegisters(System.Byte, System.UInt16, System.Byte())
-  nameWithType: ModbusTcpClient.WriteMultipleRegisters(Byte, UInt16, Byte[])
-  nameWithType.vb: ModbusTcpClient.WriteMultipleRegisters(Byte, UInt16, Byte())
-- uid: FluentModbus.ModbusTcpClient.WriteMultipleRegisters*
-  name: WriteMultipleRegisters
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteMultipleRegisters_
-  commentId: Overload:FluentModbus.ModbusTcpClient.WriteMultipleRegisters
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.WriteMultipleRegisters
-  nameWithType: ModbusTcpClient.WriteMultipleRegisters
-- uid: FluentModbus.ModbusTcpClient.WriteMultipleRegisters``1(System.Byte,System.UInt16,``0[])
-  name: WriteMultipleRegisters<T>(Byte, UInt16, T[])
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteMultipleRegisters__1_System_Byte_System_UInt16___0___
-  commentId: M:FluentModbus.ModbusTcpClient.WriteMultipleRegisters``1(System.Byte,System.UInt16,``0[])
-  name.vb: WriteMultipleRegisters(Of T)(Byte, UInt16, T())
-  fullName: FluentModbus.ModbusTcpClient.WriteMultipleRegisters<T>(System.Byte, System.UInt16, T[])
-  fullName.vb: FluentModbus.ModbusTcpClient.WriteMultipleRegisters(Of T)(System.Byte, System.UInt16, T())
-  nameWithType: ModbusTcpClient.WriteMultipleRegisters<T>(Byte, UInt16, T[])
-  nameWithType.vb: ModbusTcpClient.WriteMultipleRegisters(Of T)(Byte, UInt16, T())
-- uid: FluentModbus.ModbusTcpClient.WriteSingleCoil(System.Byte,System.UInt16,System.Boolean)
-  name: WriteSingleCoil(Byte, UInt16, Boolean)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteSingleCoil_System_Byte_System_UInt16_System_Boolean_
-  commentId: M:FluentModbus.ModbusTcpClient.WriteSingleCoil(System.Byte,System.UInt16,System.Boolean)
-  fullName: FluentModbus.ModbusTcpClient.WriteSingleCoil(System.Byte, System.UInt16, System.Boolean)
-  nameWithType: ModbusTcpClient.WriteSingleCoil(Byte, UInt16, Boolean)
-- uid: FluentModbus.ModbusTcpClient.WriteSingleCoil*
-  name: WriteSingleCoil
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteSingleCoil_
-  commentId: Overload:FluentModbus.ModbusTcpClient.WriteSingleCoil
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.WriteSingleCoil
-  nameWithType: ModbusTcpClient.WriteSingleCoil
-- uid: FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.Byte[])
-  name: WriteSingleRegister(Byte, UInt16, Byte[])
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_Byte___
-  commentId: M:FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.Byte[])
-  name.vb: WriteSingleRegister(Byte, UInt16, Byte())
-  fullName: FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte, System.UInt16, System.Byte[])
-  fullName.vb: FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte, System.UInt16, System.Byte())
-  nameWithType: ModbusTcpClient.WriteSingleRegister(Byte, UInt16, Byte[])
-  nameWithType.vb: ModbusTcpClient.WriteSingleRegister(Byte, UInt16, Byte())
-- uid: FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.Int16)
-  name: WriteSingleRegister(Byte, UInt16, Int16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_Int16_
-  commentId: M:FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.Int16)
-  fullName: FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte, System.UInt16, System.Int16)
-  nameWithType: ModbusTcpClient.WriteSingleRegister(Byte, UInt16, Int16)
-- uid: FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.UInt16)
-  name: WriteSingleRegister(Byte, UInt16, UInt16)
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_UInt16_
-  commentId: M:FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.UInt16)
-  fullName: FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte, System.UInt16, System.UInt16)
-  nameWithType: ModbusTcpClient.WriteSingleRegister(Byte, UInt16, UInt16)
-- uid: FluentModbus.ModbusTcpClient.WriteSingleRegister*
-  name: WriteSingleRegister
-  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_WriteSingleRegister_
-  commentId: Overload:FluentModbus.ModbusTcpClient.WriteSingleRegister
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpClient.WriteSingleRegister
-  nameWithType: ModbusTcpClient.WriteSingleRegister
-- uid: FluentModbus.ModbusTcpMessageBuffer
-  name: ModbusTcpMessageBuffer
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html
-  commentId: T:FluentModbus.ModbusTcpMessageBuffer
-  fullName: FluentModbus.ModbusTcpMessageBuffer
-  nameWithType: ModbusTcpMessageBuffer
-- uid: FluentModbus.ModbusTcpMessageBuffer.#ctor
-  name: ModbusTcpMessageBuffer()
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer__ctor
-  commentId: M:FluentModbus.ModbusTcpMessageBuffer.#ctor
-  fullName: FluentModbus.ModbusTcpMessageBuffer.ModbusTcpMessageBuffer()
-  nameWithType: ModbusTcpMessageBuffer.ModbusTcpMessageBuffer()
-- uid: FluentModbus.ModbusTcpMessageBuffer.#ctor*
-  name: ModbusTcpMessageBuffer
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer__ctor_
-  commentId: Overload:FluentModbus.ModbusTcpMessageBuffer.#ctor
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpMessageBuffer.ModbusTcpMessageBuffer
-  nameWithType: ModbusTcpMessageBuffer.ModbusTcpMessageBuffer
-- uid: FluentModbus.ModbusTcpMessageBuffer.Buffer
-  name: Buffer
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_Buffer
-  commentId: P:FluentModbus.ModbusTcpMessageBuffer.Buffer
-  fullName: FluentModbus.ModbusTcpMessageBuffer.Buffer
-  nameWithType: ModbusTcpMessageBuffer.Buffer
-- uid: FluentModbus.ModbusTcpMessageBuffer.Buffer*
-  name: Buffer
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_Buffer_
-  commentId: Overload:FluentModbus.ModbusTcpMessageBuffer.Buffer
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpMessageBuffer.Buffer
-  nameWithType: ModbusTcpMessageBuffer.Buffer
-- uid: FluentModbus.ModbusTcpMessageBuffer.Dispose
-  name: Dispose()
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_Dispose
-  commentId: M:FluentModbus.ModbusTcpMessageBuffer.Dispose
-  fullName: FluentModbus.ModbusTcpMessageBuffer.Dispose()
-  nameWithType: ModbusTcpMessageBuffer.Dispose()
-- uid: FluentModbus.ModbusTcpMessageBuffer.Dispose(System.Boolean)
-  name: Dispose(Boolean)
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_Dispose_System_Boolean_
-  commentId: M:FluentModbus.ModbusTcpMessageBuffer.Dispose(System.Boolean)
-  fullName: FluentModbus.ModbusTcpMessageBuffer.Dispose(System.Boolean)
-  nameWithType: ModbusTcpMessageBuffer.Dispose(Boolean)
-- uid: FluentModbus.ModbusTcpMessageBuffer.Dispose*
-  name: Dispose
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_Dispose_
-  commentId: Overload:FluentModbus.ModbusTcpMessageBuffer.Dispose
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpMessageBuffer.Dispose
-  nameWithType: ModbusTcpMessageBuffer.Dispose
-- uid: FluentModbus.ModbusTcpMessageBuffer.RequestWriter
-  name: RequestWriter
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_RequestWriter
-  commentId: P:FluentModbus.ModbusTcpMessageBuffer.RequestWriter
-  fullName: FluentModbus.ModbusTcpMessageBuffer.RequestWriter
-  nameWithType: ModbusTcpMessageBuffer.RequestWriter
-- uid: FluentModbus.ModbusTcpMessageBuffer.RequestWriter*
-  name: RequestWriter
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_RequestWriter_
-  commentId: Overload:FluentModbus.ModbusTcpMessageBuffer.RequestWriter
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpMessageBuffer.RequestWriter
-  nameWithType: ModbusTcpMessageBuffer.RequestWriter
-- uid: FluentModbus.ModbusTcpMessageBuffer.ResponseReader
-  name: ResponseReader
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_ResponseReader
-  commentId: P:FluentModbus.ModbusTcpMessageBuffer.ResponseReader
-  fullName: FluentModbus.ModbusTcpMessageBuffer.ResponseReader
-  nameWithType: ModbusTcpMessageBuffer.ResponseReader
-- uid: FluentModbus.ModbusTcpMessageBuffer.ResponseReader*
-  name: ResponseReader
-  href: api/FluentModbus.ModbusTcpMessageBuffer.html#FluentModbus_ModbusTcpMessageBuffer_ResponseReader_
-  commentId: Overload:FluentModbus.ModbusTcpMessageBuffer.ResponseReader
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpMessageBuffer.ResponseReader
-  nameWithType: ModbusTcpMessageBuffer.ResponseReader
-- uid: FluentModbus.ModbusTcpRequestHandler
-  name: ModbusTcpRequestHandler
-  href: api/FluentModbus.ModbusTcpRequestHandler.html
-  commentId: T:FluentModbus.ModbusTcpRequestHandler
-  fullName: FluentModbus.ModbusTcpRequestHandler
-  nameWithType: ModbusTcpRequestHandler
-- uid: FluentModbus.ModbusTcpRequestHandler.#ctor(System.Net.Sockets.TcpClient,FluentModbus.ModbusTcpServer)
-  name: ModbusTcpRequestHandler(TcpClient, ModbusTcpServer)
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler__ctor_System_Net_Sockets_TcpClient_FluentModbus_ModbusTcpServer_
-  commentId: M:FluentModbus.ModbusTcpRequestHandler.#ctor(System.Net.Sockets.TcpClient,FluentModbus.ModbusTcpServer)
-  fullName: FluentModbus.ModbusTcpRequestHandler.ModbusTcpRequestHandler(System.Net.Sockets.TcpClient, FluentModbus.ModbusTcpServer)
-  nameWithType: ModbusTcpRequestHandler.ModbusTcpRequestHandler(TcpClient, ModbusTcpServer)
-- uid: FluentModbus.ModbusTcpRequestHandler.#ctor*
-  name: ModbusTcpRequestHandler
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler__ctor_
-  commentId: Overload:FluentModbus.ModbusTcpRequestHandler.#ctor
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpRequestHandler.ModbusTcpRequestHandler
-  nameWithType: ModbusTcpRequestHandler.ModbusTcpRequestHandler
-- uid: FluentModbus.ModbusTcpRequestHandler.IsReady
-  name: IsReady
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_IsReady
-  commentId: P:FluentModbus.ModbusTcpRequestHandler.IsReady
-  fullName: FluentModbus.ModbusTcpRequestHandler.IsReady
-  nameWithType: ModbusTcpRequestHandler.IsReady
-- uid: FluentModbus.ModbusTcpRequestHandler.IsReady*
-  name: IsReady
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_IsReady_
-  commentId: Overload:FluentModbus.ModbusTcpRequestHandler.IsReady
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpRequestHandler.IsReady
-  nameWithType: ModbusTcpRequestHandler.IsReady
-- uid: FluentModbus.ModbusTcpRequestHandler.LastRequest
-  name: LastRequest
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_LastRequest
-  commentId: P:FluentModbus.ModbusTcpRequestHandler.LastRequest
-  fullName: FluentModbus.ModbusTcpRequestHandler.LastRequest
-  nameWithType: ModbusTcpRequestHandler.LastRequest
-- uid: FluentModbus.ModbusTcpRequestHandler.LastRequest*
-  name: LastRequest
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_LastRequest_
-  commentId: Overload:FluentModbus.ModbusTcpRequestHandler.LastRequest
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpRequestHandler.LastRequest
-  nameWithType: ModbusTcpRequestHandler.LastRequest
-- uid: FluentModbus.ModbusTcpRequestHandler.Length
-  name: Length
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_Length
-  commentId: P:FluentModbus.ModbusTcpRequestHandler.Length
-  fullName: FluentModbus.ModbusTcpRequestHandler.Length
-  nameWithType: ModbusTcpRequestHandler.Length
-- uid: FluentModbus.ModbusTcpRequestHandler.Length*
-  name: Length
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_Length_
-  commentId: Overload:FluentModbus.ModbusTcpRequestHandler.Length
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpRequestHandler.Length
-  nameWithType: ModbusTcpRequestHandler.Length
-- uid: FluentModbus.ModbusTcpRequestHandler.ReceiveRequestAsync
-  name: ReceiveRequestAsync()
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_ReceiveRequestAsync
-  commentId: M:FluentModbus.ModbusTcpRequestHandler.ReceiveRequestAsync
-  fullName: FluentModbus.ModbusTcpRequestHandler.ReceiveRequestAsync()
-  nameWithType: ModbusTcpRequestHandler.ReceiveRequestAsync()
-- uid: FluentModbus.ModbusTcpRequestHandler.ReceiveRequestAsync*
-  name: ReceiveRequestAsync
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_ReceiveRequestAsync_
-  commentId: Overload:FluentModbus.ModbusTcpRequestHandler.ReceiveRequestAsync
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpRequestHandler.ReceiveRequestAsync
-  nameWithType: ModbusTcpRequestHandler.ReceiveRequestAsync
-- uid: FluentModbus.ModbusTcpRequestHandler.WriteResponse
-  name: WriteResponse()
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_WriteResponse
-  commentId: M:FluentModbus.ModbusTcpRequestHandler.WriteResponse
-  fullName: FluentModbus.ModbusTcpRequestHandler.WriteResponse()
-  nameWithType: ModbusTcpRequestHandler.WriteResponse()
-- uid: FluentModbus.ModbusTcpRequestHandler.WriteResponse*
-  name: WriteResponse
-  href: api/FluentModbus.ModbusTcpRequestHandler.html#FluentModbus_ModbusTcpRequestHandler_WriteResponse_
-  commentId: Overload:FluentModbus.ModbusTcpRequestHandler.WriteResponse
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpRequestHandler.WriteResponse
-  nameWithType: ModbusTcpRequestHandler.WriteResponse
 - uid: FluentModbus.ModbusTcpServer
   name: ModbusTcpServer
   href: api/FluentModbus.ModbusTcpServer.html
@@ -887,256 +1331,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer
   nameWithType: ModbusTcpServer.ModbusTcpServer
-- uid: FluentModbus.ModbusTcpServer.CoilBufferPtr
-  name: CoilBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_CoilBufferPtr
-  commentId: P:FluentModbus.ModbusTcpServer.CoilBufferPtr
-  fullName: FluentModbus.ModbusTcpServer.CoilBufferPtr
-  nameWithType: ModbusTcpServer.CoilBufferPtr
-- uid: FluentModbus.ModbusTcpServer.CoilBufferPtr*
-  name: CoilBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_CoilBufferPtr_
-  commentId: Overload:FluentModbus.ModbusTcpServer.CoilBufferPtr
+- uid: FluentModbus.ModbusTcpServer.ConnectionTimeout
+  name: ConnectionTimeout
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_ConnectionTimeout
+  commentId: P:FluentModbus.ModbusTcpServer.ConnectionTimeout
+  fullName: FluentModbus.ModbusTcpServer.ConnectionTimeout
+  nameWithType: ModbusTcpServer.ConnectionTimeout
+- uid: FluentModbus.ModbusTcpServer.ConnectionTimeout*
+  name: ConnectionTimeout
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_ConnectionTimeout_
+  commentId: Overload:FluentModbus.ModbusTcpServer.ConnectionTimeout
   isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.CoilBufferPtr
-  nameWithType: ModbusTcpServer.CoilBufferPtr
-- uid: FluentModbus.ModbusTcpServer.DiscreteInputBufferPtr
-  name: DiscreteInputBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_DiscreteInputBufferPtr
-  commentId: P:FluentModbus.ModbusTcpServer.DiscreteInputBufferPtr
-  fullName: FluentModbus.ModbusTcpServer.DiscreteInputBufferPtr
-  nameWithType: ModbusTcpServer.DiscreteInputBufferPtr
-- uid: FluentModbus.ModbusTcpServer.DiscreteInputBufferPtr*
-  name: DiscreteInputBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_DiscreteInputBufferPtr_
-  commentId: Overload:FluentModbus.ModbusTcpServer.DiscreteInputBufferPtr
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.DiscreteInputBufferPtr
-  nameWithType: ModbusTcpServer.DiscreteInputBufferPtr
-- uid: FluentModbus.ModbusTcpServer.Dispose
-  name: Dispose()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Dispose
-  commentId: M:FluentModbus.ModbusTcpServer.Dispose
-  fullName: FluentModbus.ModbusTcpServer.Dispose()
-  nameWithType: ModbusTcpServer.Dispose()
-- uid: FluentModbus.ModbusTcpServer.Dispose(System.Boolean)
-  name: Dispose(Boolean)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Dispose_System_Boolean_
-  commentId: M:FluentModbus.ModbusTcpServer.Dispose(System.Boolean)
-  fullName: FluentModbus.ModbusTcpServer.Dispose(System.Boolean)
-  nameWithType: ModbusTcpServer.Dispose(Boolean)
-- uid: FluentModbus.ModbusTcpServer.Dispose*
-  name: Dispose
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Dispose_
-  commentId: Overload:FluentModbus.ModbusTcpServer.Dispose
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.Dispose
-  nameWithType: ModbusTcpServer.Dispose
-- uid: FluentModbus.ModbusTcpServer.Finalize
-  name: Finalize()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Finalize
-  commentId: M:FluentModbus.ModbusTcpServer.Finalize
-  fullName: FluentModbus.ModbusTcpServer.Finalize()
-  nameWithType: ModbusTcpServer.Finalize()
-- uid: FluentModbus.ModbusTcpServer.Finalize*
-  name: Finalize
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Finalize_
-  commentId: Overload:FluentModbus.ModbusTcpServer.Finalize
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.Finalize
-  nameWithType: ModbusTcpServer.Finalize
-- uid: FluentModbus.ModbusTcpServer.GetCoilBuffer
-  name: GetCoilBuffer()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetCoilBuffer
-  commentId: M:FluentModbus.ModbusTcpServer.GetCoilBuffer
-  fullName: FluentModbus.ModbusTcpServer.GetCoilBuffer()
-  nameWithType: ModbusTcpServer.GetCoilBuffer()
-- uid: FluentModbus.ModbusTcpServer.GetCoilBuffer*
-  name: GetCoilBuffer
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetCoilBuffer_
-  commentId: Overload:FluentModbus.ModbusTcpServer.GetCoilBuffer
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.GetCoilBuffer
-  nameWithType: ModbusTcpServer.GetCoilBuffer
-- uid: FluentModbus.ModbusTcpServer.GetCoilBuffer``1
-  name: GetCoilBuffer<T>()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetCoilBuffer__1
-  commentId: M:FluentModbus.ModbusTcpServer.GetCoilBuffer``1
-  name.vb: GetCoilBuffer(Of T)()
-  fullName: FluentModbus.ModbusTcpServer.GetCoilBuffer<T>()
-  fullName.vb: FluentModbus.ModbusTcpServer.GetCoilBuffer(Of T)()
-  nameWithType: ModbusTcpServer.GetCoilBuffer<T>()
-  nameWithType.vb: ModbusTcpServer.GetCoilBuffer(Of T)()
-- uid: FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer
-  name: GetDiscreteInputBuffer()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetDiscreteInputBuffer
-  commentId: M:FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer
-  fullName: FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer()
-  nameWithType: ModbusTcpServer.GetDiscreteInputBuffer()
-- uid: FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer*
-  name: GetDiscreteInputBuffer
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetDiscreteInputBuffer_
-  commentId: Overload:FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer
-  nameWithType: ModbusTcpServer.GetDiscreteInputBuffer
-- uid: FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer``1
-  name: GetDiscreteInputBuffer<T>()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetDiscreteInputBuffer__1
-  commentId: M:FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer``1
-  name.vb: GetDiscreteInputBuffer(Of T)()
-  fullName: FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer<T>()
-  fullName.vb: FluentModbus.ModbusTcpServer.GetDiscreteInputBuffer(Of T)()
-  nameWithType: ModbusTcpServer.GetDiscreteInputBuffer<T>()
-  nameWithType.vb: ModbusTcpServer.GetDiscreteInputBuffer(Of T)()
-- uid: FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer
-  name: GetHoldingRegisterBuffer()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetHoldingRegisterBuffer
-  commentId: M:FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer
-  fullName: FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer()
-  nameWithType: ModbusTcpServer.GetHoldingRegisterBuffer()
-- uid: FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer*
-  name: GetHoldingRegisterBuffer
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetHoldingRegisterBuffer_
-  commentId: Overload:FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer
-  nameWithType: ModbusTcpServer.GetHoldingRegisterBuffer
-- uid: FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer``1
-  name: GetHoldingRegisterBuffer<T>()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetHoldingRegisterBuffer__1
-  commentId: M:FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer``1
-  name.vb: GetHoldingRegisterBuffer(Of T)()
-  fullName: FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer<T>()
-  fullName.vb: FluentModbus.ModbusTcpServer.GetHoldingRegisterBuffer(Of T)()
-  nameWithType: ModbusTcpServer.GetHoldingRegisterBuffer<T>()
-  nameWithType.vb: ModbusTcpServer.GetHoldingRegisterBuffer(Of T)()
-- uid: FluentModbus.ModbusTcpServer.GetInputRegisterBuffer
-  name: GetInputRegisterBuffer()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetInputRegisterBuffer
-  commentId: M:FluentModbus.ModbusTcpServer.GetInputRegisterBuffer
-  fullName: FluentModbus.ModbusTcpServer.GetInputRegisterBuffer()
-  nameWithType: ModbusTcpServer.GetInputRegisterBuffer()
-- uid: FluentModbus.ModbusTcpServer.GetInputRegisterBuffer*
-  name: GetInputRegisterBuffer
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetInputRegisterBuffer_
-  commentId: Overload:FluentModbus.ModbusTcpServer.GetInputRegisterBuffer
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.GetInputRegisterBuffer
-  nameWithType: ModbusTcpServer.GetInputRegisterBuffer
-- uid: FluentModbus.ModbusTcpServer.GetInputRegisterBuffer``1
-  name: GetInputRegisterBuffer<T>()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_GetInputRegisterBuffer__1
-  commentId: M:FluentModbus.ModbusTcpServer.GetInputRegisterBuffer``1
-  name.vb: GetInputRegisterBuffer(Of T)()
-  fullName: FluentModbus.ModbusTcpServer.GetInputRegisterBuffer<T>()
-  fullName.vb: FluentModbus.ModbusTcpServer.GetInputRegisterBuffer(Of T)()
-  nameWithType: ModbusTcpServer.GetInputRegisterBuffer<T>()
-  nameWithType.vb: ModbusTcpServer.GetInputRegisterBuffer(Of T)()
-- uid: FluentModbus.ModbusTcpServer.HoldingRegisterBufferPtr
-  name: HoldingRegisterBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_HoldingRegisterBufferPtr
-  commentId: P:FluentModbus.ModbusTcpServer.HoldingRegisterBufferPtr
-  fullName: FluentModbus.ModbusTcpServer.HoldingRegisterBufferPtr
-  nameWithType: ModbusTcpServer.HoldingRegisterBufferPtr
-- uid: FluentModbus.ModbusTcpServer.HoldingRegisterBufferPtr*
-  name: HoldingRegisterBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_HoldingRegisterBufferPtr_
-  commentId: Overload:FluentModbus.ModbusTcpServer.HoldingRegisterBufferPtr
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.HoldingRegisterBufferPtr
-  nameWithType: ModbusTcpServer.HoldingRegisterBufferPtr
-- uid: FluentModbus.ModbusTcpServer.InputRegisterBufferPtr
-  name: InputRegisterBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_InputRegisterBufferPtr
-  commentId: P:FluentModbus.ModbusTcpServer.InputRegisterBufferPtr
-  fullName: FluentModbus.ModbusTcpServer.InputRegisterBufferPtr
-  nameWithType: ModbusTcpServer.InputRegisterBufferPtr
-- uid: FluentModbus.ModbusTcpServer.InputRegisterBufferPtr*
-  name: InputRegisterBufferPtr
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_InputRegisterBufferPtr_
-  commentId: Overload:FluentModbus.ModbusTcpServer.InputRegisterBufferPtr
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.InputRegisterBufferPtr
-  nameWithType: ModbusTcpServer.InputRegisterBufferPtr
-- uid: FluentModbus.ModbusTcpServer.IsAsynchronous
-  name: IsAsynchronous
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_IsAsynchronous
-  commentId: P:FluentModbus.ModbusTcpServer.IsAsynchronous
-  fullName: FluentModbus.ModbusTcpServer.IsAsynchronous
-  nameWithType: ModbusTcpServer.IsAsynchronous
-- uid: FluentModbus.ModbusTcpServer.IsAsynchronous*
-  name: IsAsynchronous
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_IsAsynchronous_
-  commentId: Overload:FluentModbus.ModbusTcpServer.IsAsynchronous
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.IsAsynchronous
-  nameWithType: ModbusTcpServer.IsAsynchronous
-- uid: FluentModbus.ModbusTcpServer.Lock
-  name: Lock
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Lock
-  commentId: P:FluentModbus.ModbusTcpServer.Lock
-  fullName: FluentModbus.ModbusTcpServer.Lock
-  nameWithType: ModbusTcpServer.Lock
-- uid: FluentModbus.ModbusTcpServer.Lock*
-  name: Lock
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Lock_
-  commentId: Overload:FluentModbus.ModbusTcpServer.Lock
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.Lock
-  nameWithType: ModbusTcpServer.Lock
-- uid: FluentModbus.ModbusTcpServer.MaxCoilAddress
-  name: MaxCoilAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxCoilAddress
-  commentId: P:FluentModbus.ModbusTcpServer.MaxCoilAddress
-  fullName: FluentModbus.ModbusTcpServer.MaxCoilAddress
-  nameWithType: ModbusTcpServer.MaxCoilAddress
-- uid: FluentModbus.ModbusTcpServer.MaxCoilAddress*
-  name: MaxCoilAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxCoilAddress_
-  commentId: Overload:FluentModbus.ModbusTcpServer.MaxCoilAddress
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.MaxCoilAddress
-  nameWithType: ModbusTcpServer.MaxCoilAddress
-- uid: FluentModbus.ModbusTcpServer.MaxDiscreteInputAddress
-  name: MaxDiscreteInputAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxDiscreteInputAddress
-  commentId: P:FluentModbus.ModbusTcpServer.MaxDiscreteInputAddress
-  fullName: FluentModbus.ModbusTcpServer.MaxDiscreteInputAddress
-  nameWithType: ModbusTcpServer.MaxDiscreteInputAddress
-- uid: FluentModbus.ModbusTcpServer.MaxDiscreteInputAddress*
-  name: MaxDiscreteInputAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxDiscreteInputAddress_
-  commentId: Overload:FluentModbus.ModbusTcpServer.MaxDiscreteInputAddress
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.MaxDiscreteInputAddress
-  nameWithType: ModbusTcpServer.MaxDiscreteInputAddress
-- uid: FluentModbus.ModbusTcpServer.MaxHoldingRegisterAddress
-  name: MaxHoldingRegisterAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxHoldingRegisterAddress
-  commentId: P:FluentModbus.ModbusTcpServer.MaxHoldingRegisterAddress
-  fullName: FluentModbus.ModbusTcpServer.MaxHoldingRegisterAddress
-  nameWithType: ModbusTcpServer.MaxHoldingRegisterAddress
-- uid: FluentModbus.ModbusTcpServer.MaxHoldingRegisterAddress*
-  name: MaxHoldingRegisterAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxHoldingRegisterAddress_
-  commentId: Overload:FluentModbus.ModbusTcpServer.MaxHoldingRegisterAddress
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.MaxHoldingRegisterAddress
-  nameWithType: ModbusTcpServer.MaxHoldingRegisterAddress
-- uid: FluentModbus.ModbusTcpServer.MaxInputRegisterAddress
-  name: MaxInputRegisterAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxInputRegisterAddress
-  commentId: P:FluentModbus.ModbusTcpServer.MaxInputRegisterAddress
-  fullName: FluentModbus.ModbusTcpServer.MaxInputRegisterAddress
-  nameWithType: ModbusTcpServer.MaxInputRegisterAddress
-- uid: FluentModbus.ModbusTcpServer.MaxInputRegisterAddress*
-  name: MaxInputRegisterAddress
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxInputRegisterAddress_
-  commentId: Overload:FluentModbus.ModbusTcpServer.MaxInputRegisterAddress
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.MaxInputRegisterAddress
-  nameWithType: ModbusTcpServer.MaxInputRegisterAddress
+  fullName: FluentModbus.ModbusTcpServer.ConnectionTimeout
+  nameWithType: ModbusTcpServer.ConnectionTimeout
 - uid: FluentModbus.ModbusTcpServer.Start
   name: Start()
   href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Start
@@ -1175,16 +1382,3 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpServer.Stop
   nameWithType: ModbusTcpServer.Stop
-- uid: FluentModbus.ModbusTcpServer.Update
-  name: Update()
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Update
-  commentId: M:FluentModbus.ModbusTcpServer.Update
-  fullName: FluentModbus.ModbusTcpServer.Update()
-  nameWithType: ModbusTcpServer.Update()
-- uid: FluentModbus.ModbusTcpServer.Update*
-  name: Update
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Update_
-  commentId: Overload:FluentModbus.ModbusTcpServer.Update
-  isSpec: "True"
-  fullName: FluentModbus.ModbusTcpServer.Update
-  nameWithType: ModbusTcpServer.Update

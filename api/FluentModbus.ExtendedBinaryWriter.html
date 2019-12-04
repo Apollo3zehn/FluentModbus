@@ -10,13 +10,13 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ExtendedBinaryWriter
    | FluentModbus ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
     <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
     <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
     
@@ -73,7 +73,8 @@
   
   <h1 id="FluentModbus_ExtendedBinaryWriter" data-uid="FluentModbus.ExtendedBinaryWriter" class="text-break">Class ExtendedBinaryWriter
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A binary writer with extended capability to handle big-endian data.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -83,6 +84,7 @@
   </div>
   <div classs="implements">
     <h5>Implements</h5>
+    <div><span class="xref">System.IAsyncDisposable</span></div>
     <div><span class="xref">System.IDisposable</span></div>
   </div>
   <div class="inheritedMembers">
@@ -101,6 +103,9 @@
     </div>
     <div>
       <span class="xref">System.IO.BinaryWriter.Dispose(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.BinaryWriter.DisposeAsync()</span>
     </div>
     <div>
       <span class="xref">System.IO.BinaryWriter.Flush()</span>
@@ -145,6 +150,12 @@
       <span class="xref">System.IO.BinaryWriter.Write(System.Int64)</span>
     </div>
     <div>
+      <span class="xref">System.IO.BinaryWriter.Write(System.ReadOnlySpan&lt;System.Byte&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.BinaryWriter.Write(System.ReadOnlySpan&lt;System.Char&gt;)</span>
+    </div>
+    <div>
       <span class="xref">System.IO.BinaryWriter.Write(System.SByte)</span>
     </div>
     <div>
@@ -168,46 +179,26 @@
     <div>
       <span class="xref">System.IO.BinaryWriter.BaseStream</span>
     </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
   <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
   <h5 id="FluentModbus_ExtendedBinaryWriter_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ExtendedBinaryWriter : BinaryWriter, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class ExtendedBinaryWriter : BinaryWriter, IAsyncDisposable, IDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter__ctor_System_IO_Stream_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.%23ctor(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter__ctor_System_IO_Stream_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.%23ctor(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L8">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L15">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter__ctor_" data-uid="FluentModbus.ExtendedBinaryWriter.#ctor*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter__ctor_System_IO_Stream_" data-uid="FluentModbus.ExtendedBinaryWriter.#ctor(System.IO.Stream)">ExtendedBinaryWriter(Stream)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="FluentModbus.ExtendedBinaryWriter.html">ExtendedBinaryWriter</a> instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -226,7 +217,8 @@
       <tr>
         <td><span class="xref">System.IO.Stream</span></td>
         <td><span class="parametername">stream</span></td>
-        <td></td>
+        <td><p>The underlying data stream.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -234,14 +226,15 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Double_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Double_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L54">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L97">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Double_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Double)">WriteReverse(Double)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -260,20 +253,22 @@
       <tr>
         <td><span class="xref">System.Double</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int16_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int16_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L19">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L34">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int16_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int16)">WriteReverse(Int16)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -292,20 +287,22 @@
       <tr>
         <td><span class="xref">System.Int16</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L29">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L52">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int32_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int32)">WriteReverse(Int32)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -324,20 +321,22 @@
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int64_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int64_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L39">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L70">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Int64_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Int64)">WriteReverse(Int64)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -356,20 +355,22 @@
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Single_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Single_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L49">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L88">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_Single_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.Single)">WriteReverse(Single)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -388,20 +389,22 @@
       <tr>
         <td><span class="xref">System.Single</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L24">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L43">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt16_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt16)">WriteReverse(UInt16)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -420,20 +423,22 @@
       <tr>
         <td><span class="xref">System.UInt16</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt32_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt32_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L34">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L61">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt32_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt32)">WriteReverse(UInt32)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -452,20 +457,22 @@
       <tr>
         <td><span class="xref">System.UInt32</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt64_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt64_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L44">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L79">View Source</a>
   </span>
   <a id="FluentModbus_ExtendedBinaryWriter_WriteReverse_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse*"></a>
   <h4 id="FluentModbus_ExtendedBinaryWriter_WriteReverse_System_UInt64_" data-uid="FluentModbus.ExtendedBinaryWriter.WriteReverse(System.UInt64)">WriteReverse(UInt64)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Writes the provided value to the stream.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -484,11 +491,15 @@
       <tr>
         <td><span class="xref">System.UInt64</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>The value to be written.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IAsyncDisposable</span>
+  </div>
   <div>
       <span class="xref">System.IDisposable</span>
   </div>
@@ -500,10 +511,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ExtendedBinaryWriter.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryWriter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ExtendedBinaryWriter.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ExtendedBinaryWriter.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

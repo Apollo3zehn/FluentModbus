@@ -10,13 +10,13 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Enum ModbusExceptionCode
    | FluentModbus ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
     <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
     <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
     
@@ -73,7 +73,8 @@
   
   <h1 id="FluentModbus_ModbusExceptionCode" data-uid="FluentModbus.ModbusExceptionCode" class="text-break">Enum ModbusExceptionCode
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Specifies the Modbus exception type.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
   <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
@@ -93,39 +94,48 @@
     <tbody>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_Acknowledge">Acknowledge</td>
-        <td></td>
+        <td><p>Specialized use in conjunction with programming commands. The server has accepted the request and is processing it, but a long duration of time will be required to do so.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_GatewayPathUnavailable">GatewayPathUnavailable</td>
-        <td></td>
+        <td><p>Specialized use in conjunction with gateways, indicates that the gateway was unable to allocate an internal communication path from the input port to the output port for processing the request.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_GatewayTargetDeviceFailedToRespond">GatewayTargetDeviceFailedToRespond</td>
-        <td></td>
+        <td><p>Specialized use in conjunction with gateways, indicates that no response was obtained from the target device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_IllegalDataAddress">IllegalDataAddress</td>
-        <td></td>
+        <td><p>The data address received in the query is not an allowable address for the server.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_IllegalDataValue">IllegalDataValue</td>
-        <td></td>
+        <td><p>A value contained in the query data field is not an allowable value for server.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_IllegalFunction">IllegalFunction</td>
-        <td></td>
+        <td><p>The function code received in the query is not an allowable action for the server.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_MemoryParityError">MemoryParityError</td>
-        <td></td>
+        <td><p>Specialized use in conjunction with function codes 20 and 21 and reference type 6, to indicate that the extended file area failed to pass a consistency check.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_ServerDeviceBusy">ServerDeviceBusy</td>
-        <td></td>
+        <td><p>Specialized use in conjunction with programming commands. The engaged in processing a long–duration program command.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusExceptionCode_ServerDeviceFailure">ServerDeviceFailure</td>
-        <td></td>
+        <td><p>An unrecoverable error occurred while the server was attempting to perform the requested action.</p>
+</td>
       </tr>
     </tbody>
   </thead></thead></table>
@@ -137,10 +147,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusExceptionCode.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusExceptionCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusExceptionCode.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusExceptionCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ModbusExceptionCode.cs/#L3" class="contribution-link">View Source</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ModbusExceptionCode.cs/#L6" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -8,13 +8,13 @@
     <title>FluentModbus | FluentModbus </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="FluentModbus | FluentModbus ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="images/icon.ico">
     <link rel="stylesheet" href="styles/docfx.vendor.css">
     <link rel="stylesheet" href="styles/docfx.css">
     <link rel="stylesheet" href="styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
     <meta property="docfx:navrel" content="toc.html">
     <meta property="docfx:tocrel" content="toc.html">
     
@@ -62,8 +62,9 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="fluentmodbus">FluentModbus</h1>
 
-<p><a href="https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus"><img src="https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true" alt="AppVeyor"></a></p>
-<p>FluentModbus is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Support for Modbus RTU and ASCII mode is planned for the next major version. Both, the server and the client, implement class 0 and class 1 functions of the <a href="http://www.modbus.org/specs.php">specification</a>. Namely, these are:</p>
+<p><a href="https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus"><img src="https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true&amp;branch=master" alt="AppVeyor"></a>
+<a href="https://www.nuget.org/packages/FluentModbus"><img src="https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget" alt="NuGet"></a></p>
+<p>FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the <a href="http://www.modbus.org/specs.php">specification</a>. Namely, these are:</p>
 <h4 id="class-0">Class 0:</h4>
 <ul>
 <li>FC03: ReadHoldingRegisters</li>
@@ -77,18 +78,13 @@
 <li>FC05: WriteSingleCoil</li>
 <li>FC06: WriteSingleRegister</li>
 </ul>
-<p>Please see the following introduction and the <a href="sample/SampleServerClient">sample</a> application, to get started with FluentModbus.</p>
-<h3 id="a-few-words-to-spant">A few words to <code>Span&lt;T&gt;</code></h3>
-<p>The returned data of the read functions (FC01 to FC04) are always provided as <code>Span&lt;T&gt;</code> (<a href="https://msdn.microsoft.com/en-us/magazine/mt814808.aspx">What is this?</a>). In short, a <code>Span&lt;T&gt;</code> is a simple view of the underlying memory. With this type, the memory can be interpreted as <code>byte</code>, <code>int</code>, <code>float</code> or any other value type. A conversion from <code>Span&lt;byte&gt;</code> to other types can be efficiently achieved through:</p>
-<pre><code class="lang-cs">Span&lt;byte&gt; byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
-Span&lt;int&gt; intSpan = MemoryMarshal.Cast&lt;byte, int&gt;(byteSpan);
-Span&lt;float&gt; floatSpan = MemoryMarshal.Cast&lt;int, float&gt;(intSpan);
-</code></pre>
-<p>You can then access it like a any other array:</p>
-<pre><code class="lang-cs">var floatValue = myFloatSpan[0];
-</code></pre>
-<p>The data remain unchanged during all of these calls. <em>Only the interpretation changes.</em> However, one disadvantage is that this type cannot be used in all code locations (e.g. in <code>async</code> functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):</p>
-<pre><code class="lang-cs">float[] floatArray = floatSpan.ToArray();
+<p>Please see the <a href="https://apollo3zehn.github.io/ImcFamosFile/how_to/1_introduction.html">introduction</a> to get a more detailed description on how to use this library!</p>
+<p>Below is a screenshot of the <a href="samples/modbus_tcp.html">sample</a> console output using a Modbus TCP server and client:</p>
+<p><img src="images/sample.png" alt="Sample."></p>
+<h3 id="installing-the-package">Installing the package</h3>
+<p>Simply start a new .NET Core project with the <code>FluentModbus</code> package installed:</p>
+<pre><code class="lang-powershell">PS&gt; dotnet new console
+PS&gt; dotnet add package FluentModbus
 </code></pre>
 <h2 id="creating-a-modbus-tcp-client">Creating a Modbus TCP client</h2>
 <p>A new Modbus TCP client can be easily created with the following code:</p>
@@ -103,6 +99,34 @@ client.Connect(IPAddress.Parse(&quot;127.0.0.1&quot;));
 
 // use specified IP adress and port
 client.Connect(new IPEndPoint(IPAddress.Parse(&quot;127.0.0.1&quot;), 502))
+</code></pre>
+<h2 id="creating-a-modbus-rtu-client">Creating a Modbus RTU client</h2>
+<p>Alternatively, new Modbus RTU client can be created with the following code:</p>
+<pre><code class="lang-cs">var client = new ModbusTcpClient();
+</code></pre>
+<p>Once you have an instance, connect to a COM port in one of the following ways:</p>
+<pre><code class="lang-cs">// use default COM port settings
+client.Connect(&quot;COM1&quot;);
+
+// use custom COM port settings
+client.Connect(&quot;COM1&quot;)
+{
+	BaudRate = 9600,
+	Parity = Parity.None,
+	StopBits = StopBits.Two
+}
+</code></pre>
+<h3 id="a-few-words-to-spant">A few words to <code>Span&lt;T&gt;</code></h3>
+<p>The returned data of the read functions (FC01 to FC04) are always provided as <code>Span&lt;T&gt;</code> (<a href="https://msdn.microsoft.com/en-us/magazine/mt814808.aspx">What is this?</a>). In short, a <code>Span&lt;T&gt;</code> is a simple view of the underlying memory. With this type, the memory can be interpreted as <code>byte</code>, <code>int</code>, <code>float</code> or any other value type. A conversion from <code>Span&lt;byte&gt;</code> to other types can be efficiently achieved through:</p>
+<pre><code class="lang-cs">Span&lt;byte&gt; byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
+Span&lt;int&gt; intSpan = MemoryMarshal.Cast&lt;byte, int&gt;(byteSpan);
+Span&lt;float&gt; floatSpan = MemoryMarshal.Cast&lt;int, float&gt;(intSpan);
+</code></pre>
+<p>You can then access it like a any other array:</p>
+<pre><code class="lang-cs">var floatValue = myFloatSpan[0];
+</code></pre>
+<p>The data remain unchanged during all of these calls. <em>Only the interpretation changes.</em> However, one disadvantage is that this type cannot be used in all code locations (e.g. in <code>async</code> functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):</p>
+<pre><code class="lang-cs">float[] floatArray = floatSpan.ToArray();
 </code></pre>
 <h3 id="reading-data">Reading data</h3>
 <h4 id="reading-integer-or-float">Reading integer or float</h4>
@@ -227,10 +251,19 @@ while (!cts.IsCancellationRequested)
 }
 </code></pre>
 <p>Note that in the second example, the <code>Task.Delay()</code> period is much lower. Since we want coordinated access between the application and the clients <em>without</em> locks, we need to ensure that at certain points in time, the application is safe to access the buffers. This is the case when the <code>IsReady</code> propery is <code>true</code> (when all client requests have been served). After the application finished manipulating the server data, it triggers the server to serve all accumulated client requests (via the <code>Update()</code> method). Finally, the process repeats.</p>
+<h2 id="creating-a-modbus-rtu-server">Creating a Modbus RTU server</h2>
+<p>When you need a Modbus RTU server, you need to instantiate it like this providing a <code>unitIdentifier</code>, which must be in the range of 1..247 and unique for each Modbus server or slave, respectively:</p>
+<pre><code class="lang-cs">var server = new ModbusRtuServer(unitIdentifier: 1);
+</code></pre>
+<p>Then you can start it e.g. on COM port 1:</p>
+<pre><code class="lang-cs">server.Start(port: &quot;COM1&quot;);
+</code></pre>
+<p>As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.</p>
 <h2 id="see-also">See also</h2>
 <p>This implementation is based on <a href="http://www.modbus.org/specs.php">http://www.modbus.org/specs.php</a>:</p>
 <ul>
 <li>MODBUS APPLICATION PROTOCOL SPECIFICATION V1.1b3</li>
+<li>MODBUS over Serial Line Specification and Implementation Guide V1.02</li>
 <li>MODBUS MESSAGING ON TCP/IP IMPLEMENTATION GUIDE V1.0b</li>
 </ul>
 </article>
@@ -241,7 +274,7 @@ while (!cts.IsCancellationRequested)
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/doc/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/doc/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

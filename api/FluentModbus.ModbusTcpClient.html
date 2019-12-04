@@ -10,13 +10,13 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ModbusTcpClient
    | FluentModbus ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
     <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
     <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
     
@@ -73,51 +73,86 @@
   
   <h1 id="FluentModbus_ModbusTcpClient" data-uid="FluentModbus.ModbusTcpClient" class="text-break">Class ModbusTcpClient
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A Modbus TCP client.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">ModbusTcpClient</span></div>
+    <div class="level1"><a class="xref" href="FluentModbus.ModbusClient.html">ModbusClient</a></div>
+    <div class="level2"><span class="xref">ModbusTcpClient</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegisters__1_System_Byte_System_UInt16_System_UInt16_">ModbusClient.ReadHoldingRegisters&lt;T&gt;(Byte, UInt16, UInt16)</a>
     </div>
     <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegisters_System_Byte_System_UInt16_System_UInt16_">ModbusClient.ReadHoldingRegisters(Byte, UInt16, UInt16)</a>
     </div>
     <div>
-      <span class="xref">System.Object.GetHashCode()</span>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegisters__1_System_Byte_System_UInt16___0___">ModbusClient.WriteMultipleRegisters&lt;T&gt;(Byte, UInt16, T[])</a>
     </div>
     <div>
-      <span class="xref">System.Object.GetType()</span>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegisters_System_Byte_System_UInt16_System_Byte___">ModbusClient.WriteMultipleRegisters(Byte, UInt16, Byte[])</a>
     </div>
     <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadCoils_System_Byte_System_UInt16_System_UInt16_">ModbusClient.ReadCoils(Byte, UInt16, UInt16)</a>
     </div>
     <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadDiscreteInputs_System_Byte_System_UInt16_System_UInt16_">ModbusClient.ReadDiscreteInputs(Byte, UInt16, UInt16)</a>
     </div>
     <div>
-      <span class="xref">System.Object.ToString()</span>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegisters__1_System_Byte_System_UInt16_System_UInt16_">ModbusClient.ReadInputRegisters&lt;T&gt;(Byte, UInt16, UInt16)</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegisters_System_Byte_System_UInt16_System_UInt16_">ModbusClient.ReadInputRegisters(Byte, UInt16, UInt16)</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleCoil_System_Byte_System_UInt16_System_Boolean_">ModbusClient.WriteSingleCoil(Byte, UInt16, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_System_Byte_System_UInt16_System_Int16_">ModbusClient.WriteSingleRegister(Byte, UInt16, Int16)</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_System_Byte_System_UInt16_System_UInt16_">ModbusClient.WriteSingleRegister(Byte, UInt16, UInt16)</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_System_Byte_System_UInt16_System_Byte___">ModbusClient.WriteSingleRegister(Byte, UInt16, Byte[])</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleCoils">ModbusClient.WriteMultipleCoils()</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFileRecord">ModbusClient.ReadFileRecord()</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteFileRecord">ModbusClient.WriteFileRecord()</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_MaskWriteRegister">ModbusClient.MaskWriteRegister()</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters">ModbusClient.ReadWriteMultipleRegisters()</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFifoQueue">ModbusClient.ReadFifoQueue()</a>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
   <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
   <h5 id="FluentModbus_ModbusTcpClient_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ModbusTcpClient</code></pre>
+    <pre><code class="lang-csharp hljs">public class ModbusTcpClient : ModbusClient</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient__ctor.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient__ctor.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L22">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L29">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient__ctor_" data-uid="FluentModbus.ModbusTcpClient.#ctor*"></a>
   <h4 id="FluentModbus_ModbusTcpClient__ctor" data-uid="FluentModbus.ModbusTcpClient.#ctor">ModbusTcpClient()</h4>
@@ -132,10 +167,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ConnectTimeout.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ConnectTimeout%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ConnectTimeout.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ConnectTimeout%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L31">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L42">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient_ConnectTimeout_" data-uid="FluentModbus.ModbusTcpClient.ConnectTimeout*"></a>
   <h4 id="FluentModbus_ModbusTcpClient_ConnectTimeout" data-uid="FluentModbus.ModbusTcpClient.ConnectTimeout">ConnectTimeout</h4>
@@ -163,10 +198,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_IsConnected.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.IsConnected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient_IsConnected.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.IsConnected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L41">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L52">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient_IsConnected_" data-uid="FluentModbus.ModbusTcpClient.IsConnected*"></a>
   <h4 id="FluentModbus_ModbusTcpClient_IsConnected" data-uid="FluentModbus.ModbusTcpClient.IsConnected">IsConnected</h4>
@@ -194,14 +229,14 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadTimeout.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadTimeout%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadTimeout.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadTimeout%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L36">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L47">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient_ReadTimeout_" data-uid="FluentModbus.ModbusTcpClient.ReadTimeout*"></a>
   <h4 id="FluentModbus_ModbusTcpClient_ReadTimeout" data-uid="FluentModbus.ModbusTcpClient.ReadTimeout">ReadTimeout</h4>
-  <div class="markdown level1 summary"><p>Gets or sets the connect timeout in milliseconds. Default is 1000 ms.</p>
+  <div class="markdown level1 summary"><p>Gets or sets the read timeout in milliseconds. Default is 1000 ms.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -227,10 +262,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Connect.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Connect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Connect.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Connect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L52">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L63">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient_Connect_" data-uid="FluentModbus.ModbusTcpClient.Connect*"></a>
   <h4 id="FluentModbus_ModbusTcpClient_Connect" data-uid="FluentModbus.ModbusTcpClient.Connect">Connect()</h4>
@@ -243,10 +278,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Connect_System_Net_IPAddress_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Connect_System_Net_IPAddress_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L61">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L72">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient_Connect_" data-uid="FluentModbus.ModbusTcpClient.Connect*"></a>
   <h4 id="FluentModbus_ModbusTcpClient_Connect_System_Net_IPAddress_" data-uid="FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)">Connect(IPAddress)</h4>
@@ -277,10 +312,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Connect_System_Net_IPEndPoint_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Connect_System_Net_IPEndPoint_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L70">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L81">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient_Connect_" data-uid="FluentModbus.ModbusTcpClient.Connect*"></a>
   <h4 id="FluentModbus_ModbusTcpClient_Connect_System_Net_IPEndPoint_" data-uid="FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)">Connect(IPEndPoint)</h4>
@@ -311,10 +346,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Disconnect.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Disconnect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient_Disconnect.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.Disconnect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L89">View Source</a>
+    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L100">View Source</a>
   </span>
   <a id="FluentModbus_ModbusTcpClient_Disconnect_" data-uid="FluentModbus.ModbusTcpClient.Disconnect*"></a>
   <h4 id="FluentModbus_ModbusTcpClient_Disconnect" data-uid="FluentModbus.ModbusTcpClient.Disconnect">Disconnect()</h4>
@@ -325,798 +360,6 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Disconnect()</code></pre>
   </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_MaskWriteRegister.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.MaskWriteRegister%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L479">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_MaskWriteRegister_" data-uid="FluentModbus.ModbusTcpClient.MaskWriteRegister*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_MaskWriteRegister" data-uid="FluentModbus.ModbusTcpClient.MaskWriteRegister">MaskWriteRegister()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public void MaskWriteRegister()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadCoils_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadCoils(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L320">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadCoils_" data-uid="FluentModbus.ModbusTcpClient.ReadCoils*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadCoils_System_Byte_System_UInt16_System_UInt16_" data-uid="FluentModbus.ModbusTcpClient.ReadCoils(System.Byte,System.UInt16,System.UInt16)">ReadCoils(Byte, UInt16, UInt16)</h4>
-  <div class="markdown level1 summary"><p>Reads the specified number of coils as byte array. Each bit of the returned array represents a single coil.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Span&lt;byte&gt; ReadCoils(byte unitIdentifier, ushort startingAddress, ushort quantity)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The coil start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">quantity</span></td>
-        <td><p>The number of coils to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadDiscreteInputs_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadDiscreteInputs(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L345">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadDiscreteInputs_" data-uid="FluentModbus.ModbusTcpClient.ReadDiscreteInputs*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadDiscreteInputs_System_Byte_System_UInt16_System_UInt16_" data-uid="FluentModbus.ModbusTcpClient.ReadDiscreteInputs(System.Byte,System.UInt16,System.UInt16)">ReadDiscreteInputs(Byte, UInt16, UInt16)</h4>
-  <div class="markdown level1 summary"><p>Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discete input.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Span&lt;byte&gt; ReadDiscreteInputs(byte unitIdentifier, ushort startingAddress, ushort quantity)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The discrete input start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">quantity</span></td>
-        <td><p>The number of discrete inputs to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadFifoQueue.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadFifoQueue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L491">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadFifoQueue_" data-uid="FluentModbus.ModbusTcpClient.ReadFifoQueue*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadFifoQueue" data-uid="FluentModbus.ModbusTcpClient.ReadFifoQueue">ReadFifoQueue()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public void ReadFifoQueue()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadFileRecord.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadFileRecord%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L467">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadFileRecord_" data-uid="FluentModbus.ModbusTcpClient.ReadFileRecord*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadFileRecord" data-uid="FluentModbus.ModbusTcpClient.ReadFileRecord">ReadFileRecord()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public void ReadFileRecord()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadHoldingRegisters_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadHoldingRegisters(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L253">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadHoldingRegisters_" data-uid="FluentModbus.ModbusTcpClient.ReadHoldingRegisters*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadHoldingRegisters_System_Byte_System_UInt16_System_UInt16_" data-uid="FluentModbus.ModbusTcpClient.ReadHoldingRegisters(System.Byte,System.UInt16,System.UInt16)">ReadHoldingRegisters(Byte, UInt16, UInt16)</h4>
-  <div class="markdown level1 summary"><p>Low level API. Use the generic version of this method for easier access. Reads the specified number of values as byte array from the holding registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Span&lt;byte&gt; ReadHoldingRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The holding register start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">quantity</span></td>
-        <td><p>The number of holding registers (16 bit per register) to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadHoldingRegisters__1_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadHoldingRegisters%60%601(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L242">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadHoldingRegisters_" data-uid="FluentModbus.ModbusTcpClient.ReadHoldingRegisters*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadHoldingRegisters__1_System_Byte_System_UInt16_System_UInt16_" data-uid="FluentModbus.ModbusTcpClient.ReadHoldingRegisters``1(System.Byte,System.UInt16,System.UInt16)">ReadHoldingRegisters&lt;T&gt;(Byte, UInt16, UInt16)</h4>
-  <div class="markdown level1 summary"><p>Reads the specified number of values of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> from the holding registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Span&lt;T&gt; ReadHoldingRegisters&lt;T&gt;(byte unitIdentifier, ushort startingAddress, ushort count)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The holding register start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">count</span></td>
-        <td><p>The number of elements of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;T&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>Determines the type of the returned data.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadInputRegisters_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadInputRegisters(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L382">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadInputRegisters_" data-uid="FluentModbus.ModbusTcpClient.ReadInputRegisters*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadInputRegisters_System_Byte_System_UInt16_System_UInt16_" data-uid="FluentModbus.ModbusTcpClient.ReadInputRegisters(System.Byte,System.UInt16,System.UInt16)">ReadInputRegisters(Byte, UInt16, UInt16)</h4>
-  <div class="markdown level1 summary"><p>Low level API. Use the generic version of this method for easier access. Reads the specified number of values as byte array from the input registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Span&lt;byte&gt; ReadInputRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The input register start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">quantity</span></td>
-        <td><p>The number of input registers (16 bit per register) to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadInputRegisters__1_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadInputRegisters%60%601(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L371">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadInputRegisters_" data-uid="FluentModbus.ModbusTcpClient.ReadInputRegisters*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadInputRegisters__1_System_Byte_System_UInt16_System_UInt16_" data-uid="FluentModbus.ModbusTcpClient.ReadInputRegisters``1(System.Byte,System.UInt16,System.UInt16)">ReadInputRegisters&lt;T&gt;(Byte, UInt16, UInt16)</h4>
-  <div class="markdown level1 summary"><p>Reads the specified number of values of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> from the input registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Span&lt;T&gt; ReadInputRegisters&lt;T&gt;(byte unitIdentifier, ushort startingAddress, ushort count)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The input register start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">count</span></td>
-        <td><p>The number of elements of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;T&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>Determines the type of the returned data.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_ReadWriteMultipleRegisters.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L485">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_ReadWriteMultipleRegisters_" data-uid="FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_ReadWriteMultipleRegisters" data-uid="FluentModbus.ModbusTcpClient.ReadWriteMultipleRegisters">ReadWriteMultipleRegisters()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public void ReadWriteMultipleRegisters()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteFileRecord.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteFileRecord%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L473">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteFileRecord_" data-uid="FluentModbus.ModbusTcpClient.WriteFileRecord*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteFileRecord" data-uid="FluentModbus.ModbusTcpClient.WriteFileRecord">WriteFileRecord()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public void WriteFileRecord()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteMultipleCoils.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteMultipleCoils%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L461">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteMultipleCoils_" data-uid="FluentModbus.ModbusTcpClient.WriteMultipleCoils*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteMultipleCoils" data-uid="FluentModbus.ModbusTcpClient.WriteMultipleCoils">WriteMultipleCoils()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public void WriteMultipleCoils()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteMultipleRegisters_System_Byte_System_UInt16_System_Byte___.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteMultipleRegisters(System.Byte%2CSystem.UInt16%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L290">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteMultipleRegisters_" data-uid="FluentModbus.ModbusTcpClient.WriteMultipleRegisters*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteMultipleRegisters_System_Byte_System_UInt16_System_Byte___" data-uid="FluentModbus.ModbusTcpClient.WriteMultipleRegisters(System.Byte,System.UInt16,System.Byte[])">WriteMultipleRegisters(Byte, UInt16, Byte[])</h4>
-  <div class="markdown level1 summary"><p>Low level API. Use the generic version of this method for easier access. Writes the provided byte array to the holding registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteMultipleRegisters(byte unitIdentifier, ushort startingAddress, byte[] dataset)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The holding register start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Byte</span>[]</td>
-        <td><span class="parametername">dataset</span></td>
-        <td><p>The byte array to write to the server. A minimum of two bytes is required.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteMultipleRegisters__1_System_Byte_System_UInt16___0___.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteMultipleRegisters%60%601(System.Byte%2CSystem.UInt16%2C%60%600%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L279">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteMultipleRegisters_" data-uid="FluentModbus.ModbusTcpClient.WriteMultipleRegisters*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteMultipleRegisters__1_System_Byte_System_UInt16___0___" data-uid="FluentModbus.ModbusTcpClient.WriteMultipleRegisters``1(System.Byte,System.UInt16,``0[])">WriteMultipleRegisters&lt;T&gt;(Byte, UInt16, T[])</h4>
-  <div class="markdown level1 summary"><p>Writes the provided array of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to the holding registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteMultipleRegisters&lt;T&gt;(byte unitIdentifier, ushort startingAddress, T[] dataset)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">startingAddress</span></td>
-        <td><p>The holding register start address for the read operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td>T[]</td>
-        <td><span class="parametername">dataset</span></td>
-        <td><p>The data of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to write to the server.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>Determines the type of the provided data.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteSingleCoil_System_Byte_System_UInt16_System_Boolean_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteSingleCoil(System.Byte%2CSystem.UInt16%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L407">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteSingleCoil_" data-uid="FluentModbus.ModbusTcpClient.WriteSingleCoil*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteSingleCoil_System_Byte_System_UInt16_System_Boolean_" data-uid="FluentModbus.ModbusTcpClient.WriteSingleCoil(System.Byte,System.UInt16,System.Boolean)">WriteSingleCoil(Byte, UInt16, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Writes the provided <code data-dev-comment-type="paramref" class="paramref">value</code> to the coil registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteSingleCoil(byte unitIdentifier, ushort registerAddress, bool value)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">registerAddress</span></td>
-        <td><p>The coil address for the write operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to write to the server.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_Byte___.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte%2CSystem.UInt16%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L445">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteSingleRegister_" data-uid="FluentModbus.ModbusTcpClient.WriteSingleRegister*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_Byte___" data-uid="FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.Byte[])">WriteSingleRegister(Byte, UInt16, Byte[])</h4>
-  <div class="markdown level1 summary"><p>Low level API. Use the overloads of this method for easier access. Writes the provided byte array to the holding register.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, byte[] value)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">registerAddress</span></td>
-        <td><p>The holding register address for the write operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Byte</span>[]</td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to write to the server, which is passed as a 2-byte array.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_Int16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte%2CSystem.UInt16%2CSystem.Int16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L423">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteSingleRegister_" data-uid="FluentModbus.ModbusTcpClient.WriteSingleRegister*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_Int16_" data-uid="FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.Int16)">WriteSingleRegister(Byte, UInt16, Int16)</h4>
-  <div class="markdown level1 summary"><p>Writes the provided <code data-dev-comment-type="paramref" class="paramref">value</code> to the holding registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, short value)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">registerAddress</span></td>
-        <td><p>The holding register address for the write operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int16</span></td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to write to the server.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L434">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusTcpClient_WriteSingleRegister_" data-uid="FluentModbus.ModbusTcpClient.WriteSingleRegister*"></a>
-  <h4 id="FluentModbus_ModbusTcpClient_WriteSingleRegister_System_Byte_System_UInt16_System_UInt16_" data-uid="FluentModbus.ModbusTcpClient.WriteSingleRegister(System.Byte,System.UInt16,System.UInt16)">WriteSingleRegister(Byte, UInt16, UInt16)</h4>
-  <div class="markdown level1 summary"><p>Writes the provided <code data-dev-comment-type="paramref" class="paramref">value</code> to the holding registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, ushort value)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">registerAddress</span></td>
-        <td><p>The holding register address for the write operation.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to write to the server.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 </article>
           </div>
           
@@ -1125,10 +368,10 @@ public void WriteMultipleCoils()</code></pre>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusTcpClient.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusTcpClient.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusTcpClient%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/Client/ModbusTcpClient.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/Client/ModbusTcpClient.cs/#L11" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -10,13 +10,13 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Enum ModbusFunctionCode
    | FluentModbus ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
     <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
     <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
     
@@ -73,7 +73,8 @@
   
   <h1 id="FluentModbus_ModbusFunctionCode" data-uid="FluentModbus.ModbusFunctionCode" class="text-break">Enum ModbusFunctionCode
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Specifies the action the Modbus server is requested to do.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
   <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
@@ -93,63 +94,78 @@
     <tbody>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_Error">Error</td>
-        <td></td>
+        <td><p>This function code is added to another function code to indicate that an error occured.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_MaskWriteRegister">MaskWriteRegister</td>
-        <td></td>
+        <td><p>This function code is used to modify the contents of a specified holding register using a combination of an AND mask, an OR mask, and the register's current contents.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadCoils">ReadCoils</td>
-        <td></td>
+        <td><p>This function code is used to read from 1 to 2000 contiguous status of coils in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadDiscreteInputs">ReadDiscreteInputs</td>
-        <td></td>
+        <td><p>This function code is used to read from 1 to 2000 contiguous status of discrete inputs in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadExceptionStatus">ReadExceptionStatus</td>
-        <td></td>
+        <td><p>This function code is used to read the contents of eight Exception  Status outputs in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadFifoQueue">ReadFifoQueue</td>
-        <td></td>
+        <td><p>This function code allows to read the contents of a First-In-First-Out (FIFO) queue of register in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadFileRecord">ReadFileRecord</td>
-        <td></td>
+        <td><p>This function code is used to perform a file record read.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadHoldingRegisters">ReadHoldingRegisters</td>
-        <td></td>
+        <td><p>This function code is used to read the contents of a contiguous block of holding registers in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadInputRegisters">ReadInputRegisters</td>
-        <td></td>
+        <td><p>This function code is used to read from 1 to 125 contiguous input registers in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_ReadWriteMultipleRegisters">ReadWriteMultipleRegisters</td>
-        <td></td>
+        <td><p>This function code performs a combination of one read operation and one write operation in a single MODBUS transaction. The write operation is performed before the read.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_WriteFileRecord">WriteFileRecord</td>
-        <td></td>
+        <td><p>This function code is used to perform a file record write.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_WriteMultipleCoils">WriteMultipleCoils</td>
-        <td></td>
+        <td><p>This function code is used to force each coil in a sequence of coils to either ON or OFF in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_WriteMultipleRegisters">WriteMultipleRegisters</td>
-        <td></td>
+        <td><p>This function code is used to write a block of contiguous registers (1 to 123 registers) in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_WriteSingleCoil">WriteSingleCoil</td>
-        <td></td>
+        <td><p>This function code is used to write a single output to either ON or OFF in a remote device.</p>
+</td>
       </tr>
       <tr>
         <td id="FluentModbus_ModbusFunctionCode_WriteSingleRegister">WriteSingleRegister</td>
-        <td></td>
+        <td><p>This function code is used to write a single holding register in a remote device.</p>
+</td>
       </tr>
     </tbody>
   </thead></thead></table>
@@ -161,10 +177,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/new/v1.3.0/apiSpec/new?filename=FluentModbus_ModbusFunctionCode.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusFunctionCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/new/feature/modbus-rtu/apiSpec/new?filename=FluentModbus_ModbusFunctionCode.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusFunctionCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/Modbus.NET/blob/v1.3.0/src/FluentModbus/ModbusFunctionCode.cs/#L3" class="contribution-link">View Source</a>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/src/FluentModbus/ModbusFunctionCode.cs/#L6" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Modbus RTU | FluentModbus </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Modbus RTU | FluentModbus ">
+    <meta name="generator" content="docfx 2.46.0.0">
+    
+    <link rel="shortcut icon" href="../images/icon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="modbus-rtu">Modbus RTU</h1>
+
+<p>The following sample show how a ModbusRTU <a class="xref" href="../api/FluentModbus.ModbusRtuServer.html">server</a> and <a class="xref" href="../api/FluentModbus.ModbusRtuClient.html">client</a> can interact with each other. The full sample is located <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/sample/SampleServerClientRtu/Program.cs">here</a>.</p>
+<h2 id="notes">Notes</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In this sample, the server runs in <code>asynchronous</code> mode, i.e. the client request is answered immediately. Since this can potentially slow down the server when there are too many requests within short time, there is also the <code>synchronous</code> operating mode, which can be opted-in via <code>new ModbusRtuServer(isAsynchronous: true)</code>. When you do so, the accumulated client requests are processed with a call to <code>server.Update();</code>. See the repository's README file for a short sample.</p>
+</div>
+<h2 id="setup">Setup</h2>
+<p>First, create the server and client instances and a logger to print the progress to the console:</p>
+<pre><code class="lang-cs">static void ConfigureServices(IServiceCollection services)
+{
+    services.AddLogging(loggingBuilder =&gt;
+    {
+        loggingBuilder.SetMinimumLevel(LogLevel.Debug);
+        loggingBuilder.AddConsole();
+    });
+}
+
+static async Task Main(string[] args)
+{
+    /* Modbus RTU uses a COM port for communication. Therefore, to run
+    * this sample, you need to make sure that there are real or virtual 
+    * COM ports available. The easiest way is to install one of the free
+    * COM port bridges available in the internet. That way, the Modbus 
+    * server can connect to e.g. COM1 which is virtually linked to COM2,
+    * where the client is connected to.
+    * 
+    * When you only want to use the client and communicate to an external
+    * Modbus server, simply remove all server related code parts in this 
+    * sample and connect to real COM port using only the client.
+    */
+
+    /* define COM ports */
+    var serverPort = &quot;COM1&quot;;
+    var clientPort = &quot;COM2&quot;;
+
+    /* prepare dependency injection */
+    var services = new ServiceCollection();
+
+    ConfigureServices(services);
+
+    /* create types */
+    var provider = services.BuildServiceProvider();
+    var loggerFactory = provider.GetRequiredService&lt;ILoggerFactory&gt;();
+    var serverLogger = loggerFactory.CreateLogger(&quot;Server&quot;);
+    var clientLogger = loggerFactory.CreateLogger(&quot;Client&quot;);
+
+    /* create Modbus RTU server and client */
+    var server = new ModbusRtuServer(unitIdentifier: 1);
+    var client = new ModbusRtuClient();
+</code></pre>
+<p>When everything is prepared, first start the server ...</p>
+<pre><code class="lang-cs">
+    /* run Modbus RTU server */
+    var cts = new CancellationTokenSource();
+
+    var task_server = Task.Run(async () =&gt;
+    {
+        server.Start(serverPort);
+        serverLogger.LogInformation(&quot;Server started.&quot;);
+
+        while (!cts.IsCancellationRequested)
+        {
+            // lock is required to synchronize buffer access between this application and the Modbus client
+            lock (server.Lock)
+            {
+                DoServerWork(server);
+            }
+
+            // update server buffer content once per second
+            await Task.Delay(TimeSpan.FromSeconds(1));
+        }
+
+        server.Dispose();
+    }, cts.Token);
+
+</code></pre>
+<p>... and then the client:</p>
+<pre><code class="lang-cs">
+    /* run Modbus RTU client */
+    var task_client = Task.Run(() =&gt;
+    {
+        client.Connect(clientPort);
+
+        try
+        {
+            DoClientWork(client, clientLogger);
+        }
+        catch (Exception ex)
+        {
+            clientLogger.LogError(ex.Message);
+        }
+
+        client.Close();
+
+        Console.WriteLine(&quot;Tests finished. Press any key to continue.&quot;);
+        Console.ReadKey(true);
+    });
+
+</code></pre>
+<p>Finally, wait for the the client to finish its work and then stop the server using the cancellation token source.</p>
+<pre><code class="lang-cs">    // wait for client task to finish
+    await task_client;
+
+    // stop server
+    cts.Cancel();
+    await task_server;
+
+    server.Stop();
+    serverLogger.LogInformation(&quot;Server stopped.&quot;);
+}
+
+</code></pre>
+<h2 id="server-operation">Server operation</h2>
+<p>While the server runs, the method below is executed periodically once per second. This method shows how the server can update it's registers to provide new data to the clients.</p>
+<pre><code class="lang-cs">static void DoServerWork(ModbusRtuServer server)
+{
+    var random = new Random();
+
+    // interpret buffer as array of bytes (8 bit)
+    var byte_buffer = server.GetHoldingRegisterBuffer&lt;byte&gt;();
+    byte_buffer[20] = (byte)(random.Next() &gt;&gt; 24);
+
+    // interpret buffer as array of shorts (16 bit)
+    var short_buffer = server.GetHoldingRegisterBuffer&lt;short&gt;();
+    short_buffer[30] = (short)(random.Next(0, 100) &gt;&gt; 16);
+
+    // interpret buffer as array of ints (32 bit)
+    var int_buffer = server.GetHoldingRegisterBuffer&lt;int&gt;();
+    int_buffer[40] = random.Next(0, 100);
+}
+
+</code></pre>
+<h1 id="client-operation">Client operation</h1>
+<p>When the client is started, the method below is executed only once. After that, the client stops and the user is prompted to enter any key to finish the program.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>All data is returned as <code>Span&lt;T&gt;</code>, which has great advantages but also some limits as described in the repository's README. If you run into these limits, simply call <code>ToArray()</code> to copy the data into a standard .NET array (e.g. <code>var newData = data.ToArray();</code>)</p>
+</div>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Remember to always use the correct unit identifier (here: <code>0x01</code>), which was assigned to the server when it was instantiated.</p>
+</div>
+<pre><code class="lang-cs">static void DoClientWork(ModbusRtuClient client, ILogger logger)
+{
+    Span&lt;byte&gt; data;
+
+    var sleepTime = TimeSpan.FromMilliseconds(100);
+    var unitIdentifier = (byte)0x01;
+    var startingAddress = (ushort)0;
+    var registerAddress = (ushort)0;
+
+    // ReadHoldingRegisters = 0x03,        // FC03
+    data = client.ReadHoldingRegisters(unitIdentifier, startingAddress, 10);
+    logger.LogInformation(&quot;FC03 - ReadHoldingRegisters: Done&quot;);
+    Thread.Sleep(sleepTime);
+
+    // WriteMultipleRegisters = 0x10,      // FC16
+    client.WriteMultipleRegisters(unitIdentifier, startingAddress, new byte[] { 10, 00, 20, 00, 30, 00, 255, 00, 255, 01 });
+    logger.LogInformation(&quot;FC16 - WriteMultipleRegisters: Done&quot;);
+    Thread.Sleep(sleepTime);
+
+    // ReadCoils = 0x01,                   // FC01
+    data = client.ReadCoils(unitIdentifier, startingAddress, 10);
+    logger.LogInformation(&quot;FC01 - ReadCoils: Done&quot;);
+    Thread.Sleep(sleepTime);
+
+    // ReadDiscreteInputs = 0x02,          // FC02
+    data = client.ReadDiscreteInputs(unitIdentifier, startingAddress, 10);
+    logger.LogInformation(&quot;FC02 - ReadDiscreteInputs: Done&quot;);
+    Thread.Sleep(sleepTime);
+
+    // ReadInputRegisters = 0x04,          // FC04
+    data = client.ReadInputRegisters(unitIdentifier, startingAddress, 10);
+    logger.LogInformation(&quot;FC04 - ReadInputRegisters: Done&quot;);
+    Thread.Sleep(sleepTime);
+
+    // WriteSingleCoil = 0x05,             // FC05
+    client.WriteSingleCoil(unitIdentifier, registerAddress, true);
+    logger.LogInformation(&quot;FC05 - WriteSingleCoil: Done&quot;);
+    Thread.Sleep(sleepTime);
+
+    // WriteSingleRegister = 0x06,         // FC06
+    client.WriteSingleRegister(unitIdentifier, registerAddress, new byte[] { 65, 67 });
+    logger.LogInformation(&quot;FC06 - WriteSingleRegister: Done&quot;);
+}
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/apollo3zehn/FluentModbus/blob/feature/modbus-rtu/doc/samples/modbus_rtu.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2019 Vincent Wilms
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
