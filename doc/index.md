@@ -1,8 +1,9 @@
 # FluentModbus
 
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true&branch=master)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
+[![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
 
-FluentModbus is a .NET Standard library that provides a Modbus TCP server and client implementation for easy process data exchange. Support for Modbus RTU and ASCII mode is planned for the next major version. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
+FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
 
 #### Class 0:
 * FC03: ReadHoldingRegisters
@@ -15,28 +16,19 @@ FluentModbus is a .NET Standard library that provides a Modbus TCP server and cl
 * FC05: WriteSingleCoil
 * FC06: WriteSingleRegister
 
-Please see the following introduction and the [sample](sample/SampleServerClient) application, to get started with FluentModbus.
+Please see the [introduction](https://apollo3zehn.github.io/ImcFamosFile/how_to/1_introduction.html) to get a more detailed description on how to use this library!
 
-### A few words to ```Span<T>```
+Below is a screenshot of the [sample](samples/modbus_tcp.md) console output using a Modbus TCP server and client:
 
-The returned data of the read functions (FC01 to FC04) are always provided as ```Span<T>``` ([What is this?](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx)). In short, a ```Span<T>``` is a simple view of the underlying memory. With this type, the memory can be interpreted as ```byte```, ```int```, ```float``` or any other value type. A conversion from ```Span<byte>``` to other types can be efficiently achieved through:
+![Sample.](images/sample.png)
 
-```cs
-Span<byte> byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
-Span<int> intSpan = MemoryMarshal.Cast<byte, int>(byteSpan);
-Span<float> floatSpan = MemoryMarshal.Cast<int, float>(intSpan);
-```
+### Installing the package
 
-You can then access it like a any other array:
+Simply start a new .NET Core project with the `FluentModbus` package installed:
 
-```cs
-var floatValue = myFloatSpan[0];
-```
-
-The data remain unchanged during all of these calls. _Only the interpretation changes._ However, one disadvantage is that this type cannot be used in all code locations (e.g. in ```async``` functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):
-
-```cs
-float[] floatArray = floatSpan.ToArray();
+```powershell
+PS> dotnet new console
+PS> dotnet add package FluentModbus
 ```
 
 ## Creating a Modbus TCP client
@@ -58,6 +50,51 @@ client.Connect(IPAddress.Parse("127.0.0.1"));
 
 // use specified IP adress and port
 client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502))
+```
+
+## Creating a Modbus RTU client
+
+Alternatively, new Modbus RTU client can be created with the following code:
+
+```cs
+var client = new ModbusTcpClient();
+```
+
+Once you have an instance, connect to a COM port in one of the following ways:
+
+```cs
+// use default COM port settings
+client.Connect("COM1");
+
+// use custom COM port settings
+client.Connect("COM1")
+{
+	BaudRate = 9600,
+	Parity = Parity.None,
+	StopBits = StopBits.Two
+}
+```
+
+### A few words to ```Span<T>```
+
+The returned data of the read functions (FC01 to FC04) are always provided as ```Span<T>``` ([What is this?](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx)). In short, a ```Span<T>``` is a simple view of the underlying memory. With this type, the memory can be interpreted as ```byte```, ```int```, ```float``` or any other value type. A conversion from ```Span<byte>``` to other types can be efficiently achieved through:
+
+```cs
+Span<byte> byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
+Span<int> intSpan = MemoryMarshal.Cast<byte, int>(byteSpan);
+Span<float> floatSpan = MemoryMarshal.Cast<int, float>(intSpan);
+```
+
+You can then access it like a any other array:
+
+```cs
+var floatValue = myFloatSpan[0];
+```
+
+The data remain unchanged during all of these calls. _Only the interpretation changes._ However, one disadvantage is that this type cannot be used in all code locations (e.g. in ```async``` functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):
+
+```cs
+float[] floatArray = floatSpan.ToArray();
 ```
 
 ### Reading data
@@ -231,9 +268,26 @@ while (!cts.IsCancellationRequested)
 
 Note that in the second example, the ```Task.Delay()``` period is much lower. Since we want coordinated access between the application and the clients _without_ locks, we need to ensure that at certain points in time, the application is safe to access the buffers. This is the case when the ```IsReady``` propery is ```true``` (when all client requests have been served). After the application finished manipulating the server data, it triggers the server to serve all accumulated client requests (via the ```Update()``` method). Finally, the process repeats.
 
+## Creating a Modbus RTU server
+
+When you need a Modbus RTU server, you need to instantiate it like this providing a ```unitIdentifier```, which must be in the range of 1..247 and unique for each Modbus server or slave, respectively:
+
+```cs
+var server = new ModbusRtuServer(unitIdentifier: 1);
+```
+
+Then you can start it e.g. on COM port 1:
+
+```cs
+server.Start(port: "COM1");
+```
+
+As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.
+
 ## See also
 
 This implementation is based on http://www.modbus.org/specs.php:
 
 * MODBUS APPLICATION PROTOCOL SPECIFICATION V1.1b3
+* MODBUS over Serial Line Specification and Implementation Guide V1.02
 * MODBUS MESSAGING ON TCP/IP IMPLEMENTATION GUIDE V1.0b 

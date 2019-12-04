@@ -1,0 +1,9 @@
+apiRules:
+
+- exclude:
+    hasAttribute:
+      uid: FluentModbus.HideFromApiAttribute
+
+- exclude:
+      uidRegex: ^System\.Object
+      type: Type

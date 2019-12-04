@@ -1,23 +1,16 @@
 using System;
 using System.Diagnostics;
-using System.Net;
 using Xunit;
 
 namespace FluentModbus.Tests
 {
-    public class ClientTests
+    public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
     {
-        private IPEndPoint _endpoint;
-
-        public ClientTests()
-        {
-            _endpoint = new IPEndPoint(IPAddress.Loopback, 20002);
-        }
-
         [Fact]
         public void ClientRespectsConnectTimeout()
         {
             // Arrange
+            var endpoint = EndpointSource.GetNext();
             var connectTimeout = 500;
 
             var client = new ModbusTcpClient()
@@ -30,7 +23,7 @@ namespace FluentModbus.Tests
 
             try
             {
-                client.Connect(_endpoint);
+                client.Connect(endpoint);
             }
             catch (Exception)
             {

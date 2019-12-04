@@ -61,6 +61,15 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Invalid use of broadcast: Unit identifier &apos;0&apos; can only be used for write operations. ähnelt.
+        /// </summary>
+        internal static string Modbus_InvalidUseOfBroadcast {
+            get {
+                return ResourceManager.GetString("Modbus_InvalidUseOfBroadcast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The function code received in the query is not an allowable action for the server. This may be because the function code is only applicable to newer devices, and was not implemented in the unit selected. It could also indicate that the server is in the wrong state to process a request of this type, for example because it is unconfigured and is being asked to return register values. ähnelt.
         /// </summary>
         internal static string ModbusClient_0x01_IllegalFunction {
@@ -187,6 +196,33 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The exception code received from the server is invalid. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_InvalidExceptionCode {
+            get {
+                return ResourceManager.GetString("ModbusClient_InvalidExceptionCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The protocol identifier is invalid. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_InvalidProtocolIdentifier {
+            get {
+                return ResourceManager.GetString("ModbusClient_InvalidProtocolIdentifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The responsed function code is invalid. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_InvalidResponseFunctionCode {
+            get {
+                return ResourceManager.GetString("ModbusClient_InvalidResponseFunctionCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The response message length is invalid. ähnelt.
         /// </summary>
         internal static string ModbusClient_InvalidResponseMessageLength {
@@ -196,11 +232,20 @@ namespace FluentModbus {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The protocol identifier is invalid. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The unit identifier is invalid. Valid node addresses are in the range of 0 - 247. Use address &apos;0&apos; to broadcast write command to all available servers. ähnelt.
         /// </summary>
-        internal static string ModbusClient_ProtocolIdentifierInvalid {
+        internal static string ModbusClient_InvalidUnitIdentifier {
             get {
-                return ResourceManager.GetString("ModbusClient_ProtocolIdentifierInvalid", resourceCulture);
+                return ResourceManager.GetString("ModbusClient_InvalidUnitIdentifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The use of no parity requires 2 stop bits. ähnelt.
+        /// </summary>
+        internal static string ModbusClient_NoParityRequiresTwoStopBits {
+            get {
+                return ResourceManager.GetString("ModbusClient_NoParityRequiresTwoStopBits", resourceCulture);
             }
         }
         
@@ -214,15 +259,6 @@ namespace FluentModbus {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The responsed function code is invalid. ähnelt.
-        /// </summary>
-        internal static string ModbusClient_ResponseFunctionCodeInvalid {
-            get {
-                return ResourceManager.GetString("ModbusClient_ResponseFunctionCodeInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The TCP connection closed unexpectedly. ähnelt.
         /// </summary>
         internal static string ModbusClient_TcpConnectionClosedUnexpectedly {
@@ -232,11 +268,20 @@ namespace FluentModbus {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The TCP connection timed out. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not connect within the specified time. ähnelt.
         /// </summary>
-        internal static string ModbusClient_TcpConnectionTimeout {
+        internal static string ModbusClient_TcpConnectTimeout {
             get {
-                return ResourceManager.GetString("ModbusClient_TcpConnectionTimeout", resourceCulture);
+                return ResourceManager.GetString("ModbusClient_TcpConnectTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The unit identifier is invalid. Valid node addresses are in the range of 1 - 247. ähnelt.
+        /// </summary>
+        internal static string ModbusServer_InvalidUnitIdentifier {
+            get {
+                return ResourceManager.GetString("ModbusServer_InvalidUnitIdentifier", resourceCulture);
             }
         }
         

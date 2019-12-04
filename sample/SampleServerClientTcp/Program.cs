@@ -25,12 +25,13 @@ namespace FluentModbus.SampleMaster
             var server = new ModbusTcpServer(serverLogger);
             var client = new ModbusTcpClient();
 
-            /* run Modbus TCP server (option 1) */
+            /* run Modbus TCP server */
             var cts = new CancellationTokenSource();
 
             var task_server = Task.Run(async () =>
             {
                 server.Start();
+                serverLogger.LogInformation("Server started.");
 
                 while (!cts.IsCancellationRequested)
                 {

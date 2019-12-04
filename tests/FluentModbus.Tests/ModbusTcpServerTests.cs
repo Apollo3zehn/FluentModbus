@@ -1,30 +1,28 @@
-using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace FluentModbus.Tests
 {
-    public class ServerTests
+    public class ModbusTcpServerTests : IClassFixture<XUnitFixture>
     {
         private ITestOutputHelper _logger;
-        private IPEndPoint _endpoint;
 
-        public ServerTests(ITestOutputHelper logger)
+        public ModbusTcpServerTests(ITestOutputHelper logger)
         {
             _logger = logger;
-            _endpoint = new IPEndPoint(IPAddress.Loopback, 20002);
         }
 
         [Fact(Skip = "Test depends on machine power.")]
         public async void ServerHandlesMultipleClients()
         {
             // Arrange
+            var endpoint = EndpointSource.GetNext();
+
             var server = new ModbusTcpServer();
-            server.Start(_endpoint);
+            server.Start(endpoint);
 
             // Act
             var clients = Enumerable.Range(0, 20).Select(index => new ModbusTcpClient()).ToList();
@@ -33,7 +31,7 @@ namespace FluentModbus.Tests
             {
                 var data = Enumerable.Range(0, 20).Select(i => (float)i).ToArray();
 
-                client.Connect(_endpoint);
+                client.Connect(endpoint);
                 _logger.WriteLine($"Client {index}: Connected.");
 
                 return Task.Run(async () =>
@@ -71,25 +69,28 @@ namespace FluentModbus.Tests
         public async void ServerHandlesRequestFire()
         {
             // Arrange
+            var endpoint = EndpointSource.GetNext();
+
             var server = new ModbusTcpServer();
-            server.Start(_endpoint);
+            server.Start(endpoint);
 
             // Act
             var client = new ModbusTcpClient();
-            client.Connect(_endpoint);
+            client.Connect(endpoint);
 
             await Task.Run(() =>
             {
                 var data = Enumerable.Range(0, 20).Select(i => (float)i).ToArray();
                 var sw = Stopwatch.StartNew();
+                var iterations = 10000;
 
-                for (int i = 0; i < 10000; i++)
+                for (int i = 0; i < iterations; i++)
                 {
                     client.WriteMultipleRegisters(0, 0, data);
                 }
 
-                var timePerRequest = sw.Elapsed.TotalMilliseconds / 10000 * 1000;
-                _logger.WriteLine($"Time per request: {timePerRequest:F0} us. Frequency: {1/timePerRequest * 1000 * 1000:F0} requests per second.");
+                var timePerRequest = sw.Elapsed.TotalMilliseconds / iterations;
+                _logger.WriteLine($"Time per request: {timePerRequest * 1000:F0} us. Frequency: {1/timePerRequest * 1000:F0} requests per second.");
 
                 client.Disconnect();
             });
@@ -97,38 +98,6 @@ namespace FluentModbus.Tests
             server.Stop();
 
             // Assert
-        }
-
-        [Fact]
-        public async void TimeoutIsResetAfterRequest()
-        {
-            // Arrange
-            var server = new ModbusTcpServer();
-            server.Start(_endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(_endpoint);
-
-            var delay = TimeSpan.FromSeconds(1);
-
-            await Task.Run(async () =>
-            {
-                var data = Enumerable.Range(0, 20).Select(i => (float)i).ToArray();
-
-                // Act
-                await Task.Delay(delay);
-                var lastRequest1 = server.RequestHandlerSet.First().LastRequest.Elapsed;
-                client.WriteMultipleRegisters(0, 0, data);
-                var lastRequest2 = server.RequestHandlerSet.First().LastRequest.Elapsed;
-
-                client.Disconnect();
-
-                // Assert
-                Assert.True(lastRequest1 >= delay);
-                Assert.True(lastRequest2 < delay);
-            });
-
-            server.Stop();
         }
     }
 }

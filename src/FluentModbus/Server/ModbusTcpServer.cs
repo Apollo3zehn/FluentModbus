@@ -5,16 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
-
-[assembly: InternalsVisibleTo("FluentModbus.Tests")]
 
 namespace FluentModbus
 {
-    public class ModbusTcpServer : IDisposable
+    /// <summary>
+    /// A Modbus TCP server.
+    /// </summary>
+    public class ModbusTcpServer : ModbusServer
     {
         #region Fields
 
@@ -22,17 +20,6 @@ namespace FluentModbus
 
         private Task _task_accept_clients;
         private Task _task_remove_clients;
-        private Task _task_process_requests;
-
-        private ManualResetEventSlim _manualResetEvent;
-        private CancellationTokenSource _cts;
-
-        private int _inputRegisterSize;
-        private int _holdingRegisterSize;
-        private int _coilSize;
-        private int _discreteInputSize;
-
-        ILogger _logger;
 
         #endregion
 
@@ -69,31 +56,9 @@ namespace FluentModbus
         /// </summary>
         /// <param name="logger">A logger instance to provide runtime information.</param>
         /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
-        public ModbusTcpServer(ILogger logger, bool isAsynchronous)
+        public ModbusTcpServer(ILogger logger, bool isAsynchronous) : base(isAsynchronous)
         {
-            _logger = logger;
-
-            _manualResetEvent = new ManualResetEventSlim(false);
-
-            this.Lock = new object();
-            this.IsAsynchronous = isAsynchronous;
-
-            this.MaxInputRegisterAddress = UInt16.MaxValue;
-            this.MaxHoldingRegisterAddress = UInt16.MaxValue;
-            this.MaxCoilAddress = UInt16.MaxValue;
-            this.MaxDiscreteInputAddress = UInt16.MaxValue;
-
-            _inputRegisterSize = (this.MaxInputRegisterAddress + 1) * 2;
-            _holdingRegisterSize = (this.MaxHoldingRegisterAddress + 1) * 2;
-            _coilSize = (this.MaxCoilAddress + 1 + 7) / 8;
-            _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
-
-            this.InputRegisterBufferPtr = Marshal.AllocHGlobal(_inputRegisterSize);
-            this.HoldingRegisterBufferPtr = Marshal.AllocHGlobal(_holdingRegisterSize);
-            this.CoilBufferPtr = Marshal.AllocHGlobal(_coilSize);
-            this.DiscreteInputBufferPtr = Marshal.AllocHGlobal(_discreteInputSize);
-
-            this.ConnectionTimeout = TimeSpan.FromMinutes(1);
+            this.Logger = logger;
         }
 
         #endregion
@@ -101,146 +66,24 @@ namespace FluentModbus
         #region Properties
 
         /// <summary>
-        /// Gets the lock object. For synchronous operation only.
+        /// Gets or sets the timeout for each client connection. Wenn the client does not send any request within the specified time span, the connection will be reset. Default is 1 minute.
         /// </summary>
-        public object Lock { get; }
+        public TimeSpan ConnectionTimeout { get; set; } = ModbusTcpServer.DefaultConnectionTimeout;
 
-        /// <summary>
-        /// Gets the operation mode.
-        /// </summary>
-        public bool IsAsynchronous { get; }
-
-        /// <summary>
-        /// Gets the pointer to the input registers buffer.
-        /// </summary>
-        public IntPtr InputRegisterBufferPtr { get; private set; }
-
-        /// <summary>
-        /// Gets the pointer to the holding registers buffer.
-        /// </summary>
-        public IntPtr HoldingRegisterBufferPtr { get; private set; }
-
-        /// <summary>
-        /// Gets the pointer to the coils buffer.
-        /// </summary>
-        public IntPtr CoilBufferPtr { get; private set; }
-
-        /// <summary>
-        /// Gets the pointer to the discete inputs buffer.
-        /// </summary>
-        public IntPtr DiscreteInputBufferPtr { get; private set; }
-
-        /// <summary>
-        /// Gets the maximum input register address.
-        /// </summary>
-        public UInt16 MaxInputRegisterAddress { get; private set; }
-
-        /// <summary>
-        /// Gets the maximum holding register address.
-        /// </summary>
-        public UInt16 MaxHoldingRegisterAddress { get; private set; }
-
-        /// <summary>
-        /// Gets the maximum coil address.
-        /// </summary>
-        public UInt16 MaxCoilAddress { get; private set; }
-
-        /// <summary>
-        /// Gets the maximum discrete input address.
-        /// </summary>
-        public UInt16 MaxDiscreteInputAddress { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the timeout for each client connection. Wenn the client does not send any request within the specified time span, the connection will be reset. Default timeout is 1 minute.
-        /// </summary>
-        public TimeSpan ConnectionTimeout { get; set; }
+        internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
         internal List<ModbusTcpRequestHandler> RequestHandlerSet { get; private set; }
 
-        private bool IsReady
-        {
-            get
-            {
-                return !_manualResetEvent.Wait(TimeSpan.Zero);
-            }
-        }
+        private ILogger Logger { get; }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Gets the input register buffer as type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetInputRegisterBuffer<T>() where T : unmanaged
-        {
-            return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer());
-        }
-
-        /// <summary>
-        /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
-        /// </summary>
-        public unsafe Span<byte> GetInputRegisterBuffer()
-        {
-            return new Span<byte>(this.InputRegisterBufferPtr.ToPointer(), _inputRegisterSize);
-        }
-
-        /// <summary>
-        /// Gets the holding register buffer as type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetHoldingRegisterBuffer<T>() where T : unmanaged
-        {
-            return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer());
-        }
-
-        /// <summary>
-        /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
-        /// </summary>
-        public unsafe Span<byte> GetHoldingRegisterBuffer()
-        {
-            return new Span<byte>(this.HoldingRegisterBufferPtr.ToPointer(), _holdingRegisterSize);
-        }
-
-        /// <summary>
-        /// Gets the coil buffer as type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetCoilBuffer<T>() where T : unmanaged
-        {
-            return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer());
-        }
-
-        /// <summary>
-        /// Low level API. Use the generic version for easy access. This method gets the coil buffer as byte array.
-        /// </summary>
-        public unsafe Span<byte> GetCoilBuffer()
-        {
-            return new Span<byte>(this.CoilBufferPtr.ToPointer(), _coilSize);
-        }
-
-        /// <summary>
-        /// Gets the discrete input buffer as type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetDiscreteInputBuffer<T>() where T : unmanaged
-        {
-            return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer());
-        }
-
-        /// <summary>
-        /// Low level API. Use the generic version for easy access. This method gets the discrete input buffer as byte array.
-        /// </summary>
-        public unsafe Span<byte> GetDiscreteInputBuffer()
-        {
-            return new Span<byte>(this.DiscreteInputBufferPtr.ToPointer(), _discreteInputSize);
-        }
-
-        /// <summary>
         /// Starts the server. It will listen on any IP address on port 502.
         /// </summary>
-        public void Start()
+        public new void Start()
         {
             this.Start(new IPEndPoint(IPAddress.Any, 502));
         }
@@ -258,19 +101,14 @@ namespace FluentModbus
         /// </summary>
         public void Start(IPEndPoint localEndpoint)
         {
-            this.Stop();
+            // "base..." is important!
+            base.Stop();
+            base.Start();
 
             this.RequestHandlerSet = new List<ModbusTcpRequestHandler>();
 
             _tcpListener = new TcpListener(localEndpoint);
             _tcpListener.Start();
-
-            _cts = new CancellationTokenSource();
-
-            this.GetInputRegisterBuffer().Clear();
-            this.GetHoldingRegisterBuffer().Clear();
-            this.GetCoilBuffer().Clear();
-            this.GetDiscreteInputBuffer().Clear();
 
             // accept clients asynchronously
             _task_accept_clients = Task.Run(async () =>
@@ -278,19 +116,21 @@ namespace FluentModbus
                 ModbusTcpRequestHandler handler;
                 TcpClient tcpClient;
 
-                while (!_cts.IsCancellationRequested)
+                while (!this.CTS.IsCancellationRequested)
                 {
+                    // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
+                    // use ConnectionTimeout instead.
                     tcpClient = await _tcpListener.AcceptTcpClientAsync();
                     handler = new ModbusTcpRequestHandler(tcpClient, this);
 
                     this.AddRequestHandler(handler);
                 }
-            }, _cts.Token);
+            }, this.CTS.Token);
 
             // remove clients asynchronously
             _task_remove_clients = Task.Run(async () =>
             {
-                while (!_cts.IsCancellationRequested)
+                while (!this.CTS.IsCancellationRequested)
                 {
                     lock (this.Lock)
                     {
@@ -300,6 +140,7 @@ namespace FluentModbus
                         {
                             if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
                             {
+                                this.Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
                                 this.RemoveRequestHandler(requestHandler);
                                 requestHandler.Dispose();
                             }
@@ -308,87 +149,26 @@ namespace FluentModbus
 
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
-            }, _cts.Token);
-
-            if (!this.IsAsynchronous)
-            {
-                // only process requests when it is explicitly triggered
-                _task_process_requests = Task.Run(() =>
-                {
-                    _manualResetEvent.Wait(_cts.Token);
-
-                    while (!_cts.IsCancellationRequested)
-                    {
-                        this.ProcessRequests();
-
-                        _manualResetEvent.Reset();
-                        _manualResetEvent.Wait(_cts.Token);
-                    }
-                }, _cts.Token);
-            }
+            }, this.CTS.Token);
         }
 
         /// <summary>
-        /// Stops the server and closes all open client connections.
+        /// Stops the server and closes all open TCP connections.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
-            _cts?.Cancel();
+            base.Stop();
 
             _task_accept_clients = null;
             _task_remove_clients = null;
 
-            _manualResetEvent?.Set();
-
-            try
-            {
-                _task_process_requests?.Wait();
-            }
-            catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
-            {
-                //
-            }
-
             _tcpListener?.Stop();
 
-            this.RequestHandlerSet?.ForEach(requestHandler =>
-            {
-                requestHandler.Dispose();
-            });
+            this.RequestHandlerSet?.ForEach(requestHandler => requestHandler.Dispose());
         }
 
-        /// <summary>
-        /// Serve all available client requests. For synchronous operation only.
-        /// </summary>
-        public void Update()
-        {
-            if (this.IsAsynchronous || !this.IsReady)
-            {
-                return;
-            }
-
-            _manualResetEvent.Set();
-        }
-
-        private void AddRequestHandler(ModbusTcpRequestHandler handler)
-        {
-            lock (this.Lock)
-            {
-                this.RequestHandlerSet.Add(handler);
-                _logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
-            }
-        }
-
-        private void RemoveRequestHandler(ModbusTcpRequestHandler handler)
-        {
-            lock (this.Lock)
-            {
-                this.RequestHandlerSet.Remove(handler);
-                _logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
-            }
-        }
-
-        private void ProcessRequests()
+        [HideFromApi]
+        internal protected override void ProcessRequests()
         {
             lock (this.Lock)
             {
@@ -397,9 +177,7 @@ namespace FluentModbus
                     if (requestHandler.IsReady)
                     {
                         if (requestHandler.Length > 0)
-                        {
                             requestHandler.WriteResponse();
-                        }
 
                         _ = requestHandler.ReceiveRequestAsync();
                     }
@@ -407,42 +185,22 @@ namespace FluentModbus
             }
         }
 
-        #endregion
-
-        #region IDisposable Support
-
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
+        private void AddRequestHandler(ModbusTcpRequestHandler handler)
         {
-            if (!disposedValue)
+            lock (this.Lock)
             {
-                if (disposing)
-                {
-                    this.Stop();
-                }
-
-                Marshal.FreeHGlobal(this.InputRegisterBufferPtr);
-                Marshal.FreeHGlobal(this.HoldingRegisterBufferPtr);
-                Marshal.FreeHGlobal(this.CoilBufferPtr);
-                Marshal.FreeHGlobal(this.DiscreteInputBufferPtr);
-
-                disposedValue = true;
+                this.RequestHandlerSet.Add(handler);
+                this.Logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 
-        ~ModbusTcpServer()
+        private void RemoveRequestHandler(ModbusTcpRequestHandler handler)
         {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Stops the server and disposes the buffers.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            lock (this.Lock)
+            {
+                this.RequestHandlerSet.Remove(handler);
+                this.Logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
+            }
         }
 
         #endregion

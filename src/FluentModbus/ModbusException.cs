@@ -2,9 +2,12 @@
 
 namespace FluentModbus
 {
+    /// <summary>
+    /// This exception is used for Modbus protocol errors.
+    /// </summary>
     public class ModbusException : Exception
     {
-        public ModbusException(string message) : base(message)
+        internal ModbusException(string message) : base(message)
         {
             //
         }
