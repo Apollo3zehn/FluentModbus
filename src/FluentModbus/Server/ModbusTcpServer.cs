@@ -102,8 +102,9 @@ namespace FluentModbus
         /// </summary>
         public void Start(IPEndPoint localEndpoint)
         {
+            // "base..." is important!
             base.Stop();
-            base.Start(); // "base..." is important!
+            base.Start();
 
             this.RequestHandlerSet = new List<ModbusTcpRequestHandler>();
 
@@ -161,10 +162,7 @@ namespace FluentModbus
 
             _tcpListener?.Stop();
 
-            this.RequestHandlerSet?.ForEach(requestHandler =>
-            {
-                requestHandler.Dispose();
-            });
+            this.RequestHandlerSet?.ForEach(requestHandler => requestHandler.Dispose());
         }
 
         [HideFromApi]

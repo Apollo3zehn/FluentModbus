@@ -16,7 +16,11 @@ FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP
 * FC05: WriteSingleCoil
 * FC06: WriteSingleRegister
 
-Please see the following introduction and the [sample](sample/SampleServerClient) application, to get started with FluentModbus.
+Please see the [introduction](https://apollo3zehn.github.io/ImcFamosFile/how_to/1_introduction.html) to get a more detailed description on how to use this library!
+
+Below is a screenshot of the [sample](samples/modbus_tcp.md) console output using a Modbus TCP server and client:
+
+![Sample.](images/sample.png)
 
 ### Installing the package
 
@@ -263,6 +267,22 @@ while (!cts.IsCancellationRequested)
 ```
 
 Note that in the second example, the ```Task.Delay()``` period is much lower. Since we want coordinated access between the application and the clients _without_ locks, we need to ensure that at certain points in time, the application is safe to access the buffers. This is the case when the ```IsReady``` propery is ```true``` (when all client requests have been served). After the application finished manipulating the server data, it triggers the server to serve all accumulated client requests (via the ```Update()``` method). Finally, the process repeats.
+
+## Creating a Modbus RTU server
+
+When you need a Modbus RTU server, you need to instantiate it like this providing a ```unitIdentifier```, which must be in the range of 1..247 and unique for each Modbus server or slave, respectively:
+
+```cs
+var server = new ModbusRtuServer(unitIdentifier: 1);
+```
+
+Then you can start it e.g. on COM port 1:
+
+```cs
+server.Start(port: "COM1");
+```
+
+As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.
 
 ## See also
 

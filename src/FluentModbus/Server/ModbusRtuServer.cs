@@ -141,8 +141,9 @@ namespace FluentModbus
 
         internal void Start(IModbusRtuSerialPort serialPort)
         {
+            // "base..." is important!
             base.Stop();
-            base.Start(); // "base..." is important!
+            base.Start();
 
             this.RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
 
