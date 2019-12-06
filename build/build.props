@@ -5,6 +5,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
     <EmbedAllSources>true</EmbedAllSources>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
@@ -13,7 +14,7 @@
     <Major Condition="$(Major) == ''">2</Major>
     <Minor Condition="$(Minor) == ''">0</Minor>
     <Revision Condition="$(Revision) == ''">0</Revision>
-    <VersionSuffix Condition="$(VersionSuffix) == ''">preview.2</VersionSuffix>
+    <VersionSuffix Condition="$(VersionSuffix) == ''">preview.3</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>

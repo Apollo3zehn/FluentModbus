@@ -116,8 +116,7 @@ namespace FluentModbus
             _frameBuffer?.Dispose();
         }
 
-        [HideFromApi]
-        internal protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
+        private protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
             int frameLength;
             int partialLength;

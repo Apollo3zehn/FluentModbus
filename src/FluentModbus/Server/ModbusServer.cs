@@ -27,6 +27,10 @@ namespace FluentModbus
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModbusServer"/>.
+        /// </summary>
+        /// <param name="isAsynchronous">A boolean which indicates if the server responds to client requests asynchronously (immediately) or synchronously (regularly at fixed events).</param>
         protected ModbusServer(bool isAsynchronous)
         {
             this.Lock = new object();
@@ -104,11 +108,9 @@ namespace FluentModbus
         /// </summary>
         public UInt16 MaxDiscreteInputAddress { get; }
 
-        [HideFromApi]
-        internal protected CancellationTokenSource CTS { get; private set; }
+        private protected CancellationTokenSource CTS { get; private set; }
 
-        [HideFromApi]
-        internal protected bool IsReady
+        private protected bool IsReady
         {
             get
             {
@@ -255,8 +257,7 @@ namespace FluentModbus
             }
         }
 
-        [HideFromApi]
-        internal protected abstract void ProcessRequests();
+        private protected abstract void ProcessRequests();
 
         #endregion
 
@@ -264,14 +265,16 @@ namespace FluentModbus
 
         private bool disposedValue = false;
 
+        /// <summary>
+        /// Disposes the <see cref="ModbusServer"/> and frees all managed and unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">A value indicating if the finalizer or the dispose method triggered the dispose process.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
-                {
                     this.Stop();
-                }
 
                 Marshal.FreeHGlobal(this.InputRegisterBufferPtr);
                 Marshal.FreeHGlobal(this.HoldingRegisterBufferPtr);
@@ -282,6 +285,9 @@ namespace FluentModbus
             }
         }
 
+        /// <summary>
+        /// Disposes the <see cref="ModbusServer"/> and frees all managed and unmanaged resources.
+        /// </summary>
         ~ModbusServer()
         {
             Dispose(false);

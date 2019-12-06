@@ -10,8 +10,7 @@ namespace FluentModbus
     {
         #region Methods
 
-        [HideFromApi]
-        internal protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
+        private protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
 
         internal void ProcessError(ModbusFunctionCode functionCode, ModbusExceptionCode exceptionCode)
         {
@@ -305,36 +304,55 @@ namespace FluentModbus
         }
 
         // class 2
+
+        /// <summary>
+        /// This methdod is not implemented.
+        /// </summary>
         [Obsolete("This method is not implemented.")]
         public void WriteMultipleCoils()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This methdod is not implemented.
+        /// </summary>
         [Obsolete("This method is not implemented.")]
         public void ReadFileRecord()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This methdod is not implemented.
+        /// </summary>
         [Obsolete("This method is not implemented.")]
         public void WriteFileRecord()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This methdod is not implemented.
+        /// </summary>
         [Obsolete("This method is not implemented.")]
         public void MaskWriteRegister()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This methdod is not implemented.
+        /// </summary>
         [Obsolete("This method is not implemented.")]
         public void ReadWriteMultipleRegisters()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This methdod is not implemented.
+        /// </summary>
         [Obsolete("This method is not implemented.")]
         public void ReadFifoQueue()
         {

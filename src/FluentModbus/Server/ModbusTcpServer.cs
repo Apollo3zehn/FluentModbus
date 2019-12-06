@@ -167,8 +167,7 @@ namespace FluentModbus
             this.RequestHandlerSet?.ForEach(requestHandler => requestHandler.Dispose());
         }
 
-        [HideFromApi]
-        internal protected override void ProcessRequests()
+        private protected override void ProcessRequests()
         {
             lock (this.Lock)
             {
