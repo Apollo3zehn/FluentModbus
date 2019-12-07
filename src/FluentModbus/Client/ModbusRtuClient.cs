@@ -96,18 +96,6 @@ namespace FluentModbus
             this.Connect(serialPort);
         }
 
-        internal void Connect(IModbusRtuSerialPort serialPort)
-        {
-            if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
-                throw new InvalidOperationException(ErrorMessage.ModbusClient_NoParityRequiresTwoStopBits);
-
-            _frameBuffer = new ModbusFrameBuffer(256);
-
-            _serialPort?.Close();
-            _serialPort = serialPort;
-            _serialPort.Open();
-        }
-
         /// <summary>
         /// Closes the opened COM port and frees all resources.
         /// </summary>
@@ -115,6 +103,18 @@ namespace FluentModbus
         {
             _serialPort?.Close();
             _frameBuffer?.Dispose();
+        }
+
+        internal void Connect(IModbusRtuSerialPort serialPort)
+        {
+            if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
+                throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
+
+            _frameBuffer = new ModbusFrameBuffer(256);
+
+            _serialPort?.Close();
+            _serialPort = serialPort;
+            _serialPort.Open();
         }
 
         private protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)

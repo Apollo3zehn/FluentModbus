@@ -141,6 +141,9 @@ namespace FluentModbus
 
         internal void Start(IModbusRtuSerialPort serialPort)
         {
+            if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
+                throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
+
             // "base..." is important!
             base.Stop();
             base.Start();

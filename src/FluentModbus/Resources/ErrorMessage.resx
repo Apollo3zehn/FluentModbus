@@ -174,9 +174,6 @@
   <data name="ModbusClient_InvalidUnitIdentifier" xml:space="preserve">
     <value>The unit identifier is invalid. Valid node addresses are in the range of 0 - 247. Use address '0' to broadcast write command to all available servers.</value>
   </data>
-  <data name="ModbusClient_NoParityRequiresTwoStopBits" xml:space="preserve">
-    <value>The use of no parity requires 2 stop bits.</value>
-  </data>
   <data name="ModbusClient_QuantityMustBePositiveInteger" xml:space="preserve">
     <value>Quantity must be a positive integer number. Choose the 'count' parameter such that an even number of bytes is requested.</value>
   </data>
@@ -194,5 +191,8 @@
   </data>
   <data name="Modbus_InvalidUseOfBroadcast" xml:space="preserve">
     <value>Invalid use of broadcast: Unit identifier '0' can only be used for write operations.</value>
+  </data>
+  <data name="Modbus_NoParityRequiresTwoStopBits" xml:space="preserve">
+    <value>The use of no parity bit requires 2 stop bits.</value>
   </data>
 </root>
