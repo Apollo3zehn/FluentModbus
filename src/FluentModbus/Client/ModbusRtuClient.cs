@@ -47,17 +47,17 @@ namespace FluentModbus
         public int BaudRate { get; set; } = 9600;
 
         /// <summary>
-        /// Gets or sets the handshaking protocol for serial port transmission of data. Default is <see cref="Handshake.None"/>.
+        /// Gets or sets the handshaking protocol for serial port transmission of data. Default is Handshake.None.
         /// </summary>
         public Handshake Handshake { get; set; } = Handshake.None;
 
         /// <summary>
-        /// Gets or sets the parity-checking protocol. Default is <see cref="Parity.Even"/>.
+        /// Gets or sets the parity-checking protocol. Default is Parity.Even.
         /// </summary>
         public Parity Parity { get; set; } = Parity.Even;
 
         /// <summary>
-        /// Gets or sets the standard number of stopbits per byte. Default is <see cref="StopBits.One"/>.
+        /// Gets or sets the standard number of stopbits per byte. Default is StopBits.One.
         /// </summary>
         public StopBits StopBits { get; set; } = StopBits.One;
 
