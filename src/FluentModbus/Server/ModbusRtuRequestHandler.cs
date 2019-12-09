@@ -20,6 +20,8 @@ namespace FluentModbus
             _serialPort.Open();
 
             this.ModbusRtuServer = rtuServer;
+
+            base.Start();
         }
 
         #endregion

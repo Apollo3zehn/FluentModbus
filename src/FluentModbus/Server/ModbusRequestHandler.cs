@@ -26,17 +26,6 @@ namespace FluentModbus
             this.IsReady = true;
 
             this.CTS = new CancellationTokenSource();
-
-            if (this.ModbusServer.IsAsynchronous)
-            {
-                _task = Task.Run(async () =>
-                {
-                    while (!this.CTS.IsCancellationRequested)
-                    {
-                        await this.ReceiveRequestAsync();
-                    }
-                }, this.CTS.Token);
-            }
         }
 
         #endregion
@@ -131,6 +120,20 @@ namespace FluentModbus
         }
 
         internal abstract Task ReceiveRequestAsync();
+
+        protected void Start()
+        {
+            if (this.ModbusServer.IsAsynchronous)
+            {
+                _task = Task.Run(async () =>
+                {
+                    while (!this.CTS.IsCancellationRequested)
+                    {
+                        await this.ReceiveRequestAsync();
+                    }
+                }, this.CTS.Token);
+            }
+        }
 
         protected abstract int WriteFrame(Action extendFrame);
 

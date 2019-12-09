@@ -28,6 +28,8 @@ namespace FluentModbus
             _networkStream = tcpClient.GetStream();
 
             this.CTS.Token.Register(() => _networkStream.Close());
+
+            base.Start();
         }
 
         #endregion
