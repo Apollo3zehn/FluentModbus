@@ -1,0 +1,10 @@
+.vs/
+artifacts/
+
+doc/_site
+/**/obj
+
+doc/api/*
+
+*.suo
+*.user
