@@ -172,7 +172,16 @@ namespace FluentModbus
                 frameLength += _serialPort.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
 
                 if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsSpan().Slice(0, frameLength)))
+                {
                     break;
+                }
+                else
+                {
+                    // reset length because one or more chunks of data were received and written to
+                    // the buffer, but no valid Modbus frame could be detected and now the buffer is full
+                    if (frameLength == _frameBuffer.Buffer.Length)
+                        frameLength = 0;
+                }
             }
 
             unitIdentifier = _frameBuffer.Reader.ReadByte();

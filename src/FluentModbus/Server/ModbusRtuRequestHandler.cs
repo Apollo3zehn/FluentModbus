@@ -44,7 +44,6 @@ namespace FluentModbus
                 return;
 
             this.IsReady = false;
-            this.Length = 0;
 
             try
             {
@@ -89,6 +88,8 @@ namespace FluentModbus
 
         private async Task<bool> InternalReceiveRequestAsync()
         {
+            this.Length = 0;
+
             try
             {
                 while (true)
@@ -104,6 +105,13 @@ namespace FluentModbus
                         this.UnitIdentifier = this.FrameBuffer.Reader.ReadByte();
 
                         break;
+                    }
+                    else
+                    {
+                        // reset length because one or more chunks of data were received and written to
+                        // the buffer, but no valid Modbus frame could be detected and now the buffer is full
+                        if (this.Length == this.FrameBuffer.Buffer.Length)
+                            this.Length = 0;
                     }
                 }
             }

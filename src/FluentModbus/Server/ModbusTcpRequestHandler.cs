@@ -49,7 +49,6 @@ namespace FluentModbus
                 return;
 
             this.IsReady = false;
-            this.Length = 0;
 
             try
             {
@@ -98,6 +97,7 @@ namespace FluentModbus
 
             isParsed = false;
 
+            this.Length = 0;
             _bytesFollowing = 0;
 
             while (true)
