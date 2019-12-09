@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO.Ports;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FluentModbus
 {
@@ -149,7 +147,6 @@ namespace FluentModbus
             base.Start();
 
             this.RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
-
         }
 
         private protected override void ProcessRequests()

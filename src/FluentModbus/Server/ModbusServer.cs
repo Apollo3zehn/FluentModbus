@@ -33,7 +33,7 @@ namespace FluentModbus
         /// <param name="isAsynchronous">A boolean which indicates if the server responds to client requests asynchronously (immediately) or synchronously (regularly at fixed events).</param>
         protected ModbusServer(bool isAsynchronous)
         {
-            this.Lock = new object();
+            this.Lock = this;
             this.IsAsynchronous = isAsynchronous;
 
             this.MaxInputRegisterAddress = UInt16.MaxValue;

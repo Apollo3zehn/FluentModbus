@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
 
