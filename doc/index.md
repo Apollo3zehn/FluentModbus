@@ -54,10 +54,10 @@ client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502))
 
 ## Creating a Modbus RTU client
 
-Alternatively, new Modbus RTU client can be created with the following code:
+Alternatively, a new Modbus RTU client can be created with the following code:
 
 ```cs
-var client = new ModbusTcpClient();
+var client = new ModbusRtuClient();
 ```
 
 Once you have an instance, connect to a COM port in one of the following ways:
@@ -69,9 +69,9 @@ client.Connect("COM1");
 // use custom COM port settings
 client.Connect("COM1")
 {
-	BaudRate = 9600,
-	Parity = Parity.None,
-	StopBits = StopBits.Two
+    BaudRate = 9600,
+    Parity = Parity.None,
+    StopBits = StopBits.Two
 }
 ```
 
@@ -104,7 +104,7 @@ float[] floatArray = floatSpan.ToArray();
 First, define the unit identifier, the starting address and the number of values to read (count):
 
 ```cs
-var unitIdentifier = (byte)0xFF; // 0x00 and 0xFF are the defaults for TCP/IP only Modbus devices.
+var unitIdentifier = (byte)0xFF; // 0x00 and 0xFF are the defaults for TCP/IP-only Modbus devices.
 var startingAddress = (ushort)0;
 var count = (ushort)10;
 ```
@@ -127,7 +127,7 @@ Console.WriteLine($"Fist value is {firstValue}");
 Console.WriteLine($"Last value is {lastValue}");
 ```
 
-If you want to keep the data for later use or you want to use the Modbus TCP client in asynchronous methods, convert the ```Span<T>``` into a normal array with ```ToArray()```:
+If you want to keep the data for later use or you want to use the Modbus client in asynchronous methods, convert the ```Span<T>``` into a normal array with ```ToArray()```:
 
 ```cs
 async byte[] DoAsync()
