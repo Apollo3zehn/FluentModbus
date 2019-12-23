@@ -131,7 +131,7 @@ Span&lt;float&gt; floatSpan = MemoryMarshal.Cast&lt;int, float&gt;(intSpan);
 <h3 id="reading-data">Reading data</h3>
 <h4 id="reading-integer-or-float">Reading integer or float</h4>
 <p>First, define the unit identifier, the starting address and the number of values to read (count):</p>
-<pre><code class="lang-cs">var unitIdentifier = (byte)0xFF; // 0x00 and 0xFF are the defaults for TCP/IP only Modbus devices.
+<pre><code class="lang-cs">var unitIdentifier = (byte)0xFF; // 0x00 and 0xFF are the defaults for TCP/IP-only Modbus devices.
 var startingAddress = (ushort)0;
 var count = (ushort)10;
 </code></pre>
@@ -147,7 +147,7 @@ var lastValue = floatData[floatData.Length - 1];
 Console.WriteLine($&quot;Fist value is {firstValue}&quot;);
 Console.WriteLine($&quot;Last value is {lastValue}&quot;);
 </code></pre>
-<p>If you want to keep the data for later use or you want to use the Modbus TCP client in asynchronous methods, convert the <code>Span&lt;T&gt;</code> into a normal array with <code>ToArray()</code>:</p>
+<p>If you want to keep the data for later use or you want to use the Modbus client in asynchronous methods, convert the <code>Span&lt;T&gt;</code> into a normal array with <code>ToArray()</code>:</p>
 <pre><code class="lang-cs">async byte[] DoAsync()
 {
     var client = new ModbusTcpClient();
