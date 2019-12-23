@@ -101,8 +101,8 @@ client.Connect(IPAddress.Parse(&quot;127.0.0.1&quot;));
 client.Connect(new IPEndPoint(IPAddress.Parse(&quot;127.0.0.1&quot;), 502))
 </code></pre>
 <h2 id="creating-a-modbus-rtu-client">Creating a Modbus RTU client</h2>
-<p>Alternatively, new Modbus RTU client can be created with the following code:</p>
-<pre><code class="lang-cs">var client = new ModbusTcpClient();
+<p>Alternatively, a new Modbus RTU client can be created with the following code:</p>
+<pre><code class="lang-cs">var client = new ModbusRtuClient();
 </code></pre>
 <p>Once you have an instance, connect to a COM port in one of the following ways:</p>
 <pre><code class="lang-cs">// use default COM port settings
@@ -111,9 +111,9 @@ client.Connect(&quot;COM1&quot;);
 // use custom COM port settings
 client.Connect(&quot;COM1&quot;)
 {
-	BaudRate = 9600,
-	Parity = Parity.None,
-	StopBits = StopBits.Two
+    BaudRate = 9600,
+    Parity = Parity.None,
+    StopBits = StopBits.Two
 }
 </code></pre>
 <h3 id="a-few-words-to-spant">A few words to <code>Span&lt;T&gt;</code></h3>
