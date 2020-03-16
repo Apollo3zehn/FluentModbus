@@ -3,7 +3,7 @@
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true&branch=master)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
 [![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
 
-FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
+FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0, class 1 and class 2 (partially) functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
 
 #### Class 0:
 * FC03: ReadHoldingRegisters
@@ -15,6 +15,9 @@ FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP
 * FC04: ReadInputRegisters
 * FC05: WriteSingleCoil
 * FC06: WriteSingleRegister
+
+#### Class 2:
+* FC23: ReadWriteMultipleRegisters
 
 Please see the [introduction](https://apollo3zehn.github.io/FluentModbus/) to get a more detailed description on how to use this library!
 
