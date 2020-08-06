@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace FluentModbus.Tests
@@ -15,7 +17,57 @@ namespace FluentModbus.Tests
             var actual = ModbusUtils.CalculateCRC(data);
 
             // Assert
-            Assert.True(actual == expected);
+            Assert.Equal(actual, expected);
+        }
+
+        [Fact]
+        public void SwapsEndiannessShort()
+        {
+            // Arrange
+            var data = (short)512;
+
+            // Act
+            var expected = (short)2;
+            var actual = ModbusUtils.SwitchEndianness(data);
+
+            // Assert
+            Assert.Equal(actual, expected);
+        }
+
+        [Fact]
+        public void SwapsEndiannessUShort()
+        {
+            // Arrange
+            var data = (ushort)512;
+
+            // Act
+            var expected = (ushort)2;
+            var actual = ModbusUtils.SwitchEndianness(data);
+
+            // Assert
+            Assert.Equal(actual, expected);
+        }
+
+        public static IList<object[]> GenericTestData => new List<object[]>
+        {
+            new object[] { new byte[] { 0x80, 0x90 }, new byte[] { 0x80, 0x90 } },
+            new object[] { new short[] { 0x6040, 0x6141 }, new short[] { 0x4060, 0x4161 } },
+            new object[] { new int[] { 0x60403020, 0x61413121 }, new int[] { 0x20304060, 0x21314161 } },
+            new object[] { new long[] { 0x6040302010203040, 0x6141312111213141 }, new long[] { 0x4030201020304060, 0x4131211121314161 } },
+            new object[] { new float[] { 0x60403020, 0x61413121 }, new float[] { 7.422001E+19F, 1.20603893E+21F } },
+            new object[] { new double[] { 0x6040302010203040, 0x6141312111213141 }, new double[] { 1.0482134659314621E-250, 3.0464944316161389E+59 } }
+        };
+
+        [Theory]
+        [MemberData(nameof(ModbusUtilsTests.GenericTestData))]
+        public void SwapsEndiannessGeneric<T>(T[] dataset, T[] expected) where T : unmanaged
+        {
+            // Act
+            ModbusUtils.SwitchEndianness(dataset.AsSpan());
+            var actual = dataset;
+
+            // Assert
+            Assert.Equal(actual, expected);
         }
     }
 }

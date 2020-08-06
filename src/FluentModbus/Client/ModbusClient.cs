@@ -8,6 +8,12 @@ namespace FluentModbus
     /// </summary>
     public abstract class ModbusClient
     {
+        #region Properties
+
+        protected private bool SwapBytes { get; set; }
+
+        #endregion
+
         #region Methods
 
         private protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
@@ -58,18 +64,13 @@ namespace FluentModbus
 
         private ushort ConvertSize<T>(ushort count)
         {
-            int size;
-            ushort quantity;
-
-            size = typeof(T) == typeof(bool) ? 1 : Marshal.SizeOf<T>();
+            var size = typeof(T) == typeof(bool) ? 1 : Marshal.SizeOf<T>();
             size = count * size;
 
             if (size % 2 != 0)
-            {
                 throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_QuantityMustBePositiveInteger);
-            }
 
-            quantity = (ushort)(size / 2);
+            var quantity = (ushort)(size / 2);
 
             return quantity;
         }
@@ -87,7 +88,12 @@ namespace FluentModbus
         /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
         public Span<T> ReadHoldingRegisters<T>(byte unitIdentifier, ushort startingAddress, ushort count) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.ReadHoldingRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(count)));
+            var dataset = MemoryMarshal.Cast<byte, T>(this.ReadHoldingRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(count)));
+
+            if (this.SwapBytes)
+                ModbusUtils.SwitchEndianness(dataset);
+
+            return dataset;
         }
 
         /// <summary>
@@ -98,19 +104,24 @@ namespace FluentModbus
         /// <param name="quantity">The number of holding registers (16 bit per register) to read.</param>
         public Span<byte> ReadHoldingRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
-            Span<byte> buffer;
-
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, writer =>
+            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);              // 07     Function Code
-                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Input Registers
+                
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
+                    writer.WriteReverse(quantity);                                        // 10-11  Quantity of Input Registers
+                }
+                else
+                {
+                    writer.Write(startingAddress);                                        // 08-09  Starting Address
+                    writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
+                }
             }).Slice(2);
 
             if (buffer.Length < quantity * 2)
-            {
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
-            }
 
             return buffer;
         }
@@ -120,10 +131,13 @@ namespace FluentModbus
         /// </summary>
         /// <typeparam name="T">Determines the type of the provided data.</typeparam>
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
-        /// <param name="startingAddress">The holding register start address for the read operation.</param>
+        /// <param name="startingAddress">The holding register start address for the write operation.</param>
         /// <param name="dataset">The data of type <typeparamref name="T"/> to write to the server.</param>
         public void WriteMultipleRegisters<T>(byte unitIdentifier, ushort startingAddress, T[] dataset) where T : unmanaged
         {
+            if (this.SwapBytes)
+                ModbusUtils.SwitchEndianness(dataset.AsSpan());
+
             this.WriteMultipleRegisters(unitIdentifier, startingAddress, MemoryMarshal.Cast<T, byte>(dataset).ToArray());
         }
 
@@ -131,24 +145,32 @@ namespace FluentModbus
         /// Low level API. Use the generic version of this method for easier access. Writes the provided byte array to the holding registers.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
-        /// <param name="startingAddress">The holding register start address for the read operation.</param>
+        /// <param name="startingAddress">The holding register start address for the write operation.</param>
         /// <param name="dataset">The byte array to write to the server. A minimum of two bytes is required.</param>
         public void WriteMultipleRegisters(byte unitIdentifier, ushort startingAddress, byte[] dataset)
         {
             if (dataset.Length < 2 || dataset.Length % 2 != 0)
-            {
                 throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_ArrayLengthMustBeGreaterThanTwoAndEven);
-            }
 
-            int quantity;
-
-            quantity = dataset.Length / 2;
+            var quantity = dataset.Length / 2;
 
             this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteMultipleRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteMultipleRegisters);            // 07     Function Code
-                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                writer.WriteReverse((ushort)quantity);                                    // 10-11  Quantity of Registers
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
+                    writer.WriteReverse((ushort)quantity);                                // 10-11  Quantity of Registers
+
+                }
+                else
+                {
+                    writer.Write(startingAddress);                                        // 08-09  Starting Address
+                    writer.Write((ushort)quantity);                                       // 10-11  Quantity of Registers
+
+                }
+
                 writer.Write((byte)(quantity * 2));                                       // 12     Byte Count = Quantity of Registers * 2
 
                 writer.Write(dataset, 0, dataset.Length);
@@ -165,19 +187,24 @@ namespace FluentModbus
         /// <param name="quantity">The number of coils to read.</param>
         public Span<byte> ReadCoils(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
-            Span<byte> buffer;
-
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadCoils, writer =>
+            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadCoils, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadCoils);                         // 07     Function Code
-                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Coils
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
+                    writer.WriteReverse(quantity);                                        // 10-11  Quantity of Coils
+                }
+                else
+                {
+                    writer.Write(startingAddress);                                        // 08-09  Starting Address
+                    writer.Write(quantity);                                               // 10-11  Quantity of Coils
+                }
             }).Slice(2);
 
             if (buffer.Length < (byte)Math.Ceiling((double)quantity / 8))
-            {
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
-            }
 
             return buffer;
         }
@@ -190,19 +217,24 @@ namespace FluentModbus
         /// <param name="quantity">The number of discrete inputs to read.</param>
         public Span<byte> ReadDiscreteInputs(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
-            Span<byte> buffer;
-
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadDiscreteInputs, writer =>
+            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadDiscreteInputs, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadDiscreteInputs);                // 07     Function Code
-                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Coils
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
+                    writer.WriteReverse(quantity);                                        // 10-11  Quantity of Coils
+                }
+                else
+                {
+                    writer.Write(startingAddress);                                        // 08-09  Starting Address
+                    writer.Write(quantity);                                               // 10-11  Quantity of Coils
+                }
             }).Slice(2);
 
             if (buffer.Length < (byte)Math.Ceiling((double)quantity / 8))
-            {
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
-            }
 
             return buffer;
         }
@@ -216,7 +248,12 @@ namespace FluentModbus
         /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
         public Span<T> ReadInputRegisters<T>(byte unitIdentifier, ushort startingAddress, ushort count) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.ReadInputRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(count)));
+            var dataset = MemoryMarshal.Cast<byte, T>(this.ReadInputRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(count)));
+
+            if (this.SwapBytes)
+                ModbusUtils.SwitchEndianness(dataset);
+
+            return dataset;
         }
 
         /// <summary>
@@ -227,19 +264,24 @@ namespace FluentModbus
         /// <param name="quantity">The number of input registers (16 bit per register) to read.</param>
         public Span<byte> ReadInputRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
-            Span<byte> buffer;
-
-            buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, writer =>
+            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadInputRegisters);                // 07     Function Code
-                writer.WriteReverse(startingAddress);                                     // 08-09  Starting Address
-                writer.WriteReverse(quantity);                                            // 10-11  Quantity of Input Registers
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
+                    writer.WriteReverse(quantity);                                        // 10-11  Quantity of Input Registers
+                }
+                else
+                {
+                    writer.Write(startingAddress);                                        // 08-09  Starting Address
+                    writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
+                }
             }).Slice(2);
 
             if (buffer.Length < quantity * 2)
-            {
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
-            }
 
             return buffer;
         }
@@ -255,8 +297,17 @@ namespace FluentModbus
             this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleCoil, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);                   // 07     Function Code
-                writer.WriteReverse(registerAddress);                                     // 08-09  Starting Address
-                writer.WriteReverse((ushort)(value ? 0xFF00 : 0x0000));                   // 10-11  Value
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(registerAddress);                                 // 08-09  Starting Address
+                    writer.WriteReverse((ushort)(value ? 0xFF00 : 0x0000));               // 10-11  Value
+                }
+                else
+                {
+                    writer.Write(registerAddress);                                        // 08-09  Starting Address
+                    writer.Write((ushort)(value ? 0xFF00 : 0x0000));                      // 10-11  Value
+                }
             });
         }
 
@@ -268,6 +319,9 @@ namespace FluentModbus
         /// <param name="value">The value to write to the server.</param>
         public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, short value)
         {
+            if (this.SwapBytes)
+                value = ModbusUtils.SwitchEndianness(value);
+
             this.WriteSingleRegister(unitIdentifier, registerAddress, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray());
         }
 
@@ -279,6 +333,9 @@ namespace FluentModbus
         /// <param name="value">The value to write to the server.</param>
         public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, ushort value)
         {
+            if (this.SwapBytes)
+                value = ModbusUtils.SwitchEndianness(value);
+
             this.WriteSingleRegister(unitIdentifier, registerAddress, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray());
         }
 
@@ -291,14 +348,17 @@ namespace FluentModbus
         public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, byte[] value)
         {
             if (value.Length != 2)
-            {
                 throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_ArrayLengthMustBeEqualToTwo);
-            };
 
             this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);               // 07     Function Code
-                writer.WriteReverse(registerAddress);                                     // 08-09  Starting Address
+
+                if (BitConverter.IsLittleEndian)
+                    writer.WriteReverse(registerAddress);                                 // 08-09  Starting Address
+                else
+                    writer.Write(registerAddress);                                        // 08-09  Starting Address
+
                 writer.Write(value);                                                      // 10-11  Value
             });
         }
@@ -342,12 +402,75 @@ namespace FluentModbus
         }
 
         /// <summary>
-        /// This methdod is not implemented.
+        /// Reads the specified number of values of type <typeparamref name="TRead"/> from and writes the provided array of type <typeparamref name="TWrite"/> to the holding registers. The write operation is performed before the read.
         /// </summary>
-        [Obsolete("This method is not implemented.")]
-        public void ReadWriteMultipleRegisters()
+        /// <typeparam name="TRead">Determines the type of the returned data.</typeparam>
+        /// <typeparam name="TWrite">Determines the type of the provided data.</typeparam>
+        /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
+        /// <param name="readStartingAddress">The holding register start address for the read operation.</param>
+        /// <param name="readCount">The number of elements of type <typeparamref name="TRead"/> to read.</param>
+        /// <param name="writeStartingAddress">The holding register start address for the write operation.</param>
+        /// <param name="dataset">The data of type <typeparamref name="TWrite"/> to write to the server.</param>
+        public Span<TRead> ReadWriteMultipleRegisters<TRead, TWrite>(byte unitIdentifier, ushort readStartingAddress, ushort readCount, ushort writeStartingAddress, TWrite[] dataset) where TRead : unmanaged
+                                                                                                                                                                                       where TWrite : unmanaged
         {
-            throw new NotImplementedException();
+            if (this.SwapBytes)
+                ModbusUtils.SwitchEndianness(dataset.AsSpan());
+
+            var readQuantity = this.ConvertSize<TRead>(readCount);
+            var byteData = MemoryMarshal.Cast<TWrite, byte>(dataset).ToArray();
+
+            var dataset2 = MemoryMarshal.Cast<byte, TRead>(this.ReadWriteMultipleRegisters(unitIdentifier, readStartingAddress, readQuantity, writeStartingAddress, byteData));
+
+            if (this.SwapBytes)
+                ModbusUtils.SwitchEndianness(dataset2);
+
+            return dataset2;
+        }
+
+        /// <summary>
+        /// Low level API. Use the generic version of this method for easier access. Reads the specified number of values as byte array from and writes the provided byte array to the holding registers. The write operation is performed before the read.
+        /// </summary>
+        /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
+        /// <param name="readStartingAddress">The holding register start address for the read operation.</param>
+        /// <param name="readQuantity">The number of holding registers (16 bit per register) to read.</param>
+        /// <param name="writeStartingAddress">The holding register start address for the write operation.</param>
+        /// <param name="dataset">The byte array to write to the server. A minimum of two bytes is required.</param>
+        public Span<byte> ReadWriteMultipleRegisters(byte unitIdentifier, ushort readStartingAddress, ushort readQuantity, ushort writeStartingAddress, byte[] dataset)
+        {
+            if (dataset.Length < 2 || dataset.Length % 2 != 0)
+                throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_ArrayLengthMustBeGreaterThanTwoAndEven);
+
+            var writeQuantity = dataset.Length / 2;
+
+            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadWriteMultipleRegisters, writer =>
+            {
+                writer.Write((byte)ModbusFunctionCode.ReadWriteMultipleRegisters);      // 07     Function Code
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(readStartingAddress);                           // 08-09  Read Starting Address
+                    writer.WriteReverse(readQuantity);                                  // 10-11  Quantity to Read
+                    writer.WriteReverse(writeStartingAddress);                          // 12-13  Read Starting Address
+                    writer.WriteReverse((ushort)writeQuantity);                         // 14-15  Quantity to Write
+                }
+                else
+                {
+                    writer.Write(readStartingAddress);                                  // 08-09  Read Starting Address
+                    writer.Write(readQuantity);                                         // 10-11  Quantity to Read
+                    writer.Write(writeStartingAddress);                                 // 12-13  Read Starting Address
+                    writer.Write((ushort)writeQuantity);                                // 14-15  Quantity to Write
+                }
+                
+                writer.Write((byte)(writeQuantity * 2));                                // 16     Byte Count = Quantity to Write * 2
+
+                writer.Write(dataset, 0, dataset.Length);
+            }).Slice(2);
+
+            if (buffer.Length < readQuantity * 2)
+                throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
+
+            return buffer;
         }
 
         /// <summary>

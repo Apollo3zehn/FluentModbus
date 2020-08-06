@@ -3,18 +3,21 @@
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true&branch=master)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
 [![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
 
-FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0 and class 1 functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
+FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP server and client implementation for easy process data exchange. Both, the server and the client, implement class 0, class 1 and class 2 (partially) functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
 
-#### Class 0:
+**Class 0**
 * FC03: ReadHoldingRegisters
 * FC16: WriteMultipleRegisters
 
-#### Class 1:
+**Class 1**
 * FC01: ReadCoils
 * FC02: ReadDiscreteInputs
 * FC04: ReadInputRegisters
 * FC05: WriteSingleCoil
 * FC06: WriteSingleRegister
+
+**Class 2**
+* FC23: ReadWriteMultipleRegisters
 
 Please see the introduction below to get a more detailed description on how to use this library!
 
@@ -75,7 +78,22 @@ client.Connect("COM1")
 }
 ```
 
-### A few words to ```Span<T>```
+## Little-Endian vs. Big-Endian
+The Modbus specs define a big-endian data layout, i.e. the most significant bit is sent first. However, most modern systems have little-endian memory layout. Thus, it is required to convert the data from one layout into the other. However, there are Modbus servers around that work with little-endian data, too.  
+
+Due to this inconsistency it may happen that you get strange numbers from the Modbus server. In that case try one of the following constructor overloads:
+
+```cs
+var client = new ModbusTcpClient(..., ModbusEndianness.BigEndian);
+
+var client = new ModbusRtuClient(..., ModbusEndianness.BigEndian);
+```
+
+When you are explicitly specifying the endianness of the data layout in the constructor, the library will correctly handle the data conversion for you.
+
+By default, this library expects little-endian data for compatibility reasons.
+
+## A few words to ```Span<T>```
 
 The returned data of the read functions (FC01 to FC04) are always provided as ```Span<T>``` ([What is this?](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx)). In short, a ```Span<T>``` is a simple view of the underlying memory. With this type, the memory can be interpreted as ```byte```, ```int```, ```float``` or any other value type. A conversion from ```Span<byte>``` to other types can be efficiently achieved through:
 
@@ -97,9 +115,9 @@ The data remain unchanged during all of these calls. _Only the interpretation ch
 float[] floatArray = floatSpan.ToArray();
 ```
 
-### Reading data
+## Reading data
 
-#### Reading integer or float
+### Reading integer or float
 
 First, define the unit identifier, the starting address and the number of values to read (count):
 
@@ -143,7 +161,7 @@ async byte[] DoAsync()
 
 > **Note:** The generic overloads shown here are intended for normal use. Compared to that, the non-generic overloads like ```client.ReadHoldingRegisters()``` have slightly better performance. However, they achieve this by doing fewer checks and conversions. This means, these methods are less convenient to use and only recommended in high-performance scenarios, where raw data (i.e. byte arrays) are moved around.
 
-#### Reading boolean
+### Reading boolean
 
 Boolean values are returned as single bits (1 = true, 0 = false), which are packed into bytes. If you request 10 booleans you get a ```Span<byte>``` in return with a length of ```2``` bytes. In this example, the remaining ```6``` bits are fill values.
 
@@ -164,9 +182,9 @@ var boolValue = ((boolData[0] >> position) & 1) > 0;
 
 See also [this](https://stackoverflow.com/questions/47981/how-do-you-set-clear-and-toggle-a-single-bit) overview to understand how to manipulate single bits.
 
-### Writing data
+## Writing data
 
-#### Writing integer or float
+### Writing integer or float
 
 The following example shows how to write the number ```4263``` to the server:
 
@@ -193,7 +211,7 @@ var floatData = new float[] { 1.1F, 9557e3F };
 client.WriteMultipleRegisters(unitIdentifier, startingAddress, floatData);
 ```
 
-#### Writing boolean
+### Writing boolean
 
 It's as simple as:
 

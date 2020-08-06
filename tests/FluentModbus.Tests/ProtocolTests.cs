@@ -221,7 +221,69 @@ namespace FluentModbus.Tests
             }
         }
 
+        // F023 ReadWriteMultipleRegisters
+        [Fact]
+        public void FC023Test()
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
+
+            lock (server.Lock)
+            {
+                var buffer = server.GetHoldingRegisterBuffer<float>();
+
+                buffer[6] = 65.455F;
+                buffer[7] = 24;
+                buffer[8] = 25;
+            }
+
+            var client = new ModbusTcpClient();
+            client.Connect(endpoint);
+
+            // Act
+            var actual1 = client.ReadWriteMultipleRegisters<float, float>(0, 2, 10, 12, new float[] { 1.211F });
+
+            // Assert
+            var expected = new float[] { 0, 0, 0, 0, 0, 1.211F, 24, 25, 0, 0 };
+
+            Assert.True(expected.SequenceEqual(actual1.ToArray()));
+
+            lock (server.Lock)
+            {
+                var actual2 = server.GetHoldingRegisterBuffer<float>().Slice(1, 10);
+                Assert.True(expected.SequenceEqual(actual2.ToArray()));
+            }
+        }
+
         // more tests
+
+        [Fact] 
+        public void HandlesBigEndian()
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+
+            var server = new ModbusTcpServer();
+            server.Start(endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(endpoint, ModbusEndianness.BigEndian);
+
+            // Act
+            client.WriteMultipleRegisters(0, 0, new int[] { 0x20302020, 0x40101010, 0x11220000 });
+
+            // Assert
+            var expected = new int[] { 0x20203020, 0x10101040, 0x00002211 };
+
+            lock (server.Lock)
+            {
+                var actual = server.GetHoldingRegisterBuffer<int>().Slice(0, 3);
+                Assert.True(expected.SequenceEqual(actual.ToArray()));
+            }
+        }
 
         [Fact]
         public void ArraySizeIsCorrectForByteInput()

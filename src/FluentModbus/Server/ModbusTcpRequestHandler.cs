@@ -77,9 +77,20 @@ namespace FluentModbus
             // add MBAP
             length = (int)this.FrameBuffer.Writer.BaseStream.Position;
             this.FrameBuffer.Writer.Seek(0, SeekOrigin.Begin);
-            this.FrameBuffer.Writer.WriteReverse(_transactionIdentifier);
-            this.FrameBuffer.Writer.WriteReverse(_protocolIdentifier);
-            this.FrameBuffer.Writer.WriteReverse((byte)(length - 6));
+
+            if (BitConverter.IsLittleEndian)
+            {
+                this.FrameBuffer.Writer.WriteReverse(_transactionIdentifier);
+                this.FrameBuffer.Writer.WriteReverse(_protocolIdentifier);
+                this.FrameBuffer.Writer.WriteReverse((byte)(length - 6));
+            }
+            else
+            {
+                this.FrameBuffer.Writer.Write(_transactionIdentifier);
+                this.FrameBuffer.Writer.Write(_protocolIdentifier);
+                this.FrameBuffer.Writer.Write((byte)(length - 6));
+            }
+
             this.FrameBuffer.Writer.Write(this.UnitIdentifier);
 
             return length;
