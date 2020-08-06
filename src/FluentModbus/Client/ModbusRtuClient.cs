@@ -76,10 +76,20 @@ namespace FluentModbus
         #region Methods
 
         /// <summary>
-        /// Connect to the specified <paramref name="port"/>.
+        /// Connect to the specified <paramref name="port"/> with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout.
         /// </summary>
         /// <param name="port">The COM port to be used, e.g. COM1.</param>
         public void Connect(string port)
+        {
+            this.Connect(port, ModbusEndianness.LittleEndian);
+        }
+
+        /// <summary>
+        /// Connect to the specified <paramref name="port"/>.
+        /// </summary>
+        /// <param name="port">The COM port to be used, e.g. COM1.</param>
+        /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+        public void Connect(string port, ModbusEndianness endianness)
         {
             IModbusRtuSerialPort serialPort;
 
@@ -93,7 +103,7 @@ namespace FluentModbus
                 WriteTimeout = this.WriteTimeout
             });
 
-            this.Connect(serialPort);
+            this.Connect(serialPort, endianness);
         }
 
         /// <summary>
@@ -107,8 +117,16 @@ namespace FluentModbus
 
         internal void Connect(IModbusRtuSerialPort serialPort)
         {
+            this.Connect(serialPort, ModbusEndianness.LittleEndian);
+        }
+
+        internal void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
+        {
             if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
                 throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
+
+            base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian
+                         || !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
 
             _frameBuffer = new ModbusFrameBuffer(256);
 

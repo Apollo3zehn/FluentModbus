@@ -191,8 +191,17 @@ namespace FluentModbus
                 this.FrameBuffer.Reader.ReadBytes(byteCount).AsSpan().CopyTo(this.ModbusServer.GetHoldingRegisterBuffer().Slice(startingAddress * 2));
 
                 this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteMultipleRegisters);
-                this.FrameBuffer.Writer.WriteReverse(startingAddress);
-                this.FrameBuffer.Writer.WriteReverse(quantityOfRegisters);
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    this.FrameBuffer.Writer.WriteReverse(startingAddress);
+                    this.FrameBuffer.Writer.WriteReverse(quantityOfRegisters);
+                }
+                else
+                {
+                    this.FrameBuffer.Writer.Write(startingAddress);
+                    this.FrameBuffer.Writer.Write(quantityOfRegisters);
+                }
             }
         }
 
@@ -298,7 +307,12 @@ namespace FluentModbus
                         coilBuffer[bufferByteIndex] |= (byte)(1 << bufferBitIndex);
 
                     this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
-                    this.FrameBuffer.Writer.WriteReverse(outputAddress);
+
+                    if (BitConverter.IsLittleEndian)
+                        this.FrameBuffer.Writer.WriteReverse(outputAddress);
+                    else
+                        this.FrameBuffer.Writer.Write(outputAddress);
+
                     this.FrameBuffer.Writer.Write(outputValue);
                 }
             }
@@ -314,7 +328,12 @@ namespace FluentModbus
                 MemoryMarshal.Cast<byte, ushort>(this.ModbusServer.GetHoldingRegisterBuffer())[registerAddress] = registerValue;
 
                 this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);
-                this.FrameBuffer.Writer.WriteReverse(registerAddress);
+
+                if (BitConverter.IsLittleEndian)
+                    this.FrameBuffer.Writer.WriteReverse(registerAddress);
+                else
+                    this.FrameBuffer.Writer.Write(registerAddress);
+
                 this.FrameBuffer.Writer.Write(registerValue);
             }
         }
@@ -334,12 +353,12 @@ namespace FluentModbus
                 {
                     var holdingRegisterBuffer = this.ModbusServer.GetHoldingRegisterBuffer();
 
-                    // read data before they get possibly overwritten by write request
-                    var readData = holdingRegisterBuffer.Slice(readStartingAddress * 2, quantityToRead * 2).ToArray();
-
-                    // write data
+                    // write data (write is perfomed before read according to spec)
                     var writeData = this.FrameBuffer.Reader.ReadBytes(writeByteCount).AsSpan();
                     writeData.CopyTo(holdingRegisterBuffer.Slice(writeStartingAddress * 2));
+
+                    // read data before they get possibly overwritten by write request
+                    var readData = holdingRegisterBuffer.Slice(readStartingAddress * 2, quantityToRead * 2).ToArray();
 
                     // write response
                     this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.ReadWriteMultipleRegisters);
