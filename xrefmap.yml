@@ -319,12 +319,15 @@ references:
   fullName.vb: FluentModbus.ModbusClient.ReadInputRegisters(Of T)(System.Byte, System.UInt16, System.UInt16)
   nameWithType: ModbusClient.ReadInputRegisters<T>(Byte, UInt16, UInt16)
   nameWithType.vb: ModbusClient.ReadInputRegisters(Of T)(Byte, UInt16, UInt16)
-- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegisters
-  name: ReadWriteMultipleRegisters()
-  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters
-  commentId: M:FluentModbus.ModbusClient.ReadWriteMultipleRegisters
-  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegisters()
-  nameWithType: ModbusClient.ReadWriteMultipleRegisters()
+- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegisters(System.Byte,System.UInt16,System.UInt16,System.UInt16,System.Byte[])
+  name: ReadWriteMultipleRegisters(Byte, UInt16, UInt16, UInt16, Byte[])
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters_System_Byte_System_UInt16_System_UInt16_System_UInt16_System_Byte___
+  commentId: M:FluentModbus.ModbusClient.ReadWriteMultipleRegisters(System.Byte,System.UInt16,System.UInt16,System.UInt16,System.Byte[])
+  name.vb: ReadWriteMultipleRegisters(Byte, UInt16, UInt16, UInt16, Byte())
+  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegisters(System.Byte, System.UInt16, System.UInt16, System.UInt16, System.Byte[])
+  fullName.vb: FluentModbus.ModbusClient.ReadWriteMultipleRegisters(System.Byte, System.UInt16, System.UInt16, System.UInt16, System.Byte())
+  nameWithType: ModbusClient.ReadWriteMultipleRegisters(Byte, UInt16, UInt16, UInt16, Byte[])
+  nameWithType.vb: ModbusClient.ReadWriteMultipleRegisters(Byte, UInt16, UInt16, UInt16, Byte())
 - uid: FluentModbus.ModbusClient.ReadWriteMultipleRegisters*
   name: ReadWriteMultipleRegisters
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters_
@@ -332,6 +335,15 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegisters
   nameWithType: ModbusClient.ReadWriteMultipleRegisters
+- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegisters``2(System.Byte,System.UInt16,System.UInt16,System.UInt16,``1[])
+  name: ReadWriteMultipleRegisters<TRead, TWrite>(Byte, UInt16, UInt16, UInt16, TWrite[])
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters__2_System_Byte_System_UInt16_System_UInt16_System_UInt16___1___
+  commentId: M:FluentModbus.ModbusClient.ReadWriteMultipleRegisters``2(System.Byte,System.UInt16,System.UInt16,System.UInt16,``1[])
+  name.vb: ReadWriteMultipleRegisters(Of TRead, TWrite)(Byte, UInt16, UInt16, UInt16, TWrite())
+  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegisters<TRead, TWrite>(System.Byte, System.UInt16, System.UInt16, System.UInt16, TWrite[])
+  fullName.vb: FluentModbus.ModbusClient.ReadWriteMultipleRegisters(Of TRead, TWrite)(System.Byte, System.UInt16, System.UInt16, System.UInt16, TWrite())
+  nameWithType: ModbusClient.ReadWriteMultipleRegisters<TRead, TWrite>(Byte, UInt16, UInt16, UInt16, TWrite[])
+  nameWithType.vb: ModbusClient.ReadWriteMultipleRegisters(Of TRead, TWrite)(Byte, UInt16, UInt16, UInt16, TWrite())
 - uid: FluentModbus.ModbusClient.WriteFileRecord
   name: WriteFileRecord()
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteFileRecord
@@ -424,6 +436,24 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.WriteSingleRegister
   nameWithType: ModbusClient.WriteSingleRegister
+- uid: FluentModbus.ModbusEndianness
+  name: ModbusEndianness
+  href: api/FluentModbus.ModbusEndianness.html
+  commentId: T:FluentModbus.ModbusEndianness
+  fullName: FluentModbus.ModbusEndianness
+  nameWithType: ModbusEndianness
+- uid: FluentModbus.ModbusEndianness.BigEndian
+  name: BigEndian
+  href: api/FluentModbus.ModbusEndianness.html#FluentModbus_ModbusEndianness_BigEndian
+  commentId: F:FluentModbus.ModbusEndianness.BigEndian
+  fullName: FluentModbus.ModbusEndianness.BigEndian
+  nameWithType: ModbusEndianness.BigEndian
+- uid: FluentModbus.ModbusEndianness.LittleEndian
+  name: LittleEndian
+  href: api/FluentModbus.ModbusEndianness.html#FluentModbus_ModbusEndianness_LittleEndian
+  commentId: F:FluentModbus.ModbusEndianness.LittleEndian
+  fullName: FluentModbus.ModbusEndianness.LittleEndian
+  nameWithType: ModbusEndianness.LittleEndian
 - uid: FluentModbus.ModbusException
   name: ModbusException
   href: api/FluentModbus.ModbusException.html
@@ -637,6 +667,12 @@ references:
   commentId: M:FluentModbus.ModbusRtuClient.Connect(System.String)
   fullName: FluentModbus.ModbusRtuClient.Connect(System.String)
   nameWithType: ModbusRtuClient.Connect(String)
+- uid: FluentModbus.ModbusRtuClient.Connect(System.String,FluentModbus.ModbusEndianness)
+  name: Connect(String, ModbusEndianness)
+  href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Connect_System_String_FluentModbus_ModbusEndianness_
+  commentId: M:FluentModbus.ModbusRtuClient.Connect(System.String,FluentModbus.ModbusEndianness)
+  fullName: FluentModbus.ModbusRtuClient.Connect(System.String, FluentModbus.ModbusEndianness)
+  nameWithType: ModbusRtuClient.Connect(String, ModbusEndianness)
 - uid: FluentModbus.ModbusRtuClient.Connect*
   name: Connect
   href: api/FluentModbus.ModbusRtuClient.html#FluentModbus_ModbusRtuClient_Connect_
@@ -1223,18 +1259,36 @@ references:
   commentId: M:FluentModbus.ModbusTcpClient.Connect
   fullName: FluentModbus.ModbusTcpClient.Connect()
   nameWithType: ModbusTcpClient.Connect()
+- uid: FluentModbus.ModbusTcpClient.Connect(FluentModbus.ModbusEndianness)
+  name: Connect(ModbusEndianness)
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_FluentModbus_ModbusEndianness_
+  commentId: M:FluentModbus.ModbusTcpClient.Connect(FluentModbus.ModbusEndianness)
+  fullName: FluentModbus.ModbusTcpClient.Connect(FluentModbus.ModbusEndianness)
+  nameWithType: ModbusTcpClient.Connect(ModbusEndianness)
 - uid: FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)
   name: Connect(IPAddress)
   href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_Net_IPAddress_
   commentId: M:FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)
   fullName: FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress)
   nameWithType: ModbusTcpClient.Connect(IPAddress)
+- uid: FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress,FluentModbus.ModbusEndianness)
+  name: Connect(IPAddress, ModbusEndianness)
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_Net_IPAddress_FluentModbus_ModbusEndianness_
+  commentId: M:FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress,FluentModbus.ModbusEndianness)
+  fullName: FluentModbus.ModbusTcpClient.Connect(System.Net.IPAddress, FluentModbus.ModbusEndianness)
+  nameWithType: ModbusTcpClient.Connect(IPAddress, ModbusEndianness)
 - uid: FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)
   name: Connect(IPEndPoint)
   href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_Net_IPEndPoint_
   commentId: M:FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)
   fullName: FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint)
   nameWithType: ModbusTcpClient.Connect(IPEndPoint)
+- uid: FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint,FluentModbus.ModbusEndianness)
+  name: Connect(IPEndPoint, ModbusEndianness)
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_Net_IPEndPoint_FluentModbus_ModbusEndianness_
+  commentId: M:FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint,FluentModbus.ModbusEndianness)
+  fullName: FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint, FluentModbus.ModbusEndianness)
+  nameWithType: ModbusTcpClient.Connect(IPEndPoint, ModbusEndianness)
 - uid: FluentModbus.ModbusTcpClient.Connect*
   name: Connect
   href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_
