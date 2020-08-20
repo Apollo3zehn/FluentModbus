@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,14 +25,13 @@ namespace FluentModbus.SampleMaster
             var serverPort = "COM1";
             var clientPort = "COM2";
 
-            /* prepare dependency injection */
-            var services = new ServiceCollection();
+            /* create logger */
+            var loggerFactory = LoggerFactory.Create(loggingBuilder =>
+            {
+                loggingBuilder.SetMinimumLevel(LogLevel.Debug);
+                loggingBuilder.AddConsole();
+            });
 
-            ConfigureServices(services);
-
-            /* create types */
-            var provider = services.BuildServiceProvider();
-            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
             var serverLogger = loggerFactory.CreateLogger("Server");
             var clientLogger = loggerFactory.CreateLogger("Client");
 
@@ -93,15 +91,6 @@ namespace FluentModbus.SampleMaster
 
             server.Stop();
             serverLogger.LogInformation("Server stopped.");
-        }
-
-        static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.SetMinimumLevel(LogLevel.Debug);
-                loggingBuilder.AddConsole();
-            });
         }
 
         static void DoServerWork(ModbusRtuServer server)
