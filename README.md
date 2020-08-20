@@ -21,6 +21,6 @@ FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP
 
 Please see the [introduction](https://apollo3zehn.github.io/FluentModbus/) to get a more detailed description on how to use this library!
 
-Below is a screenshot of the [sample](samples/modbus_tcp.md) console output using a Modbus TCP server and client:
+Below is a screenshot of the [sample](https://apollo3zehn.github.io/FluentModbus/samples/modbus_tcp.html) console output using a Modbus TCP server and client:
 
 ![Sample.](/doc/images/sample.png)
