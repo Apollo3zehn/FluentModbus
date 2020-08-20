@@ -77,16 +77,7 @@
 </div>
 <h2 id="setup">Setup</h2>
 <p>First, create the server and client instances and a logger to print the progress to the console:</p>
-<pre><code class="lang-cs">static void ConfigureServices(IServiceCollection services)
-{
-    services.AddLogging(loggingBuilder =&gt;
-    {
-        loggingBuilder.SetMinimumLevel(LogLevel.Debug);
-        loggingBuilder.AddConsole();
-    });
-}
-
-static async Task Main(string[] args)
+<pre><code class="lang-cs">static async Task Main(string[] args)
 {
     /* Modbus RTU uses a COM port for communication. Therefore, to run
     * this sample, you need to make sure that there are real or virtual 
@@ -104,14 +95,13 @@ static async Task Main(string[] args)
     var serverPort = &quot;COM1&quot;;
     var clientPort = &quot;COM2&quot;;
 
-    /* prepare dependency injection */
-    var services = new ServiceCollection();
+    /* create logger */
+    var loggerFactory = LoggerFactory.Create(loggingBuilder =&gt;
+    {
+        loggingBuilder.SetMinimumLevel(LogLevel.Debug);
+        loggingBuilder.AddConsole();
+    });
 
-    ConfigureServices(services);
-
-    /* create types */
-    var provider = services.BuildServiceProvider();
-    var loggerFactory = provider.GetRequiredService&lt;ILoggerFactory&gt;();
     var serverLogger = loggerFactory.CreateLogger(&quot;Server&quot;);
     var clientLogger = loggerFactory.CreateLogger(&quot;Client&quot;);
 

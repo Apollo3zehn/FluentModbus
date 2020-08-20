@@ -77,25 +77,15 @@
 </div>
 <h2 id="setup">Setup</h2>
 <p>First, create the server and client instances and a logger to print the progress to the console:</p>
-<pre><code class="lang-cs">static void ConfigureServices(IServiceCollection services)
+<pre><code class="lang-cs">static async Task Main(string[] args)
 {
-    services.AddLogging(loggingBuilder =&gt;
+    /* create logger */
+    var loggerFactory = LoggerFactory.Create(loggingBuilder =&gt;
     {
         loggingBuilder.SetMinimumLevel(LogLevel.Debug);
         loggingBuilder.AddConsole();
     });
-}
 
-static async Task Main(string[] args)
-{
-    /* prepare dependency injection */
-    var services = new ServiceCollection();
-
-    ConfigureServices(services);
-
-    /* create types */
-    var provider = services.BuildServiceProvider();
-    var loggerFactory = provider.GetRequiredService&lt;ILoggerFactory&gt;();
     var serverLogger = loggerFactory.CreateLogger(&quot;Server&quot;);
     var clientLogger = loggerFactory.CreateLogger(&quot;Client&quot;);
 
