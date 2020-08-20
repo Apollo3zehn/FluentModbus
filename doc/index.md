@@ -60,33 +60,35 @@ client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502))
 Alternatively, a new Modbus RTU client can be created with the following code:
 
 ```cs
-var client = new ModbusRtuClient();
-```
-
-Once you have an instance, connect to a COM port in one of the following ways:
-
-```cs
 // use default COM port settings
-client.Connect("COM1");
+var client = new ModbusRtuClient();
 
-// use custom COM port settings
-client.Connect("COM1")
+// use custom COM port settings:
+var client = new ModbusRtuClient()
 {
     BaudRate = 9600,
     Parity = Parity.None,
     StopBits = StopBits.Two
-}
+};
+```
+
+Once you have an instance, connect using a free COM port:
+
+```cs
+client.Connect("COM1");
 ```
 
 ## Little-Endian vs. Big-Endian
 The Modbus specs define a big-endian data layout, i.e. the most significant bit is sent first. However, most modern systems have little-endian memory layout. Thus, it is required to convert the data from one layout into the other. However, there are Modbus servers around that work with little-endian data, too.  
 
-Due to this inconsistency it may happen that you get strange numbers from the Modbus server. In that case try one of the following constructor overloads:
+Due to this inconsistency it may happen that you get strange numbers from the Modbus server. In that case try one of the following `Connect()` overloads:
 
 ```cs
-var client = new ModbusTcpClient(..., ModbusEndianness.BigEndian);
+var client = new ModbusTcpClient(...);
+client.Connect(..., ModbusEndianness.BigEndian);
 
-var client = new ModbusRtuClient(..., ModbusEndianness.BigEndian);
+var client = new ModbusRtuClient(...);
+client.Connect(..., ModbusEndianness.BigEndian);
 ```
 
 When you are explicitly specifying the endianness of the data layout in the constructor, the library will correctly handle the data conversion for you.
