@@ -12,15 +12,6 @@ The following sample show how a ModbusRTU [server](xref:FluentModbus.ModbusRtuSe
 First, create the server and client instances and a logger to print the progress to the console:
 
 ```cs
-static void ConfigureServices(IServiceCollection services)
-{
-    services.AddLogging(loggingBuilder =>
-    {
-        loggingBuilder.SetMinimumLevel(LogLevel.Debug);
-        loggingBuilder.AddConsole();
-    });
-}
-
 static async Task Main(string[] args)
 {
     /* Modbus RTU uses a COM port for communication. Therefore, to run
@@ -39,14 +30,13 @@ static async Task Main(string[] args)
     var serverPort = "COM1";
     var clientPort = "COM2";
 
-    /* prepare dependency injection */
-    var services = new ServiceCollection();
+    /* create logger */
+    var loggerFactory = LoggerFactory.Create(loggingBuilder =>
+    {
+        loggingBuilder.SetMinimumLevel(LogLevel.Debug);
+        loggingBuilder.AddConsole();
+    });
 
-    ConfigureServices(services);
-
-    /* create types */
-    var provider = services.BuildServiceProvider();
-    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
     var serverLogger = loggerFactory.CreateLogger("Server");
     var clientLogger = loggerFactory.CreateLogger("Client");
 

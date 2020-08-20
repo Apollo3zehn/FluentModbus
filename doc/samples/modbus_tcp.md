@@ -12,25 +12,15 @@ The following sample show how a ModbusTCP [server](xref:FluentModbus.ModbusTcpSe
 First, create the server and client instances and a logger to print the progress to the console:
 
 ```cs
-static void ConfigureServices(IServiceCollection services)
+static async Task Main(string[] args)
 {
-    services.AddLogging(loggingBuilder =>
+    /* create logger */
+    var loggerFactory = LoggerFactory.Create(loggingBuilder =>
     {
         loggingBuilder.SetMinimumLevel(LogLevel.Debug);
         loggingBuilder.AddConsole();
     });
-}
 
-static async Task Main(string[] args)
-{
-    /* prepare dependency injection */
-    var services = new ServiceCollection();
-
-    ConfigureServices(services);
-
-    /* create types */
-    var provider = services.BuildServiceProvider();
-    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
     var serverLogger = loggerFactory.CreateLogger("Server");
     var clientLogger = loggerFactory.CreateLogger("Client");
 
