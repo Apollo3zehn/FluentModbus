@@ -123,6 +123,14 @@ namespace FluentModbus
         #region Methods
 
         /// <summary>
+        /// Gets the input register as <see cref="UInt16"/> array.
+        /// </summary>
+        public Span<short> GetInputRegisters()
+        {
+            return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer());
+        }
+
+        /// <summary>
         /// Gets the input register buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
@@ -137,6 +145,14 @@ namespace FluentModbus
         public unsafe Span<byte> GetInputRegisterBuffer()
         {
             return new Span<byte>(this.InputRegisterBufferPtr.ToPointer(), _inputRegisterSize);
+        }
+
+        /// <summary>
+        /// Gets the holding register as <see cref="UInt16"/> array.
+        /// </summary>
+        public Span<short> GetHoldingRegisters()
+        {
+            return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer());
         }
 
         /// <summary>
