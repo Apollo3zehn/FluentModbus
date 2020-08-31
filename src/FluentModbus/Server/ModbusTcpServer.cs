@@ -74,7 +74,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets or sets the maximum number of concurrent client connections. A value of zero means there is no limit.
         /// </summary>
-        public int MaxClientConnections { get; set; } = 0;
+        public int MaxConnections { get; set; } = 0;
 
         /// <summary>
         /// Gets the number of currently connected clients.
@@ -131,8 +131,8 @@ namespace FluentModbus
                     var tcpClient = await _tcpListener.AcceptTcpClientAsync();
                     var handler = new ModbusTcpRequestHandler(tcpClient, this);
 
-                    if (this.MaxClientConnections > 0 &&
-                        this.RequestHandlers.Count >= this.MaxClientConnections)
+                    if (this.MaxConnections > 0 &&
+                        this.RequestHandlers.Count >= this.MaxConnections)
                     {
                         tcpClient.Close();
                     }

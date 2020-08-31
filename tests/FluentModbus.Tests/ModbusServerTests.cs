@@ -104,6 +104,87 @@ namespace FluentModbus.Tests
             server.Stop();
         }
 
+        [Theory]
+
+        [InlineData(ModbusFunctionCode.WriteMultipleRegisters, 1, ModbusExceptionCode.IllegalDataAddress)]
+        [InlineData(ModbusFunctionCode.WriteMultipleRegisters, 55, ModbusExceptionCode.OK)]
+        [InlineData(ModbusFunctionCode.ReadHoldingRegisters, 91, ModbusExceptionCode.IllegalDataAddress)]
+        [InlineData(ModbusFunctionCode.ReadHoldingRegisters, 2000, ModbusExceptionCode.OK)]
+
+        [InlineData(ModbusFunctionCode.ReadInputRegisters, 999, ModbusExceptionCode.IllegalDataAddress)]
+        [InlineData(ModbusFunctionCode.ReadInputRegisters, 1999, ModbusExceptionCode.OK)]
+
+        [InlineData(ModbusFunctionCode.ReadCoils, 1999, ModbusExceptionCode.IllegalFunction)]
+        public async void RespectsRequestValidator(ModbusFunctionCode functionCode, ushort startingAddress, ModbusExceptionCode exceptionCode)
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+
+            var server = new ModbusTcpServer()
+            {
+                RequestValidator = (functionCode, startingAddress, quantityOfRegisters) =>
+                {
+                    var holdingLimits = (startingAddress >= 50 && startingAddress < 90) ||
+                                         startingAddress >= 2000 && startingAddress < 2100;
+
+                    var inputLimits = startingAddress >= 1000 && startingAddress < 2000;
+
+                    return (functionCode, holdingLimits, inputLimits) switch
+                    {
+                        // holding registers
+                        (ModbusFunctionCode.ReadHoldingRegisters, true, _)          => ModbusExceptionCode.OK,
+                        (ModbusFunctionCode.ReadWriteMultipleRegisters, true, _)    => ModbusExceptionCode.OK,
+                        (ModbusFunctionCode.WriteMultipleRegisters, true, _)        => ModbusExceptionCode.OK,
+                        (ModbusFunctionCode.WriteSingleRegister, true, _)           => ModbusExceptionCode.OK,
+
+                        (ModbusFunctionCode.ReadHoldingRegisters, false, _)         => ModbusExceptionCode.IllegalDataAddress,
+                        (ModbusFunctionCode.ReadWriteMultipleRegisters, false, _)   => ModbusExceptionCode.IllegalDataAddress,
+                        (ModbusFunctionCode.WriteMultipleRegisters, false, _)       => ModbusExceptionCode.IllegalDataAddress,
+                        (ModbusFunctionCode.WriteSingleRegister, false, _)          => ModbusExceptionCode.IllegalDataAddress,
+
+                        // input registers
+                        (ModbusFunctionCode.ReadInputRegisters, _, true)            => ModbusExceptionCode.OK,
+                        (ModbusFunctionCode.ReadInputRegisters, _, false)           => ModbusExceptionCode.IllegalDataAddress,
+
+                        // deny other function codes
+                        _                                                           => ModbusExceptionCode.IllegalFunction
+                    };
+                }
+            };
+
+            server.Start(endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(endpoint);
+
+            // Act
+            await Task.Run(() =>
+            {
+                Action action = functionCode switch
+                {
+                    ModbusFunctionCode.WriteMultipleRegisters   => () => client.WriteMultipleRegisters(0, startingAddress, new double[] { 1.0 }),
+                    ModbusFunctionCode.ReadHoldingRegisters     => () => client.ReadHoldingRegisters<double>(0, startingAddress, 1),
+                    ModbusFunctionCode.ReadInputRegisters       => () => client.ReadInputRegisters<double>(0, startingAddress, 1),
+                    ModbusFunctionCode.ReadCoils                => () => client.ReadCoils(0, startingAddress, 1),
+                    _                                           => throw new Exception("Invalid test setup.")
+                };
+
+                if (exceptionCode == ModbusExceptionCode.OK)
+                {
+                    action();
+                }
+                else
+                {
+                    var ex = Assert.Throws<ModbusException>(action);
+
+                    // Assert
+                    Assert.True(ex.ExceptionCode == exceptionCode);
+                }
+            });
+
+            server.Stop();
+        }
+
         [Fact]
         public void CanSetAndGetValueBigEndianHoldingRegisters()
         {

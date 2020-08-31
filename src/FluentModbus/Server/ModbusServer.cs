@@ -108,6 +108,11 @@ namespace FluentModbus
         /// </summary>
         public UInt16 MaxDiscreteInputAddress { get; }
 
+        /// <summary>
+        /// Gets or sets a method that validates each client request.
+        /// </summary>
+        public Func<ModbusFunctionCode, int, int, ModbusExceptionCode> RequestValidator { get; set; }
+
         private protected CancellationTokenSource CTS { get; private set; }
 
         private protected bool IsReady
