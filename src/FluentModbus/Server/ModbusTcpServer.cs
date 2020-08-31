@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FluentModbus
@@ -66,13 +67,23 @@ namespace FluentModbus
         #region Properties
 
         /// <summary>
-        /// Gets or sets the timeout for each client connection. Wenn the client does not send any request within the specified time span, the connection will be reset. Default is 1 minute.
+        /// Gets or sets the timeout for each client connection. When the client does not send any request within the specified period of time, the connection will be reset. Default is 1 minute.
         /// </summary>
         public TimeSpan ConnectionTimeout { get; set; } = ModbusTcpServer.DefaultConnectionTimeout;
 
+        /// <summary>
+        /// Gets or sets the maximum number of concurrent client connections. A value of zero means there is no limit.
+        /// </summary>
+        public int MaxClientConnections { get; set; } = 0;
+
+        /// <summary>
+        /// Gets the number of currently connected clients.
+        /// </summary>
+        public int ConnectionCount => this.RequestHandlers.Count;
+
         internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
-        internal List<ModbusTcpRequestHandler> RequestHandlerSet { get; private set; }
+        internal List<ModbusTcpRequestHandler> RequestHandlers { get; private set; }
 
         private ILogger Logger { get; }
 
@@ -105,7 +116,7 @@ namespace FluentModbus
             base.Stop();
             base.Start();
 
-            this.RequestHandlerSet = new List<ModbusTcpRequestHandler>();
+            this.RequestHandlers = new List<ModbusTcpRequestHandler>();
 
             _tcpListener = new TcpListener(localEndpoint);
             _tcpListener.Start();
@@ -113,17 +124,22 @@ namespace FluentModbus
             // accept clients asynchronously
             _task_accept_clients = Task.Run(async () =>
             {
-                ModbusTcpRequestHandler handler;
-                TcpClient tcpClient;
-
                 while (!this.CTS.IsCancellationRequested)
                 {
                     // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                     // use ConnectionTimeout instead.
-                    tcpClient = await _tcpListener.AcceptTcpClientAsync();
-                    handler = new ModbusTcpRequestHandler(tcpClient, this);
+                    var tcpClient = await _tcpListener.AcceptTcpClientAsync();
+                    var handler = new ModbusTcpRequestHandler(tcpClient, this);
 
-                    this.AddRequestHandler(handler);
+                    if (this.MaxClientConnections > 0 &&
+                        this.RequestHandlers.Count >= this.MaxClientConnections)
+                    {
+                        tcpClient.Close();
+                    }
+                    else
+                    {
+                        this.AddRequestHandler(handler);
+                    }
                 }
             }, this.CTS.Token);
 
@@ -136,7 +152,7 @@ namespace FluentModbus
                     {
                         // see remarks to "TcpClient.Connected" property
                         // https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connected?redirectedfrom=MSDN&view=netframework-4.8#System_Net_Sockets_TcpClient_Connected
-                        foreach (var requestHandler in this.RequestHandlerSet.ToList())
+                        foreach (var requestHandler in this.RequestHandlers.ToList())
                         {
                             if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
                             {
@@ -164,14 +180,14 @@ namespace FluentModbus
 
             _tcpListener?.Stop();
 
-            this.RequestHandlerSet?.ForEach(requestHandler => requestHandler.Dispose());
+            this.RequestHandlers?.ForEach(requestHandler => requestHandler.Dispose());
         }
 
         private protected override void ProcessRequests()
         {
             lock (this.Lock)
             {
-                foreach (var requestHandler in this.RequestHandlerSet)
+                foreach (var requestHandler in this.RequestHandlers)
                 {
                     if (requestHandler.IsReady)
                     {
@@ -188,8 +204,8 @@ namespace FluentModbus
         {
             lock (this.Lock)
             {
-                this.RequestHandlerSet.Add(handler);
-                this.Logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
+                this.RequestHandlers.Add(handler);
+                this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 
@@ -197,8 +213,8 @@ namespace FluentModbus
         {
             lock (this.Lock)
             {
-                this.RequestHandlerSet.Remove(handler);
-                this.Logger.LogInformation($"{this.RequestHandlerSet.Count} {(this.RequestHandlerSet.Count == 1 ? "client is" : "clients are")} connected");
+                this.RequestHandlers.Remove(handler);
+                this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 

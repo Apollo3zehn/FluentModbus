@@ -1,4 +1,6 @@
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -93,6 +95,46 @@ namespace FluentModbus.Tests
                 _logger.WriteLine($"Time per request: {timePerRequest * 1000:F0} us. Frequency: {1/timePerRequest * 1000:F0} requests per second.");
 
                 client.Disconnect();
+            });
+
+            server.Stop();
+
+            // Assert
+        }
+
+        [Fact]
+        public async void ServerRespectsMaxClientConnectionLimit()
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+
+            var server = new ModbusTcpServer()
+            {
+                MaxClientConnections = 2
+            };
+
+            server.Start(endpoint);
+
+            // Act
+            var client1 = new ModbusTcpClient();
+            var client2 = new ModbusTcpClient();
+            var client3 = new ModbusTcpClient();
+
+            await Task.Run(() =>
+            {
+                client1.Connect(endpoint);
+                client1.WriteSingleRegister(1, 2, 3);
+
+                client2.Connect(endpoint);
+                client2.WriteSingleRegister(1, 2, 3);
+
+                client3.Connect(endpoint);
+                Assert.Throws<IOException>(() => client3.WriteSingleRegister(1, 2, 3));
+
+                server.MaxClientConnections = 3;
+
+                client3.Connect(endpoint);
+                client3.WriteSingleRegister(1, 2, 3);
             });
 
             server.Stop();

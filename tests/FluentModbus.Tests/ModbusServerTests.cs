@@ -90,9 +90,9 @@ namespace FluentModbus.Tests
 
                 // Act
                 await Task.Delay(delay);
-                var lastRequest1 = server.RequestHandlerSet.First().LastRequest.Elapsed;
+                var lastRequest1 = server.RequestHandlers.First().LastRequest.Elapsed;
                 client.WriteMultipleRegisters(0, 0, data);
-                var lastRequest2 = server.RequestHandlerSet.First().LastRequest.Elapsed;
+                var lastRequest2 = server.RequestHandlers.First().LastRequest.Elapsed;
 
                 client.Disconnect();
 
