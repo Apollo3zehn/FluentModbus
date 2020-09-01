@@ -1,6 +1,6 @@
 # Modbus Validator
 
-The following code is an extension to the [Modbus TCP sample](samples/modbus_tcp.md) but is just as valid for the RTU server. The `RequestValidator` property accepts a method which performs the validation each time a client sends a request to the server. This function will not replace the default checks but complement it. This means for example that the server will still check if the absolute registers limits are exceeded or an unknown function code is provided.
+The following code is an extension to the [Modbus TCP sample](modbus_tcp.md) but is just as valid for the RTU server. The `RequestValidator` property accepts a method which performs the validation each time a client sends a request to the server. This function will not replace the default checks but complement it. This means for example that the server will still check if the absolute registers limits are exceeded or an unknown function code is provided.
 
 ```cs
 var server = new ModbusTcpServer()
