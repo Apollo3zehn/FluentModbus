@@ -1,8 +1,8 @@
-- name: ModbusTCP
+- name: Modbus TCP
   href: modbus_tcp.md
 
-- name: ModbusRTU
+- name: Modbus RTU
   href: modbus_rtu.md
 
-- name: ModbusTCP
+- name: Modbus Validator
   href: modbus_validator.md
