@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -128,7 +129,17 @@ namespace FluentModbus.Tests
                 client2.WriteSingleRegister(1, 2, 3);
 
                 client3.Connect(endpoint);
-                Assert.Throws<IOException>(() => client3.WriteSingleRegister(1, 2, 3));
+
+                try
+                {
+                    client3.WriteSingleRegister(1, 2, 3);
+                }
+
+                // Windows
+                catch (IOException) { throw; }
+
+                // Linux
+                catch (InvalidOperationException) { throw; }
 
                 server.MaxConnections = 3;
 
