@@ -340,7 +340,6 @@ public void ReadFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Span&lt;T&gt; ReadHoldingRegisters&lt;T&gt;(byte unitIdentifier, ushort startingAddress, ushort count)
-
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -480,7 +479,6 @@ public void ReadFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Span&lt;T&gt; ReadInputRegisters&lt;T&gt;(byte unitIdentifier, ushort startingAddress, ushort count)
-
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -632,7 +630,6 @@ public void ReadFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Span&lt;TRead&gt; ReadWriteMultipleRegisters&lt;TRead, TWrite&gt;(byte unitIdentifier, ushort readStartingAddress, ushort readCount, ushort writeStartingAddress, TWrite[] dataset)
-
     where TRead : struct where TWrite : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -808,7 +805,6 @@ public void WriteMultipleCoils()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void WriteMultipleRegisters&lt;T&gt;(byte unitIdentifier, ushort startingAddress, T[] dataset)
-
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>

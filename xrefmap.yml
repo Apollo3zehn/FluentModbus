@@ -1457,17 +1457,17 @@ references:
   commentId: M:FluentModbus.ModbusTcpServer.#ctor
   fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer()
   nameWithType: ModbusTcpServer.ModbusTcpServer()
-- uid: FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger)
+- uid: FluentModbus.ModbusTcpServer.#ctor(ILogger)
   name: ModbusTcpServer(ILogger)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_Microsoft_Extensions_Logging_ILogger_
-  commentId: M:FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger)
-  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(Microsoft.Extensions.Logging.ILogger)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_ILogger_
+  commentId: M:FluentModbus.ModbusTcpServer.#ctor(ILogger)
+  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(ILogger)
   nameWithType: ModbusTcpServer.ModbusTcpServer(ILogger)
-- uid: FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger,System.Boolean)
+- uid: FluentModbus.ModbusTcpServer.#ctor(ILogger,System.Boolean)
   name: ModbusTcpServer(ILogger, Boolean)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_Microsoft_Extensions_Logging_ILogger_System_Boolean_
-  commentId: M:FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger,System.Boolean)
-  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(Microsoft.Extensions.Logging.ILogger, System.Boolean)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_ILogger_System_Boolean_
+  commentId: M:FluentModbus.ModbusTcpServer.#ctor(ILogger,System.Boolean)
+  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(ILogger, System.Boolean)
   nameWithType: ModbusTcpServer.ModbusTcpServer(ILogger, Boolean)
 - uid: FluentModbus.ModbusTcpServer.#ctor(System.Boolean)
   name: ModbusTcpServer(Boolean)
