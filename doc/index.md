@@ -386,7 +386,7 @@ var server = new ModbusTcpServer()
 };
 ```
 
-See a full example in the [sample](samples/modbus_tcp.md) section.
+See a full example in the [sample](samples/modbus_validator.md) section.
 
 # See also
 
