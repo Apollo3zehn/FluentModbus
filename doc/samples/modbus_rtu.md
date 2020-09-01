@@ -125,17 +125,25 @@ static void DoServerWork(ModbusRtuServer server)
 {
     var random = new Random();
 
-    // interpret buffer as array of bytes (8 bit)
-    var byte_buffer = server.GetHoldingRegisterBuffer<byte>();
-    byte_buffer[20] = (byte)(random.Next() >> 24);
+    // Option A: normal performance version, more flexibility
 
-    // interpret buffer as array of shorts (16 bit)
-    var short_buffer = server.GetHoldingRegisterBuffer<short>();
-    short_buffer[30] = (short)(random.Next(0, 100) >> 16);
+        /* get buffer in standard form (Span<short>) */
+        var registers = server.GetHoldingRegisters();
+        registers.SetLittleEndian(startingAddress: 5, random.Next());
 
-    // interpret buffer as array of ints (32 bit)
-    var int_buffer = server.GetHoldingRegisterBuffer<int>();
-    int_buffer[40] = random.Next(0, 100);
+    // Option B: high performance version, less flexibility
+
+        /* interpret buffer as array of bytes (8 bit) */
+        var byte_buffer = server.GetHoldingRegisterBuffer<byte>();
+        byte_buffer[20] = (byte)(random.Next() >> 24);
+
+        /* interpret buffer as array of shorts (16 bit) */
+        var short_buffer = server.GetHoldingRegisterBuffer<short>();
+        short_buffer[30] = (short)(random.Next(0, 100) >> 16);
+
+        /* interpret buffer as array of ints (32 bit) */
+        var int_buffer = server.GetHoldingRegisterBuffer<int>();
+        int_buffer[40] = random.Next(0, 100);
 }
 
 ```

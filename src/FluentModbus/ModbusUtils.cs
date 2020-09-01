@@ -85,6 +85,14 @@ namespace FluentModbus
             return (ushort)((bytes[0] << 8) + bytes[1]);
         }
 
+        public static T SwitchEndianness<T>(T value) where T : unmanaged
+        {
+            var data = new T[] { value };
+            ModbusUtils.SwitchEndianness(data.AsSpan());
+
+            return data[0];
+        }
+
         public static void SwitchEndianness<T>(Span<T> dataset) where T : unmanaged
         {
             var size = Marshal.SizeOf<T>();

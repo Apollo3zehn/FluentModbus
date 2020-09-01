@@ -147,19 +147,28 @@ namespace FluentModbus
             this.FrameBuffer.Writer.Write((byte)exceptionCode);
         }
 
-        private bool CheckRegisterBounds(ModbusFunctionCode functionCode, int startingAddress, int maxStartingAddress, int quantityOfRegisters, int maxQuantityOfRegisters)
+        private bool CheckRegisterBounds(ModbusFunctionCode functionCode, ushort address, ushort maxStartingAddress, ushort quantityOfRegisters, ushort maxQuantityOfRegisters)
         {
-            if (startingAddress < 0 || startingAddress + quantityOfRegisters > maxStartingAddress)
+            if (this.ModbusServer.RequestValidator != null)
+            {
+                var result = this.ModbusServer.RequestValidator(functionCode, address, quantityOfRegisters);
+
+                if (result > ModbusExceptionCode.OK)
+                {
+                    this.WriteExceptionResponse(functionCode, result);
+                    return false;
+                }
+            }
+
+            if (address < 0 || address + quantityOfRegisters > maxStartingAddress)
             {
                 this.WriteExceptionResponse(functionCode, ModbusExceptionCode.IllegalDataAddress);
-
                 return false;
             }
 
             if (quantityOfRegisters <= 0 || quantityOfRegisters > maxQuantityOfRegisters)
             {
                 this.WriteExceptionResponse(functionCode, ModbusExceptionCode.IllegalDataValue);
-
                 return false;
             }
 

@@ -6,6 +6,11 @@
     public enum ModbusExceptionCode : byte
     {
         /// <summary>
+        /// Only used by the server to indicated that no exception should be returned to the client.
+        /// </summary>
+        OK = 0x00,
+
+        /// <summary>
         /// The function code received in the query is not an allowable action for the server.
         /// </summary>
         IllegalFunction = 0x01,

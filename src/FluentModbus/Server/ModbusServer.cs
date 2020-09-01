@@ -108,6 +108,11 @@ namespace FluentModbus
         /// </summary>
         public UInt16 MaxDiscreteInputAddress { get; }
 
+        /// <summary>
+        /// Gets or sets a method that validates each client request.
+        /// </summary>
+        public Func<ModbusFunctionCode, ushort, ushort, ModbusExceptionCode> RequestValidator { get; set; }
+
         private protected CancellationTokenSource CTS { get; private set; }
 
         private protected bool IsReady
@@ -121,6 +126,14 @@ namespace FluentModbus
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets the input register as <see cref="UInt16"/> array.
+        /// </summary>
+        public Span<short> GetInputRegisters()
+        {
+            return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer());
+        }
 
         /// <summary>
         /// Gets the input register buffer as type <typeparamref name="T"/>.
@@ -137,6 +150,14 @@ namespace FluentModbus
         public unsafe Span<byte> GetInputRegisterBuffer()
         {
             return new Span<byte>(this.InputRegisterBufferPtr.ToPointer(), _inputRegisterSize);
+        }
+
+        /// <summary>
+        /// Gets the holding register as <see cref="UInt16"/> array.
+        /// </summary>
+        public Span<short> GetHoldingRegisters()
+        {
+            return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer());
         }
 
         /// <summary>
@@ -157,6 +178,14 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Gets the coils as <see cref="byte"/> array.
+        /// </summary>
+        public Span<byte> GetCoils()
+        {
+            return this.GetCoilBuffer();
+        }
+
+        /// <summary>
         /// Gets the coil buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
@@ -171,6 +200,14 @@ namespace FluentModbus
         public unsafe Span<byte> GetCoilBuffer()
         {
             return new Span<byte>(this.CoilBufferPtr.ToPointer(), _coilSize);
+        }
+
+        /// <summary>
+        /// Gets the discrete inputs as <see cref="byte"/> array.
+        /// </summary>
+        public Span<byte> GetDiscreteInputs()
+        {
+            return this.GetDiscreteInputBuffer();
         }
 
         /// <summary>

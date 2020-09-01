@@ -21,11 +21,11 @@ FluentModbus is a .NET Standard library (2.0 and 2.1) that provides a Modbus TCP
 
 Please see the introduction below to get a more detailed description on how to use this library!
 
-Below is a screenshot of the [sample](samples/modbus_tcp.md) console output using a Modbus TCP server and client:
+Here is a screenshot of the [sample](samples/modbus_tcp.md) console output using a Modbus TCP server and client:
 
 ![Sample.](images/sample.png)
 
-### Installing the package
+### Install the package
 
 Simply start a new .NET Core project with the `FluentModbus` package installed:
 
@@ -34,7 +34,8 @@ PS> dotnet new console
 PS> dotnet add package FluentModbus
 ```
 
-## Creating a Modbus TCP client
+# Modbus Client Section
+## Modbus TCP client
 
 A new Modbus TCP client can be easily created with the following code:
 
@@ -55,7 +56,7 @@ client.Connect(IPAddress.Parse("127.0.0.1"));
 client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502))
 ```
 
-## Creating a Modbus RTU client
+## Modbus RTU client
 
 Alternatively, a new Modbus RTU client can be created with the following code:
 
@@ -79,7 +80,7 @@ client.Connect("COM1");
 ```
 
 ## Little-Endian vs. Big-Endian
-The Modbus specs define a big-endian data layout, i.e. the most significant bit is sent first. However, most modern systems have little-endian memory layout. Thus, it is required to convert the data from one layout into the other. However, there are Modbus servers around that work with little-endian data, too.  
+The Modbus specs define a big-endian data layout, i.e. the most significant byte is sent first. Opposed to this, most modern systems have little-endian memory layout. This requires to convert the data from one layout into the other whenever a Modbus register is access. Additionally, there are also Modbus servers around that work with little-endian data.
 
 Due to this inconsistency it may happen that you get strange numbers from the Modbus server. In that case try one of the following `Connect()` overloads:
 
@@ -117,9 +118,9 @@ The data remain unchanged during all of these calls. _Only the interpretation ch
 float[] floatArray = floatSpan.ToArray();
 ```
 
-## Reading data
+## Read data
 
-### Reading integer or float
+### Read integer or float
 
 First, define the unit identifier, the starting address and the number of values to read (count):
 
@@ -163,7 +164,7 @@ async byte[] DoAsync()
 
 > **Note:** The generic overloads shown here are intended for normal use. Compared to that, the non-generic overloads like ```client.ReadHoldingRegisters()``` have slightly better performance. However, they achieve this by doing fewer checks and conversions. This means, these methods are less convenient to use and only recommended in high-performance scenarios, where raw data (i.e. byte arrays) are moved around.
 
-### Reading boolean
+### Read boolean
 
 Boolean values are returned as single bits (1 = true, 0 = false), which are packed into bytes. If you request 10 booleans you get a ```Span<byte>``` in return with a length of ```2``` bytes. In this example, the remaining ```6``` bits are fill values.
 
@@ -184,9 +185,9 @@ var boolValue = ((boolData[0] >> position) & 1) > 0;
 
 See also [this](https://stackoverflow.com/questions/47981/how-do-you-set-clear-and-toggle-a-single-bit) overview to understand how to manipulate single bits.
 
-## Writing data
+## Write data
 
-### Writing integer or float
+### Write integer or float
 
 The following example shows how to write the number ```4263``` to the server:
 
@@ -213,15 +214,16 @@ var floatData = new float[] { 1.1F, 9557e3F };
 client.WriteMultipleRegisters(unitIdentifier, startingAddress, floatData);
 ```
 
-### Writing boolean
+### Write boolean
 
 It's as simple as:
 
 ```cs
 client.WriteSingleCoil(unitIdentifier, registerAddress, true);
 ```
+# Modbus Server Section
 
-## Creating a Modbus TCP server
+## Modbus TCP server
 
 First, you need to instantiate the Modbus TCP server:
 
@@ -288,7 +290,7 @@ while (!cts.IsCancellationRequested)
 
 Note that in the second example, the ```Task.Delay()``` period is much lower. Since we want coordinated access between the application and the clients _without_ locks, we need to ensure that at certain points in time, the application is safe to access the buffers. This is the case when the ```IsReady``` propery is ```true``` (when all client requests have been served). After the application finished manipulating the server data, it triggers the server to serve all accumulated client requests (via the ```Update()``` method). Finally, the process repeats.
 
-## Creating a Modbus RTU server
+## Modbus RTU server
 
 When you need a Modbus RTU server, you need to instantiate it like this providing a ```unitIdentifier```, which must be in the range of 1..247 and unique for each Modbus server or slave, respectively:
 
@@ -304,7 +306,89 @@ server.Start(port: "COM1");
 
 As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.
 
-## See also
+## Input and Holding registers
+As written above in the client section, the Modbus specs define a big-endian data layout, i.e. the most significant byte is sent first. Opposed to this, most modern systems have little-endian memory layout. This requires to convert the data from one layout into the other whenever a Modbus register is access. Additionally, there are also Modbus servers around that work with little-endian data.
+
+Both Modbus servers (TCP and RTU) are enabled to work with both kinds of byte layouts. Originally, the Modbus specs only define 2-byte (16-bit) registers but with the FluentModbus servers you are able to overcome this limitation and interpret the data as any value type you want (more details to this can be found in the `Span<T>` section above).
+
+Since the actual data type in the registers is unknown, the FluentModbus server cannot handle the data layout conversion in a fully automated way. For this, a little help of the user is required:
+
+```cs
+// Get a reference to the holding registers.
+var registers = server.GetHoldingRegisters();
+
+// Write a double value (0.85) to address 1.
+// With an 8-byte double value, this will be written into
+// the holding registers 1 - 4.
+registers.SetBigEndian<double>(address: 1, value: 0.85);
+```
+
+> **Note:** Always keep the data type in mind to avoid setting an integer if you wanted to write a short value:
+
+```cs
+// This will write an 4 byte integer
+registers.SetBigEndian(address: 1, value: 99);
+
+// These will write a 2 byte short
+registers.SetBigEndian(address: 1, value: (short)99);
+registers.SetBigEndian<short>(address: 1, value: 99);
+```
+
+There are complementary methods for little-endian data and methods for reading data. The full list of `Span<short>` extension methods is:
+
+```cs
+void registers.SetBigEndian<T>(...);
+void registers.SetLittleEndian<T>(...);
+
+Span<short> registers.GetBigEndian<T>(...);
+Span<short> registers.GetLittleEndian<T>(...);
+```
+
+## Coils and Discrete Inputs
+
+There is not endianness problem with bit-oriented data, so no special methods are required here, but to ease access there are some convenience methods:
+
+```cs
+// Get buffer
+var coils = server.GetCoils(); // or server.GetDiscreteInputs()
+
+// Set bit.
+coils.Set(address: 1, value: true);
+var value = coils.Get(address: 1); // should return 'true'
+
+// Unset bit
+coils.Set(address: 2, value: false);
+var value = coils.Get(address: 1); // should return 'false'
+
+// Toggle bit
+coils.Toggle(address: 2, value: false);
+var value = coils.Get(address: 1); // should return 'true'
+```
+
+## Frame validation
+It might happen that a server should not support all Modbus functions or only a limited set of registers. In that case simply assign a validation action to the server:
+
+```cs
+
+var server = new ModbusTcpServer()
+{
+    RequestValidator = (functionCode, address, quantityOfRegisters) =>
+    {
+        if (functionCode == ModbusFunctionCode.WriteSingleRegister)
+            return ModbusExceptionCode.IllegalFunction;
+
+        else if (address < 5 || address > 15)
+            return ModbusExceptionCode.IllegalDataAddress;
+
+        else
+            return ModbusExceptionCode.OK;
+    }
+};
+```
+
+See a full example in the [sample](samples/modbus_tcp.md) section.
+
+# See also
 
 This implementation is based on http://www.modbus.org/specs.php:
 

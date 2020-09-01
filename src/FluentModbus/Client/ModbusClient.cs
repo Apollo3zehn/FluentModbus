@@ -23,40 +23,40 @@ namespace FluentModbus
             switch (exceptionCode)
             {
                 case ModbusExceptionCode.IllegalFunction:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x01_IllegalFunction);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x01_IllegalFunction);
                 case ModbusExceptionCode.IllegalDataAddress:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x02_IllegalDataAddress);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x02_IllegalDataAddress);
                 case ModbusExceptionCode.IllegalDataValue:
 
                     switch (functionCode)
                     {
                         case ModbusFunctionCode.WriteMultipleRegisters:
-                            throw new ModbusException(ErrorMessage.ModbusClient_0x03_IllegalDataValue_0x7B);
+                            throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x03_IllegalDataValue_0x7B);
 
                         case ModbusFunctionCode.ReadHoldingRegisters:
                         case ModbusFunctionCode.ReadInputRegisters:
-                            throw new ModbusException(ErrorMessage.ModbusClient_0x03_IllegalDataValue_0x7D);
+                            throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x03_IllegalDataValue_0x7D);
 
                         case ModbusFunctionCode.ReadCoils:
                         case ModbusFunctionCode.ReadDiscreteInputs:
-                            throw new ModbusException(ErrorMessage.ModbusClient_0x03_IllegalDataValue_0x7D0);
+                            throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x03_IllegalDataValue_0x7D0);
 
                         default:
-                            throw new ModbusException(ErrorMessage.ModbusClient_0x03_IllegalDataValue);
+                            throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x03_IllegalDataValue);
                     }
 
                 case ModbusExceptionCode.ServerDeviceFailure:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x04_ServerDeviceFailure);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x04_ServerDeviceFailure);
                 case ModbusExceptionCode.Acknowledge:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x05_Acknowledge);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x05_Acknowledge);
                 case ModbusExceptionCode.ServerDeviceBusy:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x06_ServerDeviceBusy);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x06_ServerDeviceBusy);
                 case ModbusExceptionCode.MemoryParityError:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x08_MemoryParityError);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x08_MemoryParityError);
                 case ModbusExceptionCode.GatewayPathUnavailable:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x0A_GatewayPathUnavailable);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x0A_GatewayPathUnavailable);
                 case ModbusExceptionCode.GatewayTargetDeviceFailedToRespond:
-                    throw new ModbusException(ErrorMessage.ModbusClient_0x0B_GatewayTargetDeviceFailedToRespond);
+                    throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x0B_GatewayTargetDeviceFailedToRespond);
                 default:
                     throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_InvalidExceptionCode);
             }
