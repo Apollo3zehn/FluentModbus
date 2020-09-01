@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ExtendedBinaryReader.html",
-          "hash": "KZ8fXfoq9ME0d/EngYLgCw=="
+          "hash": "ro3HPeOliuy/fDjdu1QFUA=="
         }
       },
       "is_incremental": true,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ExtendedBinaryWriter.html",
-          "hash": "PxtXS9/IEH7BrPdQIFNNQQ=="
+          "hash": "WfMOLEjFyIhoFkPIPsRNPg=="
         }
       },
       "is_incremental": true,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusClient.html",
-          "hash": "8YydoIkEHSy7tJ3VZe7WMg=="
+          "hash": "TLiTAXSP0zrXospnD7hPKQ=="
         }
       },
       "is_incremental": true,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusEndianness.html",
-          "hash": "nwXWGNomZPhEzgmDACzjsw=="
+          "hash": "7BR+lymMYddHoulnLE50bw=="
         }
       },
       "is_incremental": true,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusException.html",
-          "hash": "UWjtUZfwvT0cO7M9HO30ow=="
+          "hash": "eCsV/TAhlQwMyKJaMZSRFQ=="
         }
       },
       "is_incremental": true,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusExceptionCode.html",
-          "hash": "/Nh1wnCFqvIYruOvK56ZOQ=="
+          "hash": "D5kJttkE3rVdGu1degaM8g=="
         }
       },
       "is_incremental": true,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusFunctionCode.html",
-          "hash": "QiKcZymheRsNSjUvGOQlIA=="
+          "hash": "7ah2gXUOqJqSKbGZ5+cJnA=="
         }
       },
       "is_incremental": true,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusRtuClient.html",
-          "hash": "DgHXOwX84oiXsLu8Ztf/cw=="
+          "hash": "MFl/Lg3109fEfKgBNhHZ6Q=="
         }
       },
       "is_incremental": true,
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusRtuServer.html",
-          "hash": "Sg7vm+onn4pQzujQhP26Cg=="
+          "hash": "F/AqjIK7a2Q8zuwFQMHeZA=="
         }
       },
       "is_incremental": true,
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusServer.html",
-          "hash": "/jCnzTPmVqnj0AJejJW77A=="
+          "hash": "9G9oo/eeHHOp5gRCwK+GSQ=="
         }
       },
       "is_incremental": true,
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusTcpClient.html",
-          "hash": "KQPaqYWSY3tYZ8jIe7GxXQ=="
+          "hash": "yHGXcASEWN+5OD1mChprqw=="
         }
       },
       "is_incremental": true,
@@ -141,7 +141,19 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.ModbusTcpServer.html",
-          "hash": "7umpvAOh4LJRSSuNGMyqSQ=="
+          "hash": "najMaXF3p7dis6VsBSaBMQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FluentModbus.SpanExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FluentModbus.SpanExtensions.html",
+          "hash": "UPJYsxA/Ee2mukPc9azxbQ=="
         }
       },
       "is_incremental": true,
@@ -153,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "api/FluentModbus.html",
-          "hash": "QolF5I3f80880gUGfbLfNQ=="
+          "hash": "b5ipg8DQm7r5JgCMNa7yjQ=="
         }
       },
       "is_incremental": true,
@@ -165,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "+LbYDNpqJbwfjiRWTSEkIA=="
+          "hash": "TRhJNgStIC7Oy2DR4zxuYg=="
         }
       },
       "is_incremental": false,
@@ -221,10 +233,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "csju44e4z/zQgHvAx1LSsA=="
+          "hash": "YDvvmAEwDvAdENCK41+sDg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -233,10 +245,10 @@
       "output": {
         ".html": {
           "relative_path": "samples/modbus_rtu.html",
-          "hash": "OC8tPO61/fOFEiGsvaX4yg=="
+          "hash": "d1Ta00rSM7ORAYaYuAZosA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -245,7 +257,19 @@
       "output": {
         ".html": {
           "relative_path": "samples/modbus_tcp.html",
-          "hash": "I3HFC1NMIXLW3bO26fAWOg=="
+          "hash": "ZvlbGQxm/DdIXQ7ovfrd8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "samples/modbus_validator.md",
+      "output": {
+        ".html": {
+          "relative_path": "samples/modbus_validator.html",
+          "hash": "YLzF3clUi//RhXh5cw7LqQ=="
         }
       },
       "is_incremental": true,
@@ -257,7 +281,7 @@
       "output": {
         ".html": {
           "relative_path": "samples/toc.html",
-          "hash": "2K18AYTls99RDZzctm01SA=="
+          "hash": "vwyQPsOxopLYz1DRqXyWxA=="
         }
       },
       "is_incremental": false,
@@ -269,7 +293,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "HUh9YQU/5RgNDJiONbPDSw=="
+          "hash": "TdsWWknRJm1BUW5cWUgYvA=="
         }
       },
       "is_incremental": false,
@@ -285,12 +309,17 @@
         "skipped_file_count": 0
       },
       "processors": {
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
+          "total_file_count": 4,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 14,
+          "skipped_file_count": 14
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
@@ -299,17 +328,12 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 13,
-          "skipped_file_count": 13
-        },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 3,
-          "skipped_file_count": 3
+          "total_file_count": 0,
+          "skipped_file_count": 0
         }
       }
     },

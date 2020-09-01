@@ -460,6 +460,19 @@ references:
   commentId: T:FluentModbus.ModbusException
   fullName: FluentModbus.ModbusException
   nameWithType: ModbusException
+- uid: FluentModbus.ModbusException.ExceptionCode
+  name: ExceptionCode
+  href: api/FluentModbus.ModbusException.html#FluentModbus_ModbusException_ExceptionCode
+  commentId: P:FluentModbus.ModbusException.ExceptionCode
+  fullName: FluentModbus.ModbusException.ExceptionCode
+  nameWithType: ModbusException.ExceptionCode
+- uid: FluentModbus.ModbusException.ExceptionCode*
+  name: ExceptionCode
+  href: api/FluentModbus.ModbusException.html#FluentModbus_ModbusException_ExceptionCode_
+  commentId: Overload:FluentModbus.ModbusException.ExceptionCode
+  isSpec: "True"
+  fullName: FluentModbus.ModbusException.ExceptionCode
+  nameWithType: ModbusException.ExceptionCode
 - uid: FluentModbus.ModbusExceptionCode
   name: ModbusExceptionCode
   href: api/FluentModbus.ModbusExceptionCode.html
@@ -508,6 +521,12 @@ references:
   commentId: F:FluentModbus.ModbusExceptionCode.MemoryParityError
   fullName: FluentModbus.ModbusExceptionCode.MemoryParityError
   nameWithType: ModbusExceptionCode.MemoryParityError
+- uid: FluentModbus.ModbusExceptionCode.OK
+  name: OK
+  href: api/FluentModbus.ModbusExceptionCode.html#FluentModbus_ModbusExceptionCode_OK
+  commentId: F:FluentModbus.ModbusExceptionCode.OK
+  fullName: FluentModbus.ModbusExceptionCode.OK
+  nameWithType: ModbusExceptionCode.OK
 - uid: FluentModbus.ModbusExceptionCode.ServerDeviceBusy
   name: ServerDeviceBusy
   href: api/FluentModbus.ModbusExceptionCode.html#FluentModbus_ModbusExceptionCode_ServerDeviceBusy
@@ -1025,6 +1044,19 @@ references:
   fullName.vb: FluentModbus.ModbusServer.GetCoilBuffer(Of T)()
   nameWithType: ModbusServer.GetCoilBuffer<T>()
   nameWithType.vb: ModbusServer.GetCoilBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.GetCoils
+  name: GetCoils()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoils
+  commentId: M:FluentModbus.ModbusServer.GetCoils
+  fullName: FluentModbus.ModbusServer.GetCoils()
+  nameWithType: ModbusServer.GetCoils()
+- uid: FluentModbus.ModbusServer.GetCoils*
+  name: GetCoils
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoils_
+  commentId: Overload:FluentModbus.ModbusServer.GetCoils
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetCoils
+  nameWithType: ModbusServer.GetCoils
 - uid: FluentModbus.ModbusServer.GetDiscreteInputBuffer
   name: GetDiscreteInputBuffer()
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer
@@ -1047,6 +1079,19 @@ references:
   fullName.vb: FluentModbus.ModbusServer.GetDiscreteInputBuffer(Of T)()
   nameWithType: ModbusServer.GetDiscreteInputBuffer<T>()
   nameWithType.vb: ModbusServer.GetDiscreteInputBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.GetDiscreteInputs
+  name: GetDiscreteInputs()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputs
+  commentId: M:FluentModbus.ModbusServer.GetDiscreteInputs
+  fullName: FluentModbus.ModbusServer.GetDiscreteInputs()
+  nameWithType: ModbusServer.GetDiscreteInputs()
+- uid: FluentModbus.ModbusServer.GetDiscreteInputs*
+  name: GetDiscreteInputs
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputs_
+  commentId: Overload:FluentModbus.ModbusServer.GetDiscreteInputs
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetDiscreteInputs
+  nameWithType: ModbusServer.GetDiscreteInputs
 - uid: FluentModbus.ModbusServer.GetHoldingRegisterBuffer
   name: GetHoldingRegisterBuffer()
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer
@@ -1069,6 +1114,19 @@ references:
   fullName.vb: FluentModbus.ModbusServer.GetHoldingRegisterBuffer(Of T)()
   nameWithType: ModbusServer.GetHoldingRegisterBuffer<T>()
   nameWithType.vb: ModbusServer.GetHoldingRegisterBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.GetHoldingRegisters
+  name: GetHoldingRegisters()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisters
+  commentId: M:FluentModbus.ModbusServer.GetHoldingRegisters
+  fullName: FluentModbus.ModbusServer.GetHoldingRegisters()
+  nameWithType: ModbusServer.GetHoldingRegisters()
+- uid: FluentModbus.ModbusServer.GetHoldingRegisters*
+  name: GetHoldingRegisters
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisters_
+  commentId: Overload:FluentModbus.ModbusServer.GetHoldingRegisters
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetHoldingRegisters
+  nameWithType: ModbusServer.GetHoldingRegisters
 - uid: FluentModbus.ModbusServer.GetInputRegisterBuffer
   name: GetInputRegisterBuffer()
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer
@@ -1091,6 +1149,19 @@ references:
   fullName.vb: FluentModbus.ModbusServer.GetInputRegisterBuffer(Of T)()
   nameWithType: ModbusServer.GetInputRegisterBuffer<T>()
   nameWithType.vb: ModbusServer.GetInputRegisterBuffer(Of T)()
+- uid: FluentModbus.ModbusServer.GetInputRegisters
+  name: GetInputRegisters()
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisters
+  commentId: M:FluentModbus.ModbusServer.GetInputRegisters
+  fullName: FluentModbus.ModbusServer.GetInputRegisters()
+  nameWithType: ModbusServer.GetInputRegisters()
+- uid: FluentModbus.ModbusServer.GetInputRegisters*
+  name: GetInputRegisters
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisters_
+  commentId: Overload:FluentModbus.ModbusServer.GetInputRegisters
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.GetInputRegisters
+  nameWithType: ModbusServer.GetInputRegisters
 - uid: FluentModbus.ModbusServer.HoldingRegisterBufferPtr
   name: HoldingRegisterBufferPtr
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_HoldingRegisterBufferPtr
@@ -1195,6 +1266,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusServer.MaxInputRegisterAddress
   nameWithType: ModbusServer.MaxInputRegisterAddress
+- uid: FluentModbus.ModbusServer.RequestValidator
+  name: RequestValidator
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_RequestValidator
+  commentId: P:FluentModbus.ModbusServer.RequestValidator
+  fullName: FluentModbus.ModbusServer.RequestValidator
+  nameWithType: ModbusServer.RequestValidator
+- uid: FluentModbus.ModbusServer.RequestValidator*
+  name: RequestValidator
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_RequestValidator_
+  commentId: Overload:FluentModbus.ModbusServer.RequestValidator
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.RequestValidator
+  nameWithType: ModbusServer.RequestValidator
 - uid: FluentModbus.ModbusServer.Start
   name: Start()
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Start
@@ -1398,6 +1482,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer
   nameWithType: ModbusTcpServer.ModbusTcpServer
+- uid: FluentModbus.ModbusTcpServer.ConnectionCount
+  name: ConnectionCount
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_ConnectionCount
+  commentId: P:FluentModbus.ModbusTcpServer.ConnectionCount
+  fullName: FluentModbus.ModbusTcpServer.ConnectionCount
+  nameWithType: ModbusTcpServer.ConnectionCount
+- uid: FluentModbus.ModbusTcpServer.ConnectionCount*
+  name: ConnectionCount
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_ConnectionCount_
+  commentId: Overload:FluentModbus.ModbusTcpServer.ConnectionCount
+  isSpec: "True"
+  fullName: FluentModbus.ModbusTcpServer.ConnectionCount
+  nameWithType: ModbusTcpServer.ConnectionCount
 - uid: FluentModbus.ModbusTcpServer.ConnectionTimeout
   name: ConnectionTimeout
   href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_ConnectionTimeout
@@ -1411,6 +1508,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpServer.ConnectionTimeout
   nameWithType: ModbusTcpServer.ConnectionTimeout
+- uid: FluentModbus.ModbusTcpServer.MaxConnections
+  name: MaxConnections
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxConnections
+  commentId: P:FluentModbus.ModbusTcpServer.MaxConnections
+  fullName: FluentModbus.ModbusTcpServer.MaxConnections
+  nameWithType: ModbusTcpServer.MaxConnections
+- uid: FluentModbus.ModbusTcpServer.MaxConnections*
+  name: MaxConnections
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_MaxConnections_
+  commentId: Overload:FluentModbus.ModbusTcpServer.MaxConnections
+  isSpec: "True"
+  fullName: FluentModbus.ModbusTcpServer.MaxConnections
+  nameWithType: ModbusTcpServer.MaxConnections
 - uid: FluentModbus.ModbusTcpServer.Start
   name: Start()
   href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer_Start
@@ -1449,3 +1559,121 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusTcpServer.Stop
   nameWithType: ModbusTcpServer.Stop
+- uid: FluentModbus.SpanExtensions
+  name: SpanExtensions
+  href: api/FluentModbus.SpanExtensions.html
+  commentId: T:FluentModbus.SpanExtensions
+  fullName: FluentModbus.SpanExtensions
+  nameWithType: SpanExtensions
+- uid: FluentModbus.SpanExtensions.Get(System.Span{System.Byte},System.UInt16)
+  name: Get(Span<Byte>, UInt16)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Get_System_Span_System_Byte__System_UInt16_
+  commentId: M:FluentModbus.SpanExtensions.Get(System.Span{System.Byte},System.UInt16)
+  name.vb: Get(Span(Of Byte), UInt16)
+  fullName: FluentModbus.SpanExtensions.Get(System.Span<System.Byte>, System.UInt16)
+  fullName.vb: FluentModbus.SpanExtensions.Get(System.Span(Of System.Byte), System.UInt16)
+  nameWithType: SpanExtensions.Get(Span<Byte>, UInt16)
+  nameWithType.vb: SpanExtensions.Get(Span(Of Byte), UInt16)
+- uid: FluentModbus.SpanExtensions.Get*
+  name: Get
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Get_
+  commentId: Overload:FluentModbus.SpanExtensions.Get
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.Get
+  nameWithType: SpanExtensions.Get
+- uid: FluentModbus.SpanExtensions.GetBigEndian*
+  name: GetBigEndian
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_GetBigEndian_
+  commentId: Overload:FluentModbus.SpanExtensions.GetBigEndian
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.GetBigEndian
+  nameWithType: SpanExtensions.GetBigEndian
+- uid: FluentModbus.SpanExtensions.GetBigEndian``1(System.Span{System.Int16},System.UInt16)
+  name: GetBigEndian<T>(Span<Int16>, UInt16)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_GetBigEndian__1_System_Span_System_Int16__System_UInt16_
+  commentId: M:FluentModbus.SpanExtensions.GetBigEndian``1(System.Span{System.Int16},System.UInt16)
+  name.vb: GetBigEndian(Of T)(Span(Of Int16), UInt16)
+  fullName: FluentModbus.SpanExtensions.GetBigEndian<T>(System.Span<System.Int16>, System.UInt16)
+  fullName.vb: FluentModbus.SpanExtensions.GetBigEndian(Of T)(System.Span(Of System.Int16), System.UInt16)
+  nameWithType: SpanExtensions.GetBigEndian<T>(Span<Int16>, UInt16)
+  nameWithType.vb: SpanExtensions.GetBigEndian(Of T)(Span(Of Int16), UInt16)
+- uid: FluentModbus.SpanExtensions.GetLittleEndian*
+  name: GetLittleEndian
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_GetLittleEndian_
+  commentId: Overload:FluentModbus.SpanExtensions.GetLittleEndian
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.GetLittleEndian
+  nameWithType: SpanExtensions.GetLittleEndian
+- uid: FluentModbus.SpanExtensions.GetLittleEndian``1(System.Span{System.Int16},System.UInt16)
+  name: GetLittleEndian<T>(Span<Int16>, UInt16)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_GetLittleEndian__1_System_Span_System_Int16__System_UInt16_
+  commentId: M:FluentModbus.SpanExtensions.GetLittleEndian``1(System.Span{System.Int16},System.UInt16)
+  name.vb: GetLittleEndian(Of T)(Span(Of Int16), UInt16)
+  fullName: FluentModbus.SpanExtensions.GetLittleEndian<T>(System.Span<System.Int16>, System.UInt16)
+  fullName.vb: FluentModbus.SpanExtensions.GetLittleEndian(Of T)(System.Span(Of System.Int16), System.UInt16)
+  nameWithType: SpanExtensions.GetLittleEndian<T>(Span<Int16>, UInt16)
+  nameWithType.vb: SpanExtensions.GetLittleEndian(Of T)(Span(Of Int16), UInt16)
+- uid: FluentModbus.SpanExtensions.Set(System.Span{System.Byte},System.UInt16,System.Boolean)
+  name: Set(Span<Byte>, UInt16, Boolean)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Set_System_Span_System_Byte__System_UInt16_System_Boolean_
+  commentId: M:FluentModbus.SpanExtensions.Set(System.Span{System.Byte},System.UInt16,System.Boolean)
+  name.vb: Set(Span(Of Byte), UInt16, Boolean)
+  fullName: FluentModbus.SpanExtensions.Set(System.Span<System.Byte>, System.UInt16, System.Boolean)
+  fullName.vb: FluentModbus.SpanExtensions.Set(System.Span(Of System.Byte), System.UInt16, System.Boolean)
+  nameWithType: SpanExtensions.Set(Span<Byte>, UInt16, Boolean)
+  nameWithType.vb: SpanExtensions.Set(Span(Of Byte), UInt16, Boolean)
+- uid: FluentModbus.SpanExtensions.Set*
+  name: Set
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Set_
+  commentId: Overload:FluentModbus.SpanExtensions.Set
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.Set
+  nameWithType: SpanExtensions.Set
+- uid: FluentModbus.SpanExtensions.SetBigEndian*
+  name: SetBigEndian
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_SetBigEndian_
+  commentId: Overload:FluentModbus.SpanExtensions.SetBigEndian
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.SetBigEndian
+  nameWithType: SpanExtensions.SetBigEndian
+- uid: FluentModbus.SpanExtensions.SetBigEndian``1(System.Span{System.Int16},System.UInt16,``0)
+  name: SetBigEndian<T>(Span<Int16>, UInt16, T)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_SetBigEndian__1_System_Span_System_Int16__System_UInt16___0_
+  commentId: M:FluentModbus.SpanExtensions.SetBigEndian``1(System.Span{System.Int16},System.UInt16,``0)
+  name.vb: SetBigEndian(Of T)(Span(Of Int16), UInt16, T)
+  fullName: FluentModbus.SpanExtensions.SetBigEndian<T>(System.Span<System.Int16>, System.UInt16, T)
+  fullName.vb: FluentModbus.SpanExtensions.SetBigEndian(Of T)(System.Span(Of System.Int16), System.UInt16, T)
+  nameWithType: SpanExtensions.SetBigEndian<T>(Span<Int16>, UInt16, T)
+  nameWithType.vb: SpanExtensions.SetBigEndian(Of T)(Span(Of Int16), UInt16, T)
+- uid: FluentModbus.SpanExtensions.SetLittleEndian*
+  name: SetLittleEndian
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_SetLittleEndian_
+  commentId: Overload:FluentModbus.SpanExtensions.SetLittleEndian
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.SetLittleEndian
+  nameWithType: SpanExtensions.SetLittleEndian
+- uid: FluentModbus.SpanExtensions.SetLittleEndian``1(System.Span{System.Int16},System.UInt16,``0)
+  name: SetLittleEndian<T>(Span<Int16>, UInt16, T)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_SetLittleEndian__1_System_Span_System_Int16__System_UInt16___0_
+  commentId: M:FluentModbus.SpanExtensions.SetLittleEndian``1(System.Span{System.Int16},System.UInt16,``0)
+  name.vb: SetLittleEndian(Of T)(Span(Of Int16), UInt16, T)
+  fullName: FluentModbus.SpanExtensions.SetLittleEndian<T>(System.Span<System.Int16>, System.UInt16, T)
+  fullName.vb: FluentModbus.SpanExtensions.SetLittleEndian(Of T)(System.Span(Of System.Int16), System.UInt16, T)
+  nameWithType: SpanExtensions.SetLittleEndian<T>(Span<Int16>, UInt16, T)
+  nameWithType.vb: SpanExtensions.SetLittleEndian(Of T)(Span(Of Int16), UInt16, T)
+- uid: FluentModbus.SpanExtensions.Toggle(System.Span{System.Byte},System.UInt16)
+  name: Toggle(Span<Byte>, UInt16)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Toggle_System_Span_System_Byte__System_UInt16_
+  commentId: M:FluentModbus.SpanExtensions.Toggle(System.Span{System.Byte},System.UInt16)
+  name.vb: Toggle(Span(Of Byte), UInt16)
+  fullName: FluentModbus.SpanExtensions.Toggle(System.Span<System.Byte>, System.UInt16)
+  fullName.vb: FluentModbus.SpanExtensions.Toggle(System.Span(Of System.Byte), System.UInt16)
+  nameWithType: SpanExtensions.Toggle(Span<Byte>, UInt16)
+  nameWithType.vb: SpanExtensions.Toggle(Span(Of Byte), UInt16)
+- uid: FluentModbus.SpanExtensions.Toggle*
+  name: Toggle
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Toggle_
+  commentId: Overload:FluentModbus.SpanExtensions.Toggle
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.Toggle
+  nameWithType: SpanExtensions.Toggle

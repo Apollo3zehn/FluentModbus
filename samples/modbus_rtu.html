@@ -8,7 +8,7 @@
     <title>Modbus RTU | FluentModbus </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Modbus RTU | FluentModbus ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -177,17 +177,25 @@
 {
     var random = new Random();
 
-    // interpret buffer as array of bytes (8 bit)
-    var byte_buffer = server.GetHoldingRegisterBuffer&lt;byte&gt;();
-    byte_buffer[20] = (byte)(random.Next() &gt;&gt; 24);
+    // Option A: normal performance version, more flexibility
 
-    // interpret buffer as array of shorts (16 bit)
-    var short_buffer = server.GetHoldingRegisterBuffer&lt;short&gt;();
-    short_buffer[30] = (short)(random.Next(0, 100) &gt;&gt; 16);
+        /* get buffer in standard form (Span&lt;short&gt;) */
+        var registers = server.GetHoldingRegisters();
+        registers.SetLittleEndian(startingAddress: 5, random.Next());
 
-    // interpret buffer as array of ints (32 bit)
-    var int_buffer = server.GetHoldingRegisterBuffer&lt;int&gt;();
-    int_buffer[40] = random.Next(0, 100);
+    // Option B: high performance version, less flexibility
+
+        /* interpret buffer as array of bytes (8 bit) */
+        var byte_buffer = server.GetHoldingRegisterBuffer&lt;byte&gt;();
+        byte_buffer[20] = (byte)(random.Next() &gt;&gt; 24);
+
+        /* interpret buffer as array of shorts (16 bit) */
+        var short_buffer = server.GetHoldingRegisterBuffer&lt;short&gt;();
+        short_buffer[30] = (short)(random.Next(0, 100) &gt;&gt; 16);
+
+        /* interpret buffer as array of ints (32 bit) */
+        var int_buffer = server.GetHoldingRegisterBuffer&lt;int&gt;();
+        int_buffer[40] = random.Next(0, 100);
 }
 
 </code></pre>

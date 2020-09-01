@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum ModbusEndianness
-   | FluentModbus </title>
+    <title>Modbus Validator | FluentModbus </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum ModbusEndianness
-   | FluentModbus ">
+    <meta name="title" content="Modbus Validator | FluentModbus ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
@@ -68,42 +66,50 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="FluentModbus.ModbusEndianness">
-  
-  
-  <h1 id="FluentModbus_ModbusEndianness" data-uid="FluentModbus.ModbusEndianness" class="text-break">Enum ModbusEndianness
-  </h1>
-  <div class="markdown level0 summary"><p>Specifies the endianness of the data.</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
-  <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
-  <h5 id="FluentModbus_ModbusEndianness_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum ModbusEndianness</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr>
-        <td id="FluentModbus_ModbusEndianness_BigEndian">BigEndian</td>
-        <td><p>Big endian data layout, i.e. the most significant byte is trasmitted first.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="FluentModbus_ModbusEndianness_LittleEndian">LittleEndian</td>
-        <td><p>Little endian data layout, i.e. the least significant byte is trasmitted first.</p>
-</td>
-      </tr>
-    </tbody>
-  </thead></thead></table>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="modbus-validator">Modbus Validator</h1>
+
+<p>The following code is an extension to the <a href="modbus_tcp.html">Modbus TCP sample</a> but is just as valid for the RTU server. The <code>RequestValidator</code> property accepts a method which performs the validation each time a client sends a request to the server. This function will not replace the default checks but complement it. This means for example that the server will still check if the absolute registers limits are exceeded or an unknown function code is provided.</p>
+<pre><code class="lang-cs">var server = new ModbusTcpServer()
+{
+    RequestValidator = this.ModbusValidator;
+};
+
+private ModbusExceptionCode ModbusValidator(
+    ModbusFunctionCode functionCode, 
+    ushort address, 
+    ushort quantityOfRegisters)
+{
+    // check if address is within valid holding register limits
+    var holdingLimits = (address &gt;= 50 &amp;&amp; address &lt; 90) ||
+                         address &gt;= 2000 &amp;&amp; address &lt; 2100;
+
+    // check if address is within valid input register limits
+    var inputLimits = address &gt;= 1000 &amp;&amp; address &lt; 2000;
+
+    // go through all cases and return proper response
+    return (functionCode, holdingLimits, inputLimits) switch
+    {
+        // holding registers
+        (ModbusFunctionCode.ReadHoldingRegisters, true, _)          =&gt; ModbusExceptionCode.OK,
+        (ModbusFunctionCode.ReadWriteMultipleRegisters, true, _)    =&gt; ModbusExceptionCode.OK,
+        (ModbusFunctionCode.WriteMultipleRegisters, true, _)        =&gt; ModbusExceptionCode.OK,
+        (ModbusFunctionCode.WriteSingleRegister, true, _)           =&gt; ModbusExceptionCode.OK,
+
+        (ModbusFunctionCode.ReadHoldingRegisters, false, _)         =&gt; ModbusExceptionCode.IllegalDataAddress,
+        (ModbusFunctionCode.ReadWriteMultipleRegisters, false, _)   =&gt; ModbusExceptionCode.IllegalDataAddress,
+        (ModbusFunctionCode.WriteMultipleRegisters, false, _)       =&gt; ModbusExceptionCode.IllegalDataAddress,
+        (ModbusFunctionCode.WriteSingleRegister, false, _)          =&gt; ModbusExceptionCode.IllegalDataAddress,
+
+        // input registers
+        (ModbusFunctionCode.ReadInputRegisters, _, true)            =&gt; ModbusExceptionCode.OK,
+        (ModbusFunctionCode.ReadInputRegisters, _, false)           =&gt; ModbusExceptionCode.IllegalDataAddress,
+
+        // deny other function codes
+        _                                                           =&gt; ModbusExceptionCode.IllegalFunction
+    };
+}
+</code></pre>
 </article>
           </div>
           
@@ -112,10 +118,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusEndianness.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusEndianness%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ModbusEndianness.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/doc/samples/modbus_validator.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
