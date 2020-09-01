@@ -136,10 +136,10 @@ namespace FluentModbus.Tests
                 }
 
                 // Windows
-                catch (IOException) { throw; }
+                catch (IOException) { }
 
                 // Linux
-                catch (InvalidOperationException) { throw; }
+                catch (InvalidOperationException) { }
 
                 server.MaxConnections = 3;
 
