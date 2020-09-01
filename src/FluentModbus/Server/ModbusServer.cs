@@ -111,7 +111,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets or sets a method that validates each client request.
         /// </summary>
-        public Func<ModbusFunctionCode, int, int, ModbusExceptionCode> RequestValidator { get; set; }
+        public Func<ModbusFunctionCode, ushort, ushort, ModbusExceptionCode> RequestValidator { get; set; }
 
         private protected CancellationTokenSource CTS { get; private set; }
 
@@ -178,6 +178,14 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Gets the coils as <see cref="byte"/> array.
+        /// </summary>
+        public Span<byte> GetCoils()
+        {
+            return this.GetCoilBuffer();
+        }
+
+        /// <summary>
         /// Gets the coil buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
@@ -192,6 +200,14 @@ namespace FluentModbus
         public unsafe Span<byte> GetCoilBuffer()
         {
             return new Span<byte>(this.CoilBufferPtr.ToPointer(), _coilSize);
+        }
+
+        /// <summary>
+        /// Gets the discrete inputs as <see cref="byte"/> array.
+        /// </summary>
+        public Span<byte> GetDiscreteInputs()
+        {
+            return this.GetDiscreteInputBuffer();
         }
 
         /// <summary>

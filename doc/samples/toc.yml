@@ -3,3 +3,6 @@
 
 - name: ModbusRTU
   href: modbus_rtu.md
+
+- name: ModbusTCP
+  href: modbus_validator.md

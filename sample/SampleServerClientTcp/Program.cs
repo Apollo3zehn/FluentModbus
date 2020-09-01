@@ -85,7 +85,7 @@ namespace FluentModbus.SampleMaster
 
                 /* get buffer in standard form (Span<short>) */
                 var registers = server.GetHoldingRegisters();
-                registers.SetValueLittleEndian(startingAddress: 5, random.Next());
+                registers.SetLittleEndian(address: 5, random.Next());
 
             // Option B: high performance version, less flexibility
 

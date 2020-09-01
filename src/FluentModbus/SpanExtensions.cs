@@ -14,15 +14,15 @@ namespace FluentModbus
         /// </summary>
         /// <typeparam name="T">The type of the value to write.</typeparam>
         /// <param name="buffer">The target buffer.</param>
-        /// <param name="startingAddress">The Modbus register starting address.</param>
+        /// <param name="address">The Modbus register address.</param>
         /// <param name="value">The value to write.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetValueLittleEndian<T>(this Span<short> buffer, ushort startingAddress, T value)
+        public static void SetLittleEndian<T>(this Span<short> buffer, ushort address, T value)
             where T : unmanaged
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(startingAddress);
+                .Slice(address);
 
             if (!BitConverter.IsLittleEndian)
                 value = ModbusUtils.SwitchEndianness(value);
@@ -35,15 +35,15 @@ namespace FluentModbus
         /// </summary>
         /// <typeparam name="T">The type of the value to write.</typeparam>
         /// <param name="buffer">The target buffer.</param>
-        /// <param name="startingAddress">The Modbus register starting address.</param>
+        /// <param name="address">The Modbus register address.</param>
         /// <param name="value">The value to write.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetValueBigEndian<T>(this Span<short> buffer, ushort startingAddress, T value)
+        public static void SetBigEndian<T>(this Span<short> buffer, ushort address, T value)
             where T : unmanaged
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(startingAddress);
+                .Slice(address);
 
             if (BitConverter.IsLittleEndian)
                 value = ModbusUtils.SwitchEndianness(value);
@@ -55,15 +55,15 @@ namespace FluentModbus
         /// Reads a single little-endian value of type <typeparamref name="T"/> from the registers.
         /// </summary>
         /// <typeparam name="T">The type of the value to read.</typeparam>
-        /// <param name="buffer">The target buffer.</param>
-        /// <param name="startingAddress">The Modbus register starting address.</param>
+        /// <param name="buffer">The source buffer.</param>
+        /// <param name="address">The Modbus register address.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T GetValueLittleEndian<T>(this Span<short> buffer, ushort startingAddress)
+        public static T GetLittleEndian<T>(this Span<short> buffer, ushort address)
             where T : unmanaged
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(startingAddress);
+                .Slice(address);
 
             var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
 
@@ -77,15 +77,15 @@ namespace FluentModbus
         /// Reads a single big-endian value of type <typeparamref name="T"/> from the registers.
         /// </summary>
         /// <typeparam name="T">The type of the value to read.</typeparam>
-        /// <param name="buffer">The target buffer.</param>
-        /// <param name="startingAddress">The Modbus register starting address.</param>
+        /// <param name="buffer">The source buffer.</param>
+        /// <param name="address">The Modbus register address.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T GetValueBigEndian<T>(this Span<short> buffer, ushort startingAddress)
+        public static T GetBigEndian<T>(this Span<short> buffer, ushort address)
             where T : unmanaged
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(startingAddress);
+                .Slice(address);
 
             var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
 
@@ -93,6 +93,56 @@ namespace FluentModbus
                 value = ModbusUtils.SwitchEndianness(value);
 
             return value;
+        }
+
+        /// <summary>
+        /// Writes a single bit to the buffer.
+        /// </summary>
+        /// <param name="buffer">The target buffer.</param>
+        /// <param name="address">The Modbus address.</param>
+        /// <param name="value">The value to set.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Set(this Span<byte> buffer, ushort address, bool value)
+        {
+            var byteIndex = address / 8;
+            var bitIndex = address % 8;
+
+            // set
+            if (value)
+                buffer[byteIndex] |= (byte)(1 << bitIndex);
+
+            // clear
+            else
+                buffer[byteIndex] &= (byte)~(1 << bitIndex);
+        }
+
+        /// <summary>
+        /// Reads a single bit from the buffer.
+        /// </summary>
+        /// <param name="buffer">The source buffer.</param>
+        /// <param name="address">The Modbus address.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Get(this Span<byte> buffer, ushort address)
+        {
+            var byteIndex = address / 8;
+            var bitIndex = address % 8;
+            var value = (buffer[byteIndex] & (1 << bitIndex)) > 0;
+
+            return value;
+        }
+
+        /// <summary>
+        /// Toggles a single bit in the buffer.
+        /// </summary>
+        /// <param name="buffer">The source buffer.</param>
+        /// <param name="address">The Modbus address.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Toggle(this Span<byte> buffer, ushort address)
+        {
+            var byteIndex = address / 8;
+            var bitIndex = address % 8;
+
+            buffer[byteIndex] ^= (byte)(1 << bitIndex);
         }
     }
 }
