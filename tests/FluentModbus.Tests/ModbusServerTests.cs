@@ -271,7 +271,7 @@ namespace FluentModbus.Tests
 
             var byteActual = server
                 .GetHoldingRegisterBuffer()
-                .Slice(2, 8)
+                .Slice(2 * 2, 8)
                 .ToArray();
 
             // Assert
@@ -304,7 +304,7 @@ namespace FluentModbus.Tests
 
             var byteActual = server
                 .GetInputRegisterBuffer()
-                .Slice(2, 8)
+                .Slice(2 * 2, 8)
                 .ToArray();
 
             // Assert
