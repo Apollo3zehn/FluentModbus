@@ -22,7 +22,7 @@ namespace FluentModbus
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(address);
+                .Slice(address * 2);
 
             if (!BitConverter.IsLittleEndian)
                 value = ModbusUtils.SwitchEndianness(value);
@@ -43,7 +43,7 @@ namespace FluentModbus
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(address);
+                .Slice(address * 2);
 
             if (BitConverter.IsLittleEndian)
                 value = ModbusUtils.SwitchEndianness(value);
@@ -63,7 +63,7 @@ namespace FluentModbus
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(address);
+                .Slice(address * 2);
 
             var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
 
@@ -85,7 +85,7 @@ namespace FluentModbus
         {
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
-                .Slice(address);
+                .Slice(address * 2);
 
             var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
 

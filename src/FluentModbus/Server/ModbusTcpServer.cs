@@ -129,16 +129,20 @@ namespace FluentModbus
                     // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                     // use ConnectionTimeout instead.
                     var tcpClient = await _tcpListener.AcceptTcpClientAsync();
-                    var handler = new ModbusTcpRequestHandler(tcpClient, this);
+                    var requestHandler = new ModbusTcpRequestHandler(tcpClient, this);
 
-                    if (this.MaxConnections > 0 &&
-                        this.RequestHandlers.Count >= this.MaxConnections)
+                    lock (this.Lock)
                     {
-                        tcpClient.Close();
-                    }
-                    else
-                    {
-                        this.AddRequestHandler(handler);
+                        if (this.MaxConnections > 0 &&
+                            this.RequestHandlers.Count > this.MaxConnections)
+                        {
+                            tcpClient.Close();
+                        }
+                        else
+                        {
+                            this.RequestHandlers.Add(requestHandler);
+                            this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
+                        }
                     }
                 }
             }, this.CTS.Token);
@@ -157,7 +161,14 @@ namespace FluentModbus
                             if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
                             {
                                 this.Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
-                                this.RemoveRequestHandler(requestHandler);
+
+                                lock (this.Lock)
+                                {
+                                    // remove request handler
+                                    this.RequestHandlers.Remove(requestHandler);
+                                    this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
+                                }
+
                                 requestHandler.Dispose();
                             }
                         }
@@ -197,24 +208,6 @@ namespace FluentModbus
                         _ = requestHandler.ReceiveRequestAsync();
                     }
                 }
-            }
-        }
-
-        private void AddRequestHandler(ModbusTcpRequestHandler handler)
-        {
-            lock (this.Lock)
-            {
-                this.RequestHandlers.Add(handler);
-                this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
-            }
-        }
-
-        private void RemoveRequestHandler(ModbusTcpRequestHandler handler)
-        {
-            lock (this.Lock)
-            {
-                this.RequestHandlers.Remove(handler);
-                this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
             }
         }
 
