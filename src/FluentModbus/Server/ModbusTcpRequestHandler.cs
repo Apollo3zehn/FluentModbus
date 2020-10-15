@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-    internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
+    public class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
     {
         #region Fields
 
@@ -21,7 +21,7 @@ namespace FluentModbus
 
         #region Constructors
 
-        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusTcpServer tcpServer) : base(tcpServer, 260)
+        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusServer server) : base(server, 260)
         {
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
@@ -43,7 +43,7 @@ namespace FluentModbus
 
         #region Methods
 
-        internal override async Task ReceiveRequestAsync()
+        public override async Task ReceiveRequestAsync()
         {
             if (this.CTS.IsCancellationRequested)
                 return;

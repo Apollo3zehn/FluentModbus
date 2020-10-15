@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-    internal abstract class ModbusRequestHandler : IDisposable
+    public abstract class ModbusRequestHandler : IDisposable
     {
         #region Fields
 
@@ -41,7 +41,7 @@ namespace FluentModbus
 
         protected byte UnitIdentifier { get; set; }
         protected CancellationTokenSource CTS { get; }
-        protected ModbusFrameBuffer FrameBuffer { get; }
+        public ModbusFrameBuffer FrameBuffer { get; }
 
         protected abstract bool IsResponseRequired { get; }
 
@@ -116,7 +116,7 @@ namespace FluentModbus
             this.OnResponseReady(frameLength);
         }
 
-        internal abstract Task ReceiveRequestAsync();
+        public abstract Task ReceiveRequestAsync();
 
         protected void Start()
         {

@@ -38,7 +38,7 @@ namespace FluentModbus
 
         #region Methods
 
-        internal override async Task ReceiveRequestAsync()
+        public override async Task ReceiveRequestAsync()
         {
             if (this.CTS.IsCancellationRequested)
                 return;
