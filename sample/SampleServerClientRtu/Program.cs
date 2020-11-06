@@ -55,7 +55,7 @@ namespace FluentModbus.SampleMaster
                         DoServerWork(server);
                     }
 
-                    // update server buffer content once per second
+                    // update server register content once per second
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
 
@@ -101,7 +101,7 @@ namespace FluentModbus.SampleMaster
 
                 /* get buffer in standard form (Span<short>) */
                 var registers = server.GetHoldingRegisters();
-                registers.SetLittleEndian(address: 5, random.Next());
+                registers.SetLittleEndian<int>(address: 5, random.Next());
 
             // Option B: high performance version, less flexibility
 
@@ -123,12 +123,12 @@ namespace FluentModbus.SampleMaster
             Span<byte> data;
 
             var sleepTime = TimeSpan.FromMilliseconds(100);
-            var unitIdentifier = (byte)0x01;
-            var startingAddress = (ushort)0;
-            var registerAddress = (ushort)0;
+            var unitIdentifier = 0x01;
+            var startingAddress = 0;
+            var registerAddress = 0;
 
             // ReadHoldingRegisters = 0x03,        // FC03
-            data = client.ReadHoldingRegisters(unitIdentifier, startingAddress, 10);
+            data = client.ReadHoldingRegisters<byte>(unitIdentifier, startingAddress, 10);
             logger.LogInformation("FC03 - ReadHoldingRegisters: Done");
             Thread.Sleep(sleepTime);
 
@@ -148,7 +148,7 @@ namespace FluentModbus.SampleMaster
             Thread.Sleep(sleepTime);
 
             // ReadInputRegisters = 0x04,          // FC04
-            data = client.ReadInputRegisters(unitIdentifier, startingAddress, 10);
+            data = client.ReadInputRegisters<byte>(unitIdentifier, startingAddress, 10);
             logger.LogInformation("FC04 - ReadInputRegisters: Done");
             Thread.Sleep(sleepTime);
 
@@ -158,7 +158,7 @@ namespace FluentModbus.SampleMaster
             Thread.Sleep(sleepTime);
 
             // WriteSingleRegister = 0x06,         // FC06
-            client.WriteSingleRegister(unitIdentifier, registerAddress, new byte[] { 65, 67 });
+            client.WriteSingleRegister(unitIdentifier, registerAddress, 127);
             logger.LogInformation("FC06 - WriteSingleRegister: Done");
         }
     }

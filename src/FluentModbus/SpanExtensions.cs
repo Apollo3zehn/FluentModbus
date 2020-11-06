@@ -17,9 +17,12 @@ namespace FluentModbus
         /// <param name="address">The Modbus register address.</param>
         /// <param name="value">The value to write.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetLittleEndian<T>(this Span<short> buffer, ushort address, T value)
+        public static void SetLittleEndian<T>(this Span<short> buffer, int address, T value)
             where T : unmanaged
         {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
                 .Slice(address * 2);
@@ -38,9 +41,12 @@ namespace FluentModbus
         /// <param name="address">The Modbus register address.</param>
         /// <param name="value">The value to write.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetBigEndian<T>(this Span<short> buffer, ushort address, T value)
+        public static void SetBigEndian<T>(this Span<short> buffer, int address, T value)
             where T : unmanaged
         {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
                 .Slice(address * 2);
@@ -58,9 +64,12 @@ namespace FluentModbus
         /// <param name="buffer">The source buffer.</param>
         /// <param name="address">The Modbus register address.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T GetLittleEndian<T>(this Span<short> buffer, ushort address)
+        public static T GetLittleEndian<T>(this Span<short> buffer, int address)
             where T : unmanaged
         {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
                 .Slice(address * 2);
@@ -80,9 +89,12 @@ namespace FluentModbus
         /// <param name="buffer">The source buffer.</param>
         /// <param name="address">The Modbus register address.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T GetBigEndian<T>(this Span<short> buffer, ushort address)
+        public static T GetBigEndian<T>(this Span<short> buffer, int address)
             where T : unmanaged
         {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
             var byteBuffer = MemoryMarshal
                 .AsBytes(buffer)
                 .Slice(address * 2);
@@ -102,8 +114,11 @@ namespace FluentModbus
         /// <param name="address">The Modbus address.</param>
         /// <param name="value">The value to set.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Set(this Span<byte> buffer, ushort address, bool value)
+        public static void Set(this Span<byte> buffer, int address, bool value)
         {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
             var byteIndex = address / 8;
             var bitIndex = address % 8;
 
@@ -122,8 +137,11 @@ namespace FluentModbus
         /// <param name="buffer">The source buffer.</param>
         /// <param name="address">The Modbus address.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Get(this Span<byte> buffer, ushort address)
+        public static bool Get(this Span<byte> buffer, int address)
         {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
             var byteIndex = address / 8;
             var bitIndex = address % 8;
             var value = (buffer[byteIndex] & (1 << bitIndex)) > 0;
@@ -137,8 +155,11 @@ namespace FluentModbus
         /// <param name="buffer">The source buffer.</param>
         /// <param name="address">The Modbus address.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Toggle(this Span<byte> buffer, ushort address)
+        public static void Toggle(this Span<byte> buffer, int address)
         {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
             var byteIndex = address / 8;
             var bitIndex = address % 8;
 

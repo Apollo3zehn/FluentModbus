@@ -70,6 +70,15 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The value is invalid. Valid values are in the range of 0 - 65535. ähnelt.
+        /// </summary>
+        internal static string Modbus_InvalidValueUShort {
+            get {
+                return ResourceManager.GetString("Modbus_InvalidValueUShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The use of no parity bit requires 2 stop bits. ähnelt.
         /// </summary>
         internal static string Modbus_NoParityRequiresTwoStopBits {

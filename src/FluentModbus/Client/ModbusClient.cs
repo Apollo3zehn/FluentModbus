@@ -75,6 +75,22 @@ namespace FluentModbus
             return quantity;
         }
 
+        private byte ConvertUnitIdentifier(int unitIdentifier)
+        {
+            if (!(0 <= unitIdentifier && unitIdentifier <= byte.MaxValue))
+                throw new Exception(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
+
+            return (byte)unitIdentifier;
+        }
+
+        private ushort ConvertUshort(int value)
+        {
+            if (!(0 <= value && value <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
+            return (ushort)value;
+        }
+
         #endregion
 
         // class 0
@@ -86,9 +102,14 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The holding register start address for the read operation.</param>
         /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
-        public Span<T> ReadHoldingRegisters<T>(byte unitIdentifier, ushort startingAddress, ushort count) where T : unmanaged
+        public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
         {
-            var dataset = MemoryMarshal.Cast<byte, T>(this.ReadHoldingRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(count)));
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = this.ConvertUshort(startingAddress);
+            var count_converted = this.ConvertUshort(count);
+
+            var dataset = MemoryMarshal.Cast<byte, T>(
+                this.ReadHoldingRegisters(unitIdentifier_converted, startingAddress_converted, this.ConvertSize<T>(count_converted)));
 
             if (this.SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
@@ -133,12 +154,15 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The holding register start address for the write operation.</param>
         /// <param name="dataset">The data of type <typeparamref name="T"/> to write to the server.</param>
-        public void WriteMultipleRegisters<T>(byte unitIdentifier, ushort startingAddress, T[] dataset) where T : unmanaged
+        public void WriteMultipleRegisters<T>(int unitIdentifier, int startingAddress, T[] dataset) where T : unmanaged
         {
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = this.ConvertUshort(startingAddress);
+
             if (this.SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset.AsSpan());
 
-            this.WriteMultipleRegisters(unitIdentifier, startingAddress, MemoryMarshal.Cast<T, byte>(dataset).ToArray());
+            this.WriteMultipleRegisters(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray());
         }
 
         /// <summary>
@@ -185,21 +209,25 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The coil start address for the read operation.</param>
         /// <param name="quantity">The number of coils to read.</param>
-        public Span<byte> ReadCoils(byte unitIdentifier, ushort startingAddress, ushort quantity)
+        public Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity)
         {
-            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadCoils, writer =>
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = this.ConvertUshort(startingAddress);
+            var quantity_converted = this.ConvertUshort(quantity);
+
+            var buffer = this.TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.ReadCoils, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadCoils);                         // 07     Function Code
 
                 if (BitConverter.IsLittleEndian)
                 {
-                    writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
-                    writer.WriteReverse(quantity);                                        // 10-11  Quantity of Coils
+                    writer.WriteReverse(startingAddress_converted);                       // 08-09  Starting Address
+                    writer.WriteReverse(quantity_converted);                              // 10-11  Quantity of Coils
                 }
                 else
                 {
-                    writer.Write(startingAddress);                                        // 08-09  Starting Address
-                    writer.Write(quantity);                                               // 10-11  Quantity of Coils
+                    writer.Write(startingAddress_converted);                              // 08-09  Starting Address
+                    writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
             }).Slice(2);
 
@@ -215,25 +243,29 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The discrete input start address for the read operation.</param>
         /// <param name="quantity">The number of discrete inputs to read.</param>
-        public Span<byte> ReadDiscreteInputs(byte unitIdentifier, ushort startingAddress, ushort quantity)
+        public Span<byte> ReadDiscreteInputs(int unitIdentifier, int startingAddress, int quantity)
         {
-            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadDiscreteInputs, writer =>
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = this.ConvertUshort(startingAddress);
+            var quantity_converted = this.ConvertUshort(quantity);
+
+            var buffer = this.TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.ReadDiscreteInputs, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadDiscreteInputs);                // 07     Function Code
 
                 if (BitConverter.IsLittleEndian)
                 {
-                    writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
-                    writer.WriteReverse(quantity);                                        // 10-11  Quantity of Coils
+                    writer.WriteReverse(startingAddress_converted);                       // 08-09  Starting Address
+                    writer.WriteReverse(quantity_converted);                              // 10-11  Quantity of Coils
                 }
                 else
                 {
-                    writer.Write(startingAddress);                                        // 08-09  Starting Address
-                    writer.Write(quantity);                                               // 10-11  Quantity of Coils
+                    writer.Write(startingAddress_converted);                              // 08-09  Starting Address
+                    writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
             }).Slice(2);
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
             return buffer;
@@ -246,9 +278,14 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The input register start address for the read operation.</param>
         /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
-        public Span<T> ReadInputRegisters<T>(byte unitIdentifier, ushort startingAddress, ushort count) where T : unmanaged
+        public Span<T> ReadInputRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
         {
-            var dataset = MemoryMarshal.Cast<byte, T>(this.ReadInputRegisters(unitIdentifier, startingAddress, this.ConvertSize<T>(count)));
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = this.ConvertUshort(startingAddress);
+            var count_converted = this.ConvertUshort(count);
+
+            var dataset = MemoryMarshal.Cast<byte, T>(
+                this.ReadInputRegisters(unitIdentifier_converted, startingAddress_converted, this.ConvertSize<T>(count_converted)));
 
             if (this.SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
@@ -292,20 +329,23 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="registerAddress">The coil address for the write operation.</param>
         /// <param name="value">The value to write to the server.</param>
-        public void WriteSingleCoil(byte unitIdentifier, ushort registerAddress, bool value)
+        public void WriteSingleCoil(int unitIdentifier, int registerAddress, bool value)
         {
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleCoil, writer =>
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var registerAddress_converted = this.ConvertUshort(registerAddress);
+
+            this.TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.WriteSingleCoil, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);                   // 07     Function Code
 
                 if (BitConverter.IsLittleEndian)
                 {
-                    writer.WriteReverse(registerAddress);                                 // 08-09  Starting Address
+                    writer.WriteReverse(registerAddress_converted);                       // 08-09  Starting Address
                     writer.WriteReverse((ushort)(value ? 0xFF00 : 0x0000));               // 10-11  Value
                 }
                 else
                 {
-                    writer.Write(registerAddress);                                        // 08-09  Starting Address
+                    writer.Write(registerAddress_converted);                              // 08-09  Starting Address
                     writer.Write((ushort)(value ? 0xFF00 : 0x0000));                      // 10-11  Value
                 }
             });
@@ -317,12 +357,15 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="registerAddress">The holding register address for the write operation.</param>
         /// <param name="value">The value to write to the server.</param>
-        public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, short value)
+        public void WriteSingleRegister(int unitIdentifier, int registerAddress, short value)
         {
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var registerAddress_converted = this.ConvertUshort(registerAddress);
+
             if (this.SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            this.WriteSingleRegister(unitIdentifier, registerAddress, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray());
+            this.WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray());
         }
 
         /// <summary>
@@ -331,12 +374,15 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="registerAddress">The holding register address for the write operation.</param>
         /// <param name="value">The value to write to the server.</param>
-        public void WriteSingleRegister(byte unitIdentifier, ushort registerAddress, ushort value)
+        public void WriteSingleRegister(int unitIdentifier, int registerAddress, ushort value)
         {
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var registerAddress_converted = this.ConvertUshort(registerAddress);
+
             if (this.SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            this.WriteSingleRegister(unitIdentifier, registerAddress, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray());
+            this.WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray());
         }
 
         /// <summary>
@@ -411,16 +457,21 @@ namespace FluentModbus
         /// <param name="readCount">The number of elements of type <typeparamref name="TRead"/> to read.</param>
         /// <param name="writeStartingAddress">The holding register start address for the write operation.</param>
         /// <param name="dataset">The data of type <typeparamref name="TWrite"/> to write to the server.</param>
-        public Span<TRead> ReadWriteMultipleRegisters<TRead, TWrite>(byte unitIdentifier, ushort readStartingAddress, ushort readCount, ushort writeStartingAddress, TWrite[] dataset) where TRead : unmanaged
+        public Span<TRead> ReadWriteMultipleRegisters<TRead, TWrite>(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset) where TRead : unmanaged
                                                                                                                                                                                        where TWrite : unmanaged
         {
+            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
+            var readStartingAddress_converted = this.ConvertUshort(readStartingAddress);
+            var readCount_converted = this.ConvertUshort(readCount);
+            var writeStartingAddress_converted = this.ConvertUshort(writeStartingAddress);
+
             if (this.SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset.AsSpan());
 
-            var readQuantity = this.ConvertSize<TRead>(readCount);
+            var readQuantity = this.ConvertSize<TRead>(readCount_converted);
             var byteData = MemoryMarshal.Cast<TWrite, byte>(dataset).ToArray();
 
-            var dataset2 = MemoryMarshal.Cast<byte, TRead>(this.ReadWriteMultipleRegisters(unitIdentifier, readStartingAddress, readQuantity, writeStartingAddress, byteData));
+            var dataset2 = MemoryMarshal.Cast<byte, TRead>(this.ReadWriteMultipleRegisters(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData));
 
             if (this.SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset2);
