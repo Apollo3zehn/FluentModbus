@@ -129,7 +129,7 @@ static void DoServerWork(ModbusRtuServer server)
 
         /* get buffer in standard form (Span<short>) */
         var registers = server.GetHoldingRegisters();
-        registers.SetLittleEndian(startingAddress: 5, random.Next());
+        registers.SetLittleEndian<int>(startingAddress: 5, random.Next());
 
     // Option B: high performance version, less flexibility
 
