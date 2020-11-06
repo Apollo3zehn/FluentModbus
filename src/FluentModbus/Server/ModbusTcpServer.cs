@@ -207,7 +207,8 @@ namespace FluentModbus
             this.RequestHandlers?.ForEach(requestHandler => requestHandler.Dispose());
         }
 
-        private protected override void ProcessRequests()
+        ///<inheritdoc/>
+        protected override void ProcessRequests()
         {
             lock (this.Lock)
             {
