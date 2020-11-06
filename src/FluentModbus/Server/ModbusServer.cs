@@ -294,7 +294,10 @@ namespace FluentModbus
             }
         }
 
-        private protected abstract void ProcessRequests();
+        /// <summary>
+        /// Process incoming requests.
+        /// </summary>
+        protected abstract void ProcessRequests();
 
         #endregion
 

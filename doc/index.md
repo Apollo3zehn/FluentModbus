@@ -125,9 +125,9 @@ float[] floatArray = floatSpan.ToArray();
 First, define the unit identifier, the starting address and the number of values to read (count):
 
 ```cs
-var unitIdentifier = (byte)0xFF; // 0x00 and 0xFF are the defaults for TCP/IP-only Modbus devices.
-var startingAddress = (ushort)0;
-var count = (ushort)10;
+var unitIdentifier = 0xFF; // 0x00 and 0xFF are the defaults for TCP/IP-only Modbus devices.
+var startingAddress = 0;
+var count = 10;
 ```
 
 Then, read the data:
@@ -158,7 +158,7 @@ async byte[] DoAsync()
 
     await <awaitsomething>;
 
-    return client.ReadHoldingRegisters(1, 2, 3).ToArray();
+    return client.ReadHoldingRegisters<float>(1, 2, 3).ToArray();
 }
 ```
 
@@ -169,9 +169,9 @@ async byte[] DoAsync()
 Boolean values are returned as single bits (1 = true, 0 = false), which are packed into bytes. If you request 10 booleans you get a ```Span<byte>``` in return with a length of ```2``` bytes. In this example, the remaining ```6``` bits are fill values.
 
 ```cs
-var unitIdentifier = (byte)0xFF;
-var startingAddress = (ushort)0;
-var quantity = (ushort)10;
+var unitIdentifier = 0xFF;
+var startingAddress = 0;
+var quantity = 10;
 
 var boolData = client.ReadCoils(unitIdentifier, startingAddress, quantity);
 ```
@@ -192,10 +192,10 @@ See also [this](https://stackoverflow.com/questions/47981/how-do-you-set-clear-a
 The following example shows how to write the number ```4263``` to the server:
 
 ```cs
-var unitIdentifier = (byte)0xFF;
-var startingAddress = (ushort)0;
-var registerAddress = (ushort)0;
-var quantity = (ushort)10;
+var unitIdentifier = 0xFF;
+var startingAddress = 0;
+var registerAddress = 0;
+var quantity = 10;
 
 var shortData = new short[] { 4263 };
 client.WriteSingleRegister(unitIdentifier, registerAddress, shortData);
@@ -207,7 +207,7 @@ Console.WriteLine(shortDataResult[0]); // should print '4263'
 
 > **Note**: The Modbus protocol defines a basic register size of 2 bytes. Thus, the write methods require input values (or arrays) with even number of bytes (2, 4, 6, ...). This means that a call to ```client.WriteSingleRegister(0, 0, new byte { 1 })``` will not work, but ```client.WriteSingleRegister(0, 0, new short { 1 })``` will do. Since the client validates all your inputs (and so the server does), you will get notified if anything is wrong.
 
-If you want to write float values, the procedure is the same as shown previously using the generic overload:
+If you want to write `float` values, the procedure is the same as shown previously using the generic overload:
 
 ```cs
 var floatData = new float[] { 1.1F, 9557e3F };
@@ -250,16 +250,17 @@ server.Start();
 
 while (!cts.IsCancellationRequested)
 {
-    var intData = server.GetHoldingRegisterBuffer<int>();
+    var registers = server.GetHoldingRegisters();
 
     // lock is required to synchronize buffer access between
     // this application and one or more Modbus clients
     lock (server.Lock)
     {
-        intData[20] = random.Next(0, 100);
+        var value = random.Next(0, 100);
+        registers.SetLittleEndian<int>(address: 0, value);
     }
 
-    // update server buffer content only once per second
+    // update server register content only once per second
     await Task.Delay(TimeSpan.FromSeconds(1));
 }
 
@@ -279,9 +280,10 @@ server.Start();
 
 while (!cts.IsCancellationRequested)
 {
-    var intData = server.GetHoldingRegisterBuffer<int>();
-    intData[20] = random.Next(0, 100);
+    var registers = server.GetHoldingRegisters();
+    var value = random.Next(0, 100);
 
+    registers.SetLittleEndian<int>(address: 0, value);
     server.Update();
 
     await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -292,7 +294,7 @@ Note that in the second example, the ```Task.Delay()``` period is much lower. Si
 
 ## Modbus RTU server
 
-When you need a Modbus RTU server, you need to instantiate it like this providing a ```unitIdentifier```, which must be in the range of 1..247 and unique for each Modbus server or slave, respectively:
+When you need a Modbus RTU server, you need to instantiate it like this providing a ```unitIdentifier```, which must be in the range of 1..247 and unique for each Modbus server / Modbus slave:
 
 ```cs
 var server = new ModbusRtuServer(unitIdentifier: 1);
@@ -327,11 +329,12 @@ registers.SetBigEndian<double>(address: 1, value: 0.85);
 
 ```cs
 // This will write an 4 byte integer
+registers.SetBigEndian<int>(address: 1, value: 99); /* recommended */
 registers.SetBigEndian(address: 1, value: 99);
 
 // These will write a 2 byte short
+registers.SetBigEndian<short>(address: 1, value: 99); /* recommended */
 registers.SetBigEndian(address: 1, value: (short)99);
-registers.SetBigEndian<short>(address: 1, value: 99);
 ```
 
 There are complementary methods for little-endian data and methods for reading data. The full list of `Span<short>` extension methods is:

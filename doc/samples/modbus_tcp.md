@@ -114,7 +114,7 @@ static void DoServerWork(ModbusTcpServer server)
 
         /* get buffer in standard form (Span<short>) */
         var registers = server.GetHoldingRegisters();
-        registers.SetLittleEndian(startingAddress: 5, random.Next());
+        registers.SetLittleEndian<int>(startingAddress: 5, random.Next());
 
     // Option B: high performance version, less flexibility
 
@@ -138,7 +138,7 @@ static void DoServerWork(ModbusTcpServer server)
 When the client is started, the method below is executed only once. After that, the client stops and the user is prompted to enter any key to finish the program.
 
 > [!NOTE]
-> All data is returned as ```Span<T>```, which has great advantages but also some limits as described in the repository's README. If you run into these limits, simply call ```ToArray()``` to copy the data into a standard .NET array (e.g. ```var newData = data.ToArray();```)
+> All data is returned as ```Span<T>```, which has great advantages but also some limitations as described in the repository's README. If you run into these limitations, simply call ```ToArray()``` to copy the data into a standard .NET array (e.g. ```var newData = data.ToArray();```)
 
 ```cs
 static void DoClientWork(ModbusTcpClient client, ILogger logger)
@@ -146,12 +146,12 @@ static void DoClientWork(ModbusTcpClient client, ILogger logger)
     Span<byte> data;
 
     var sleepTime = TimeSpan.FromMilliseconds(100);
-    var unitIdentifier = (byte)0xFF;
-    var startingAddress = (ushort)0;
-    var registerAddress = (ushort)0;
+    var unitIdentifier = 0xFF;
+    var startingAddress = 0;
+    var registerAddress = 0;
 
     // ReadHoldingRegisters = 0x03,        // FC03
-    data = client.ReadHoldingRegisters(unitIdentifier, startingAddress, 10);
+    data = client.ReadHoldingRegisters<byte>(unitIdentifier, startingAddress, 10);
     logger.LogInformation("FC03 - ReadHoldingRegisters: Done");
     Thread.Sleep(sleepTime);
 
@@ -166,7 +166,7 @@ static void DoClientWork(ModbusTcpClient client, ILogger logger)
     Thread.Sleep(sleepTime);
 
     // ReadDiscreteInputs = 0x02,          // FC02
-    data = client.ReadDiscreteInputs(unitIdentifier, startingAddress, 10);
+    data = client.ReadDiscreteInputs<byte>(unitIdentifier, startingAddress, 10);
     logger.LogInformation("FC02 - ReadDiscreteInputs: Done");
     Thread.Sleep(sleepTime);
 
@@ -181,7 +181,7 @@ static void DoClientWork(ModbusTcpClient client, ILogger logger)
     Thread.Sleep(sleepTime);
 
     // WriteSingleRegister = 0x06,         // FC06
-    client.WriteSingleRegister(unitIdentifier, registerAddress, new byte[] { 65, 67 });
+    client.WriteSingleRegister(unitIdentifier, registerAddress, 127);
     logger.LogInformation("FC06 - WriteSingleRegister: Done");
 }
 ```

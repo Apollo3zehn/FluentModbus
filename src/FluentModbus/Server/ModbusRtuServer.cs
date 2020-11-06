@@ -149,7 +149,8 @@ namespace FluentModbus
             this.RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
         }
 
-        private protected override void ProcessRequests()
+        ///<inheritdoc/>
+        protected override void ProcessRequests()
         {
             lock (this.Lock)
             {
