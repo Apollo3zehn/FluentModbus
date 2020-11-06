@@ -231,7 +231,7 @@ namespace FluentModbus
                 }
             }).Slice(2);
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
             return buffer;
@@ -458,7 +458,7 @@ namespace FluentModbus
         /// <param name="writeStartingAddress">The holding register start address for the write operation.</param>
         /// <param name="dataset">The data of type <typeparamref name="TWrite"/> to write to the server.</param>
         public Span<TRead> ReadWriteMultipleRegisters<TRead, TWrite>(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset) where TRead : unmanaged
-                                                                                                                                                                                       where TWrite : unmanaged
+                                                                                                                                                                             where TWrite : unmanaged
         {
             var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
             var readStartingAddress_converted = this.ConvertUshort(readStartingAddress);
