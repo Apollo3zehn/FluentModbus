@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -18,9 +18,6 @@ namespace FluentModbus
         #region Fields
 
         private TcpListener _tcpListener;
-
-        private Task _task_accept_clients;
-        private Task _task_remove_clients;
 
         #endregion
 
@@ -122,7 +119,8 @@ namespace FluentModbus
             _tcpListener.Start();
 
             // accept clients asynchronously
-            _task_accept_clients = Task.Run(async () =>
+            /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
+            Task.Run(async () =>
             {
                 while (!this.CTS.IsCancellationRequested)
                 {
@@ -148,7 +146,8 @@ namespace FluentModbus
             }, this.CTS.Token);
 
             // remove clients asynchronously
-            _task_remove_clients = Task.Run(async () =>
+            /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
+            Task.Run(async () =>
             {
                 while (!this.CTS.IsCancellationRequested)
                 {
@@ -180,14 +179,27 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Starts the server. It will use only the provided <see cref="TcpClient"/>.
+        /// </summary>
+        /// <param name="tcpClient">The TCP client to communicate with.</param>
+        public void Start(TcpClient tcpClient)
+        {
+            // "base..." is important!
+            base.Stop();
+            base.Start();
+
+            this.RequestHandlers = new List<ModbusTcpRequestHandler>()
+            {
+                new ModbusTcpRequestHandler(tcpClient, this)
+            };
+        }
+
+        /// <summary>
         /// Stops the server and closes all open TCP connections.
         /// </summary>
         public override void Stop()
         {
             base.Stop();
-
-            _task_accept_clients = null;
-            _task_remove_clients = null;
 
             _tcpListener?.Stop();
 

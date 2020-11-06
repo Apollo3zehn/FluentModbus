@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,6 +16,45 @@ namespace FluentModbus.Tests
         public ModbusTcpServerTests(ITestOutputHelper logger)
         {
             _logger = logger;
+        }
+
+        [Fact]
+        public async void ServerWorksWithExternalTcpClient()
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+            var listener = new TcpListener(endpoint);
+            var server = new ModbusTcpServer();
+            var client = new ModbusTcpClient();
+
+            var expected = new double[] { 0.1, 0.2, 0.3, 0.4, 0.5 };
+            double[] actual = null;
+
+            // Act
+            listener.Start();
+
+            var clientTask = Task.Run(() =>
+            {
+                client.Connect(endpoint);
+
+                actual = client
+                    .ReadWriteMultipleRegisters<double, double>(0, 0, 5, 0, expected)
+                    .ToArray();
+
+                client.Disconnect();
+            });
+
+            var serverTask = Task.Run(() =>
+            {
+                var tcpClient = listener.AcceptTcpClient();
+                server.Start(tcpClient);
+            });
+
+            await clientTask;
+            server.Stop();
+
+            // Assert
+            Assert.True(actual.SequenceEqual(expected));
         }
 
         [Fact(Skip = "Test depends on machine power.")]
