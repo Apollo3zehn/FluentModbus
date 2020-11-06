@@ -132,7 +132,8 @@ namespace FluentModbus
                     lock (this.Lock)
                     {
                         if (this.MaxConnections > 0 &&
-                            this.RequestHandlers.Count > this.MaxConnections)
+                            /* request handler is added later in 'else' block, so count needs to be increased by 1 */
+                            this.RequestHandlers.Count + 1 > this.MaxConnections)
                         {
                             tcpClient.Close();
                         }

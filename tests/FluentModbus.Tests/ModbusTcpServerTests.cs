@@ -173,6 +173,7 @@ namespace FluentModbus.Tests
                 try
                 {
                     client3.WriteSingleRegister(1, 2, 3);
+                    throw new Exception("Modbus TCP server accepts too many clients.");
                 }
 
                 // Windows
