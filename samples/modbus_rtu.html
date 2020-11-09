@@ -106,7 +106,7 @@
     var clientLogger = loggerFactory.CreateLogger(&quot;Client&quot;);
 
     /* create Modbus RTU server and client */
-    var server = new ModbusRtuServer(unitIdentifier: 1);
+    using var server = new ModbusRtuServer(unitIdentifier: 1);
     var client = new ModbusRtuClient();
 </code></pre>
 <p>When everything is prepared, first start the server ...</p>
@@ -130,8 +130,6 @@
             // update server buffer content once per second
             await Task.Delay(TimeSpan.FromSeconds(1));
         }
-
-        server.Dispose();
     }, cts.Token);
 
 </code></pre>
@@ -181,7 +179,7 @@
 
         /* get buffer in standard form (Span&lt;short&gt;) */
         var registers = server.GetHoldingRegisters();
-        registers.SetLittleEndian(startingAddress: 5, random.Next());
+        registers.SetLittleEndian&lt;int&gt;(startingAddress: 5, random.Next());
 
     // Option B: high performance version, less flexibility
 
@@ -203,7 +201,7 @@
 <p>When the client is started, the method below is executed only once. After that, the client stops and the user is prompted to enter any key to finish the program.</p>
 <div class="NOTE">
 <h5>Note</h5>
-<p>All data is returned as <code>Span&lt;T&gt;</code>, which has great advantages but also some limits as described in the repository's README. If you run into these limits, simply call <code>ToArray()</code> to copy the data into a standard .NET array (e.g. <code>var newData = data.ToArray();</code>)</p>
+<p>All data is returned as <code>Span&lt;T&gt;</code>, which has great advantages but also some limitations as described in the repository's README. If you run into these limitations, simply call <code>ToArray()</code> to copy the data into a standard .NET array (e.g. <code>var newData = data.ToArray();</code>)</p>
 </div>
 <div class="NOTE">
 <h5>Note</h5>
@@ -214,12 +212,12 @@
     Span&lt;byte&gt; data;
 
     var sleepTime = TimeSpan.FromMilliseconds(100);
-    var unitIdentifier = (byte)0x01;
-    var startingAddress = (ushort)0;
-    var registerAddress = (ushort)0;
+    var unitIdentifier = 0x01;
+    var startingAddress = 0;
+    var registerAddress = 0;
 
     // ReadHoldingRegisters = 0x03,        // FC03
-    data = client.ReadHoldingRegisters(unitIdentifier, startingAddress, 10);
+    data = client.ReadHoldingRegisters&lt;byte&gt;(unitIdentifier, startingAddress, 10);
     logger.LogInformation(&quot;FC03 - ReadHoldingRegisters: Done&quot;);
     Thread.Sleep(sleepTime);
 
@@ -239,7 +237,7 @@
     Thread.Sleep(sleepTime);
 
     // ReadInputRegisters = 0x04,          // FC04
-    data = client.ReadInputRegisters(unitIdentifier, startingAddress, 10);
+    data = client.ReadInputRegisters&lt;byte&gt;(unitIdentifier, startingAddress, 10);
     logger.LogInformation(&quot;FC04 - ReadInputRegisters: Done&quot;);
     Thread.Sleep(sleepTime);
 
@@ -249,7 +247,7 @@
     Thread.Sleep(sleepTime);
 
     // WriteSingleRegister = 0x06,         // FC06
-    client.WriteSingleRegister(unitIdentifier, registerAddress, new byte[] { 65, 67 });
+    client.WriteSingleRegister(unitIdentifier, registerAddress, 127);
     logger.LogInformation(&quot;FC06 - WriteSingleRegister: Done&quot;);
 }
 </code></pre>
