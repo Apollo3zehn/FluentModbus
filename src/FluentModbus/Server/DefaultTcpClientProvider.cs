@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-    /// <summary>
-    /// Provides TCP clients.
-    /// </summary>
-    public class DefaultTcpClientProvider : ITcpClientProvider
+    internal class DefaultTcpClientProvider : ITcpClientProvider
     {
         #region Fields
 
@@ -18,10 +15,6 @@ namespace FluentModbus
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultTcpClientProvider"/>.
-        /// </summary>
-        /// <param name="endPoint">The endpoint to listen for new TCP client connections.</param>
         public DefaultTcpClientProvider(IPEndPoint endPoint)
         {
             _tcpListener = new TcpListener(endPoint);
@@ -32,7 +25,6 @@ namespace FluentModbus
 
         #region Methods
 
-        /// <inheritdoc/>
         public Task<TcpClient> AcceptTcpClientAsync()
         {
             return _tcpListener.AcceptTcpClientAsync();
@@ -44,10 +36,6 @@ namespace FluentModbus
 
         private bool disposedValue;
 
-        /// <summary>
-        /// Stops the underlying TCP listener.
-        /// </summary>
-        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -61,9 +49,6 @@ namespace FluentModbus
             }
         }
 
-        /// <summary>
-        /// Stops the underlying TCP listener.
-        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);
