@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Provides TCP clients.
+    /// </summary>
     public class DefaultTcpClientProvider : ITcpClientProvider
     {
         #region Fields
@@ -59,7 +61,9 @@ namespace FluentModbus
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Stops the underlying TCP listener.
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);
