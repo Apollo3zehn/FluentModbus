@@ -23,7 +23,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);            
 
             var buffer = server.GetHoldingRegisters();
@@ -39,8 +39,6 @@ namespace FluentModbus.Tests
 
             // Assert
             var elapsed = sw.Elapsed;
-            server.Stop();
-
             _logger.WriteLine($"Time per 1000 read operations: {elapsed.TotalMilliseconds / 1000} ms");
         }
 
@@ -50,7 +48,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);            
 
             var buffer = server.GetHoldingRegisters();
@@ -65,8 +63,6 @@ namespace FluentModbus.Tests
 
             // Assert
             var elapsed = sw.Elapsed;
-            server.Stop();
-
             _logger.WriteLine($"Time per 1000 write operations: {elapsed.TotalMilliseconds / 1000} ms");
         }
 
@@ -76,7 +72,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -137,7 +133,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -181,7 +177,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer()
+            using var server = new ModbusTcpServer()
             {
                 RequestValidator = (functionCode, address, quantityOfRegisters) =>
                 {
@@ -252,7 +248,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var expected = 12334234.997e-2;
@@ -285,7 +281,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var expected = 12334234.997e-2;

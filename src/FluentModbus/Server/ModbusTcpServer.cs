@@ -17,7 +17,8 @@ namespace FluentModbus
     {
         #region Fields
 
-        private TcpListener _tcpListener;
+        private bool _leaveOpen;
+        private ITcpClientProvider _tcpClientProvider;
 
         #endregion
 
@@ -109,14 +110,24 @@ namespace FluentModbus
         /// </summary>
         public void Start(IPEndPoint localEndpoint)
         {
+            this.Start(new DefaultTcpClientProvider(localEndpoint));
+        }
+
+        /// <summary>
+        /// Starts the server. It will accept all TCP clients provided by the provided <see cref="ITcpClientProvider"/>.
+        /// </summary>
+        /// <param name="tcpClientProvider">The TCP client provider.</param>
+        /// <param name="leaveOpen"><see langword="true"/> to leave the TCP client provider open after the <see cref="ModbusTcpServer"/> object is stopped or disposed; otherwise, <see langword="false"/>.</param>
+        public void Start(ITcpClientProvider tcpClientProvider, bool leaveOpen = false)
+        {
+            _tcpClientProvider = tcpClientProvider;
+            _leaveOpen = leaveOpen;
+
             // "base..." is important!
             base.Stop();
             base.Start();
 
             this.RequestHandlers = new List<ModbusTcpRequestHandler>();
-
-            _tcpListener = new TcpListener(localEndpoint);
-            _tcpListener.Start();
 
             // accept clients asynchronously
             /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
@@ -126,7 +137,7 @@ namespace FluentModbus
                 {
                     // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                     // use ConnectionTimeout instead.
-                    var tcpClient = await _tcpListener.AcceptTcpClientAsync();
+                    var tcpClient = await _tcpClientProvider.AcceptTcpClientAsync();
                     var requestHandler = new ModbusTcpRequestHandler(tcpClient, this);
 
                     lock (this.Lock)
@@ -202,7 +213,8 @@ namespace FluentModbus
         {
             base.Stop();
 
-            _tcpListener?.Stop();
+            if (!_leaveOpen)
+                _tcpClientProvider?.Dispose();
 
             this.RequestHandlers?.ForEach(requestHandler => requestHandler.Dispose());
         }

@@ -21,7 +21,7 @@ namespace FluentModbus.Tests
             // Arrange
             var serialPort = new FakeSerialPort();
 
-            var server = new ModbusRtuServer(unitIdentifier: 1);
+            using var server = new ModbusRtuServer(unitIdentifier: 1);
             server.Start(serialPort);
 
             var client = new ModbusRtuClient();
@@ -43,8 +43,6 @@ namespace FluentModbus.Tests
 
                 client.Close();
             });
-
-            server.Stop();
 
             // Assert
         }
