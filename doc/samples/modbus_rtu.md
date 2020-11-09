@@ -41,7 +41,7 @@ static async Task Main(string[] args)
     var clientLogger = loggerFactory.CreateLogger("Client");
 
     /* create Modbus RTU server and client */
-    var server = new ModbusRtuServer(unitIdentifier: 1);
+    using var server = new ModbusRtuServer(unitIdentifier: 1);
     var client = new ModbusRtuClient();
 ```
 
@@ -68,8 +68,6 @@ When everything is prepared, first start the server ...
             // update server buffer content once per second
             await Task.Delay(TimeSpan.FromSeconds(1));
         }
-
-        server.Dispose();
     }, cts.Token);
 
 ```

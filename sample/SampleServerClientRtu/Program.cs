@@ -36,7 +36,7 @@ namespace FluentModbus.SampleMaster
             var clientLogger = loggerFactory.CreateLogger("Client");
 
             /* create Modbus RTU server and client */
-            var server = new ModbusRtuServer(unitIdentifier: 1);
+            using var server = new ModbusRtuServer(unitIdentifier: 1);
             var client = new ModbusRtuClient();
 
             /* run Modbus RTU server */
@@ -58,8 +58,6 @@ namespace FluentModbus.SampleMaster
                     // update server register content once per second
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
-
-                server.Dispose();
             }, cts.Token);
 
             /* run Modbus RTU client */
