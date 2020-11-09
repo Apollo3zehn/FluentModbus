@@ -237,6 +237,12 @@ Then you can start it:
 server.Start();
 ```
 
+When you don't need the server anymore, dispose it:
+
+```cs
+server.Dispose();
+```
+
 ### Option 1 (asynchronous operation)
 
 There are two options to operate the server. The first one, which is the default, is asynchronous operation. This means all client requests are handled immediately. However, asynchronous operation requires a synchronization of data access, which can be accomplished using the ```lock``` keyword:
@@ -304,6 +310,12 @@ Then you can start it e.g. on COM port 1:
 
 ```cs
 server.Start(port: "COM1");
+```
+
+When you don't need the server anymore, dispose it:
+
+```cs
+server.Dispose();
 ```
 
 As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.

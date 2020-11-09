@@ -15,12 +15,12 @@ namespace FluentModbus.Tests
 
         // FC03: ReadHoldingRegisters
         [Fact]
-        public void FC03Test() 
+        public void FC03Test()
         {
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
             
             lock (server.Lock)
@@ -51,7 +51,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -77,7 +77,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             lock (server.Lock)
@@ -108,7 +108,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             lock (server.Lock)
@@ -139,7 +139,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             lock (server.Lock)
@@ -170,7 +170,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -199,7 +199,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -228,7 +228,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             lock (server.Lock)
@@ -266,7 +266,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -291,7 +291,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -312,7 +312,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -333,7 +333,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -354,7 +354,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -375,7 +375,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -392,7 +392,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -408,7 +408,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -429,7 +429,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -448,7 +448,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();
@@ -467,7 +467,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             var client = new ModbusTcpClient();

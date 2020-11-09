@@ -20,7 +20,7 @@ namespace FluentModbus.SampleMaster
             var clientLogger = loggerFactory.CreateLogger("Client");
 
             /* create Modbus TCP server and client */
-            var server = new ModbusTcpServer(serverLogger);
+            using var server = new ModbusTcpServer(serverLogger);
             var client = new ModbusTcpClient();
 
             /* run Modbus TCP server */
@@ -42,8 +42,6 @@ namespace FluentModbus.SampleMaster
                     // update server register content once per second
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
-
-                server.Dispose();
             }, cts.Token);
 
             /* run Modbus TCP client */

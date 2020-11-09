@@ -24,7 +24,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
             var listener = new TcpListener(endpoint);
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             var client = new ModbusTcpClient();
 
             var expected = new double[] { 0.1, 0.2, 0.3, 0.4, 0.5 };
@@ -51,7 +51,6 @@ namespace FluentModbus.Tests
             });
 
             await clientTask;
-            server.Stop();
 
             // Assert
             Assert.True(actual.SequenceEqual(expected));
@@ -63,7 +62,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             // Act
@@ -102,8 +101,6 @@ namespace FluentModbus.Tests
 
             await Task.WhenAll(tasks);
 
-            server.Stop();
-
             // Assert
         }
 
@@ -113,7 +110,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer();
+            using var server = new ModbusTcpServer();
             server.Start(endpoint);
 
             // Act
@@ -137,8 +134,6 @@ namespace FluentModbus.Tests
                 client.Disconnect();
             });
 
-            server.Stop();
-
             // Assert
         }
 
@@ -148,7 +143,7 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            var server = new ModbusTcpServer()
+            using var server = new ModbusTcpServer()
             {
                 MaxConnections = 2
             };
@@ -187,8 +182,6 @@ namespace FluentModbus.Tests
                 client3.Connect(endpoint);
                 client3.WriteSingleRegister(1, 2, 3);
             });
-
-            server.Stop();
 
             // Assert
         }
