@@ -171,16 +171,23 @@ namespace FluentModbus
                         {
                             if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
                             {
-                                this.Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
-
-                                lock (this.Lock)
+                                try
                                 {
-                                    // remove request handler
-                                    this.RequestHandlers.Remove(requestHandler);
-                                    this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
-                                }
+                                    this.Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
 
-                                requestHandler.Dispose();
+                                    lock (this.Lock)
+                                    {
+                                        // remove request handler
+                                        this.RequestHandlers.Remove(requestHandler);
+                                        this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
+                                    }
+
+                                    requestHandler.Dispose();
+                                }
+                                catch
+                                {
+                                    // ignore error
+                                }
                             }
                         }
                     }
