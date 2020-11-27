@@ -26,6 +26,7 @@ namespace FluentModbus
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
 
+            this.DisplayName = ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
             this.CTS.Token.Register(() => _networkStream.Close());
 
             base.Start();
@@ -35,7 +36,7 @@ namespace FluentModbus
 
         #region Properties
 
-        public override string DisplayName => ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
+        public override string DisplayName { get; }
 
         protected override bool IsResponseRequired => true;
 

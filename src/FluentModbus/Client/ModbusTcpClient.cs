@@ -61,13 +61,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the connection status of the underlying TCP client.
         /// </summary>
-        public bool IsConnected
-        {
-            get
-            {
-                return _tcpClient != null ? _tcpClient.Connected : false;
-            }
-        }
+        public bool IsConnected => _tcpClient?.Connected ?? false;
 
         /// <summary>
         /// Connect to localhost at port 502 with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout.
