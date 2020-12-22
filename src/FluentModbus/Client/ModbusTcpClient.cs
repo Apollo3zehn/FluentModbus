@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace FluentModbus
@@ -138,6 +139,10 @@ namespace FluentModbus
         {
             _tcpClient?.Close();
             _frameBuffer?.Dispose();
+
+            // workaround for https://github.com/Apollo3zehn/FluentModbus/issues/44#issuecomment-747321152
+            if (RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.OrdinalIgnoreCase))
+                _tcpClient = null;
         }
 
         private protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
