@@ -40,8 +40,20 @@ static async Task Main(string[] args)
     var serverLogger = loggerFactory.CreateLogger("Server");
     var clientLogger = loggerFactory.CreateLogger("Client");
 
-    /* create Modbus RTU server and client */
-    using var server = new ModbusRtuServer(unitIdentifier: 1);
+    /* create Modbus RTU server */
+    using var server = new ModbusRtuServer(unitIdentifier: 1)
+    {
+        // see 'RegistersChanged' event below
+        EnableRaisingEvents = true
+    };
+
+    /* subscribe to the 'RegistersChanged' event (in case you need it) */
+    server.RegistersChanged += (sender, registerAddresses) =>
+    {
+        // the variable 'registerAddresses' contains a list of modified register addresses
+    };
+
+    /* create Modbus RTU client */
     var client = new ModbusRtuClient();
 ```
 
