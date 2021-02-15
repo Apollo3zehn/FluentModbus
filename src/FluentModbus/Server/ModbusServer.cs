@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -13,6 +14,20 @@ namespace FluentModbus
     /// </summary>
     public abstract class ModbusServer : IDisposable
     {
+        #region Events
+
+        /// <summary>
+        /// Occurs after one or more registers changed.
+        /// </summary>
+        public event EventHandler<List<int>> RegistersChanged;
+
+        /// <summary>
+        /// Occurs after one or more coils changed.
+        /// </summary>
+        public event EventHandler<List<int>> CoilsChanged;
+
+        #endregion
+
         #region Fields
 
         private Task _task_process_requests;
@@ -99,6 +114,11 @@ namespace FluentModbus
         /// Gets or sets a method that validates each client request.
         /// </summary>
         public Func<ModbusFunctionCode, ushort, ushort, ModbusExceptionCode> RequestValidator { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the events should be raised when register or coil data changes. Default: false.
+        /// </summary>
+        public bool EnableRaisingEvents { get; set; }
 
         private protected CancellationTokenSource CTS { get; private set; }
 
@@ -283,6 +303,16 @@ namespace FluentModbus
         /// Process incoming requests.
         /// </summary>
         protected abstract void ProcessRequests();
+
+        internal void OnRegistersChanged(List<int> registers)
+        {
+            this.RegistersChanged?.Invoke(this, registers);
+        }
+
+        internal void OnCoilsChanged(List<int> coils)
+        {
+            this.CoilsChanged?.Invoke(this, coils);
+        }
 
         #endregion
 
