@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -17,6 +17,11 @@ namespace FluentModbus
 
         private Task _task_process_requests;
         private ManualResetEventSlim _manualResetEvent;
+
+        private byte[] _inputRegisterBuffer;
+        private byte[] _holdingRegisterBuffer;
+        private byte[] _coilBuffer;
+        private byte[] _discreteInputBuffer;
 
         private int _inputRegisterSize;
         private int _holdingRegisterSize;
@@ -42,14 +47,16 @@ namespace FluentModbus
             this.MaxDiscreteInputAddress = UInt16.MaxValue;
 
             _inputRegisterSize = (this.MaxInputRegisterAddress + 1) * 2;
-            _holdingRegisterSize = (this.MaxHoldingRegisterAddress + 1) * 2;
-            _coilSize = (this.MaxCoilAddress + 1 + 7) / 8;
-            _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
+            _inputRegisterBuffer = new byte[_inputRegisterSize];
 
-            this.InputRegisterBufferPtr = Marshal.AllocHGlobal(_inputRegisterSize);
-            this.HoldingRegisterBufferPtr = Marshal.AllocHGlobal(_holdingRegisterSize);
-            this.CoilBufferPtr = Marshal.AllocHGlobal(_coilSize);
-            this.DiscreteInputBufferPtr = Marshal.AllocHGlobal(_discreteInputSize);
+            _holdingRegisterSize = (this.MaxHoldingRegisterAddress + 1) * 2;
+            _holdingRegisterBuffer = new byte[_holdingRegisterSize];
+
+            _coilSize = (this.MaxCoilAddress + 1 + 7) / 8;
+            _coilBuffer = new byte[_coilSize];
+
+            _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
+            _discreteInputBuffer = new byte[_discreteInputSize];
 
             _manualResetEvent = new ManualResetEventSlim(false);
         }
@@ -67,26 +74,6 @@ namespace FluentModbus
         /// Gets the operation mode.
         /// </summary>
         public bool IsAsynchronous { get; }
-
-        /// <summary>
-        /// Gets the pointer to the input registers buffer.
-        /// </summary>
-        public IntPtr InputRegisterBufferPtr { get; }
-
-        /// <summary>
-        /// Gets the pointer to the holding registers buffer.
-        /// </summary>
-        public IntPtr HoldingRegisterBufferPtr { get; }
-
-        /// <summary>
-        /// Gets the pointer to the coils buffer.
-        /// </summary>
-        public IntPtr CoilBufferPtr { get; }
-
-        /// <summary>
-        /// Gets the pointer to the discete inputs buffer.
-        /// </summary>
-        public IntPtr DiscreteInputBufferPtr { get; }
 
         /// <summary>
         /// Gets the maximum input register address.
