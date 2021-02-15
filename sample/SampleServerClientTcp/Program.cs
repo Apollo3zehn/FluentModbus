@@ -19,8 +19,20 @@ namespace FluentModbus.SampleMaster
             var serverLogger = loggerFactory.CreateLogger("Server");
             var clientLogger = loggerFactory.CreateLogger("Client");
 
-            /* create Modbus TCP server and client */
-            using var server = new ModbusTcpServer(serverLogger);
+            /* create Modbus TCP server */
+            using var server = new ModbusTcpServer(serverLogger)
+            {
+                // see 'RegistersChanged' event below
+                EnableRaisingEvents = true
+            };
+
+            /* subscribe to the 'RegistersChanged' event (in case you need it) */
+            server.RegistersChanged += (sender, registerAddresses) =>
+            {
+                // the variable 'registerAddresses' contains a list of modified register addresses
+            };
+
+            /* create Modbus TCP client */
             var client = new ModbusTcpClient();
 
             /* run Modbus TCP server */

@@ -320,6 +320,22 @@ server.Dispose();
 
 As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.
 
+## Events
+
+In case you need notifications on data change, enable the event system and then subscribe to the event:
+
+```cs
+using var server = new ModbusTcpServer(...)
+{
+    // 'EnableRaisingEvents' is disabled by default to improve
+    // performance. But now we want events to be raised:
+    EnableRaisingEvents = true
+};
+
+server.RegistersChanged += (sender, registerAddresses) => { ... };
+server.CoilsChanged += (sender, coilAddresses) => { ... };
+```
+
 ## Input and Holding registers
 As written above in the client section, the Modbus specs define a big-endian data layout, i.e. the most significant byte is sent first. Opposed to this, most modern systems have little-endian memory layout. This requires to convert the data from one layout into the other whenever a Modbus register is access. Additionally, there are also Modbus servers around that work with little-endian data.
 
