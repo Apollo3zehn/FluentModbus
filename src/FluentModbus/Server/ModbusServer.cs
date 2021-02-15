@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -13,10 +14,29 @@ namespace FluentModbus
     /// </summary>
     public abstract class ModbusServer : IDisposable
     {
+        #region Events
+
+        /// <summary>
+        /// Occurs after one or more registers changed.
+        /// </summary>
+        public event EventHandler<List<int>> RegistersChanged;
+
+        /// <summary>
+        /// Occurs after one or more coils changed.
+        /// </summary>
+        public event EventHandler<List<int>> CoilsChanged;
+
+        #endregion
+
         #region Fields
 
         private Task _task_process_requests;
         private ManualResetEventSlim _manualResetEvent;
+
+        private byte[] _inputRegisterBuffer;
+        private byte[] _holdingRegisterBuffer;
+        private byte[] _coilBuffer;
+        private byte[] _discreteInputBuffer;
 
         private int _inputRegisterSize;
         private int _holdingRegisterSize;
@@ -42,14 +62,16 @@ namespace FluentModbus
             this.MaxDiscreteInputAddress = UInt16.MaxValue;
 
             _inputRegisterSize = (this.MaxInputRegisterAddress + 1) * 2;
-            _holdingRegisterSize = (this.MaxHoldingRegisterAddress + 1) * 2;
-            _coilSize = (this.MaxCoilAddress + 1 + 7) / 8;
-            _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
+            _inputRegisterBuffer = new byte[_inputRegisterSize];
 
-            this.InputRegisterBufferPtr = Marshal.AllocHGlobal(_inputRegisterSize);
-            this.HoldingRegisterBufferPtr = Marshal.AllocHGlobal(_holdingRegisterSize);
-            this.CoilBufferPtr = Marshal.AllocHGlobal(_coilSize);
-            this.DiscreteInputBufferPtr = Marshal.AllocHGlobal(_discreteInputSize);
+            _holdingRegisterSize = (this.MaxHoldingRegisterAddress + 1) * 2;
+            _holdingRegisterBuffer = new byte[_holdingRegisterSize];
+
+            _coilSize = (this.MaxCoilAddress + 1 + 7) / 8;
+            _coilBuffer = new byte[_coilSize];
+
+            _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
+            _discreteInputBuffer = new byte[_discreteInputSize];
 
             _manualResetEvent = new ManualResetEventSlim(false);
         }
@@ -67,26 +89,6 @@ namespace FluentModbus
         /// Gets the operation mode.
         /// </summary>
         public bool IsAsynchronous { get; }
-
-        /// <summary>
-        /// Gets the pointer to the input registers buffer.
-        /// </summary>
-        public IntPtr InputRegisterBufferPtr { get; }
-
-        /// <summary>
-        /// Gets the pointer to the holding registers buffer.
-        /// </summary>
-        public IntPtr HoldingRegisterBufferPtr { get; }
-
-        /// <summary>
-        /// Gets the pointer to the coils buffer.
-        /// </summary>
-        public IntPtr CoilBufferPtr { get; }
-
-        /// <summary>
-        /// Gets the pointer to the discete inputs buffer.
-        /// </summary>
-        public IntPtr DiscreteInputBufferPtr { get; }
 
         /// <summary>
         /// Gets the maximum input register address.
@@ -112,6 +114,11 @@ namespace FluentModbus
         /// Gets or sets a method that validates each client request.
         /// </summary>
         public Func<ModbusFunctionCode, ushort, ushort, ModbusExceptionCode> RequestValidator { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the events should be raised when register or coil data changes. Default: false.
+        /// </summary>
+        public bool EnableRaisingEvents { get; set; }
 
         private protected CancellationTokenSource CTS { get; private set; }
 
@@ -147,9 +154,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetInputRegisterBuffer()
+        public Span<byte> GetInputRegisterBuffer()
         {
-            return new Span<byte>(this.InputRegisterBufferPtr.ToPointer(), _inputRegisterSize);
+            return _inputRegisterBuffer;
         }
 
         /// <summary>
@@ -172,9 +179,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetHoldingRegisterBuffer()
+        public Span<byte> GetHoldingRegisterBuffer()
         {
-            return new Span<byte>(this.HoldingRegisterBufferPtr.ToPointer(), _holdingRegisterSize);
+            return _holdingRegisterBuffer;
         }
 
         /// <summary>
@@ -197,9 +204,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the coil buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetCoilBuffer()
+        public Span<byte> GetCoilBuffer()
         {
-            return new Span<byte>(this.CoilBufferPtr.ToPointer(), _coilSize);
+            return _coilBuffer;
         }
 
         /// <summary>
@@ -222,9 +229,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the discrete input buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetDiscreteInputBuffer()
+        public Span<byte> GetDiscreteInputBuffer()
         {
-            return new Span<byte>(this.DiscreteInputBufferPtr.ToPointer(), _discreteInputSize);
+            return _discreteInputBuffer;
         }
 
         /// <summary>
@@ -265,8 +272,6 @@ namespace FluentModbus
             {
                 //
             }
-
-            this.ClearBuffers();
         }
 
         /// <summary>
@@ -299,6 +304,16 @@ namespace FluentModbus
         /// </summary>
         protected abstract void ProcessRequests();
 
+        internal void OnRegistersChanged(List<int> registers)
+        {
+            this.RegistersChanged?.Invoke(this, registers);
+        }
+
+        internal void OnCoilsChanged(List<int> coils)
+        {
+            this.CoilsChanged?.Invoke(this, coils);
+        }
+
         #endregion
 
         #region IDisposable Support
@@ -315,11 +330,6 @@ namespace FluentModbus
             {
                 if (disposing)
                     this.Stop();
-
-                Marshal.FreeHGlobal(this.InputRegisterBufferPtr);
-                Marshal.FreeHGlobal(this.HoldingRegisterBufferPtr);
-                Marshal.FreeHGlobal(this.CoilBufferPtr);
-                Marshal.FreeHGlobal(this.DiscreteInputBufferPtr);
 
                 disposedValue = true;
             }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -306,6 +307,134 @@ namespace FluentModbus.Tests
             // Assert
             Assert.Equal(expected, actual);
             Assert.True(byteExpected.SequenceEqual(byteActual));
+        }
+
+        [Theory]
+        [InlineData(true, false, true)]
+        [InlineData(false, true, true)]
+        [InlineData(false, false, false)]
+        [InlineData(true, true, false)]
+        public async Task CanDetectCoilChanged(bool initialValue, bool newValue, bool expected)
+        {
+            // Arrange
+            var actual = false;
+            var address = 99;
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new ModbusTcpServer()
+            {
+                EnableRaisingEvents = true
+            };
+
+            server.GetCoils().Set(address, initialValue);
+
+            server.CoilsChanged += (sender, e) =>
+            {
+                Assert.True(e.Count == 1);
+                actual = e.Contains(address);
+            };
+
+            server.Start(endpoint);
+
+            // Act
+            var client = new ModbusTcpClient();
+
+            await Task.Run(() =>
+            {
+                client.Connect(endpoint);
+                client.WriteSingleCoil(0, address, newValue);
+            });
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(99, 100, true)]
+        [InlineData(0, -1, true)]
+        [InlineData(1, 1, false)]
+        public async Task CanDetectRegisterChanged(short initialValue, short newValue, bool expected)
+        {
+            // Arrange
+            var actual = false;
+            var address = 99;
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new ModbusTcpServer()
+            {
+                EnableRaisingEvents = true
+            };
+
+            server.GetHoldingRegisters()[address] = initialValue;
+
+            server.RegistersChanged += (sender, e) =>
+            {
+                Assert.True(e.Count == 1);
+                actual = e.Contains(address);
+            };
+
+            server.Start(endpoint);
+
+            // Act
+            var client = new ModbusTcpClient();
+
+            await Task.Run(() =>
+            {
+                client.Connect(endpoint);
+                client.WriteSingleRegister(0, address, newValue);
+            });
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
+        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
+        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, bool[] expected)
+        {
+            // Arrange
+            var actual = new bool[3];
+            var address = 99;
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new ModbusTcpServer()
+            {
+                EnableRaisingEvents = true
+            };
+
+            for (int i = 0; i < initialValues.Length; i++)
+            {
+                server.GetHoldingRegisters()[i + address] = initialValues[i];
+            }
+
+            server.RegistersChanged += (sender, e) =>
+            {
+                Assert.True(e.Count == 2);
+
+                for (int i = 0; i < initialValues.Length; i++)
+                {
+                    actual[i] = e.Contains(address + i);
+                }
+            };
+
+            server.Start(endpoint);
+
+            // Act
+            var client = new ModbusTcpClient();
+
+            await Task.Run(() =>
+            {
+                client.Connect(endpoint);
+
+                if (useReadWriteMethod)
+                    client.ReadWriteMultipleRegisters<short, short>(0, 0, 1, address, newValues);
+                else
+                    client.WriteMultipleRegisters(0, address, newValues);
+            });
+
+            // Assert
+            Assert.True(expected.SequenceEqual(actual));
         }
     }
 }
