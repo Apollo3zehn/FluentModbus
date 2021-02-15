@@ -134,9 +134,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetInputRegisterBuffer()
+        public Span<byte> GetInputRegisterBuffer()
         {
-            return new Span<byte>(this.InputRegisterBufferPtr.ToPointer(), _inputRegisterSize);
+            return _inputRegisterBuffer;
         }
 
         /// <summary>
@@ -159,9 +159,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetHoldingRegisterBuffer()
+        public Span<byte> GetHoldingRegisterBuffer()
         {
-            return new Span<byte>(this.HoldingRegisterBufferPtr.ToPointer(), _holdingRegisterSize);
+            return _holdingRegisterBuffer;
         }
 
         /// <summary>
@@ -184,9 +184,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the coil buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetCoilBuffer()
+        public Span<byte> GetCoilBuffer()
         {
-            return new Span<byte>(this.CoilBufferPtr.ToPointer(), _coilSize);
+            return _coilBuffer;
         }
 
         /// <summary>
@@ -209,9 +209,9 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the discrete input buffer as byte array.
         /// </summary>
-        public unsafe Span<byte> GetDiscreteInputBuffer()
+        public Span<byte> GetDiscreteInputBuffer()
         {
-            return new Span<byte>(this.DiscreteInputBufferPtr.ToPointer(), _discreteInputSize);
+            return _discreteInputBuffer;
         }
 
         /// <summary>
@@ -252,8 +252,6 @@ namespace FluentModbus
             {
                 //
             }
-
-            this.ClearBuffers();
         }
 
         /// <summary>
@@ -302,11 +300,6 @@ namespace FluentModbus
             {
                 if (disposing)
                     this.Stop();
-
-                Marshal.FreeHGlobal(this.InputRegisterBufferPtr);
-                Marshal.FreeHGlobal(this.HoldingRegisterBufferPtr);
-                Marshal.FreeHGlobal(this.CoilBufferPtr);
-                Marshal.FreeHGlobal(this.DiscreteInputBufferPtr);
 
                 disposedValue = true;
             }
