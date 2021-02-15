@@ -996,32 +996,12 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusServer.ClearBuffers
   nameWithType: ModbusServer.ClearBuffers
-- uid: FluentModbus.ModbusServer.CoilBufferPtr
-  name: CoilBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_CoilBufferPtr
-  commentId: P:FluentModbus.ModbusServer.CoilBufferPtr
-  fullName: FluentModbus.ModbusServer.CoilBufferPtr
-  nameWithType: ModbusServer.CoilBufferPtr
-- uid: FluentModbus.ModbusServer.CoilBufferPtr*
-  name: CoilBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_CoilBufferPtr_
-  commentId: Overload:FluentModbus.ModbusServer.CoilBufferPtr
-  isSpec: "True"
-  fullName: FluentModbus.ModbusServer.CoilBufferPtr
-  nameWithType: ModbusServer.CoilBufferPtr
-- uid: FluentModbus.ModbusServer.DiscreteInputBufferPtr
-  name: DiscreteInputBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_DiscreteInputBufferPtr
-  commentId: P:FluentModbus.ModbusServer.DiscreteInputBufferPtr
-  fullName: FluentModbus.ModbusServer.DiscreteInputBufferPtr
-  nameWithType: ModbusServer.DiscreteInputBufferPtr
-- uid: FluentModbus.ModbusServer.DiscreteInputBufferPtr*
-  name: DiscreteInputBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_DiscreteInputBufferPtr_
-  commentId: Overload:FluentModbus.ModbusServer.DiscreteInputBufferPtr
-  isSpec: "True"
-  fullName: FluentModbus.ModbusServer.DiscreteInputBufferPtr
-  nameWithType: ModbusServer.DiscreteInputBufferPtr
+- uid: FluentModbus.ModbusServer.CoilsChanged
+  name: CoilsChanged
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_CoilsChanged
+  commentId: E:FluentModbus.ModbusServer.CoilsChanged
+  fullName: FluentModbus.ModbusServer.CoilsChanged
+  nameWithType: ModbusServer.CoilsChanged
 - uid: FluentModbus.ModbusServer.Dispose
   name: Dispose()
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Dispose
@@ -1041,6 +1021,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusServer.Dispose
   nameWithType: ModbusServer.Dispose
+- uid: FluentModbus.ModbusServer.EnableRaisingEvents
+  name: EnableRaisingEvents
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_EnableRaisingEvents
+  commentId: P:FluentModbus.ModbusServer.EnableRaisingEvents
+  fullName: FluentModbus.ModbusServer.EnableRaisingEvents
+  nameWithType: ModbusServer.EnableRaisingEvents
+- uid: FluentModbus.ModbusServer.EnableRaisingEvents*
+  name: EnableRaisingEvents
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_EnableRaisingEvents_
+  commentId: Overload:FluentModbus.ModbusServer.EnableRaisingEvents
+  isSpec: "True"
+  fullName: FluentModbus.ModbusServer.EnableRaisingEvents
+  nameWithType: ModbusServer.EnableRaisingEvents
 - uid: FluentModbus.ModbusServer.Finalize
   name: Finalize()
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Finalize
@@ -1194,32 +1187,6 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusServer.GetInputRegisters
   nameWithType: ModbusServer.GetInputRegisters
-- uid: FluentModbus.ModbusServer.HoldingRegisterBufferPtr
-  name: HoldingRegisterBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_HoldingRegisterBufferPtr
-  commentId: P:FluentModbus.ModbusServer.HoldingRegisterBufferPtr
-  fullName: FluentModbus.ModbusServer.HoldingRegisterBufferPtr
-  nameWithType: ModbusServer.HoldingRegisterBufferPtr
-- uid: FluentModbus.ModbusServer.HoldingRegisterBufferPtr*
-  name: HoldingRegisterBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_HoldingRegisterBufferPtr_
-  commentId: Overload:FluentModbus.ModbusServer.HoldingRegisterBufferPtr
-  isSpec: "True"
-  fullName: FluentModbus.ModbusServer.HoldingRegisterBufferPtr
-  nameWithType: ModbusServer.HoldingRegisterBufferPtr
-- uid: FluentModbus.ModbusServer.InputRegisterBufferPtr
-  name: InputRegisterBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_InputRegisterBufferPtr
-  commentId: P:FluentModbus.ModbusServer.InputRegisterBufferPtr
-  fullName: FluentModbus.ModbusServer.InputRegisterBufferPtr
-  nameWithType: ModbusServer.InputRegisterBufferPtr
-- uid: FluentModbus.ModbusServer.InputRegisterBufferPtr*
-  name: InputRegisterBufferPtr
-  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_InputRegisterBufferPtr_
-  commentId: Overload:FluentModbus.ModbusServer.InputRegisterBufferPtr
-  isSpec: "True"
-  fullName: FluentModbus.ModbusServer.InputRegisterBufferPtr
-  nameWithType: ModbusServer.InputRegisterBufferPtr
 - uid: FluentModbus.ModbusServer.IsAsynchronous
   name: IsAsynchronous
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_IsAsynchronous
@@ -1311,6 +1278,12 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusServer.ProcessRequests
   nameWithType: ModbusServer.ProcessRequests
+- uid: FluentModbus.ModbusServer.RegistersChanged
+  name: RegistersChanged
+  href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_RegistersChanged
+  commentId: E:FluentModbus.ModbusServer.RegistersChanged
+  fullName: FluentModbus.ModbusServer.RegistersChanged
+  nameWithType: ModbusServer.RegistersChanged
 - uid: FluentModbus.ModbusServer.RequestValidator
   name: RequestValidator
   href: api/FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_RequestValidator
@@ -1502,17 +1475,17 @@ references:
   commentId: M:FluentModbus.ModbusTcpServer.#ctor
   fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer()
   nameWithType: ModbusTcpServer.ModbusTcpServer()
-- uid: FluentModbus.ModbusTcpServer.#ctor(ILogger)
+- uid: FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger)
   name: ModbusTcpServer(ILogger)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_ILogger_
-  commentId: M:FluentModbus.ModbusTcpServer.#ctor(ILogger)
-  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(ILogger)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_Microsoft_Extensions_Logging_ILogger_
+  commentId: M:FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger)
+  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(Microsoft.Extensions.Logging.ILogger)
   nameWithType: ModbusTcpServer.ModbusTcpServer(ILogger)
-- uid: FluentModbus.ModbusTcpServer.#ctor(ILogger,System.Boolean)
+- uid: FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger,System.Boolean)
   name: ModbusTcpServer(ILogger, Boolean)
-  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_ILogger_System_Boolean_
-  commentId: M:FluentModbus.ModbusTcpServer.#ctor(ILogger,System.Boolean)
-  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(ILogger, System.Boolean)
+  href: api/FluentModbus.ModbusTcpServer.html#FluentModbus_ModbusTcpServer__ctor_Microsoft_Extensions_Logging_ILogger_System_Boolean_
+  commentId: M:FluentModbus.ModbusTcpServer.#ctor(Microsoft.Extensions.Logging.ILogger,System.Boolean)
+  fullName: FluentModbus.ModbusTcpServer.ModbusTcpServer(Microsoft.Extensions.Logging.ILogger, System.Boolean)
   nameWithType: ModbusTcpServer.ModbusTcpServer(ILogger, Boolean)
 - uid: FluentModbus.ModbusTcpServer.#ctor(System.Boolean)
   name: ModbusTcpServer(Boolean)

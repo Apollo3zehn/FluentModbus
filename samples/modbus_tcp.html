@@ -89,8 +89,20 @@
     var serverLogger = loggerFactory.CreateLogger(&quot;Server&quot;);
     var clientLogger = loggerFactory.CreateLogger(&quot;Client&quot;);
 
-    /* create Modbus TCP server and client */
-    using var server = new ModbusTcpServer(serverLogger);
+    /* create Modbus TCP server */
+    using var server = new ModbusTcpServer(serverLogger)
+    {
+        // see 'RegistersChanged' event below
+        EnableRaisingEvents = true
+    };
+
+    /* subscribe to the 'RegistersChanged' event (in case you need it) */
+    server.RegistersChanged += (sender, registerAddresses) =&gt;
+    {
+        // the variable 'registerAddresses' contains a list of modified register addresses
+    };
+
+    /* create Modbus TCP client */
     var client = new ModbusTcpClient();
 
 </code></pre>

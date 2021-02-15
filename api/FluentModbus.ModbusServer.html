@@ -100,7 +100,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L34">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L54">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer__ctor_" data-uid="FluentModbus.ModbusServer.#ctor*"></a>
   <h4 id="FluentModbus_ModbusServer__ctor_System_Boolean_" data-uid="FluentModbus.ModbusServer.#ctor(System.Boolean)">ModbusServer(Boolean)</h4>
@@ -133,19 +133,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_CoilBufferPtr.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.CoilBufferPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_EnableRaisingEvents.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.EnableRaisingEvents%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L84">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L121">View Source</a>
   </span>
-  <a id="FluentModbus_ModbusServer_CoilBufferPtr_" data-uid="FluentModbus.ModbusServer.CoilBufferPtr*"></a>
-  <h4 id="FluentModbus_ModbusServer_CoilBufferPtr" data-uid="FluentModbus.ModbusServer.CoilBufferPtr">CoilBufferPtr</h4>
-  <div class="markdown level1 summary"><p>Gets the pointer to the coils buffer.</p>
+  <a id="FluentModbus_ModbusServer_EnableRaisingEvents_" data-uid="FluentModbus.ModbusServer.EnableRaisingEvents*"></a>
+  <h4 id="FluentModbus_ModbusServer_EnableRaisingEvents" data-uid="FluentModbus.ModbusServer.EnableRaisingEvents">EnableRaisingEvents</h4>
+  <div class="markdown level1 summary"><p>Gets or sets whether the events should be raised when register or coil data changes. Default: false.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IntPtr CoilBufferPtr { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool EnableRaisingEvents { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -157,100 +157,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IntPtr</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_DiscreteInputBufferPtr.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.DiscreteInputBufferPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L89">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusServer_DiscreteInputBufferPtr_" data-uid="FluentModbus.ModbusServer.DiscreteInputBufferPtr*"></a>
-  <h4 id="FluentModbus_ModbusServer_DiscreteInputBufferPtr" data-uid="FluentModbus.ModbusServer.DiscreteInputBufferPtr">DiscreteInputBufferPtr</h4>
-  <div class="markdown level1 summary"><p>Gets the pointer to the discete inputs buffer.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IntPtr DiscreteInputBufferPtr { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.IntPtr</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_HoldingRegisterBufferPtr.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.HoldingRegisterBufferPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L79">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusServer_HoldingRegisterBufferPtr_" data-uid="FluentModbus.ModbusServer.HoldingRegisterBufferPtr*"></a>
-  <h4 id="FluentModbus_ModbusServer_HoldingRegisterBufferPtr" data-uid="FluentModbus.ModbusServer.HoldingRegisterBufferPtr">HoldingRegisterBufferPtr</h4>
-  <div class="markdown level1 summary"><p>Gets the pointer to the holding registers buffer.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IntPtr HoldingRegisterBufferPtr { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.IntPtr</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_InputRegisterBufferPtr.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.InputRegisterBufferPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L74">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusServer_InputRegisterBufferPtr_" data-uid="FluentModbus.ModbusServer.InputRegisterBufferPtr*"></a>
-  <h4 id="FluentModbus_ModbusServer_InputRegisterBufferPtr" data-uid="FluentModbus.ModbusServer.InputRegisterBufferPtr">InputRegisterBufferPtr</h4>
-  <div class="markdown level1 summary"><p>Gets the pointer to the input registers buffer.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IntPtr InputRegisterBufferPtr { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="xref">System.Boolean</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -260,7 +167,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_IsAsynchronous.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.IsAsynchronous%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L69">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L91">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_IsAsynchronous_" data-uid="FluentModbus.ModbusServer.IsAsynchronous*"></a>
   <h4 id="FluentModbus_ModbusServer_IsAsynchronous" data-uid="FluentModbus.ModbusServer.IsAsynchronous">IsAsynchronous</h4>
@@ -291,7 +198,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_Lock.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.Lock%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L64">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L86">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_Lock_" data-uid="FluentModbus.ModbusServer.Lock*"></a>
   <h4 id="FluentModbus_ModbusServer_Lock" data-uid="FluentModbus.ModbusServer.Lock">Lock</h4>
@@ -322,7 +229,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_MaxCoilAddress.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.MaxCoilAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L104">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L106">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_MaxCoilAddress_" data-uid="FluentModbus.ModbusServer.MaxCoilAddress*"></a>
   <h4 id="FluentModbus_ModbusServer_MaxCoilAddress" data-uid="FluentModbus.ModbusServer.MaxCoilAddress">MaxCoilAddress</h4>
@@ -353,7 +260,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_MaxDiscreteInputAddress.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.MaxDiscreteInputAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L109">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L111">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_MaxDiscreteInputAddress_" data-uid="FluentModbus.ModbusServer.MaxDiscreteInputAddress*"></a>
   <h4 id="FluentModbus_ModbusServer_MaxDiscreteInputAddress" data-uid="FluentModbus.ModbusServer.MaxDiscreteInputAddress">MaxDiscreteInputAddress</h4>
@@ -384,7 +291,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_MaxHoldingRegisterAddress.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.MaxHoldingRegisterAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L99">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L101">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_MaxHoldingRegisterAddress_" data-uid="FluentModbus.ModbusServer.MaxHoldingRegisterAddress*"></a>
   <h4 id="FluentModbus_ModbusServer_MaxHoldingRegisterAddress" data-uid="FluentModbus.ModbusServer.MaxHoldingRegisterAddress">MaxHoldingRegisterAddress</h4>
@@ -415,7 +322,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_MaxInputRegisterAddress.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.MaxInputRegisterAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L94">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L96">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_MaxInputRegisterAddress_" data-uid="FluentModbus.ModbusServer.MaxInputRegisterAddress*"></a>
   <h4 id="FluentModbus_ModbusServer_MaxInputRegisterAddress" data-uid="FluentModbus.ModbusServer.MaxInputRegisterAddress">MaxInputRegisterAddress</h4>
@@ -446,7 +353,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_RequestValidator.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.RequestValidator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L114">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L116">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_RequestValidator_" data-uid="FluentModbus.ModbusServer.RequestValidator*"></a>
   <h4 id="FluentModbus_ModbusServer_RequestValidator" data-uid="FluentModbus.ModbusServer.RequestValidator">RequestValidator</h4>
@@ -479,7 +386,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_ClearBuffers.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.ClearBuffers%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L233">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L240">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_ClearBuffers_" data-uid="FluentModbus.ModbusServer.ClearBuffers*"></a>
   <h4 id="FluentModbus_ModbusServer_ClearBuffers" data-uid="FluentModbus.ModbusServer.ClearBuffers">ClearBuffers()</h4>
@@ -495,7 +402,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_Dispose.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L339">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L349">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_Dispose_" data-uid="FluentModbus.ModbusServer.Dispose*"></a>
   <h4 id="FluentModbus_ModbusServer_Dispose" data-uid="FluentModbus.ModbusServer.Dispose">Dispose()</h4>
@@ -511,7 +418,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_Dispose_System_Boolean_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.Dispose(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L312">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L327">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_Dispose_" data-uid="FluentModbus.ModbusServer.Dispose*"></a>
   <h4 id="FluentModbus_ModbusServer_Dispose_System_Boolean_" data-uid="FluentModbus.ModbusServer.Dispose(System.Boolean)">Dispose(Boolean)</h4>
@@ -545,7 +452,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_Finalize.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.Finalize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L331">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L341">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_Finalize_" data-uid="FluentModbus.ModbusServer.Finalize*"></a>
   <h4 id="FluentModbus_ModbusServer_Finalize" data-uid="FluentModbus.ModbusServer.Finalize">Finalize()</h4>
@@ -561,7 +468,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetCoilBuffer.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetCoilBuffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L200">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L207">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetCoilBuffer_" data-uid="FluentModbus.ModbusServer.GetCoilBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetCoilBuffer" data-uid="FluentModbus.ModbusServer.GetCoilBuffer">GetCoilBuffer()</h4>
@@ -592,7 +499,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetCoilBuffer__1.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetCoilBuffer%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L192">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L199">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetCoilBuffer_" data-uid="FluentModbus.ModbusServer.GetCoilBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetCoilBuffer__1" data-uid="FluentModbus.ModbusServer.GetCoilBuffer``1">GetCoilBuffer&lt;T&gt;()</h4>
@@ -640,7 +547,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetCoils.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetCoils%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L183">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L190">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetCoils_" data-uid="FluentModbus.ModbusServer.GetCoils*"></a>
   <h4 id="FluentModbus_ModbusServer_GetCoils" data-uid="FluentModbus.ModbusServer.GetCoils">GetCoils()</h4>
@@ -671,7 +578,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetDiscreteInputBuffer.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetDiscreteInputBuffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L225">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L232">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetDiscreteInputBuffer_" data-uid="FluentModbus.ModbusServer.GetDiscreteInputBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetDiscreteInputBuffer" data-uid="FluentModbus.ModbusServer.GetDiscreteInputBuffer">GetDiscreteInputBuffer()</h4>
@@ -702,7 +609,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetDiscreteInputBuffer__1.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetDiscreteInputBuffer%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L217">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L224">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetDiscreteInputBuffer_" data-uid="FluentModbus.ModbusServer.GetDiscreteInputBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetDiscreteInputBuffer__1" data-uid="FluentModbus.ModbusServer.GetDiscreteInputBuffer``1">GetDiscreteInputBuffer&lt;T&gt;()</h4>
@@ -750,7 +657,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetDiscreteInputs.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetDiscreteInputs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L208">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L215">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetDiscreteInputs_" data-uid="FluentModbus.ModbusServer.GetDiscreteInputs*"></a>
   <h4 id="FluentModbus_ModbusServer_GetDiscreteInputs" data-uid="FluentModbus.ModbusServer.GetDiscreteInputs">GetDiscreteInputs()</h4>
@@ -781,7 +688,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetHoldingRegisterBuffer.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetHoldingRegisterBuffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L175">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L182">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetHoldingRegisterBuffer_" data-uid="FluentModbus.ModbusServer.GetHoldingRegisterBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetHoldingRegisterBuffer" data-uid="FluentModbus.ModbusServer.GetHoldingRegisterBuffer">GetHoldingRegisterBuffer()</h4>
@@ -812,7 +719,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetHoldingRegisterBuffer__1.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetHoldingRegisterBuffer%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L167">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L174">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetHoldingRegisterBuffer_" data-uid="FluentModbus.ModbusServer.GetHoldingRegisterBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetHoldingRegisterBuffer__1" data-uid="FluentModbus.ModbusServer.GetHoldingRegisterBuffer``1">GetHoldingRegisterBuffer&lt;T&gt;()</h4>
@@ -860,7 +767,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetHoldingRegisters.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetHoldingRegisters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L158">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L165">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetHoldingRegisters_" data-uid="FluentModbus.ModbusServer.GetHoldingRegisters*"></a>
   <h4 id="FluentModbus_ModbusServer_GetHoldingRegisters" data-uid="FluentModbus.ModbusServer.GetHoldingRegisters">GetHoldingRegisters()</h4>
@@ -891,7 +798,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetInputRegisterBuffer.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetInputRegisterBuffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L150">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L157">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetInputRegisterBuffer_" data-uid="FluentModbus.ModbusServer.GetInputRegisterBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetInputRegisterBuffer" data-uid="FluentModbus.ModbusServer.GetInputRegisterBuffer">GetInputRegisterBuffer()</h4>
@@ -922,7 +829,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetInputRegisterBuffer__1.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetInputRegisterBuffer%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L142">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L149">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetInputRegisterBuffer_" data-uid="FluentModbus.ModbusServer.GetInputRegisterBuffer*"></a>
   <h4 id="FluentModbus_ModbusServer_GetInputRegisterBuffer__1" data-uid="FluentModbus.ModbusServer.GetInputRegisterBuffer``1">GetInputRegisterBuffer&lt;T&gt;()</h4>
@@ -970,7 +877,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_GetInputRegisters.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.GetInputRegisters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L133">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L140">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_GetInputRegisters_" data-uid="FluentModbus.ModbusServer.GetInputRegisters*"></a>
   <h4 id="FluentModbus_ModbusServer_GetInputRegisters" data-uid="FluentModbus.ModbusServer.GetInputRegisters">GetInputRegisters()</h4>
@@ -1001,7 +908,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_ProcessRequests.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.ProcessRequests%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L300">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L305">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_ProcessRequests_" data-uid="FluentModbus.ModbusServer.ProcessRequests*"></a>
   <h4 id="FluentModbus_ModbusServer_ProcessRequests" data-uid="FluentModbus.ModbusServer.ProcessRequests">ProcessRequests()</h4>
@@ -1017,7 +924,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_Start.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.Start%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L275">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L280">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_Start_" data-uid="FluentModbus.ModbusServer.Start*"></a>
   <h4 id="FluentModbus_ModbusServer_Start" data-uid="FluentModbus.ModbusServer.Start">Start()</h4>
@@ -1033,7 +940,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_Stop.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.Stop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L255">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L262">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_Stop_" data-uid="FluentModbus.ModbusServer.Stop*"></a>
   <h4 id="FluentModbus_ModbusServer_Stop" data-uid="FluentModbus.ModbusServer.Stop">Stop()</h4>
@@ -1049,7 +956,7 @@
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_Update.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.Update%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L244">View Source</a>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L251">View Source</a>
   </span>
   <a id="FluentModbus_ModbusServer_Update_" data-uid="FluentModbus.ModbusServer.Update*"></a>
   <h4 id="FluentModbus_ModbusServer_Update" data-uid="FluentModbus.ModbusServer.Update">Update()</h4>
@@ -1060,6 +967,68 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Update()</code></pre>
   </div>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_CoilsChanged.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.CoilsChanged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L27">View Source</a>
+  </span>
+  <h4 id="FluentModbus_ModbusServer_CoilsChanged" data-uid="FluentModbus.ModbusServer.CoilsChanged">CoilsChanged</h4>
+  <div class="markdown level1 summary"><p>Occurs after one or more coils changed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;List&lt;int&gt;&gt; CoilsChanged</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer_RegistersChanged.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer.RegistersChanged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L22">View Source</a>
+  </span>
+  <h4 id="FluentModbus_ModbusServer_RegistersChanged" data-uid="FluentModbus.ModbusServer.RegistersChanged">RegistersChanged</h4>
+  <div class="markdown level1 summary"><p>Occurs after one or more registers changed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;List&lt;int&gt;&gt; RegistersChanged</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="implements">Implements</h3>
   <div>
       <span class="xref">System.IDisposable</span>
@@ -1075,7 +1044,7 @@
                     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusServer.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusServer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L14" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusServer.cs/#L15" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

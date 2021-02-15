@@ -284,6 +284,18 @@ while (!cts.IsCancellationRequested)
 <pre><code class="lang-cs">server.Dispose();
 </code></pre>
 <p>As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.</p>
+<h2 id="events">Events</h2>
+<p>In case you need notifications on data change, enable the event system and then subscribe to the event:</p>
+<pre><code class="lang-cs">using var server = new ModbusTcpServer(...)
+{
+    // 'EnableRaisingEvents' is disabled by default to improve
+    // performance. But now we want events to be raised:
+    EnableRaisingEvents = true
+};
+
+server.RegistersChanged += (sender, registerAddresses) =&gt; { ... };
+server.CoilsChanged += (sender, coilAddresses) =&gt; { ... };
+</code></pre>
 <h2 id="input-and-holding-registers">Input and Holding registers</h2>
 <p>As written above in the client section, the Modbus specs define a big-endian data layout, i.e. the most significant byte is sent first. Opposed to this, most modern systems have little-endian memory layout. This requires to convert the data from one layout into the other whenever a Modbus register is access. Additionally, there are also Modbus servers around that work with little-endian data.</p>
 <p>Both Modbus servers (TCP and RTU) are enabled to work with both kinds of byte layouts. Originally, the Modbus specs only define 2-byte (16-bit) registers but with the FluentModbus servers you are able to overcome this limitation and interpret the data as any value type you want (more details to this can be found in the <code>Span&lt;T&gt;</code> section above).</p>
