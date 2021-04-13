@@ -110,6 +110,38 @@ public void MaskWriteRegister()</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_MaskWriteRegisterAsync.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.MaskWriteRegisterAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L371">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_MaskWriteRegisterAsync_" data-uid="FluentModbus.ModbusClient.MaskWriteRegisterAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_MaskWriteRegisterAsync" data-uid="FluentModbus.ModbusClient.MaskWriteRegisterAsync">MaskWriteRegisterAsync()</h4>
+  <div class="markdown level1 summary"><p>This methdod is not implemented.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
+public Task MaskWriteRegisterAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadCoils_System_Int32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadCoils(System.Int32%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -165,6 +197,73 @@ public void MaskWriteRegister()</code></pre>
     <tbody>
       <tr>
         <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadCoilsAsync_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadCoilsAsync(System.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L134">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadCoilsAsync_" data-uid="FluentModbus.ModbusClient.ReadCoilsAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadCoilsAsync_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadCoilsAsync(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">ReadCoilsAsync(Int32, Int32, Int32, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Reads the specified number of coils as byte array. Each bit of the returned array represents a single coil.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadCoilsAsync(int unitIdentifier, int startingAddress, int quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The coil start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">quantity</span></td>
+        <td><p>The number of coils to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -232,6 +331,73 @@ public void MaskWriteRegister()</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadDiscreteInputsAsync_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadDiscreteInputsAsync(System.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L169">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadDiscreteInputsAsync_" data-uid="FluentModbus.ModbusClient.ReadDiscreteInputsAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadDiscreteInputsAsync_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadDiscreteInputsAsync(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">ReadDiscreteInputsAsync(Int32, Int32, Int32, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discete input.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadDiscreteInputsAsync(int unitIdentifier, int startingAddress, int quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The discrete input start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">quantity</span></td>
+        <td><p>The number of discrete inputs to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadFifoQueue.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadFifoQueue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -249,6 +415,38 @@ public void ReadFifoQueue()</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadFifoQueueAsync.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadFifoQueueAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L459">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadFifoQueueAsync_" data-uid="FluentModbus.ModbusClient.ReadFifoQueueAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadFifoQueueAsync" data-uid="FluentModbus.ModbusClient.ReadFifoQueueAsync">ReadFifoQueueAsync()</h4>
+  <div class="markdown level1 summary"><p>This methdod is not implemented.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
+public Task ReadFifoQueueAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadFileRecord.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadFileRecord%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -264,6 +462,38 @@ public void ReadFifoQueue()</code></pre>
     <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
 public void ReadFileRecord()</code></pre>
   </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadFileRecordAsync.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadFileRecordAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L353">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadFileRecordAsync_" data-uid="FluentModbus.ModbusClient.ReadFileRecordAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadFileRecordAsync" data-uid="FluentModbus.ModbusClient.ReadFileRecordAsync">ReadFileRecordAsync()</h4>
+  <div class="markdown level1 summary"><p>This methdod is not implemented.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
+public Task ReadFileRecordAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadHoldingRegisters_System_Byte_System_UInt16_System_UInt16_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadHoldingRegisters(System.Byte%2CSystem.UInt16%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -340,6 +570,7 @@ public void ReadFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Span&lt;T&gt; ReadHoldingRegisters&lt;T&gt;(int unitIdentifier, int startingAddress, int count)
+
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -383,6 +614,158 @@ public void ReadFileRecord()</code></pre>
     <tbody>
       <tr>
         <td><span class="xref">System.Span</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Determines the type of the returned data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadHoldingRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadHoldingRegistersAsync(System.Byte%2CSystem.UInt16%2CSystem.UInt16%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L47">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadHoldingRegistersAsync_" data-uid="FluentModbus.ModbusClient.ReadHoldingRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadHoldingRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadHoldingRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.Threading.CancellationToken)">ReadHoldingRegistersAsync(Byte, UInt16, UInt16, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Low level API. Use the generic version of this method for easier access. Reads the specified number of values as byte array from the holding registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadHoldingRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The holding register start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">quantity</span></td>
+        <td><p>The number of holding registers (16 bit per register) to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadHoldingRegistersAsync__1_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadHoldingRegistersAsync%60%601(System.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L25">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadHoldingRegistersAsync_" data-uid="FluentModbus.ModbusClient.ReadHoldingRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadHoldingRegistersAsync__1_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadHoldingRegistersAsync``1(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">ReadHoldingRegistersAsync&lt;T&gt;(Int32, Int32, Int32, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Reads the specified number of values of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> from the holding registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;T&gt;&gt; ReadHoldingRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, int count, CancellationToken cancellationToken = default(CancellationToken))
+
+    where T : struct</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The holding register start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of elements of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;T&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -479,6 +862,7 @@ public void ReadFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Span&lt;T&gt; ReadInputRegisters&lt;T&gt;(int unitIdentifier, int startingAddress, int count)
+
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -522,6 +906,158 @@ public void ReadFileRecord()</code></pre>
     <tbody>
       <tr>
         <td><span class="xref">System.Span</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Determines the type of the returned data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadInputRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadInputRegistersAsync(System.Byte%2CSystem.UInt16%2CSystem.UInt16%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L227">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadInputRegistersAsync_" data-uid="FluentModbus.ModbusClient.ReadInputRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadInputRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadInputRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.Threading.CancellationToken)">ReadInputRegistersAsync(Byte, UInt16, UInt16, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Low level API. Use the generic version of this method for easier access. Reads the specified number of values as byte array from the input registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadInputRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The input register start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">quantity</span></td>
+        <td><p>The number of input registers (16 bit per register) to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadInputRegistersAsync__1_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadInputRegistersAsync%60%601(System.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L205">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadInputRegistersAsync_" data-uid="FluentModbus.ModbusClient.ReadInputRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadInputRegistersAsync__1_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadInputRegistersAsync``1(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">ReadInputRegistersAsync&lt;T&gt;(Int32, Int32, Int32, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Reads the specified number of values of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> from the input registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;T&gt;&gt; ReadInputRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, int count, CancellationToken cancellationToken = default(CancellationToken))
+
+    where T : struct</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The input register start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of elements of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;T&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -630,6 +1166,7 @@ public void ReadFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Span&lt;TRead&gt; ReadWriteMultipleRegisters&lt;TRead, TWrite&gt;(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset)
+
     where TRead : struct where TWrite : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -712,6 +1249,187 @@ public void ReadFileRecord()</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_UInt16_System_Byte___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync(System.Byte%2CSystem.UInt16%2CSystem.UInt16%2CSystem.UInt16%2CSystem.Byte%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L419">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync_" data-uid="FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_UInt16_System_Byte___System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.UInt16,System.Byte[],System.Threading.CancellationToken)">ReadWriteMultipleRegistersAsync(Byte, UInt16, UInt16, UInt16, Byte[], CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Low level API. Use the generic version of this method for easier access. Reads the specified number of values as byte array from and writes the provided byte array to the holding registers. The write operation is performed before the read.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadWriteMultipleRegistersAsync(byte unitIdentifier, ushort readStartingAddress, ushort readQuantity, ushort writeStartingAddress, byte[] dataset, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">readStartingAddress</span></td>
+        <td><p>The holding register start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">readQuantity</span></td>
+        <td><p>The number of holding registers (16 bit per register) to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">writeStartingAddress</span></td>
+        <td><p>The holding register start address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">dataset</span></td>
+        <td><p>The byte array to write to the server. A minimum of two bytes is required.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync__2_System_Int32_System_Int32_System_Int32_System_Int32___1___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync%60%602(System.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2C%60%601%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L388">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync_" data-uid="FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync__2_System_Int32_System_Int32_System_Int32_System_Int32___1___System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync``2(System.Int32,System.Int32,System.Int32,System.Int32,``1[],System.Threading.CancellationToken)">ReadWriteMultipleRegistersAsync&lt;TRead, TWrite&gt;(Int32, Int32, Int32, Int32, TWrite[], CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Reads the specified number of values of type <code data-dev-comment-type="typeparamref" class="typeparamref">TRead</code> from and writes the provided array of type <code data-dev-comment-type="typeparamref" class="typeparamref">TWrite</code> to the holding registers. The write operation is performed before the read.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;TRead&gt;&gt; ReadWriteMultipleRegistersAsync&lt;TRead, TWrite&gt;(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset, CancellationToken cancellationToken = default(CancellationToken))
+
+    where TRead : struct where TWrite : struct</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">readStartingAddress</span></td>
+        <td><p>The holding register start address for the read operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">readCount</span></td>
+        <td><p>The number of elements of type <code data-dev-comment-type="typeparamref" class="typeparamref">TRead</code> to read.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">writeStartingAddress</span></td>
+        <td><p>The holding register start address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td>TWrite[]</td>
+        <td><span class="parametername">dataset</span></td>
+        <td><p>The data of type <code data-dev-comment-type="typeparamref" class="typeparamref">TWrite</code> to write to the server.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Memory</span>&lt;TRead&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TRead</span></td>
+        <td><p>Determines the type of the returned data.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TWrite</span></td>
+        <td><p>Determines the type of the provided data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteFileRecord.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteFileRecord%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -729,6 +1447,38 @@ public void WriteFileRecord()</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteFileRecordAsync.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteFileRecordAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L362">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteFileRecordAsync_" data-uid="FluentModbus.ModbusClient.WriteFileRecordAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteFileRecordAsync" data-uid="FluentModbus.ModbusClient.WriteFileRecordAsync">WriteFileRecordAsync()</h4>
+  <div class="markdown level1 summary"><p>This methdod is not implemented.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
+public Task WriteFileRecordAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteMultipleCoils.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteMultipleCoils%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -744,6 +1494,38 @@ public void WriteFileRecord()</code></pre>
     <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
 public void WriteMultipleCoils()</code></pre>
   </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteMultipleCoilsAsync.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteMultipleCoilsAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L344">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteMultipleCoilsAsync_" data-uid="FluentModbus.ModbusClient.WriteMultipleCoilsAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteMultipleCoilsAsync" data-uid="FluentModbus.ModbusClient.WriteMultipleCoilsAsync">WriteMultipleCoilsAsync()</h4>
+  <div class="markdown level1 summary"><p>This methdod is not implemented.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
+public Task WriteMultipleCoilsAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteMultipleRegisters_System_Byte_System_UInt16_System_Byte___.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteMultipleRegisters(System.Byte%2CSystem.UInt16%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -805,6 +1587,7 @@ public void WriteMultipleCoils()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void WriteMultipleRegisters&lt;T&gt;(int unitIdentifier, int startingAddress, T[] dataset)
+
     where T : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -834,6 +1617,158 @@ public void WriteMultipleCoils()</code></pre>
         <td><span class="parametername">dataset</span></td>
         <td><p>The data of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to write to the server.</p>
 </td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Determines the type of the provided data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteMultipleRegistersAsync_System_Byte_System_UInt16_System_Byte___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteMultipleRegistersAsync(System.Byte%2CSystem.UInt16%2CSystem.Byte%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L97">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteMultipleRegistersAsync_" data-uid="FluentModbus.ModbusClient.WriteMultipleRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteMultipleRegistersAsync_System_Byte_System_UInt16_System_Byte___System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.WriteMultipleRegistersAsync(System.Byte,System.UInt16,System.Byte[],System.Threading.CancellationToken)">WriteMultipleRegistersAsync(Byte, UInt16, Byte[], CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Low level API. Use the generic version of this method for easier access. Writes the provided byte array to the holding registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteMultipleRegistersAsync(byte unitIdentifier, ushort startingAddress, byte[] dataset, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The holding register start address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">dataset</span></td>
+        <td><p>The byte array to write to the server. A minimum of two bytes is required.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteMultipleRegistersAsync__1_System_Int32_System_Int32___0___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteMultipleRegistersAsync%60%601(System.Int32%2CSystem.Int32%2C%60%600%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L79">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteMultipleRegistersAsync_" data-uid="FluentModbus.ModbusClient.WriteMultipleRegistersAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteMultipleRegistersAsync__1_System_Int32_System_Int32___0___System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.WriteMultipleRegistersAsync``1(System.Int32,System.Int32,``0[],System.Threading.CancellationToken)">WriteMultipleRegistersAsync&lt;T&gt;(Int32, Int32, T[], CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Writes the provided array of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to the holding registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteMultipleRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, T[] dataset, CancellationToken cancellationToken = default(CancellationToken))
+
+    where T : struct</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">startingAddress</span></td>
+        <td><p>The holding register start address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td>T[]</td>
+        <td><span class="parametername">dataset</span></td>
+        <td><p>The data of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to write to the server.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -896,6 +1831,73 @@ public void WriteMultipleCoils()</code></pre>
         <td><span class="parametername">value</span></td>
         <td><p>The value to write to the server.</p>
 </td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteSingleCoilAsync_System_Int32_System_Int32_System_Boolean_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteSingleCoilAsync(System.Int32%2CSystem.Int32%2CSystem.Boolean%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L258">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteSingleCoilAsync_" data-uid="FluentModbus.ModbusClient.WriteSingleCoilAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteSingleCoilAsync_System_Int32_System_Int32_System_Boolean_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.WriteSingleCoilAsync(System.Int32,System.Int32,System.Boolean,System.Threading.CancellationToken)">WriteSingleCoilAsync(Int32, Int32, Boolean, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Writes the provided <code data-dev-comment-type="paramref" class="paramref">value</code> to the coil registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteSingleCoilAsync(int unitIdentifier, int registerAddress, bool value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">registerAddress</span></td>
+        <td><p>The coil address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value to write to the server.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -1037,6 +2039,207 @@ public void WriteMultipleCoils()</code></pre>
       </tr>
     </tbody>
   </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Byte_System_UInt16_System_Byte___System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Byte%2CSystem.UInt16%2CSystem.Byte%5B%5D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L323">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteSingleRegisterAsync_" data-uid="FluentModbus.ModbusClient.WriteSingleRegisterAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Byte_System_UInt16_System_Byte___System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Byte,System.UInt16,System.Byte[],System.Threading.CancellationToken)">WriteSingleRegisterAsync(Byte, UInt16, Byte[], CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Low level API. Use the overloads of this method for easier access. Writes the provided byte array to the holding register.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteSingleRegisterAsync(byte unitIdentifier, ushort registerAddress, byte[] value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">registerAddress</span></td>
+        <td><p>The holding register address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value to write to the server, which is passed as a 2-byte array.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Int32_System_Int32_System_Int16_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32%2CSystem.Int32%2CSystem.Int16%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L287">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteSingleRegisterAsync_" data-uid="FluentModbus.ModbusClient.WriteSingleRegisterAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Int32_System_Int32_System_Int16_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32,System.Int32,System.Int16,System.Threading.CancellationToken)">WriteSingleRegisterAsync(Int32, Int32, Int16, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Writes the provided <code data-dev-comment-type="paramref" class="paramref">value</code> to the holding registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteSingleRegisterAsync(int unitIdentifier, int registerAddress, short value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">registerAddress</span></td>
+        <td><p>The holding register address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int16</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value to write to the server.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Int32_System_Int32_System_UInt16_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32%2CSystem.Int32%2CSystem.UInt16%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L305">View Source</a>
+  </span>
+  <a id="FluentModbus_ModbusClient_WriteSingleRegisterAsync_" data-uid="FluentModbus.ModbusClient.WriteSingleRegisterAsync*"></a>
+  <h4 id="FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Int32_System_Int32_System_UInt16_System_Threading_CancellationToken_" data-uid="FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32,System.Int32,System.UInt16,System.Threading.CancellationToken)">WriteSingleRegisterAsync(Int32, Int32, UInt16, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Writes the provided <code data-dev-comment-type="paramref" class="paramref">value</code> to the holding registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task WriteSingleRegisterAsync(int unitIdentifier, int registerAddress, ushort value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">unitIdentifier</span></td>
+        <td><p>The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">registerAddress</span></td>
+        <td><p>The holding register address for the write operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value to write to the server.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>The token to monitor for cancellation requests. The default value is <span class="xref">System.Threading.CancellationToken.None</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -1048,7 +2251,7 @@ public void WriteMultipleCoils()</code></pre>
                     <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusClient.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusClient%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClient.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Client/ModbusClientAsync.cs/#L13" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

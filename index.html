@@ -82,6 +82,9 @@
 <ul>
 <li>FC23: ReadWriteMultipleRegisters</li>
 </ul>
+<blockquote>
+<p><strong>Note:</strong> The Modbus clients implement each function code in a synchronous and an asynchronous version (<code>async/await</code>).</p>
+</blockquote>
 <p>Please see the introduction below to get a more detailed description on how to use this library!</p>
 <p>Here is a screenshot of the <a href="samples/modbus_tcp.html">sample</a> console output using a Modbus TCP server and client:</p>
 <p><img src="images/sample.png" alt="Sample."></p>
@@ -133,7 +136,7 @@ client.Connect(..., ModbusEndianness.BigEndian);
 <p>When you are explicitly specifying the endianness of the data layout in the constructor, the library will correctly handle the data conversion for you.</p>
 <p>By default, this library expects little-endian data for compatibility reasons.</p>
 <h2 id="a-few-words-to-spant">A few words to <code>Span&lt;T&gt;</code></h2>
-<p>The returned data of the read functions (FC01 to FC04) are always provided as <code>Span&lt;T&gt;</code> (<a href="https://msdn.microsoft.com/en-us/magazine/mt814808.aspx">What is this?</a>). In short, a <code>Span&lt;T&gt;</code> is a simple view of the underlying memory. With this type, the memory can be interpreted as <code>byte</code>, <code>int</code>, <code>float</code> or any other value type. A conversion from <code>Span&lt;byte&gt;</code> to other types can be efficiently achieved through:</p>
+<p>The returned data of the read functions (FC01 to FC04) are always provided as <code>Span&lt;T&gt;</code> (<a href="https://msdn.microsoft.com/en-us/magazine/mt814808.aspx">What is this?</a>) or as <code>Memory&lt;T&gt;</code> (for <code>async</code> function codes). In short, a <code>Span&lt;T&gt;</code> is a simple view of the underlying memory. With this type, the memory can be interpreted as <code>byte</code>, <code>int</code>, <code>float</code> or any other value type. A conversion from <code>Span&lt;byte&gt;</code> to other types can be efficiently achieved through:</p>
 <pre><code class="lang-cs">Span&lt;byte&gt; byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
 Span&lt;int&gt; intSpan = MemoryMarshal.Cast&lt;byte, int&gt;(byteSpan);
 Span&lt;float&gt; floatSpan = MemoryMarshal.Cast&lt;int, float&gt;(intSpan);
@@ -141,7 +144,7 @@ Span&lt;float&gt; floatSpan = MemoryMarshal.Cast&lt;int, float&gt;(intSpan);
 <p>You can then access it like a any other array:</p>
 <pre><code class="lang-cs">var floatValue = myFloatSpan[0];
 </code></pre>
-<p>The data remain unchanged during all of these calls. <em>Only the interpretation changes.</em> However, one disadvantage is that this type cannot be used in all code locations (e.g. in <code>async</code> functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):</p>
+<p>The data remain unchanged during all of these calls. <em>Only the interpretation changes.</em> However, one disadvantage is that the <code>Span&lt;T&gt;</code> type cannot be used in all code locations (e.g. in <code>async</code> functions). Therefore, if you run into these limitations, you can either call the async version of the function code or convert the returned data to a plain array (which is essentially a copy operation):</p>
 <pre><code class="lang-cs">float[] floatArray = floatSpan.ToArray();
 </code></pre>
 <h2 id="read-data">Read data</h2>

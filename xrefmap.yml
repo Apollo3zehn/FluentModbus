@@ -242,6 +242,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.MaskWriteRegister
   nameWithType: ModbusClient.MaskWriteRegister
+- uid: FluentModbus.ModbusClient.MaskWriteRegisterAsync
+  name: MaskWriteRegisterAsync()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_MaskWriteRegisterAsync
+  commentId: M:FluentModbus.ModbusClient.MaskWriteRegisterAsync
+  fullName: FluentModbus.ModbusClient.MaskWriteRegisterAsync()
+  nameWithType: ModbusClient.MaskWriteRegisterAsync()
+- uid: FluentModbus.ModbusClient.MaskWriteRegisterAsync*
+  name: MaskWriteRegisterAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_MaskWriteRegisterAsync_
+  commentId: Overload:FluentModbus.ModbusClient.MaskWriteRegisterAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.MaskWriteRegisterAsync
+  nameWithType: ModbusClient.MaskWriteRegisterAsync
 - uid: FluentModbus.ModbusClient.ReadCoils(System.Int32,System.Int32,System.Int32)
   name: ReadCoils(Int32, Int32, Int32)
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadCoils_System_Int32_System_Int32_System_Int32_
@@ -255,6 +268,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.ReadCoils
   nameWithType: ModbusClient.ReadCoils
+- uid: FluentModbus.ModbusClient.ReadCoilsAsync(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name: ReadCoilsAsync(Int32, Int32, Int32, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadCoilsAsync_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadCoilsAsync(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadCoilsAsync(System.Int32, System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadCoilsAsync(Int32, Int32, Int32, CancellationToken)
+- uid: FluentModbus.ModbusClient.ReadCoilsAsync*
+  name: ReadCoilsAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadCoilsAsync_
+  commentId: Overload:FluentModbus.ModbusClient.ReadCoilsAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadCoilsAsync
+  nameWithType: ModbusClient.ReadCoilsAsync
 - uid: FluentModbus.ModbusClient.ReadDiscreteInputs(System.Int32,System.Int32,System.Int32)
   name: ReadDiscreteInputs(Int32, Int32, Int32)
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadDiscreteInputs_System_Int32_System_Int32_System_Int32_
@@ -268,6 +294,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.ReadDiscreteInputs
   nameWithType: ModbusClient.ReadDiscreteInputs
+- uid: FluentModbus.ModbusClient.ReadDiscreteInputsAsync(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name: ReadDiscreteInputsAsync(Int32, Int32, Int32, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadDiscreteInputsAsync_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadDiscreteInputsAsync(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadDiscreteInputsAsync(System.Int32, System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadDiscreteInputsAsync(Int32, Int32, Int32, CancellationToken)
+- uid: FluentModbus.ModbusClient.ReadDiscreteInputsAsync*
+  name: ReadDiscreteInputsAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadDiscreteInputsAsync_
+  commentId: Overload:FluentModbus.ModbusClient.ReadDiscreteInputsAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadDiscreteInputsAsync
+  nameWithType: ModbusClient.ReadDiscreteInputsAsync
 - uid: FluentModbus.ModbusClient.ReadFifoQueue
   name: ReadFifoQueue()
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFifoQueue
@@ -281,6 +320,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.ReadFifoQueue
   nameWithType: ModbusClient.ReadFifoQueue
+- uid: FluentModbus.ModbusClient.ReadFifoQueueAsync
+  name: ReadFifoQueueAsync()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFifoQueueAsync
+  commentId: M:FluentModbus.ModbusClient.ReadFifoQueueAsync
+  fullName: FluentModbus.ModbusClient.ReadFifoQueueAsync()
+  nameWithType: ModbusClient.ReadFifoQueueAsync()
+- uid: FluentModbus.ModbusClient.ReadFifoQueueAsync*
+  name: ReadFifoQueueAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFifoQueueAsync_
+  commentId: Overload:FluentModbus.ModbusClient.ReadFifoQueueAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadFifoQueueAsync
+  nameWithType: ModbusClient.ReadFifoQueueAsync
 - uid: FluentModbus.ModbusClient.ReadFileRecord
   name: ReadFileRecord()
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFileRecord
@@ -294,6 +346,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.ReadFileRecord
   nameWithType: ModbusClient.ReadFileRecord
+- uid: FluentModbus.ModbusClient.ReadFileRecordAsync
+  name: ReadFileRecordAsync()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFileRecordAsync
+  commentId: M:FluentModbus.ModbusClient.ReadFileRecordAsync
+  fullName: FluentModbus.ModbusClient.ReadFileRecordAsync()
+  nameWithType: ModbusClient.ReadFileRecordAsync()
+- uid: FluentModbus.ModbusClient.ReadFileRecordAsync*
+  name: ReadFileRecordAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadFileRecordAsync_
+  commentId: Overload:FluentModbus.ModbusClient.ReadFileRecordAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadFileRecordAsync
+  nameWithType: ModbusClient.ReadFileRecordAsync
 - uid: FluentModbus.ModbusClient.ReadHoldingRegisters(System.Byte,System.UInt16,System.UInt16)
   name: ReadHoldingRegisters(Byte, UInt16, UInt16)
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegisters_System_Byte_System_UInt16_System_UInt16_
@@ -316,6 +381,28 @@ references:
   fullName.vb: FluentModbus.ModbusClient.ReadHoldingRegisters(Of T)(System.Int32, System.Int32, System.Int32)
   nameWithType: ModbusClient.ReadHoldingRegisters<T>(Int32, Int32, Int32)
   nameWithType.vb: ModbusClient.ReadHoldingRegisters(Of T)(Int32, Int32, Int32)
+- uid: FluentModbus.ModbusClient.ReadHoldingRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.Threading.CancellationToken)
+  name: ReadHoldingRegistersAsync(Byte, UInt16, UInt16, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadHoldingRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.Threading.CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadHoldingRegistersAsync(System.Byte, System.UInt16, System.UInt16, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadHoldingRegistersAsync(Byte, UInt16, UInt16, CancellationToken)
+- uid: FluentModbus.ModbusClient.ReadHoldingRegistersAsync*
+  name: ReadHoldingRegistersAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegistersAsync_
+  commentId: Overload:FluentModbus.ModbusClient.ReadHoldingRegistersAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadHoldingRegistersAsync
+  nameWithType: ModbusClient.ReadHoldingRegistersAsync
+- uid: FluentModbus.ModbusClient.ReadHoldingRegistersAsync``1(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name: ReadHoldingRegistersAsync<T>(Int32, Int32, Int32, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadHoldingRegistersAsync__1_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadHoldingRegistersAsync``1(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name.vb: ReadHoldingRegistersAsync(Of T)(Int32, Int32, Int32, CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadHoldingRegistersAsync<T>(System.Int32, System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullName.vb: FluentModbus.ModbusClient.ReadHoldingRegistersAsync(Of T)(System.Int32, System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadHoldingRegistersAsync<T>(Int32, Int32, Int32, CancellationToken)
+  nameWithType.vb: ModbusClient.ReadHoldingRegistersAsync(Of T)(Int32, Int32, Int32, CancellationToken)
 - uid: FluentModbus.ModbusClient.ReadInputRegisters(System.Byte,System.UInt16,System.UInt16)
   name: ReadInputRegisters(Byte, UInt16, UInt16)
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegisters_System_Byte_System_UInt16_System_UInt16_
@@ -338,6 +425,28 @@ references:
   fullName.vb: FluentModbus.ModbusClient.ReadInputRegisters(Of T)(System.Int32, System.Int32, System.Int32)
   nameWithType: ModbusClient.ReadInputRegisters<T>(Int32, Int32, Int32)
   nameWithType.vb: ModbusClient.ReadInputRegisters(Of T)(Int32, Int32, Int32)
+- uid: FluentModbus.ModbusClient.ReadInputRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.Threading.CancellationToken)
+  name: ReadInputRegistersAsync(Byte, UInt16, UInt16, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadInputRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.Threading.CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadInputRegistersAsync(System.Byte, System.UInt16, System.UInt16, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadInputRegistersAsync(Byte, UInt16, UInt16, CancellationToken)
+- uid: FluentModbus.ModbusClient.ReadInputRegistersAsync*
+  name: ReadInputRegistersAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegistersAsync_
+  commentId: Overload:FluentModbus.ModbusClient.ReadInputRegistersAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadInputRegistersAsync
+  nameWithType: ModbusClient.ReadInputRegistersAsync
+- uid: FluentModbus.ModbusClient.ReadInputRegistersAsync``1(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name: ReadInputRegistersAsync<T>(Int32, Int32, Int32, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadInputRegistersAsync__1_System_Int32_System_Int32_System_Int32_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadInputRegistersAsync``1(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)
+  name.vb: ReadInputRegistersAsync(Of T)(Int32, Int32, Int32, CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadInputRegistersAsync<T>(System.Int32, System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullName.vb: FluentModbus.ModbusClient.ReadInputRegistersAsync(Of T)(System.Int32, System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadInputRegistersAsync<T>(Int32, Int32, Int32, CancellationToken)
+  nameWithType.vb: ModbusClient.ReadInputRegistersAsync(Of T)(Int32, Int32, Int32, CancellationToken)
 - uid: FluentModbus.ModbusClient.ReadWriteMultipleRegisters(System.Byte,System.UInt16,System.UInt16,System.UInt16,System.Byte[])
   name: ReadWriteMultipleRegisters(Byte, UInt16, UInt16, UInt16, Byte[])
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegisters_System_Byte_System_UInt16_System_UInt16_System_UInt16_System_Byte___
@@ -363,6 +472,31 @@ references:
   fullName.vb: FluentModbus.ModbusClient.ReadWriteMultipleRegisters(Of TRead, TWrite)(System.Int32, System.Int32, System.Int32, System.Int32, TWrite())
   nameWithType: ModbusClient.ReadWriteMultipleRegisters<TRead, TWrite>(Int32, Int32, Int32, Int32, TWrite[])
   nameWithType.vb: ModbusClient.ReadWriteMultipleRegisters(Of TRead, TWrite)(Int32, Int32, Int32, Int32, TWrite())
+- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.UInt16,System.Byte[],System.Threading.CancellationToken)
+  name: ReadWriteMultipleRegistersAsync(Byte, UInt16, UInt16, UInt16, Byte[], CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync_System_Byte_System_UInt16_System_UInt16_System_UInt16_System_Byte___System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync(System.Byte,System.UInt16,System.UInt16,System.UInt16,System.Byte[],System.Threading.CancellationToken)
+  name.vb: ReadWriteMultipleRegistersAsync(Byte, UInt16, UInt16, UInt16, Byte(), CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync(System.Byte, System.UInt16, System.UInt16, System.UInt16, System.Byte[], System.Threading.CancellationToken)
+  fullName.vb: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync(System.Byte, System.UInt16, System.UInt16, System.UInt16, System.Byte(), System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadWriteMultipleRegistersAsync(Byte, UInt16, UInt16, UInt16, Byte[], CancellationToken)
+  nameWithType.vb: ModbusClient.ReadWriteMultipleRegistersAsync(Byte, UInt16, UInt16, UInt16, Byte(), CancellationToken)
+- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync*
+  name: ReadWriteMultipleRegistersAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync_
+  commentId: Overload:FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync
+  nameWithType: ModbusClient.ReadWriteMultipleRegistersAsync
+- uid: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync``2(System.Int32,System.Int32,System.Int32,System.Int32,``1[],System.Threading.CancellationToken)
+  name: ReadWriteMultipleRegistersAsync<TRead, TWrite>(Int32, Int32, Int32, Int32, TWrite[], CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_ReadWriteMultipleRegistersAsync__2_System_Int32_System_Int32_System_Int32_System_Int32___1___System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync``2(System.Int32,System.Int32,System.Int32,System.Int32,``1[],System.Threading.CancellationToken)
+  name.vb: ReadWriteMultipleRegistersAsync(Of TRead, TWrite)(Int32, Int32, Int32, Int32, TWrite(), CancellationToken)
+  fullName: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync<TRead, TWrite>(System.Int32, System.Int32, System.Int32, System.Int32, TWrite[], System.Threading.CancellationToken)
+  fullName.vb: FluentModbus.ModbusClient.ReadWriteMultipleRegistersAsync(Of TRead, TWrite)(System.Int32, System.Int32, System.Int32, System.Int32, TWrite(), System.Threading.CancellationToken)
+  nameWithType: ModbusClient.ReadWriteMultipleRegistersAsync<TRead, TWrite>(Int32, Int32, Int32, Int32, TWrite[], CancellationToken)
+  nameWithType.vb: ModbusClient.ReadWriteMultipleRegistersAsync(Of TRead, TWrite)(Int32, Int32, Int32, Int32, TWrite(), CancellationToken)
 - uid: FluentModbus.ModbusClient.WriteFileRecord
   name: WriteFileRecord()
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteFileRecord
@@ -376,6 +510,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.WriteFileRecord
   nameWithType: ModbusClient.WriteFileRecord
+- uid: FluentModbus.ModbusClient.WriteFileRecordAsync
+  name: WriteFileRecordAsync()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteFileRecordAsync
+  commentId: M:FluentModbus.ModbusClient.WriteFileRecordAsync
+  fullName: FluentModbus.ModbusClient.WriteFileRecordAsync()
+  nameWithType: ModbusClient.WriteFileRecordAsync()
+- uid: FluentModbus.ModbusClient.WriteFileRecordAsync*
+  name: WriteFileRecordAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteFileRecordAsync_
+  commentId: Overload:FluentModbus.ModbusClient.WriteFileRecordAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteFileRecordAsync
+  nameWithType: ModbusClient.WriteFileRecordAsync
 - uid: FluentModbus.ModbusClient.WriteMultipleCoils
   name: WriteMultipleCoils()
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleCoils
@@ -389,6 +536,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.WriteMultipleCoils
   nameWithType: ModbusClient.WriteMultipleCoils
+- uid: FluentModbus.ModbusClient.WriteMultipleCoilsAsync
+  name: WriteMultipleCoilsAsync()
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleCoilsAsync
+  commentId: M:FluentModbus.ModbusClient.WriteMultipleCoilsAsync
+  fullName: FluentModbus.ModbusClient.WriteMultipleCoilsAsync()
+  nameWithType: ModbusClient.WriteMultipleCoilsAsync()
+- uid: FluentModbus.ModbusClient.WriteMultipleCoilsAsync*
+  name: WriteMultipleCoilsAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleCoilsAsync_
+  commentId: Overload:FluentModbus.ModbusClient.WriteMultipleCoilsAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteMultipleCoilsAsync
+  nameWithType: ModbusClient.WriteMultipleCoilsAsync
 - uid: FluentModbus.ModbusClient.WriteMultipleRegisters(System.Byte,System.UInt16,System.Byte[])
   name: WriteMultipleRegisters(Byte, UInt16, Byte[])
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegisters_System_Byte_System_UInt16_System_Byte___
@@ -414,6 +574,31 @@ references:
   fullName.vb: FluentModbus.ModbusClient.WriteMultipleRegisters(Of T)(System.Int32, System.Int32, T())
   nameWithType: ModbusClient.WriteMultipleRegisters<T>(Int32, Int32, T[])
   nameWithType.vb: ModbusClient.WriteMultipleRegisters(Of T)(Int32, Int32, T())
+- uid: FluentModbus.ModbusClient.WriteMultipleRegistersAsync(System.Byte,System.UInt16,System.Byte[],System.Threading.CancellationToken)
+  name: WriteMultipleRegistersAsync(Byte, UInt16, Byte[], CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegistersAsync_System_Byte_System_UInt16_System_Byte___System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.WriteMultipleRegistersAsync(System.Byte,System.UInt16,System.Byte[],System.Threading.CancellationToken)
+  name.vb: WriteMultipleRegistersAsync(Byte, UInt16, Byte(), CancellationToken)
+  fullName: FluentModbus.ModbusClient.WriteMultipleRegistersAsync(System.Byte, System.UInt16, System.Byte[], System.Threading.CancellationToken)
+  fullName.vb: FluentModbus.ModbusClient.WriteMultipleRegistersAsync(System.Byte, System.UInt16, System.Byte(), System.Threading.CancellationToken)
+  nameWithType: ModbusClient.WriteMultipleRegistersAsync(Byte, UInt16, Byte[], CancellationToken)
+  nameWithType.vb: ModbusClient.WriteMultipleRegistersAsync(Byte, UInt16, Byte(), CancellationToken)
+- uid: FluentModbus.ModbusClient.WriteMultipleRegistersAsync*
+  name: WriteMultipleRegistersAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegistersAsync_
+  commentId: Overload:FluentModbus.ModbusClient.WriteMultipleRegistersAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteMultipleRegistersAsync
+  nameWithType: ModbusClient.WriteMultipleRegistersAsync
+- uid: FluentModbus.ModbusClient.WriteMultipleRegistersAsync``1(System.Int32,System.Int32,``0[],System.Threading.CancellationToken)
+  name: WriteMultipleRegistersAsync<T>(Int32, Int32, T[], CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteMultipleRegistersAsync__1_System_Int32_System_Int32___0___System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.WriteMultipleRegistersAsync``1(System.Int32,System.Int32,``0[],System.Threading.CancellationToken)
+  name.vb: WriteMultipleRegistersAsync(Of T)(Int32, Int32, T(), CancellationToken)
+  fullName: FluentModbus.ModbusClient.WriteMultipleRegistersAsync<T>(System.Int32, System.Int32, T[], System.Threading.CancellationToken)
+  fullName.vb: FluentModbus.ModbusClient.WriteMultipleRegistersAsync(Of T)(System.Int32, System.Int32, T(), System.Threading.CancellationToken)
+  nameWithType: ModbusClient.WriteMultipleRegistersAsync<T>(Int32, Int32, T[], CancellationToken)
+  nameWithType.vb: ModbusClient.WriteMultipleRegistersAsync(Of T)(Int32, Int32, T(), CancellationToken)
 - uid: FluentModbus.ModbusClient.WriteSingleCoil(System.Int32,System.Int32,System.Boolean)
   name: WriteSingleCoil(Int32, Int32, Boolean)
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleCoil_System_Int32_System_Int32_System_Boolean_
@@ -427,6 +612,19 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.WriteSingleCoil
   nameWithType: ModbusClient.WriteSingleCoil
+- uid: FluentModbus.ModbusClient.WriteSingleCoilAsync(System.Int32,System.Int32,System.Boolean,System.Threading.CancellationToken)
+  name: WriteSingleCoilAsync(Int32, Int32, Boolean, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleCoilAsync_System_Int32_System_Int32_System_Boolean_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.WriteSingleCoilAsync(System.Int32,System.Int32,System.Boolean,System.Threading.CancellationToken)
+  fullName: FluentModbus.ModbusClient.WriteSingleCoilAsync(System.Int32, System.Int32, System.Boolean, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.WriteSingleCoilAsync(Int32, Int32, Boolean, CancellationToken)
+- uid: FluentModbus.ModbusClient.WriteSingleCoilAsync*
+  name: WriteSingleCoilAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleCoilAsync_
+  commentId: Overload:FluentModbus.ModbusClient.WriteSingleCoilAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteSingleCoilAsync
+  nameWithType: ModbusClient.WriteSingleCoilAsync
 - uid: FluentModbus.ModbusClient.WriteSingleRegister(System.Byte,System.UInt16,System.Byte[])
   name: WriteSingleRegister(Byte, UInt16, Byte[])
   href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegister_System_Byte_System_UInt16_System_Byte___
@@ -455,6 +653,34 @@ references:
   isSpec: "True"
   fullName: FluentModbus.ModbusClient.WriteSingleRegister
   nameWithType: ModbusClient.WriteSingleRegister
+- uid: FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Byte,System.UInt16,System.Byte[],System.Threading.CancellationToken)
+  name: WriteSingleRegisterAsync(Byte, UInt16, Byte[], CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Byte_System_UInt16_System_Byte___System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Byte,System.UInt16,System.Byte[],System.Threading.CancellationToken)
+  name.vb: WriteSingleRegisterAsync(Byte, UInt16, Byte(), CancellationToken)
+  fullName: FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Byte, System.UInt16, System.Byte[], System.Threading.CancellationToken)
+  fullName.vb: FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Byte, System.UInt16, System.Byte(), System.Threading.CancellationToken)
+  nameWithType: ModbusClient.WriteSingleRegisterAsync(Byte, UInt16, Byte[], CancellationToken)
+  nameWithType.vb: ModbusClient.WriteSingleRegisterAsync(Byte, UInt16, Byte(), CancellationToken)
+- uid: FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32,System.Int32,System.Int16,System.Threading.CancellationToken)
+  name: WriteSingleRegisterAsync(Int32, Int32, Int16, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Int32_System_Int32_System_Int16_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32,System.Int32,System.Int16,System.Threading.CancellationToken)
+  fullName: FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32, System.Int32, System.Int16, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.WriteSingleRegisterAsync(Int32, Int32, Int16, CancellationToken)
+- uid: FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32,System.Int32,System.UInt16,System.Threading.CancellationToken)
+  name: WriteSingleRegisterAsync(Int32, Int32, UInt16, CancellationToken)
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegisterAsync_System_Int32_System_Int32_System_UInt16_System_Threading_CancellationToken_
+  commentId: M:FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32,System.Int32,System.UInt16,System.Threading.CancellationToken)
+  fullName: FluentModbus.ModbusClient.WriteSingleRegisterAsync(System.Int32, System.Int32, System.UInt16, System.Threading.CancellationToken)
+  nameWithType: ModbusClient.WriteSingleRegisterAsync(Int32, Int32, UInt16, CancellationToken)
+- uid: FluentModbus.ModbusClient.WriteSingleRegisterAsync*
+  name: WriteSingleRegisterAsync
+  href: api/FluentModbus.ModbusClient.html#FluentModbus_ModbusClient_WriteSingleRegisterAsync_
+  commentId: Overload:FluentModbus.ModbusClient.WriteSingleRegisterAsync
+  isSpec: "True"
+  fullName: FluentModbus.ModbusClient.WriteSingleRegisterAsync
+  nameWithType: ModbusClient.WriteSingleRegisterAsync
 - uid: FluentModbus.ModbusEndianness
   name: ModbusEndianness
   href: api/FluentModbus.ModbusEndianness.html
@@ -1608,6 +1834,22 @@ references:
   commentId: T:FluentModbus.SpanExtensions
   fullName: FluentModbus.SpanExtensions
   nameWithType: SpanExtensions
+- uid: FluentModbus.SpanExtensions.Cast*
+  name: Cast
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Cast_
+  commentId: Overload:FluentModbus.SpanExtensions.Cast
+  isSpec: "True"
+  fullName: FluentModbus.SpanExtensions.Cast
+  nameWithType: SpanExtensions.Cast
+- uid: FluentModbus.SpanExtensions.Cast``2(System.Memory{``0})
+  name: Cast<TFrom, TTo>(Memory<TFrom>)
+  href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Cast__2_System_Memory___0__
+  commentId: M:FluentModbus.SpanExtensions.Cast``2(System.Memory{``0})
+  name.vb: Cast(Of TFrom, TTo)(Memory(Of TFrom))
+  fullName: FluentModbus.SpanExtensions.Cast<TFrom, TTo>(System.Memory<TFrom>)
+  fullName.vb: FluentModbus.SpanExtensions.Cast(Of TFrom, TTo)(System.Memory(Of TFrom))
+  nameWithType: SpanExtensions.Cast<TFrom, TTo>(Memory<TFrom>)
+  nameWithType.vb: SpanExtensions.Cast(Of TFrom, TTo)(Memory(Of TFrom))
 - uid: FluentModbus.SpanExtensions.Get(System.Span{System.Byte},System.Int32)
   name: Get(Span<Byte>, Int32)
   href: api/FluentModbus.SpanExtensions.html#FluentModbus_SpanExtensions_Get_System_Span_System_Byte__System_Int32_
