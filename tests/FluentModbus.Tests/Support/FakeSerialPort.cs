@@ -81,6 +81,11 @@ namespace FluentModbus
             _autoResetEvent.Set();
         }
 
+        public Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

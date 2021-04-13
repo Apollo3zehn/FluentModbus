@@ -56,6 +56,11 @@ namespace FluentModbus
             _serialPort.Write(buffer, offset, count);
         }
 
+        public Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken token)
+        {
+            return _serialPort.BaseStream.WriteAsync(buffer, offset, count, token);
+        }
+
         #endregion
     }
 }

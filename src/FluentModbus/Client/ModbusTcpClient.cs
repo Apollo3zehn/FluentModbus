@@ -10,7 +10,7 @@ namespace FluentModbus
     /// <summary>
     /// A Modbus TCP client.
     /// </summary>
-    public class ModbusTcpClient : ModbusClient
+    public partial class ModbusTcpClient : ModbusClient
     {
         #region Fields
 
@@ -241,6 +241,7 @@ namespace FluentModbus
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 this.ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
+
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 

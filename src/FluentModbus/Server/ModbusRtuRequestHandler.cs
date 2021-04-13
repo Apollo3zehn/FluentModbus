@@ -75,7 +75,7 @@ namespace FluentModbus
 
             // add CRC
             frameLength = unchecked((int)this.FrameBuffer.Writer.BaseStream.Position);
-            crc = ModbusUtils.CalculateCRC(this.FrameBuffer.Buffer.AsSpan().Slice(0, frameLength));
+            crc = ModbusUtils.CalculateCRC(this.FrameBuffer.Buffer.AsMemory(0, frameLength));
             this.FrameBuffer.Writer.Write(crc);
 
             return frameLength + 2;
@@ -97,7 +97,7 @@ namespace FluentModbus
                     this.Length += await _serialPort.ReadAsync(this.FrameBuffer.Buffer, this.Length, this.FrameBuffer.Buffer.Length - this.Length, this.CTS.Token);
 
                     // full frame received
-                    if (ModbusUtils.DetectFrame(255, this.FrameBuffer.Buffer.AsSpan().Slice(0, this.Length)))
+                    if (ModbusUtils.DetectFrame(255, this.FrameBuffer.Buffer.AsMemory(0, this.Length)))
                     {
                         this.FrameBuffer.Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
