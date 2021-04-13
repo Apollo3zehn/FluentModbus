@@ -7,7 +7,7 @@ namespace FluentModbus
     /// <summary>
     /// A Modbus RTU client.
     /// </summary>
-    public class ModbusRtuClient : ModbusClient
+    public partial class ModbusRtuClient : ModbusClient
     {
         #region Field
 
@@ -168,7 +168,7 @@ namespace FluentModbus
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // add CRC
-            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsSpan().Slice(0, frameLength));
+            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory().Slice(0, frameLength));
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
@@ -189,7 +189,7 @@ namespace FluentModbus
             {
                 frameLength += _serialPort.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
 
-                if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsSpan().Slice(0, frameLength)))
+                if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
                 {
                     break;
                 }
@@ -207,6 +207,7 @@ namespace FluentModbus
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 this.ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
+
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 

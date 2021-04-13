@@ -5,11 +5,12 @@ namespace FluentModbus
 {
     internal static class ModbusUtils
     {
-        public static ushort CalculateCRC(Span<byte> buffer)
+        public static ushort CalculateCRC(Memory<byte> buffer)
         {
+            var span = buffer.Span;
             ushort crc = 0xFFFF;
 
-            foreach (var value in buffer)
+            foreach (var value in span)
             {
                 crc ^= value;
 
@@ -30,7 +31,7 @@ namespace FluentModbus
             return crc;
         }
 
-        public static bool DetectFrame(byte unitIdentifier, Span<byte> frame)
+        public static bool DetectFrame(byte unitIdentifier, Memory<byte> frame)
         {
             byte newUnitIdentifier;
 
@@ -51,19 +52,21 @@ namespace FluentModbus
              * 04 CRC Byte 2 
              */
 
-            if (frame.Length < 5)
+            var span = frame.Span;
+
+            if (span.Length < 5)
                 return false;
 
             if (unitIdentifier != 255) // 255 means "skip unit identifier check"
             {
-                newUnitIdentifier = frame[0];
+                newUnitIdentifier = span[0];
 
                 if (newUnitIdentifier != unitIdentifier)
                     return false;
             }
 
             // CRC check
-            var crcBytes = frame.Slice(frame.Length - 2, 2);
+            var crcBytes = span.Slice(span.Length - 2, 2);
             var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
             var expectedCRC = ModbusUtils.CalculateCRC(frame.Slice(0, frame.Length - 2));
 
@@ -91,6 +94,11 @@ namespace FluentModbus
             ModbusUtils.SwitchEndianness(data.AsSpan());
 
             return data[0];
+        }
+
+        public static void SwitchEndianness<T>(Memory<T> dataset) where T : unmanaged
+        {
+            ModbusUtils.SwitchEndianness(dataset.Span);
         }
 
         public static void SwitchEndianness<T>(Span<T> dataset) where T : unmanaged

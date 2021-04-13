@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Extremely lightweight and fast client and server implementation of the Modbus protocol (TCP/RTU).</Description>
+    <Description>Lightweight and fast client and server implementation of the Modbus protocol (TCP/RTU, Sync/Async).</Description>
     <PackageTags>Modbus ModbusTCP ModbusRTU .NET Standard Windows Linux</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>preview</LangVersion>
@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0" />
-    <PackageReference Include="System.IO.Ports" Version="4.6.0" />
-    <PackageReference Include="System.Memory" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="5.0.0" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
@@ -21,6 +21,40 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Client\ModbusClientAsync.tt">
+      <LastGenOutput>ModbusClientAsync.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Client\ModbusTcpClientAsync.tt">
+      <LastGenOutput>ModbusTcpClientAsync.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Client\ModbusRtuClientAsync.tt">
+      <LastGenOutput>ModbusRtuClientAsync.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Client\ModbusClientAsync.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModbusClientAsync.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Client\ModbusTcpClientAsync.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModbusTcpClientAsync.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Client\ModbusRtuClientAsync.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModbusRtuClientAsync.tt</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ErrorMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -34,6 +68,10 @@
       <LastGenOutput>ErrorMessage.Designer.cs</LastGenOutput>
       <CustomToolNamespace>FluentModbus</CustomToolNamespace>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   
 </Project>

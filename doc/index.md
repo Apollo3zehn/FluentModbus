@@ -19,6 +19,8 @@ FluentModbus is a .NET Standard library (2.0 and 2.1) that provides Modbus TCP/R
 **Class 2**
 * FC23: ReadWriteMultipleRegisters
 
+> **Note:** The Modbus clients implement each function code in a synchronous and an asynchronous version (`async/await`).
+
 Please see the introduction below to get a more detailed description on how to use this library!
 
 Here is a screenshot of the [sample](samples/modbus_tcp.md) console output using a Modbus TCP server and client:
@@ -98,7 +100,7 @@ By default, this library expects little-endian data for compatibility reasons.
 
 ## A few words to ```Span<T>```
 
-The returned data of the read functions (FC01 to FC04) are always provided as ```Span<T>``` ([What is this?](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx)). In short, a ```Span<T>``` is a simple view of the underlying memory. With this type, the memory can be interpreted as ```byte```, ```int```, ```float``` or any other value type. A conversion from ```Span<byte>``` to other types can be efficiently achieved through:
+The returned data of the read functions (FC01 to FC04) are always provided as `Span<T>` ([What is this?](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx)) or as `Memory<T>` (for `async` function codes). In short, a `Span<T>` is a simple view of the underlying memory. With this type, the memory can be interpreted as `byte`, `int`, `float` or any other value type. A conversion from `Span<byte>` to other types can be efficiently achieved through:
 
 ```cs
 Span<byte> byteSpan = new byte[] { 1, 2, 3, 4 }.AsSpan();
@@ -112,7 +114,7 @@ You can then access it like a any other array:
 var floatValue = myFloatSpan[0];
 ```
 
-The data remain unchanged during all of these calls. _Only the interpretation changes._ However, one disadvantage is that this type cannot be used in all code locations (e.g. in ```async``` functions). Therefore, if you run into these limitations, you can simply convert the returned data to a plain array (which is essentially a copy operation):
+The data remain unchanged during all of these calls. _Only the interpretation changes._ However, one disadvantage is that the `Span<T>` type cannot be used in all code locations (e.g. in `async` functions). Therefore, if you run into these limitations, you can either call the async version of the function code or convert the returned data to a plain array (which is essentially a copy operation):
 
 ```cs
 float[] floatArray = floatSpan.ToArray();

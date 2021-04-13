@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -164,6 +164,24 @@ namespace FluentModbus
             var bitIndex = address % 8;
 
             buffer[byteIndex] ^= (byte)(1 << bitIndex);
+        }
+
+        /// <summary>
+        /// Casts a memory of one primitive type to a memory of another primitive type.
+        /// </summary>
+        /// <typeparam name="TFrom">The type of the source memory.</typeparam>
+        /// <typeparam name="TTo">The type of the target memory.</typeparam>
+        /// <param name="memory">The source slice to convert.</param>
+        /// <returns>The converted memory.</returns>
+        public static Memory<TTo> Cast<TFrom, TTo>(this Memory<TFrom> memory)
+            where TFrom : struct
+            where TTo : struct
+        {
+            // avoid the extra allocation/indirection, at the cost of a gen-0 box
+            if (typeof(TFrom) == typeof(TTo))
+                return (Memory<TTo>)(object)memory;
+
+            return new CastMemoryManager<TFrom, TTo>(memory).Memory;
         }
     }
 }
