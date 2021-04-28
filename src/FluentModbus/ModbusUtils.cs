@@ -90,8 +90,8 @@ namespace FluentModbus
 
         public static T SwitchEndianness<T>(T value) where T : unmanaged
         {
-            var data = new T[] { value };
-            ModbusUtils.SwitchEndianness(data.AsSpan());
+            Span<T> data = stackalloc T[] { value };
+            ModbusUtils.SwitchEndianness(data);
 
             return data[0];
         }
