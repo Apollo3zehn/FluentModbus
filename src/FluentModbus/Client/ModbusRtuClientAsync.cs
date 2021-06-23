@@ -32,6 +32,7 @@ namespace FluentModbus
                     case ModbusFunctionCode.WriteFileRecord:
                     case ModbusFunctionCode.MaskWriteRegister:
                         break;
+
                     default:
                         throw new ModbusException(ErrorMessage.Modbus_InvalidUseOfBroadcast);
                 }
@@ -52,9 +53,7 @@ namespace FluentModbus
 
             // special case: broadcast (only for write commands)
             if (unitIdentifier == 0)
-            {
                 return _frameBuffer.Buffer.AsMemory(0, 0);
-            }
 
             // wait for and process response
             frameLength = 0;

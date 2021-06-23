@@ -50,7 +50,7 @@ deploy:
   - provider: NuGet
     server: https://www.nuget.org/api/v2/package
     api_key:
-      secure: hyUV3r8p7ThyhI+6EqjtLLvxprX0EJpbUcaj8XUNTvT9Yb9/OW2pnE1Ue7wiATwu
+      secure: /+MsVllJKX6M/MHBmCXaBFf1ttNDSqO04J7frGM81UUgBwfDUs6Wn4WufiU0Wl3/
     skip_symbols: true
     artifact: /.*\.nupkg/ 
     on:

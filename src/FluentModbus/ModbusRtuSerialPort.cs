@@ -1,4 +1,6 @@
-﻿using System.IO.Ports;
+﻿using System;
+using System.IO;
+using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,9 +48,34 @@ namespace FluentModbus
             return _serialPort.Read(buffer, offset, count);
         }
 
-        public Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken token)
+        // https://github.com/AndreasAmMueller/Modbus/blob/a6d11080c2f5a1205681c881f3ba163d2ac84a1f/src/Modbus.Serial/Util/Extensions.cs#L69
+        // https://stackoverflow.com/a/54610437/11906695
+        // https://github.com/dotnet/runtime/issues/28968
+        public async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken token)
         {
-            return _serialPort.BaseStream.ReadAsync(buffer, offset, count, token);
+            using var timeoutCts = new CancellationTokenSource(_serialPort.ReadTimeout);
+
+            /* _serialPort.DiscardInBuffer is essential here to cancel the operation */
+            using (timeoutCts.Token.Register(() => _serialPort.DiscardInBuffer()))
+            using (token.Register(() => timeoutCts.Cancel()))
+            {
+                try
+                {
+                    return await _serialPort.BaseStream.ReadAsync(buffer, offset, count, timeoutCts.Token);
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
+                {
+                    throw new TimeoutException("The asynchronous read operation timed out.");
+                }
+                catch (IOException) when (timeoutCts.IsCancellationRequested && !token.IsCancellationRequested)
+                {
+                    throw new TimeoutException("The asynchronous read operation timed out.");
+                }
+            }
         }
 
         public void Write(byte[] buffer, int offset, int count)
@@ -56,9 +83,34 @@ namespace FluentModbus
             _serialPort.Write(buffer, offset, count);
         }
 
-        public Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken token)
+        // https://github.com/AndreasAmMueller/Modbus/blob/a6d11080c2f5a1205681c881f3ba163d2ac84a1f/src/Modbus.Serial/Util/Extensions.cs#L69
+        // https://stackoverflow.com/a/54610437/11906695
+        // https://github.com/dotnet/runtime/issues/28968
+        public async Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken token)
         {
-            return _serialPort.BaseStream.WriteAsync(buffer, offset, count, token);
+            using var timeoutCts = new CancellationTokenSource(_serialPort.WriteTimeout);
+
+            /* _serialPort.DiscardInBuffer is essential here to cancel the operation */
+            using (timeoutCts.Token.Register(() => _serialPort.DiscardOutBuffer()))
+            using (token.Register(() => timeoutCts.Cancel()))
+            {
+                try
+                {
+                    await _serialPort.BaseStream.WriteAsync(buffer, offset, count, timeoutCts.Token);
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
+                {
+                    throw new TimeoutException("The asynchronous write operation timed out.");
+                }
+                catch (IOException) when (timeoutCts.IsCancellationRequested && !token.IsCancellationRequested)
+                {
+                    throw new TimeoutException("The asynchronous write operation timed out.");
+                }
+            }
         }
 
         #endregion
