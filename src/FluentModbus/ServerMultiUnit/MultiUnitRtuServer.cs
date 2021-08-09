@@ -60,6 +60,20 @@ namespace FluentModbus.ServerMultiUnit
             WriteTimeout = writeTimeout;
         }
 
+        #region Events
+
+        /// <summary>
+        /// Occurs after one or more registers changed.
+        /// </summary>
+        public event EventHandler<(byte, List<int>)> RegistersChanged;
+
+        /// <summary>
+        /// Occurs after one or more coils changed.
+        /// </summary>
+        public event EventHandler<(byte, List<int>)> CoilsChanged;
+
+        #endregion Events
+
         #region Fields
 
         private Task _task_process_requests;
@@ -74,7 +88,7 @@ namespace FluentModbus.ServerMultiUnit
         private int _holdingRegisterSize;
         private int _coilSize;
         private int _discreteInputSize;
-        private readonly byte[] units;
+        public readonly byte[] units;
 
         private IModbusRtuSerialPort _serialPort;
 
@@ -162,7 +176,7 @@ namespace FluentModbus.ServerMultiUnit
         /// </summary>
         public int WriteTimeout { get; }
 
-        internal ModbusRtuRequestHandler RequestHandler { get; private set; }
+        internal MultiModbusRtuRequestHandler RequestHandler { get; private set; }
 
         #endregion Properties
 
@@ -193,13 +207,13 @@ namespace FluentModbus.ServerMultiUnit
             this.StopListening();
             this.StartListening();
 
-            this.RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
+            this.RequestHandler = new MultiModbusRtuRequestHandler(serialPort, this);
         }
 
         /// <summary>
         /// Starts the server operation.
         /// </summary>
-        protected virtual void StartListening()
+        protected void StartListening()
         {
             this.CTS = new CancellationTokenSource();
 
@@ -228,8 +242,8 @@ namespace FluentModbus.ServerMultiUnit
             {
                 if (this.RequestHandler.IsReady)
                 {
-                    if (this.RequestHandler.Length > 0)
-                        this.RequestHandler.WriteResponse();
+                    //if (this.RequestHandler.Length > 0)
+                    //    this.RequestHandler.WriteResponse();
 
                     _ = this.RequestHandler.ReceiveRequestAsync();
                 }
@@ -259,68 +273,68 @@ namespace FluentModbus.ServerMultiUnit
         /// <summary>
         /// Gets the input register as <see cref="UInt16"/> array.
         /// </summary>
-        public Span<short> GetInputRegisters()
+        public Span<short> GetInputRegisters(byte unitId)
         {
-            return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer());
+            return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer(unitId));
         }
 
         /// <summary>
         /// Gets the input register buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetInputRegisterBuffer<T>() where T : unmanaged
+        public Span<T> GetInputRegisterBuffer<T>(byte unitId) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer(unitId));
         }
 
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
         /// </summary>
-        public Span<byte> GetInputRegisterBuffer()
+        public Span<byte> GetInputRegisterBuffer(byte unitId)
         {
-            return _inputRegisterBuffer;
+            return _inputRegisterBuffer[unitId];
         }
 
         /// <summary>
         /// Gets the holding register as <see cref="UInt16"/> array.
         /// </summary>
-        public Span<short> GetHoldingRegisters()
+        public Span<short> GetHoldingRegisters(byte unitId)
         {
-            return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer());
+            return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer(unitId));
         }
 
         /// <summary>
         /// Gets the holding register buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetHoldingRegisterBuffer<T>() where T : unmanaged
+        public Span<T> GetHoldingRegisterBuffer<T>(byte unitId) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer(unitId));
         }
 
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
         /// </summary>
-        public Span<byte> GetHoldingRegisterBuffer()
+        public Span<byte> GetHoldingRegisterBuffer(byte unitId)
         {
-            return _holdingRegisterBuffer;
+            return _holdingRegisterBuffer[unitId];
         }
 
         /// <summary>
         /// Gets the coils as <see cref="byte"/> array.
         /// </summary>
-        public Span<byte> GetCoils()
+        public Span<byte> GetCoils(byte unitId)
         {
-            return this.GetCoilBuffer();
+            return this.GetCoilBuffer(unitId);
         }
 
         /// <summary>
         /// Gets the coil buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetCoilBuffer<T>() where T : unmanaged
+        public Span<T> GetCoilBuffer<T>(byte unitId) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer(unitId));
         }
 
         /// <summary>
@@ -328,7 +342,7 @@ namespace FluentModbus.ServerMultiUnit
         /// </summary>
         public Span<byte> GetCoilBuffer(byte unitId)
         {
-            return _coilBuffer;
+            return _coilBuffer[unitId];
         }
 
         /// <summary>
@@ -336,7 +350,7 @@ namespace FluentModbus.ServerMultiUnit
         /// </summary>
         public Span<byte> GetDiscreteInputs(byte unitId)
         {
-            return this.GetDiscreteInputBuffer();
+            return this.GetDiscreteInputBuffer(unitId);
         }
 
         /// <summary>
@@ -345,7 +359,7 @@ namespace FluentModbus.ServerMultiUnit
         /// <typeparam name="T">The type of the returned array.</typeparam>
         public Span<T> GetDiscreteInputBuffer<T>(byte unitId) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer(unitId));
         }
 
         /// <summary>
@@ -353,7 +367,7 @@ namespace FluentModbus.ServerMultiUnit
         /// </summary>
         public Span<byte> GetDiscreteInputBuffer(byte unitId)
         {
-            return _discreteInputBuffer;
+            return _discreteInputBuffer[unitId];
         }
 
         /// <summary>
@@ -361,10 +375,10 @@ namespace FluentModbus.ServerMultiUnit
         /// </summary>
         public void ClearBuffers(byte unitId)
         {
-            this.GetInputRegisterBuffer().Clear();
-            this.GetHoldingRegisterBuffer().Clear();
-            this.GetCoilBuffer().Clear();
-            this.GetDiscreteInputBuffer().Clear();
+            this.GetInputRegisterBuffer(unitId).Clear();
+            this.GetHoldingRegisterBuffer(unitId).Clear();
+            this.GetCoilBuffer(unitId).Clear();
+            this.GetDiscreteInputBuffer(unitId).Clear();
         }
 
         /// <summary>
@@ -380,12 +394,30 @@ namespace FluentModbus.ServerMultiUnit
 
         internal void OnRegistersChanged(byte unitId, List<int> registers)
         {
-            this.RegistersChanged?.Invoke(this, registers);
+            this.RegistersChanged?.Invoke(this, (unitId, registers));
         }
 
         internal void OnCoilsChanged(byte unitId, List<int> coils)
         {
-            this.CoilsChanged?.Invoke(this, coils);
+            this.CoilsChanged?.Invoke(this, (unitId, coils));
+        }
+
+        /// <summary>
+        /// Stops the server operation.
+        /// </summary>
+        public void Stop()
+        {
+            this.CTS?.Cancel();
+            _manualResetEvent?.Set();
+
+            try
+            {
+                _task_process_requests?.Wait();
+            }
+            catch (Exception ex) when (ex.InnerException.GetType() == typeof(TaskCanceledException))
+            {
+                //
+            }
         }
 
         #endregion Methods
@@ -412,7 +444,7 @@ namespace FluentModbus.ServerMultiUnit
         /// <summary>
         /// Disposes the <see cref="ModbusServer"/> and frees all managed and unmanaged resources.
         /// </summary>
-        ~ModbusServer()
+        ~MultiUnitRtuServer()
         {
             Dispose(false);
         }
