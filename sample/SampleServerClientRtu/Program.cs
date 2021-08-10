@@ -48,7 +48,7 @@ namespace FluentModbus.SampleMaster
             {
                 var t = sender as MultiUnitRtuServer;
                 (byte unitId, var registers) = bz;
-                Console.WriteLine(unitId);
+                Console.WriteLine($"regiters changed for unit: {unitId}");
                 // the variable 'registerAddresses' contains a list of modified register addresses
             };
 
@@ -140,41 +140,42 @@ namespace FluentModbus.SampleMaster
             var unitIdentifier = 0x01;
             var startingAddress = 0;
             var registerAddress = 0;
-
             foreach (var item in new byte[] { 1, 2, 3 })
             {
+                Console.WriteLine($"unit client:{item}");
+
                 // ReadHoldingRegisters = 0x03,        // FC03
-                data = client.ReadHoldingRegisters<byte>(unitIdentifier, startingAddress, 10);
+                data = client.ReadHoldingRegisters<byte>(item, startingAddress, 10);
                 logger.LogInformation("FC03 - ReadHoldingRegisters: Done");
                 Thread.Sleep(sleepTime);
 
                 // WriteMultipleRegisters = 0x10,      // FC16
-                client.WriteMultipleRegisters(unitIdentifier, startingAddress, new byte[] { 10, 00, 20, 00, 30, 00, 255, 00, 255, 01 });
+                client.WriteMultipleRegisters(item, startingAddress, new byte[] { 10, 00, 20, 00, 30, 00, 255, 00, 255, 01 });
                 logger.LogInformation("FC16 - WriteMultipleRegisters: Done");
                 Thread.Sleep(sleepTime);
 
                 // ReadCoils = 0x01,                   // FC01
-                data = client.ReadCoils(unitIdentifier, startingAddress, 10);
+                data = client.ReadCoils(item, startingAddress, 10);
                 logger.LogInformation("FC01 - ReadCoils: Done");
                 Thread.Sleep(sleepTime);
 
                 // ReadDiscreteInputs = 0x02,          // FC02
-                data = client.ReadDiscreteInputs(unitIdentifier, startingAddress, 10);
+                data = client.ReadDiscreteInputs(item, startingAddress, 10);
                 logger.LogInformation("FC02 - ReadDiscreteInputs: Done");
                 Thread.Sleep(sleepTime);
 
                 // ReadInputRegisters = 0x04,          // FC04
-                data = client.ReadInputRegisters<byte>(unitIdentifier, startingAddress, 10);
+                data = client.ReadInputRegisters<byte>(item, startingAddress, 10);
                 logger.LogInformation("FC04 - ReadInputRegisters: Done");
                 Thread.Sleep(sleepTime);
 
                 // WriteSingleCoil = 0x05,             // FC05
-                client.WriteSingleCoil(unitIdentifier, registerAddress, true);
+                client.WriteSingleCoil(item, registerAddress, true);
                 logger.LogInformation("FC05 - WriteSingleCoil: Done");
                 Thread.Sleep(sleepTime);
 
                 // WriteSingleRegister = 0x06,         // FC06
-                client.WriteSingleRegister(unitIdentifier, registerAddress, 127);
+                client.WriteSingleRegister(item, registerAddress, 127);
                 logger.LogInformation("FC06 - WriteSingleRegister: Done");
             }
         }
