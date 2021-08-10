@@ -198,6 +198,15 @@ namespace FluentModbus.ServerMultiUnit
                 WriteTimeout = this.WriteTimeout
             });
 
+            Start(serialPort);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="serialPort"></param>
+        public void Start(IModbusRtuSerialPort serialPort)
+        {
             _serialPort = serialPort;
 
             if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
