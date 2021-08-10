@@ -15,6 +15,7 @@ namespace FluentModbus.ServerMultiUnit
         #region Fields
 
         private IModbusRtuSerialPort serialPort;
+
         private Task _task;
 
         #endregion Fields
@@ -44,12 +45,15 @@ namespace FluentModbus.ServerMultiUnit
         #region Properties
 
         public MultiUnitRtuServer ModbusServer { get; }
+
         public Stopwatch LastRequest { get; protected set; }
+
         public int Length { get; protected set; }
+
         public bool IsReady { get; protected set; }
 
-        protected byte UnitIdentifier { get; set; }
         protected CancellationTokenSource CTS { get; }
+
         protected ModbusFrameBuffer FrameBuffer { get; }
 
         #endregion Properties
