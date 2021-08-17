@@ -65,7 +65,7 @@ namespace FluentModbus.ServerMultiUnit
         /// </summary>
         /// <param name="unitId"></param>
         /// <returns></returns>
-        protected bool IsResponseRequired(byte unitId) => this.ModbusServer.units.Contains(unitId);
+        protected bool IsResponseRequired(byte unitId) => this.ModbusServer.Units.Contains(unitId);
 
         public void WriteResponse(byte unitId)
         {
@@ -190,7 +190,7 @@ namespace FluentModbus.ServerMultiUnit
             }
 
             // make sure that the incoming frame is actually adressed to this server
-            if (this.ModbusServer.units.Contains(unitId))
+            if (this.ModbusServer.Units.Contains(unitId))
             {
                 this.LastRequest.Restart();
             }

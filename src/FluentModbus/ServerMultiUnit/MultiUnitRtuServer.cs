@@ -23,10 +23,8 @@ namespace FluentModbus.ServerMultiUnit
         /// <param name="stopBits"></param>
         /// <param name="readTimeout"></param>
         /// <param name="writeTimeout"></param>
-        public MultiUnitRtuServer(byte[] units, bool isAsynchronous, int baudRate = 9600, Handshake handshake = Handshake.None, Parity parity = Parity.Even, StopBits stopBits = StopBits.One, int readTimeout = 1000, int writeTimeout = 1000)
+        public MultiUnitRtuServer(byte[] units, bool isAsynchronous = true, int baudRate = 9600, Handshake handshake = Handshake.None, Parity parity = Parity.Even, StopBits stopBits = StopBits.One, int readTimeout = 1000, int writeTimeout = 1000)
         {
-            this.units = units;
-
             this.Lock = this;
             this.IsAsynchronous = isAsynchronous;
 
@@ -42,13 +40,7 @@ namespace FluentModbus.ServerMultiUnit
 
             foreach (var unit in units)
             {
-                _inputRegisterBuffer.Add(unit, new byte[_inputRegisterSize]);
-
-                _holdingRegisterBuffer.Add(unit, new byte[_holdingRegisterSize]);
-
-                _coilBuffer.Add(unit, new byte[_coilSize]);
-
-                _discreteInputBuffer.Add(unit, new byte[_discreteInputSize]);
+                AddUnit(unit);
             }
 
             _manualResetEvent = new ManualResetEventSlim(false);
@@ -58,6 +50,45 @@ namespace FluentModbus.ServerMultiUnit
             StopBits = stopBits;
             ReadTimeout = readTimeout;
             WriteTimeout = writeTimeout;
+        }
+
+        /// <summary>
+        /// Dynamically add unit to the server
+        /// </summary>
+        /// <param name="unit"></param>
+        public void AddUnit(byte unit)
+        {
+            if (!_units.Contains(unit))
+            {
+                _units.Add(unit);
+
+                _inputRegisterBuffer.Add(unit, new byte[_inputRegisterSize]);
+
+                _holdingRegisterBuffer.Add(unit, new byte[_holdingRegisterSize]);
+
+                _coilBuffer.Add(unit, new byte[_coilSize]);
+
+                _discreteInputBuffer.Add(unit, new byte[_discreteInputSize]);
+            }
+        }
+
+        /// <summary>
+        /// remove a unit from the server
+        /// </summary>
+        /// <param name="unit"></param>
+        public void RemoveUnit(byte unit)
+        {
+            if (_units.Contains(unit))
+            {
+                _inputRegisterBuffer.Remove(unit);
+
+                _holdingRegisterBuffer.Remove(unit);
+
+                _coilBuffer.Remove(unit);
+
+                _discreteInputBuffer.Remove(unit);
+                _units.Remove(unit);
+            }
         }
 
         #region Events
@@ -88,9 +119,13 @@ namespace FluentModbus.ServerMultiUnit
         private int _holdingRegisterSize;
         private int _coilSize;
         private int _discreteInputSize;
-        public readonly byte[] units;
 
-        private IModbusRtuSerialPort _serialPort;
+        /// <summary>
+        /// readonly list of units
+        /// </summary>
+        public byte[] Units => _units.ToArray();
+
+        private List<byte> _units = new List<byte>();
 
         #endregion Fields
 
@@ -207,8 +242,6 @@ namespace FluentModbus.ServerMultiUnit
         /// <param name="serialPort"></param>
         public void Start(IModbusRtuSerialPort serialPort)
         {
-            _serialPort = serialPort;
-
             if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
                 throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
 
