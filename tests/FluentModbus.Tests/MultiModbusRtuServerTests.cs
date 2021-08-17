@@ -52,31 +52,38 @@ namespace FluentModbus.Tests
         [Fact]
         public void UpdateServerRegisters()
         {
-            var serialPort = new FakeSerialPort();
-
             var server = new MultiUnitRtuServer(new byte[] { 1, 2, 3 }, true);
 
-            server.Start(serialPort);
+            server.Start("COM1");
 
             var registersOne = server.GetHoldingRegisters(1);
             var registersTwo = server.GetHoldingRegisters(2);
             var registersThree = server.GetHoldingRegisters(3);
 
-            registersOne.SetLittleEndian<short>(address: 5, 1);
-            registersTwo.SetLittleEndian<short>(address: 5, 2);
-            registersThree.SetLittleEndian<short>(address: 5, 3);
+            registersOne.SetLittleEndian<short>(address: 7, 1);
+            registersTwo.SetLittleEndian<short>(address: 7, 2);
+            registersThree.SetLittleEndian<short>(address: 7, 3);
 
             var client = new ModbusRtuClient();
-            client.Connect(serialPort);
+            client.Connect("COM2");
 
-            var regValueOne = client.ReadHoldingRegisters<short>(1, 5, 1);
+            var regValueOne = client.ReadHoldingRegisters<short>(1, 7, 1).ToArray();
+
+            var regValueTwo = client.ReadHoldingRegisters<short>(2, 7, 1).ToArray();
+
+            var regValueThree = client.ReadHoldingRegisters<short>(3, 7, 1).ToArray();
+            client.Close();
+
+            server.StopListening();
+            server.Stop();
+
+
             Assert.Equal(1, regValueOne[0]);
 
-            var regValueTwo = client.ReadHoldingRegisters<short>(2, 5, 1);
             Assert.Equal(2, regValueTwo[0]);
 
-            var regValueThree = client.ReadHoldingRegisters<short>(3, 5, 1);
             Assert.Equal(3, regValueThree[0]);
+
         }
     }
 }
