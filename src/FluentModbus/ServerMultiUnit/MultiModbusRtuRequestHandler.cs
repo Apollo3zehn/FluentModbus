@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-    public class MultiModbusRtuRequestHandler
+    public class MultiModbusRtuRequestHandler : IDisposable
     {
         #region Fields
 
@@ -556,6 +556,9 @@ namespace FluentModbus
 
         public void Dispose()
         {
+            this.serialPort.Close();
+
+            disposedValue = true;
             Dispose(true);
         }
 

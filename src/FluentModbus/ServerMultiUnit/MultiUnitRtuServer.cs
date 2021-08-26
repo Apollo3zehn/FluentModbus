@@ -10,7 +10,7 @@ namespace FluentModbus
     /// <summary>
     ///
     /// </summary>
-    public class MultiUnitRtuServer
+    public class MultiUnitRtuServer : IDisposable
     {
         /// <summary>
         ///
@@ -108,16 +108,23 @@ namespace FluentModbus
         #region Fields
 
         private Task _task_process_requests;
+
         private ManualResetEventSlim _manualResetEvent;
 
         private Dictionary<byte, byte[]> _inputRegisterBuffer = new();
+
         private Dictionary<byte, byte[]> _holdingRegisterBuffer = new();
+
         private Dictionary<byte, byte[]> _coilBuffer = new();
+
         private Dictionary<byte, byte[]> _discreteInputBuffer = new();
 
         private int _inputRegisterSize;
+
         private int _holdingRegisterSize;
+
         private int _coilSize;
+
         private int _discreteInputSize;
 
         /// <summary>
@@ -449,6 +456,8 @@ namespace FluentModbus
         /// </summary>
         public void Stop()
         {
+            RequestHandler.Dispose();
+
             this.CTS?.Cancel();
             _manualResetEvent?.Set();
 
