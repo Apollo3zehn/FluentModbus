@@ -2,7 +2,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentModbus.ServerMultiUnit;
 
 namespace FluentModbus.SampleMaster
 {
@@ -52,9 +51,6 @@ namespace FluentModbus.SampleMaster
                 // the variable 'registerAddresses' contains a list of modified register addresses
             };
 
-            /* create Modbus RTU client */
-            var client = new ModbusRtuClient();
-
             /* run Modbus RTU server */
             var cts = new CancellationTokenSource();
 
@@ -76,29 +72,7 @@ namespace FluentModbus.SampleMaster
                 }
             }, cts.Token);
 
-            /* run Modbus RTU client */
-            var task_client = Task.Run(() =>
-            {
-                client.Connect(clientPort);
-
-                try
-                {
-                    DoClientWork(client, clientLogger);
-                }
-                catch (Exception ex)
-                {
-                    clientLogger.LogError(ex.Message);
-                }
-
-                client.Close();
-
-                Console.WriteLine("Tests finished. Press any key to continue.");
-                Console.ReadKey(true);
-            });
-
-            // wait for client task to finish
-            await task_client;
-
+            Console.ReadKey();
             // stop server
             cts.Cancel();
             await task_server;

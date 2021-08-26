@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FluentModbus.ServerMultiUnit
+namespace FluentModbus
 {
     /// <summary>
     ///
