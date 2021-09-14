@@ -1,10 +1,44 @@
 ﻿using System;
+using System.Globalization;
+using System.Net;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus
 {
     internal static class ModbusUtils
     {
+        public static bool TryParseEndpoint(ReadOnlySpan<char> value, out IPEndPoint result)
+        {
+            var addressLength = value.Length;
+            var lastColonPos = value.LastIndexOf(':');
+
+            if (lastColonPos > 0)
+            {
+                if (value[lastColonPos - 1] == ']')
+                    addressLength = lastColonPos;
+
+                else if (value.Slice(0, lastColonPos).LastIndexOf(':') == -1)
+                    addressLength = lastColonPos;
+            }
+
+            if (IPAddress.TryParse(value.Slice(0, addressLength).ToString(), out var address))
+            {
+                var port = 0U;
+
+                if (addressLength == value.Length ||
+                    (uint.TryParse(value.Slice(addressLength + 1).ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out port) && port <= 65536))
+
+                {
+                    result = new IPEndPoint(address, (int)port);
+                    return true;
+                }
+            }
+
+            result = null;
+
+            return false;
+        }
+
         public static ushort CalculateCRC(Memory<byte> buffer)
         {
             var span = buffer.Span;
