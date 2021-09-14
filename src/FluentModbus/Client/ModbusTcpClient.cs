@@ -82,6 +82,28 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Connect to the specified <paramref name="remoteEndpoint"/>.
+        /// </summary>
+        /// <param name="remoteEndpoint">The IP address and optional port of the end unit with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout. Examples: "192.168.0.1", "192.168.0.1:502", "::1", "[::1]:502". The default port is 502.</param>
+        public void Connect(string remoteEndpoint)
+        {
+            this.Connect(remoteEndpoint, ModbusEndianness.LittleEndian);
+        }
+
+        /// <summary>
+        /// Connect to the specified <paramref name="remoteEndpoint"/>.
+        /// </summary>
+        /// <param name="remoteEndpoint">The IP address and optional port of the end unit. Examples: "192.168.0.1", "192.168.0.1:502", "::1", "[::1]:502". The default port is 502.</param>
+        /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+        public void Connect(string remoteEndpoint, ModbusEndianness endianness)
+        {
+            if (!ModbusUtils.TryParseEndpoint(remoteEndpoint.AsSpan(), out var parsedRemoteEndpoint))
+                throw new FormatException("An invalid IPEndPoint was specified.");
+
+            this.Connect(parsedRemoteEndpoint, endianness);
+        }
+
+        /// <summary>
         /// Connect to the specified <paramref name="remoteIpAddress"/> at port 502.
         /// </summary>
         /// <param name="remoteIpAddress">The IP address of the end unit with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout. Example: IPAddress.Parse("192.168.0.1").</param>
