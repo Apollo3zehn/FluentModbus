@@ -1617,6 +1617,18 @@ references:
   commentId: M:FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint,FluentModbus.ModbusEndianness)
   fullName: FluentModbus.ModbusTcpClient.Connect(System.Net.IPEndPoint, FluentModbus.ModbusEndianness)
   nameWithType: ModbusTcpClient.Connect(IPEndPoint, ModbusEndianness)
+- uid: FluentModbus.ModbusTcpClient.Connect(System.String)
+  name: Connect(String)
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_String_
+  commentId: M:FluentModbus.ModbusTcpClient.Connect(System.String)
+  fullName: FluentModbus.ModbusTcpClient.Connect(System.String)
+  nameWithType: ModbusTcpClient.Connect(String)
+- uid: FluentModbus.ModbusTcpClient.Connect(System.String,FluentModbus.ModbusEndianness)
+  name: Connect(String, ModbusEndianness)
+  href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_System_String_FluentModbus_ModbusEndianness_
+  commentId: M:FluentModbus.ModbusTcpClient.Connect(System.String,FluentModbus.ModbusEndianness)
+  fullName: FluentModbus.ModbusTcpClient.Connect(System.String, FluentModbus.ModbusEndianness)
+  nameWithType: ModbusTcpClient.Connect(String, ModbusEndianness)
 - uid: FluentModbus.ModbusTcpClient.Connect*
   name: Connect
   href: api/FluentModbus.ModbusTcpClient.html#FluentModbus_ModbusTcpClient_Connect_

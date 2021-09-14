@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ModbusClient
    | FluentModbus ">
-    <meta name="generator" content="docfx 2.56.2.0">
+    <meta name="generator" content="docfx 2.58.4.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -123,7 +123,7 @@ public void MaskWriteRegister()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public Task MaskWriteRegisterAsync()</code></pre>
+public async Task MaskWriteRegisterAsync()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -215,7 +215,7 @@ public Task MaskWriteRegisterAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadCoilsAsync(int unitIdentifier, int startingAddress, int quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;byte&gt;&gt; ReadCoilsAsync(int unitIdentifier, int startingAddress, int quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -343,7 +343,7 @@ public Task MaskWriteRegisterAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadDiscreteInputsAsync(int unitIdentifier, int startingAddress, int quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;byte&gt;&gt; ReadDiscreteInputsAsync(int unitIdentifier, int startingAddress, int quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -428,7 +428,7 @@ public void ReadFifoQueue()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public Task ReadFifoQueueAsync()</code></pre>
+public async Task ReadFifoQueueAsync()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -477,7 +477,7 @@ public void ReadFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public Task ReadFileRecordAsync()</code></pre>
+public async Task ReadFileRecordAsync()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -648,7 +648,7 @@ public Task ReadFileRecordAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadHoldingRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;byte&gt;&gt; ReadHoldingRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -715,7 +715,7 @@ public Task ReadFileRecordAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;T&gt;&gt; ReadHoldingRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, int count, CancellationToken cancellationToken = default(CancellationToken))
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;T&gt;&gt; ReadHoldingRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, int count, CancellationToken cancellationToken = default(CancellationToken))
 
     where T : struct</code></pre>
   </div>
@@ -940,7 +940,7 @@ public Task ReadFileRecordAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadInputRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;byte&gt;&gt; ReadInputRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1007,7 +1007,7 @@ public Task ReadFileRecordAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;T&gt;&gt; ReadInputRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, int count, CancellationToken cancellationToken = default(CancellationToken))
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;T&gt;&gt; ReadInputRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, int count, CancellationToken cancellationToken = default(CancellationToken))
 
     where T : struct</code></pre>
   </div>
@@ -1261,7 +1261,7 @@ public Task ReadFileRecordAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;byte&gt;&gt; ReadWriteMultipleRegistersAsync(byte unitIdentifier, ushort readStartingAddress, ushort readQuantity, ushort writeStartingAddress, byte[] dataset, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;byte&gt;&gt; ReadWriteMultipleRegistersAsync(byte unitIdentifier, ushort readStartingAddress, ushort readQuantity, ushort writeStartingAddress, byte[] dataset, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1340,7 +1340,7 @@ public Task ReadFileRecordAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;Memory&lt;TRead&gt;&gt; ReadWriteMultipleRegistersAsync&lt;TRead, TWrite&gt;(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset, CancellationToken cancellationToken = default(CancellationToken))
+    <pre><code class="lang-csharp hljs">public async Task&lt;Memory&lt;TRead&gt;&gt; ReadWriteMultipleRegistersAsync&lt;TRead, TWrite&gt;(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset, CancellationToken cancellationToken = default(CancellationToken))
 
     where TRead : struct where TWrite : struct</code></pre>
   </div>
@@ -1460,7 +1460,7 @@ public void WriteFileRecord()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public Task WriteFileRecordAsync()</code></pre>
+public async Task WriteFileRecordAsync()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1509,7 +1509,7 @@ public void WriteMultipleCoils()</code></pre>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[Obsolete(&quot;This method is not implemented.&quot;)]
-public Task WriteMultipleCoilsAsync()</code></pre>
+public async Task WriteMultipleCoilsAsync()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1650,7 +1650,7 @@ public Task WriteMultipleCoilsAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteMultipleRegistersAsync(byte unitIdentifier, ushort startingAddress, byte[] dataset, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task WriteMultipleRegistersAsync(byte unitIdentifier, ushort startingAddress, byte[] dataset, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1717,7 +1717,7 @@ public Task WriteMultipleCoilsAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteMultipleRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, T[] dataset, CancellationToken cancellationToken = default(CancellationToken))
+    <pre><code class="lang-csharp hljs">public async Task WriteMultipleRegistersAsync&lt;T&gt;(int unitIdentifier, int startingAddress, T[] dataset, CancellationToken cancellationToken = default(CancellationToken))
 
     where T : struct</code></pre>
   </div>
@@ -1848,7 +1848,7 @@ public Task WriteMultipleCoilsAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteSingleCoilAsync(int unitIdentifier, int registerAddress, bool value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task WriteSingleCoilAsync(int unitIdentifier, int registerAddress, bool value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2053,7 +2053,7 @@ public Task WriteMultipleCoilsAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteSingleRegisterAsync(byte unitIdentifier, ushort registerAddress, byte[] value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task WriteSingleRegisterAsync(byte unitIdentifier, ushort registerAddress, byte[] value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2120,7 +2120,7 @@ public Task WriteMultipleCoilsAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteSingleRegisterAsync(int unitIdentifier, int registerAddress, short value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task WriteSingleRegisterAsync(int unitIdentifier, int registerAddress, short value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2187,7 +2187,7 @@ public Task WriteMultipleCoilsAsync()</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteSingleRegisterAsync(int unitIdentifier, int registerAddress, ushort value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
+    <pre><code class="lang-csharp hljs">public async Task WriteSingleRegisterAsync(int unitIdentifier, int registerAddress, ushort value, CancellationToken cancellationToken = default(CancellationToken))</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2256,7 +2256,8 @@ public Task WriteMultipleCoilsAsync()</code></pre>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
