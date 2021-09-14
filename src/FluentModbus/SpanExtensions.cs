@@ -34,6 +34,44 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Writes a single value of type <typeparamref name="T"/> to the registers and converts it to the little-endian representation if necessary.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to write.</typeparam>
+        /// <param name="buffer">The target buffer.</param>
+        /// <param name="address">The Modbus register address.</param>
+        /// <param name="value">The value to write.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetMidLittleEndian<T>(this Span<short> buffer, int address, T value) where T : unmanaged
+        {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
+            var byteBuffer = MemoryMarshal
+                .AsBytes(buffer)
+                .Slice(address * 2);
+
+            var data_set = ModbusUtils.SwitchEndiannessToMidLittleEndian(value);
+
+            switch (value)
+            {
+                case uint:
+                    Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), BitConverter.ToUInt32(data_set, 0));
+                    break;
+
+                case float:
+                    Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), BitConverter.ToSingle(data_set, 0));
+                    break;
+
+                case int:
+                    Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), BitConverter.ToInt32(data_set, 0));
+                    break;
+
+                default:
+                    throw new Exception("Unsupported value type");
+            };
+        }
+
+        /// <summary>
         /// Writes a single value of type <typeparamref name="T"/> to the registers and converts it to the big-endian representation if necessary.
         /// </summary>
         /// <typeparam name="T">The type of the value to write.</typeparam>

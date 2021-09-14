@@ -41,7 +41,7 @@ namespace FluentModbus
              * 02 Byte count
              * 03 Minimum of 1 byte
              * 04 CRC Byte 1
-             * 05 CRC Byte 2 
+             * 05 CRC Byte 2
              */
 
             /* Error response frame (5 bytes)
@@ -49,7 +49,7 @@ namespace FluentModbus
              * 01 Function Code + 0x80
              * 02 Exception Code
              * 03 CRC Byte 1
-             * 04 CRC Byte 2 
+             * 04 CRC Byte 2
              */
 
             var span = frame.Span;
@@ -94,6 +94,20 @@ namespace FluentModbus
             ModbusUtils.SwitchEndianness(data);
 
             return data[0];
+        }
+
+        public static byte[] SwitchEndiannessToMidLittleEndian<T>(T value) where T : unmanaged
+        {
+            if (value is int or uint or float)
+            {
+                Span<T> data = stackalloc T[] { value };
+                var dataset_bytes = MemoryMarshal.Cast<T, byte>(data);
+                return new[] { dataset_bytes[1], dataset_bytes[0], dataset_bytes[3], dataset_bytes[2] };
+            }
+            else
+            {
+                throw new ArgumentException("Wrong parameter type");
+            }
         }
 
         public static void SwitchEndianness<T>(Memory<T> dataset) where T : unmanaged
