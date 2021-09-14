@@ -1,11 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using Xunit;
 
 namespace FluentModbus.Tests
 {
     public class ModbusUtilsTests : IClassFixture<XUnitFixture>
     {
+        [Theory]
+        [InlineData("127.0.0.1")]
+        [InlineData("127.0.0.1:502")]
+        [InlineData("::1")]
+        [InlineData("[::1]:502")]
+        public void CanParseEndpoint(string endpoint)
+        {
+            // Arrange
+            var expected = IPEndPoint.Parse(endpoint);
+
+            // Act
+            var success = ModbusUtils.TryParseEndpoint(endpoint, out var actual);
+
+            // Assert
+            Assert.True(success);
+            Assert.Equal(expected, actual);
+        }
+
         [Fact]
         public void CalculatesCrcCorrectly()
         {
