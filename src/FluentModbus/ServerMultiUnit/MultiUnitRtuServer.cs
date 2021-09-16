@@ -322,7 +322,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the input register as <see cref="UInt16"/> array.
         /// </summary>
-        public Span<short> GetInputRegisters(byte unitId)
+        public Span<short> GetInputRegisters(byte unitId = 1)
         {
             return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer(unitId));
         }
@@ -331,7 +331,7 @@ namespace FluentModbus
         /// Gets the input register buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetInputRegisterBuffer<T>(byte unitId) where T : unmanaged
+        public Span<T> GetInputRegisterBuffer<T>(byte unitId = 1) where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer(unitId));
         }
@@ -339,7 +339,7 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
         /// </summary>
-        public Span<byte> GetInputRegisterBuffer(byte unitId)
+        public Span<byte> GetInputRegisterBuffer(byte unitId = 1)
         {
             return _inputRegisterBuffer[unitId];
         }
@@ -347,7 +347,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the holding register as <see cref="UInt16"/> array.
         /// </summary>
-        public Span<short> GetHoldingRegisters(byte unitId)
+        public Span<short> GetHoldingRegisters(byte unitId = 1)
         {
             return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer(unitId));
         }
@@ -356,7 +356,7 @@ namespace FluentModbus
         /// Gets the holding register buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetHoldingRegisterBuffer<T>(byte unitId) where T : unmanaged
+        public Span<T> GetHoldingRegisterBuffer<T>(byte unitId = 1) where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer(unitId));
         }
@@ -364,7 +364,7 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
         /// </summary>
-        public Span<byte> GetHoldingRegisterBuffer(byte unitId)
+        public Span<byte> GetHoldingRegisterBuffer(byte unitId = 1)
         {
             return _holdingRegisterBuffer[unitId];
         }
@@ -372,7 +372,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the coils as <see cref="byte"/> array.
         /// </summary>
-        public Span<byte> GetCoils(byte unitId)
+        public Span<byte> GetCoils(byte unitId = 1)
         {
             return this.GetCoilBuffer(unitId);
         }
@@ -381,7 +381,7 @@ namespace FluentModbus
         /// Gets the coil buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetCoilBuffer<T>(byte unitId) where T : unmanaged
+        public Span<T> GetCoilBuffer<T>(byte unitId = 1) where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer(unitId));
         }
@@ -397,7 +397,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the discrete inputs as <see cref="byte"/> array.
         /// </summary>
-        public Span<byte> GetDiscreteInputs(byte unitId)
+        public Span<byte> GetDiscreteInputs(byte unitId = 1)
         {
             return this.GetDiscreteInputBuffer(unitId);
         }
@@ -406,7 +406,7 @@ namespace FluentModbus
         /// Gets the discrete input buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetDiscreteInputBuffer<T>(byte unitId) where T : unmanaged
+        public Span<T> GetDiscreteInputBuffer<T>(byte unitId = 1) where T : unmanaged
         {
             return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer(unitId));
         }
@@ -414,7 +414,7 @@ namespace FluentModbus
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the discrete input buffer as byte array.
         /// </summary>
-        public Span<byte> GetDiscreteInputBuffer(byte unitId)
+        public Span<byte> GetDiscreteInputBuffer(byte unitId = 1)
         {
             return _discreteInputBuffer[unitId];
         }
@@ -422,7 +422,7 @@ namespace FluentModbus
         /// <summary>
         /// Clears all buffer contents.
         /// </summary>
-        public void ClearBuffers(byte unitId)
+        public void ClearBuffers(byte unitId = 1)
         {
             this.GetInputRegisterBuffer(unitId).Clear();
             this.GetHoldingRegisterBuffer(unitId).Clear();
