@@ -295,6 +295,15 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A unit identifier of 0 is only applicable in single unit mode. ähnelt.
+        /// </summary>
+        internal static string ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode {
+            get {
+                return ResourceManager.GetString("ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die There is no valid request available. ähnelt.
         /// </summary>
         internal static string ModbusTcpRequestHandler_NoValidRequestAvailable {

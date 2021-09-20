@@ -34,14 +34,19 @@ namespace FluentModbus
         #region Properties
 
         public ModbusServer ModbusServer { get; }
+
         public Stopwatch LastRequest { get; protected set; }
+
         public int Length { get; protected set; }
+
         public bool IsReady { get; protected set; }
 
         public abstract string DisplayName { get; }
 
         protected byte UnitIdentifier { get; set; }
+
         protected CancellationTokenSource CTS { get; }
+
         protected ModbusFrameBuffer FrameBuffer { get; }
 
         protected abstract bool IsResponseRequired { get; }
@@ -53,7 +58,7 @@ namespace FluentModbus
         public void WriteResponse()
         {
             int frameLength;
-            Action processingMethod;
+            Action<byte> processingMethod;
 
             if (!this.IsResponseRequired)
                 return;
@@ -190,7 +195,7 @@ namespace FluentModbus
         }
 
         // class 0
-        private void ProcessReadHoldingRegisters()
+        private void ProcessReadHoldingRegisters(byte unitIdentifier)
         {
             var startingAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var quantityOfRegisters = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -199,11 +204,11 @@ namespace FluentModbus
             {
                 this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);
                 this.FrameBuffer.Writer.Write((byte)(quantityOfRegisters * 2));
-                this.FrameBuffer.Writer.Write(this.ModbusServer.GetHoldingRegisterBuffer().Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
+                this.FrameBuffer.Writer.Write(this.ModbusServer.GetHoldingRegisterBuffer(unitIdentifier).Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
             }
         }
 
-        private void ProcessWriteMultipleRegisters()
+        private void ProcessWriteMultipleRegisters(byte unitIdentifier)
         {
             var startingAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var quantityOfRegisters = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -211,7 +216,7 @@ namespace FluentModbus
 
             if (this.CheckRegisterBounds(ModbusFunctionCode.WriteMultipleRegisters, startingAddress, this.ModbusServer.MaxHoldingRegisterAddress, quantityOfRegisters, 0x7B))
             {
-                var holdingRegisters = this.ModbusServer.GetHoldingRegisters();
+                var holdingRegisters = this.ModbusServer.GetHoldingRegisters(unitIdentifier);
                 var oldValues = holdingRegisters.Slice(startingAddress).ToArray();
                 var newValues = MemoryMarshal.Cast<byte, short>(this.FrameBuffer.Reader.ReadBytes(byteCount).AsSpan());
 
@@ -236,7 +241,7 @@ namespace FluentModbus
         }
 
         // class 1
-        private void ProcessReadCoils()
+        private void ProcessReadCoils(byte unitIdentifier)
         {
             var startingAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var quantityOfCoils = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -245,7 +250,7 @@ namespace FluentModbus
             {
                 var byteCount = (byte)Math.Ceiling((double)quantityOfCoils / 8);
 
-                var coilBuffer = this.ModbusServer.GetCoilBuffer();
+                var coilBuffer = this.ModbusServer.GetCoilBuffer(unitIdentifier);
                 var targetBuffer = new byte[byteCount];
 
                 for (int i = 0; i < quantityOfCoils; i++)
@@ -268,7 +273,7 @@ namespace FluentModbus
             }
         }
 
-        private void ProcessReadDiscreteInputs()
+        private void ProcessReadDiscreteInputs(byte unitIdentifier)
         {
             var startingAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var quantityOfInputs = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -277,7 +282,7 @@ namespace FluentModbus
             {
                 var byteCount = (byte)Math.Ceiling((double)quantityOfInputs / 8);
 
-                var discreteInputBuffer = this.ModbusServer.GetDiscreteInputBuffer();
+                var discreteInputBuffer = this.ModbusServer.GetDiscreteInputBuffer(unitIdentifier);
                 var targetBuffer = new byte[byteCount];
 
                 for (int i = 0; i < quantityOfInputs; i++)
@@ -300,7 +305,7 @@ namespace FluentModbus
             }
         }
 
-        private void ProcessReadInputRegisters()
+        private void ProcessReadInputRegisters(byte unitIdentifier)
         {
             var startingAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var quantityOfRegisters = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -309,11 +314,11 @@ namespace FluentModbus
             {
                 this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.ReadInputRegisters);
                 this.FrameBuffer.Writer.Write((byte)(quantityOfRegisters * 2));
-                this.FrameBuffer.Writer.Write(this.ModbusServer.GetInputRegisterBuffer().Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
+                this.FrameBuffer.Writer.Write(this.ModbusServer.GetInputRegisterBuffer(unitIdentifier).Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
             }
         }
 
-        private void ProcessWriteSingleCoil()
+        private void ProcessWriteSingleCoil(byte unitIdentifier)
         {
             var outputAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var outputValue = this.FrameBuffer.Reader.ReadUInt16();
@@ -329,7 +334,7 @@ namespace FluentModbus
                     var bufferByteIndex = outputAddress / 8;
                     var bufferBitIndex = outputAddress % 8;
 
-                    var coils = this.ModbusServer.GetCoils();
+                    var coils = this.ModbusServer.GetCoils(unitIdentifier);
                     var oldValue = coils[bufferByteIndex];
                     var newValue = oldValue;
 
@@ -341,7 +346,7 @@ namespace FluentModbus
                     coils[bufferByteIndex] = newValue;
 
                     if (this.ModbusServer.EnableRaisingEvents && newValue != oldValue)
-                        this.ModbusServer.OnCoilsChanged(new List<int>() { outputAddress });
+                        this.ModbusServer.OnCoilsChanged(new[] { outputAddress });
 
                     this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
 
@@ -355,14 +360,14 @@ namespace FluentModbus
             }
         }
 
-        private void ProcessWriteSingleRegister()
+        private void ProcessWriteSingleRegister(byte unitIdentifier)
         {
             var registerAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var registerValue = this.FrameBuffer.Reader.ReadInt16();
 
             if (this.CheckRegisterBounds(ModbusFunctionCode.WriteSingleRegister, registerAddress, this.ModbusServer.MaxHoldingRegisterAddress, 1, 1))
             {
-                var holdingRegisters = this.ModbusServer.GetHoldingRegisters();
+                var holdingRegisters = this.ModbusServer.GetHoldingRegisters(unitIdentifier);
                 var oldValue = holdingRegisters[registerAddress];
                 var newValue = registerValue;
                 holdingRegisters[registerAddress] = newValue;
@@ -382,7 +387,7 @@ namespace FluentModbus
         }
 
         // class 2
-        private void ProcessReadWriteMultipleRegisters()
+        private void ProcessReadWriteMultipleRegisters(byte unitIdentifier)
         {
             var readStartingAddress = this.FrameBuffer.Reader.ReadUInt16Reverse();
             var quantityToRead = this.FrameBuffer.Reader.ReadUInt16Reverse();
@@ -394,7 +399,7 @@ namespace FluentModbus
             {
                 if (this.CheckRegisterBounds(ModbusFunctionCode.ReadWriteMultipleRegisters, writeStartingAddress, this.ModbusServer.MaxHoldingRegisterAddress, quantityToWrite, 0x7B))
                 {
-                    var holdingRegisters = this.ModbusServer.GetHoldingRegisters();
+                    var holdingRegisters = this.ModbusServer.GetHoldingRegisters(unitIdentifier);
 
                     // write data (write is performed before read according to spec)
                     var writeData = MemoryMarshal.Cast<byte, short>(this.FrameBuffer.Reader.ReadBytes(writeByteCount).AsSpan());

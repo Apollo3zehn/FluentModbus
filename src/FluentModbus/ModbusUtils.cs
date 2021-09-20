@@ -67,8 +67,6 @@ namespace FluentModbus
 
         public static bool DetectFrame(byte unitIdentifier, Memory<byte> frame)
         {
-            byte newUnitIdentifier;
-
             /* Correct response frame (min. 6 bytes)
              * 00 Unit Identifier
              * 01 Function Code
@@ -93,7 +91,7 @@ namespace FluentModbus
 
             if (unitIdentifier != 255) // 255 means "skip unit identifier check"
             {
-                newUnitIdentifier = span[0];
+                var newUnitIdentifier = span[0];
 
                 if (newUnitIdentifier != unitIdentifier)
                     return false;

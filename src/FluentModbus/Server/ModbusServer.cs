@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -9,6 +10,36 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
+    /// Provides data for the registers changed event.
+    public struct RegistersChangedEventArgs
+    {
+        /// <summary>
+        /// The unit identifier for the registers that have changed.
+        /// </summary>
+        public byte UnitIdentifier { get; init; }
+
+        /// <summary>
+        /// A list of registers that have changed.
+        /// </summary>
+        public int[] Registers { get; init; }
+    }
+
+    /// <summary>
+    /// Provides data for the coils changed event.
+    /// </summary>
+    public struct CoilsChangedEventArgs
+    {
+        /// <summary>
+        /// The unit identifier for the coils that have changed.
+        /// </summary>
+        public byte UnitIdentifier { get; init; }
+
+        /// <summary>
+        /// A list of coils that have changed.
+        /// </summary>
+        public int[] Coils { get; init; }
+    }
+
     /// <summary>
     /// Base class for a Modbus server.
     /// </summary>
@@ -19,12 +50,12 @@ namespace FluentModbus
         /// <summary>
         /// Occurs after one or more registers changed.
         /// </summary>
-        public event EventHandler<List<int>> RegistersChanged;
+        public event EventHandler<RegistersChangedEventArgs> RegistersChanged;
 
         /// <summary>
         /// Occurs after one or more coils changed.
         /// </summary>
-        public event EventHandler<List<int>> CoilsChanged;
+        public event EventHandler<CoilsChangedEventArgs> CoilsChanged;
 
         #endregion
 
@@ -33,15 +64,17 @@ namespace FluentModbus
         private Task _task_process_requests;
         private ManualResetEventSlim _manualResetEvent;
 
-        private byte[] _inputRegisterBuffer;
-        private byte[] _holdingRegisterBuffer;
-        private byte[] _coilBuffer;
-        private byte[] _discreteInputBuffer;
+        private Dictionary<byte, byte[]> _inputRegisterBufferMap = new();
+        private Dictionary<byte, byte[]> _holdingRegisterBufferMap = new();
+        private Dictionary<byte, byte[]> _coilBufferMap = new();
+        private Dictionary<byte, byte[]> _discreteInputBufferMap = new();
 
         private int _inputRegisterSize;
         private int _holdingRegisterSize;
         private int _coilSize;
         private int _discreteInputSize;
+
+        private List<byte> _unitIdentifiers = new();
 
         #endregion
 
@@ -62,16 +95,9 @@ namespace FluentModbus
             this.MaxDiscreteInputAddress = UInt16.MaxValue;
 
             _inputRegisterSize = (this.MaxInputRegisterAddress + 1) * 2;
-            _inputRegisterBuffer = new byte[_inputRegisterSize];
-
             _holdingRegisterSize = (this.MaxHoldingRegisterAddress + 1) * 2;
-            _holdingRegisterBuffer = new byte[_holdingRegisterSize];
-
             _coilSize = (this.MaxCoilAddress + 1 + 7) / 8;
-            _coilBuffer = new byte[_coilSize];
-
             _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
-            _discreteInputBuffer = new byte[_discreteInputSize];
 
             _manualResetEvent = new ManualResetEventSlim(false);
         }
@@ -79,6 +105,12 @@ namespace FluentModbus
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the list of unit identifiers.
+        /// </summary>
+        public IReadOnlyList<byte> UnitIdentifiers 
+            => _unitIdentifiers.AsReadOnly();
 
         /// <summary>
         /// Gets the lock object. For synchronous operation only.
@@ -137,112 +169,125 @@ namespace FluentModbus
         /// <summary>
         /// Gets the input register as <see cref="UInt16"/> array.
         /// </summary>
-        public Span<short> GetInputRegisters()
+        /// <param name="unitIdentifier">The unit identifier of the input registers to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<short> GetInputRegisters(byte unitIdentifier = 0)
         {
-            return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer());
+            return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
         /// Gets the input register buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetInputRegisterBuffer<T>() where T : unmanaged
+        /// <param name="unitIdentifier">The unit identifier of the input register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<T> GetInputRegisterBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
         /// </summary>
-        public Span<byte> GetInputRegisterBuffer()
+        /// <param name="unitIdentifier">The unit identifier of the input register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<byte> GetInputRegisterBuffer(byte unitIdentifier)
         {
-            return _inputRegisterBuffer;
+            return this.Find(unitIdentifier, this._inputRegisterBufferMap);
         }
 
         /// <summary>
         /// Gets the holding register as <see cref="UInt16"/> array.
         /// </summary>
-        public Span<short> GetHoldingRegisters()
+        /// <param name="unitIdentifier">The unit identifier of the holding registers to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<short> GetHoldingRegisters(byte unitIdentifier = 0)
         {
-            return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer());
+            return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
         /// Gets the holding register buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetHoldingRegisterBuffer<T>() where T : unmanaged
+        /// <param name="unitIdentifier">The unit identifier of the holding register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<T> GetHoldingRegisterBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
         /// </summary>
-        public Span<byte> GetHoldingRegisterBuffer()
+        /// <param name="unitIdentifier">The unit identifier of the holding register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<byte> GetHoldingRegisterBuffer(byte unitIdentifier)
         {
-            return _holdingRegisterBuffer;
+            return this.Find(unitIdentifier, this._holdingRegisterBufferMap);
         }
 
         /// <summary>
         /// Gets the coils as <see cref="byte"/> array.
         /// </summary>
-        public Span<byte> GetCoils()
+        /// <param name="unitIdentifier">The unit identifier of the coils to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<byte> GetCoils(byte unitIdentifier = 0)
         {
-            return this.GetCoilBuffer();
+            return this.GetCoilBuffer(unitIdentifier);
         }
 
         /// <summary>
         /// Gets the coil buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetCoilBuffer<T>() where T : unmanaged
+        /// <param name="unitIdentifier">The unit identifier of the coil buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<T> GetCoilBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer(unitIdentifier));
         }
 
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the coil buffer as byte array.
         /// </summary>
-        public Span<byte> GetCoilBuffer()
+        /// <param name="unitIdentifier">The unit identifier of the coil buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<byte> GetCoilBuffer(byte unitIdentifier)
         {
-            return _coilBuffer;
+            return this.Find(unitIdentifier, this._coilBufferMap);
         }
 
         /// <summary>
         /// Gets the discrete inputs as <see cref="byte"/> array.
         /// </summary>
-        public Span<byte> GetDiscreteInputs()
+        /// <param name="unitIdentifier">The unit identifier of the discrete inputs to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<byte> GetDiscreteInputs(byte unitIdentifier = 0)
         {
-            return this.GetDiscreteInputBuffer();
+            return this.GetDiscreteInputBuffer(unitIdentifier);
         }
 
         /// <summary>
         /// Gets the discrete input buffer as type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of the returned array.</typeparam>
-        public Span<T> GetDiscreteInputBuffer<T>() where T : unmanaged
+        /// <param name="unitIdentifier">The unit identifier of the discrete input buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<T> GetDiscreteInputBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer());
+            return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer(unitIdentifier));
         }
 
         /// <summary>
         /// Low level API. Use the generic version for easy access. This method gets the discrete input buffer as byte array.
         /// </summary>
-        public Span<byte> GetDiscreteInputBuffer()
+        /// <param name="unitIdentifier">The unit identifier of the discrete input buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public Span<byte> GetDiscreteInputBuffer(byte unitIdentifier)
         {
-            return _discreteInputBuffer;
+            return this.Find(unitIdentifier, this._discreteInputBufferMap);
         }
 
         /// <summary>
         /// Clears all buffer contents.
         /// </summary>
-        public void ClearBuffers()
+        /// <param name="unitIdentifier">The unit identifier. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+        public void ClearBuffers(byte unitIdentifier)
         {
-            this.GetInputRegisterBuffer().Clear();
-            this.GetHoldingRegisterBuffer().Clear();
-            this.GetCoilBuffer().Clear();
-            this.GetDiscreteInputBuffer().Clear();
+            this.GetInputRegisterBuffer(unitIdentifier).Clear();
+            this.GetHoldingRegisterBuffer(unitIdentifier).Clear();
+            this.GetCoilBuffer(unitIdentifier).Clear();
+            this.GetDiscreteInputBuffer(unitIdentifier).Clear();
         }
 
         /// <summary>
@@ -304,14 +349,66 @@ namespace FluentModbus
         /// </summary>
         protected abstract void ProcessRequests();
 
-        internal void OnRegistersChanged(List<int> registers)
+        private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
         {
-            this.RegistersChanged?.Invoke(this, registers);
+            if (unitIdentifier == 0)
+            {
+                if (map.Count == 1)
+                    return map.First().Value;
+
+                else
+                    throw new Exception(ErrorMessage.ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode);
+            }
+
+            else
+            {
+                if (!map.TryGetValue(unitIdentifier, out var buffer))
+                    throw new Exception(ErrorMessage.ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode);
+
+                return buffer;
+            }
         }
 
-        internal void OnCoilsChanged(List<int> coils)
+        private protected void AddUnit(byte unitIdentifer)
         {
-            this.CoilsChanged?.Invoke(this, coils);
+            if (!_unitIdentifiers.Contains(unitIdentifer))
+            {
+                _unitIdentifiers.Add(unitIdentifer);
+                _inputRegisterBufferMap[unitIdentifer] = new byte[_inputRegisterSize];
+                _holdingRegisterBufferMap[unitIdentifer] = new byte[_holdingRegisterSize];
+                _coilBufferMap[unitIdentifer] = new byte[_coilSize];
+                _discreteInputBufferMap[unitIdentifer] = new byte[_discreteInputSize];
+            }
+        }
+
+        private protected void RemoveUnit(byte unitIdentifer)
+        {
+            if (_unitIdentifiers.Contains(unitIdentifer))
+            {
+                _inputRegisterBufferMap.Remove(unitIdentifer);
+                _holdingRegisterBufferMap.Remove(unitIdentifer);
+                _coilBufferMap.Remove(unitIdentifer);
+                _discreteInputBufferMap.Remove(unitIdentifer);
+                _unitIdentifiers.Remove(unitIdentifer);
+            }
+        }
+
+        internal void OnRegistersChanged(byte unitIdentifier, int[] registers)
+        {
+            this.RegistersChanged?.Invoke(this, new RegistersChangedEventArgs() 
+            { 
+                UnitIdentifier = unitIdentifier,
+                Registers = registers 
+            });
+        }
+
+        internal void OnCoilsChanged(byte unitIdentifier, int[] coils)
+        {
+            this.CoilsChanged?.Invoke(this, new CoilsChangedEventArgs()
+            {
+                UnitIdentifier = unitIdentifier,
+                Coils = coils
+            });
         }
 
         #endregion

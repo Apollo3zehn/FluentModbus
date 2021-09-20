@@ -57,6 +57,7 @@ namespace FluentModbus
         public ModbusTcpServer(ILogger logger, bool isAsynchronous) : base(isAsynchronous)
         {
             this.Logger = logger;
+            this.AddUnit(0);
         }
 
         #endregion
