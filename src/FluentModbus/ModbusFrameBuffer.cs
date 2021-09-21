@@ -4,7 +4,7 @@ using System.IO;
 
 namespace FluentModbus
 {
-    public class ModbusFrameBuffer : IDisposable
+    internal class ModbusFrameBuffer : IDisposable
     {
         #region Constructors
 
@@ -16,7 +16,7 @@ namespace FluentModbus
             this.Reader = new ExtendedBinaryReader(new MemoryStream(this.Buffer));
         }
 
-        #endregion Constructors
+        #endregion
 
         #region Properties
 
@@ -25,7 +25,7 @@ namespace FluentModbus
         public ExtendedBinaryWriter Writer { get; }
         public ExtendedBinaryReader Reader { get; }
 
-        #endregion Properties
+        #endregion
 
         #region IDisposable Support
 
@@ -52,6 +52,6 @@ namespace FluentModbus
             Dispose(true);
         }
 
-        #endregion IDisposable Support
+        #endregion
     }
 }

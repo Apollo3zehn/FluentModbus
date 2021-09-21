@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace FluentModbus.SampleMaster
 {
-    internal class Program
+    class Program
     {
-        private static async Task Main(string[] args)
+        static async Task Main(string[] args)
         {
             /* Modbus RTU uses a COM port for communication. Therefore, to run
              * this sample, you need to make sure that there are real or virtual
@@ -36,7 +36,7 @@ namespace FluentModbus.SampleMaster
             var clientLogger = loggerFactory.CreateLogger("Client");
 
             /* create Modbus RTU server */
-            var server = new ModbusRtuServer(new byte[] { 1, 2, 3 }, true)
+            using var server = new ModbusRtuServer(unitIdentifier: 1)
             {
                 // see 'RegistersChanged' event below
                 EnableRaisingEvents = true
@@ -103,7 +103,7 @@ namespace FluentModbus.SampleMaster
             serverLogger.LogInformation("Server stopped.");
         }
 
-        private static void DoServerWork(ModbusRtuServer server)
+        static void DoServerWork(ModbusRtuServer server)
         {
             var random = new Random();
 
@@ -128,7 +128,7 @@ namespace FluentModbus.SampleMaster
             int_buffer[40] = random.Next(0, 100);
         }
 
-        private static void DoClientWork(ModbusRtuClient client, ILogger logger)
+        static void DoClientWork(ModbusRtuClient client, ILogger logger)
         {
             Span<byte> data;
 
