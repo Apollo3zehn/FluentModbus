@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -16,9 +15,8 @@ namespace FluentModbus.Tests
         {
             var tcpClientProvider = new DefaultTcpClientProvider(localEndpoint);
 
-            // "base..." is important!
-            base.Stop();
-            base.Start();
+            base.StopProcessing();
+            base.StartProcessing();
 
             var requestHandlers = new List<ModbusTcpRequestHandler>();
 

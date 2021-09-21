@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Runtime.InteropServices;
 
 namespace FluentModbus
 {
@@ -148,9 +147,8 @@ namespace FluentModbus
             if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
                 throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
 
-            // "base..." is important!
-            base.Stop();
-            base.Start();
+            base.StopProcessing();
+            base.StartProcessing();
 
             this.RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
         }
@@ -158,9 +156,9 @@ namespace FluentModbus
         /// <summary>
         /// Stops the server and closes the underlying serial port.
         /// </summary>
-        public override void Stop()
+        public void Stop()
         {
-            base.Stop();
+            base.StopProcessing();
 
             this.RequestHandler?.Dispose();            
         }

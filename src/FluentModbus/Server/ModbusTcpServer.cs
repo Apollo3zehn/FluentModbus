@@ -92,7 +92,7 @@ namespace FluentModbus
         /// <summary>
         /// Starts the server. It will listen on any IP address on port 502.
         /// </summary>
-        public new void Start()
+        public void Start()
         {
             this.Start(new IPEndPoint(IPAddress.Any, 502));
         }
@@ -123,9 +123,8 @@ namespace FluentModbus
             _tcpClientProvider = tcpClientProvider;
             _leaveOpen = leaveOpen;
 
-            // "base..." is important!
-            base.Stop();
-            base.Start();
+            base.StopProcessing();
+            base.StartProcessing();
 
             this.RequestHandlers = new List<ModbusTcpRequestHandler>();
 
@@ -203,9 +202,8 @@ namespace FluentModbus
         /// <param name="tcpClient">The TCP client to communicate with.</param>
         public void Start(TcpClient tcpClient)
         {
-            // "base..." is important!
-            base.Stop();
-            base.Start();
+            base.StopProcessing();
+            base.StartProcessing();
 
             this.RequestHandlers = new List<ModbusTcpRequestHandler>()
             {
@@ -216,9 +214,9 @@ namespace FluentModbus
         /// <summary>
         /// Stops the server and closes all open TCP connections.
         /// </summary>
-        public override void Stop()
+        public void Stop()
         {
-            base.Stop();
+            base.StopProcessing();
 
             if (!_leaveOpen)
                 _tcpClientProvider?.Dispose();

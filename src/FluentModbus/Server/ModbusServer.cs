@@ -305,7 +305,7 @@ namespace FluentModbus
         /// <summary>
         /// Stops the server operation.
         /// </summary>
-        public virtual void Stop()
+        public virtual void StopProcessing()
         {
             this.CTS?.Cancel();
             _manualResetEvent?.Set();
@@ -323,7 +323,7 @@ namespace FluentModbus
         /// <summary>
         /// Starts the server operation.
         /// </summary>
-        protected virtual void Start()
+        protected virtual void StartProcessing()
         {
             this.CTS = new CancellationTokenSource();
 
@@ -435,7 +435,7 @@ namespace FluentModbus
             if (!disposedValue)
             {
                 if (disposing)
-                    this.Stop();
+                    this.StopProcessing();
 
                 disposedValue = true;
             }
