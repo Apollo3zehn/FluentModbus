@@ -302,7 +302,7 @@ Note that in the second example, the ```Task.Delay()``` period is much lower. Si
 
 ## Modbus RTU server
 
-When you need a Modbus RTU server, you need to instantiate it like this providing a ```unitIdentifier```, which must be in the range of 1..247 and unique for each Modbus server / Modbus slave:
+When you need a Modbus RTU server, you can instantiate it like this providing a ```unitIdentifier```, which must be in the range of 1..247 and unique for each Modbus server / Modbus slave:
 
 ```cs
 var server = new ModbusRtuServer(unitIdentifier: 1);
@@ -319,6 +319,8 @@ When you don't need the server anymore, dispose it:
 ```cs
 server.Dispose();
 ```
+
+The `ModbusRtuServer` also supports multiple unit identifiers, just use the corresponding constructor overload to initialize it. Alternatively you can add / remove units at runtime using `server.AddUnit(...)` or `server.RemoveUnit(...)`, respectively. Be sure to remove a unit only when no client is in the process of interacting with it to avoid unexpected errors. This feature is intended for setups where you want to simulate multiple RTU devices on a single `COM` port.
 
 As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.
 
@@ -367,14 +369,16 @@ registers.SetBigEndian<short>(address: 1, value: 99); /* recommended */
 registers.SetBigEndian(address: 1, value: (short)99);
 ```
 
-There are complementary methods for little-endian data and methods for reading data. The full list of `Span<short>` extension methods is:
+There are complementary methods for little-endian and mid-little-endian data and methods for reading data. The full list of `Span<short>` extension methods is:
 
 ```cs
 void registers.SetBigEndian<T>(...);
 void registers.SetLittleEndian<T>(...);
+void registers.SetMidLittleEndian<T>(...);
 
 Span<short> registers.GetBigEndian<T>(...);
 Span<short> registers.GetLittleEndian<T>(...);
+Span<short> registers.GetMidLittleEndian<T>(...);
 ```
 
 ## Coils and Discrete Inputs
@@ -405,7 +409,7 @@ It might happen that a server should not support all Modbus functions or only a 
 
 var server = new ModbusTcpServer()
 {
-    RequestValidator = (functionCode, address, quantityOfRegisters) =>
+    RequestValidator = (unitIdentifier, functionCode, address, quantityOfRegisters) =>
     {
         if (functionCode == ModbusFunctionCode.WriteSingleRegister)
             return ModbusExceptionCode.IllegalFunction;
