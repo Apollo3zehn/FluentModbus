@@ -14,7 +14,7 @@
     <Major Condition="$(Major) == ''">4</Major>
     <Minor Condition="$(Minor) == ''">0</Minor>
     <Revision Condition="$(Revision) == ''">0</Revision>
-    <VersionSuffix Condition="$(VersionSuffix) == 'preview.1'"></VersionSuffix>
+    <VersionSuffix Condition="$(VersionSuffix) == ''">preview.1</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
