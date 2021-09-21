@@ -22,7 +22,7 @@ namespace FluentModbus.Tests
 
             // Assert
             Assert.True(success);
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
