@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -34,14 +33,19 @@ namespace FluentModbus
         #region Properties
 
         public ModbusServer ModbusServer { get; }
+
         public Stopwatch LastRequest { get; protected set; }
+
         public int Length { get; protected set; }
+
         public bool IsReady { get; protected set; }
 
         public abstract string DisplayName { get; }
 
         protected byte UnitIdentifier { get; set; }
+
         protected CancellationTokenSource CTS { get; }
+
         protected ModbusFrameBuffer FrameBuffer { get; }
 
         protected abstract bool IsResponseRequired { get; }
@@ -152,7 +156,7 @@ namespace FluentModbus
         {
             if (this.ModbusServer.RequestValidator != null)
             {
-                var result = this.ModbusServer.RequestValidator(functionCode, address, quantityOfRegisters);
+                var result = this.ModbusServer.RequestValidator(this.UnitIdentifier, functionCode, address, quantityOfRegisters);
 
                 if (result > ModbusExceptionCode.OK)
                 {
@@ -178,15 +182,20 @@ namespace FluentModbus
 
         private void DetectChangedRegisters(int startingAddress, Span<short> oldValues, Span<short> newValues)
         {
-            var changedRegisters = new List<int>(capacity: newValues.Length);
+            Span<int> changedRegisters = stackalloc int[newValues.Length];
+
+            var index = 0;
 
             for (int i = 0; i < newValues.Length; i++)
             {
                 if (newValues[i] != oldValues[i])
-                    changedRegisters.Add(startingAddress + i);
+                {
+                    changedRegisters[index] = startingAddress + i;
+                    index++;
+                }
             }
 
-            this.ModbusServer.OnRegistersChanged(changedRegisters);
+            this.ModbusServer.OnRegistersChanged(this.UnitIdentifier, changedRegisters.Slice(0, index).ToArray());
         }
 
         // class 0
@@ -199,7 +208,7 @@ namespace FluentModbus
             {
                 this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);
                 this.FrameBuffer.Writer.Write((byte)(quantityOfRegisters * 2));
-                this.FrameBuffer.Writer.Write(this.ModbusServer.GetHoldingRegisterBuffer().Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
+                this.FrameBuffer.Writer.Write(this.ModbusServer.GetHoldingRegisterBuffer(this.UnitIdentifier).Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
             }
         }
 
@@ -211,7 +220,7 @@ namespace FluentModbus
 
             if (this.CheckRegisterBounds(ModbusFunctionCode.WriteMultipleRegisters, startingAddress, this.ModbusServer.MaxHoldingRegisterAddress, quantityOfRegisters, 0x7B))
             {
-                var holdingRegisters = this.ModbusServer.GetHoldingRegisters();
+                var holdingRegisters = this.ModbusServer.GetHoldingRegisters(this.UnitIdentifier);
                 var oldValues = holdingRegisters.Slice(startingAddress).ToArray();
                 var newValues = MemoryMarshal.Cast<byte, short>(this.FrameBuffer.Reader.ReadBytes(byteCount).AsSpan());
 
@@ -245,7 +254,7 @@ namespace FluentModbus
             {
                 var byteCount = (byte)Math.Ceiling((double)quantityOfCoils / 8);
 
-                var coilBuffer = this.ModbusServer.GetCoilBuffer();
+                var coilBuffer = this.ModbusServer.GetCoilBuffer(this.UnitIdentifier);
                 var targetBuffer = new byte[byteCount];
 
                 for (int i = 0; i < quantityOfCoils; i++)
@@ -277,7 +286,7 @@ namespace FluentModbus
             {
                 var byteCount = (byte)Math.Ceiling((double)quantityOfInputs / 8);
 
-                var discreteInputBuffer = this.ModbusServer.GetDiscreteInputBuffer();
+                var discreteInputBuffer = this.ModbusServer.GetDiscreteInputBuffer(this.UnitIdentifier);
                 var targetBuffer = new byte[byteCount];
 
                 for (int i = 0; i < quantityOfInputs; i++)
@@ -309,7 +318,7 @@ namespace FluentModbus
             {
                 this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.ReadInputRegisters);
                 this.FrameBuffer.Writer.Write((byte)(quantityOfRegisters * 2));
-                this.FrameBuffer.Writer.Write(this.ModbusServer.GetInputRegisterBuffer().Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
+                this.FrameBuffer.Writer.Write(this.ModbusServer.GetInputRegisterBuffer(this.UnitIdentifier).Slice(startingAddress * 2, quantityOfRegisters * 2).ToArray());
             }
         }
 
@@ -329,7 +338,7 @@ namespace FluentModbus
                     var bufferByteIndex = outputAddress / 8;
                     var bufferBitIndex = outputAddress % 8;
 
-                    var coils = this.ModbusServer.GetCoils();
+                    var coils = this.ModbusServer.GetCoils(this.UnitIdentifier);
                     var oldValue = coils[bufferByteIndex];
                     var newValue = oldValue;
 
@@ -341,7 +350,7 @@ namespace FluentModbus
                     coils[bufferByteIndex] = newValue;
 
                     if (this.ModbusServer.EnableRaisingEvents && newValue != oldValue)
-                        this.ModbusServer.OnCoilsChanged(new List<int>() { outputAddress });
+                        this.ModbusServer.OnCoilsChanged(this.UnitIdentifier, new int[] { outputAddress });
 
                     this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
 
@@ -362,13 +371,13 @@ namespace FluentModbus
 
             if (this.CheckRegisterBounds(ModbusFunctionCode.WriteSingleRegister, registerAddress, this.ModbusServer.MaxHoldingRegisterAddress, 1, 1))
             {
-                var holdingRegisters = this.ModbusServer.GetHoldingRegisters();
+                var holdingRegisters = this.ModbusServer.GetHoldingRegisters(this.UnitIdentifier);
                 var oldValue = holdingRegisters[registerAddress];
                 var newValue = registerValue;
                 holdingRegisters[registerAddress] = newValue;
 
                 if (this.ModbusServer.EnableRaisingEvents && newValue != oldValue)
-                    this.ModbusServer.OnRegistersChanged(new List<int>() { registerAddress });
+                    this.ModbusServer.OnRegistersChanged(this.UnitIdentifier, new int[] { registerAddress });
 
                 this.FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);
 
@@ -394,7 +403,7 @@ namespace FluentModbus
             {
                 if (this.CheckRegisterBounds(ModbusFunctionCode.ReadWriteMultipleRegisters, writeStartingAddress, this.ModbusServer.MaxHoldingRegisterAddress, quantityToWrite, 0x7B))
                 {
-                    var holdingRegisters = this.ModbusServer.GetHoldingRegisters();
+                    var holdingRegisters = this.ModbusServer.GetHoldingRegisters(this.UnitIdentifier);
 
                     // write data (write is performed before read according to spec)
                     var writeData = MemoryMarshal.Cast<byte, short>(this.FrameBuffer.Reader.ReadBytes(writeByteCount).AsSpan());

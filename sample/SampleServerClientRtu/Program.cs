@@ -10,14 +10,14 @@ namespace FluentModbus.SampleMaster
         static async Task Main(string[] args)
         {
             /* Modbus RTU uses a COM port for communication. Therefore, to run
-             * this sample, you need to make sure that there are real or virtual 
+             * this sample, you need to make sure that there are real or virtual
              * COM ports available. The easiest way is to install one of the free
-             * COM port bridges available in the internet. That way, the Modbus 
+             * COM port bridges available in the internet. That way, the Modbus
              * server can connect to e.g. COM1 which is virtually linked to COM2,
              * where the client is connected to.
-             * 
+             *
              * When you only want to use the client and communicate to an external
-             * Modbus server, simply remove all server related code parts in this 
+             * Modbus server, simply remove all server related code parts in this
              * sample and connect to real COM port using only the client.
              */
 
@@ -45,7 +45,7 @@ namespace FluentModbus.SampleMaster
             /* subscribe to the 'RegistersChanged' event (in case you need it) */
             server.RegistersChanged += (sender, registerAddresses) =>
             {
-                // the variable 'registerAddresses' contains a list of modified register addresses
+                // the variable 'registerAddresses' contains the unit ID and a list of modified register addresses
             };
 
             /* create Modbus RTU client */
@@ -109,23 +109,23 @@ namespace FluentModbus.SampleMaster
 
             // Option A: normal performance version, more flexibility
 
-                /* get buffer in standard form (Span<short>) */
-                var registers = server.GetHoldingRegisters();
-                registers.SetLittleEndian<int>(address: 5, random.Next());
+            /* get buffer in standard form (Span<short>) */
+            var registers = server.GetHoldingRegisters();
+            registers.SetLittleEndian<int>(address: 5, random.Next());
 
             // Option B: high performance version, less flexibility
 
-                /* interpret buffer as array of bytes (8 bit) */
-                var byte_buffer = server.GetHoldingRegisterBuffer<byte>();
-                byte_buffer[20] = (byte)(random.Next() >> 24);
+            /* interpret buffer as array of bytes (8 bit) */
+            var byte_buffer = server.GetHoldingRegisterBuffer<byte>();
+            byte_buffer[20] = (byte)(random.Next() >> 24);
 
-                /* interpret buffer as array of shorts (16 bit) */
-                var short_buffer = server.GetHoldingRegisterBuffer<short>();
-                short_buffer[30] = (short)(random.Next(0, 100) >> 16);
+            /* interpret buffer as array of shorts (16 bit) */
+            var short_buffer = server.GetHoldingRegisterBuffer<short>();
+            short_buffer[30] = (short)(random.Next(0, 100) >> 16);
 
-                /* interpret buffer as array of ints (32 bit) */
-                var int_buffer = server.GetHoldingRegisterBuffer<int>();
-                int_buffer[40] = random.Next(0, 100);
+            /* interpret buffer as array of ints (32 bit) */
+            var int_buffer = server.GetHoldingRegisterBuffer<int>();
+            int_buffer[40] = random.Next(0, 100);
         }
 
         static void DoClientWork(ModbusRtuClient client, ILogger logger)
