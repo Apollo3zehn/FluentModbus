@@ -9,6 +9,7 @@ var server = new ModbusTcpServer()
 };
 
 private ModbusExceptionCode ModbusValidator(
+    byte unitIdentifier,
     ModbusFunctionCode functionCode, 
     ushort address, 
     ushort quantityOfRegisters)

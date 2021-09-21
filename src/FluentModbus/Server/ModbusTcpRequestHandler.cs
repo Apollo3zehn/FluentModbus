@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -17,17 +18,22 @@ namespace FluentModbus
         private ushort _protocolIdentifier;
         private ushort _bytesFollowing;
 
+        private bool _handleUnitIdentifiers;
+
         #endregion
 
         #region Constructors
 
-        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusTcpServer tcpServer) : base(tcpServer, 260)
+        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusTcpServer tcpServer, bool handleUnitIdentifiers = false /* For testing only */)
+            : base(tcpServer, 260)
         {
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
 
             this.DisplayName = ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
             this.CTS.Token.Register(() => _networkStream.Close());
+
+            _handleUnitIdentifiers = handleUnitIdentifiers;
 
             base.Start();
         }
@@ -138,7 +144,10 @@ namespace FluentModbus
                             _transactionIdentifier = this.FrameBuffer.Reader.ReadUInt16Reverse();       // 00-01  Transaction Identifier
                             _protocolIdentifier = this.FrameBuffer.Reader.ReadUInt16Reverse();          // 02-03  Protocol Identifier               
                             _bytesFollowing = this.FrameBuffer.Reader.ReadUInt16Reverse();              // 04-05  Length
-                            this.UnitIdentifier = this.FrameBuffer.Reader.ReadByte();                   // 06     Unit Identifier
+                            var unitIdentifier = this.FrameBuffer.Reader.ReadByte();                    // 06     Unit Identifier
+
+                            if (_handleUnitIdentifiers)
+                                this.UnitIdentifier = unitIdentifier;
 
                             if (_protocolIdentifier != 0)
                             {
@@ -164,7 +173,16 @@ namespace FluentModbus
                 }
             }
 
-            return true; // accept all incoming Modbus frames, no matter which unit identifier is set
+            // make sure that the incoming frame is actually adressed to this server
+            if (this.ModbusServer.UnitIdentifiers.Contains(this.UnitIdentifier))
+            {
+                this.LastRequest.Restart();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #endregion

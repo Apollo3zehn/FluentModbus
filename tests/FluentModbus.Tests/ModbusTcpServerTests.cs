@@ -158,16 +158,16 @@ namespace FluentModbus.Tests
             await Task.Run(() =>
             {
                 client1.Connect(endpoint);
-                client1.WriteSingleRegister(1, 2, 3);
+                client1.WriteSingleRegister(0, 2, 3);
 
                 client2.Connect(endpoint);
-                client2.WriteSingleRegister(1, 2, 3);
+                client2.WriteSingleRegister(0, 2, 3);
 
                 client3.Connect(endpoint);
 
                 try
                 {
-                    client3.WriteSingleRegister(1, 2, 3);
+                    client3.WriteSingleRegister(0, 2, 3);
                     throw new Exception("Modbus TCP server accepts too many clients.");
                 }
 
@@ -180,7 +180,7 @@ namespace FluentModbus.Tests
                 server.MaxConnections = 3;
 
                 client3.Connect(endpoint);
-                client3.WriteSingleRegister(1, 2, 3);
+                client3.WriteSingleRegister(0, 2, 3);
             });
 
             // Assert

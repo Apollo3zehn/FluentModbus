@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus
@@ -67,15 +68,13 @@ namespace FluentModbus
 
         public static bool DetectFrame(byte unitIdentifier, Memory<byte> frame)
         {
-            byte newUnitIdentifier;
-
             /* Correct response frame (min. 6 bytes)
              * 00 Unit Identifier
              * 01 Function Code
              * 02 Byte count
              * 03 Minimum of 1 byte
              * 04 CRC Byte 1
-             * 05 CRC Byte 2 
+             * 05 CRC Byte 2
              */
 
             /* Error response frame (5 bytes)
@@ -83,7 +82,7 @@ namespace FluentModbus
              * 01 Function Code + 0x80
              * 02 Exception Code
              * 03 CRC Byte 1
-             * 04 CRC Byte 2 
+             * 04 CRC Byte 2
              */
 
             var span = frame.Span;
@@ -93,7 +92,7 @@ namespace FluentModbus
 
             if (unitIdentifier != 255) // 255 means "skip unit identifier check"
             {
-                newUnitIdentifier = span[0];
+                var newUnitIdentifier = span[0];
 
                 if (newUnitIdentifier != unitIdentifier)
                     return false;
@@ -128,6 +127,30 @@ namespace FluentModbus
             ModbusUtils.SwitchEndianness(data);
 
             return data[0];
+        }
+
+        public static T ConvertBetweenLittleEndianAndMidLittleEndian<T>(T value) where T : unmanaged
+        {
+            // from DCBA to CDAB
+
+            if (Unsafe.SizeOf<T>() == 4)
+            {
+                Span<T> data = stackalloc T[] { value, default };
+
+                var dataset_bytes = MemoryMarshal.Cast<T, byte>(data);
+                var offset = 4;
+
+                dataset_bytes[offset + 0] = dataset_bytes[1];
+                dataset_bytes[offset + 1] = dataset_bytes[0];
+                dataset_bytes[offset + 2] = dataset_bytes[3];
+                dataset_bytes[offset + 3] = dataset_bytes[2];
+
+                return data[1];
+            }
+            else
+            {
+                throw new Exception($"Type {value.GetType().Name} cannot be represented as mid-little-endian.");
+            }
         }
 
         public static void SwitchEndianness<T>(Memory<T> dataset) where T : unmanaged
