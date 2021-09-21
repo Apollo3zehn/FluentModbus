@@ -20,6 +20,7 @@ namespace FluentModbus
         public static void SetLittleEndian<T>(this Span<short> buffer, int address, T value)
             where T : unmanaged
         {
+            // DCBA
             if (!(0 <= address && address <= ushort.MaxValue))
                 throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
 
@@ -34,15 +35,17 @@ namespace FluentModbus
         }
 
         /// <summary>
-        /// Writes a single value of type <typeparamref name="T"/> to the registers and converts it to the little-endian representation if necessary.
+        /// Writes a single value of type <typeparamref name="T"/> to the registers and converts it to the mid-little-endian representation.
         /// </summary>
         /// <typeparam name="T">The type of the value to write.</typeparam>
         /// <param name="buffer">The target buffer.</param>
         /// <param name="address">The Modbus register address.</param>
         /// <param name="value">The value to write.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetMidLittleEndian<T>(this Span<short> buffer, int address, T value) where T : unmanaged
+        public static void SetMidLittleEndian<T>(this Span<short> buffer, int address, T value)
+            where T : unmanaged
         {
+            // CDAB
             if (!(0 <= address && address <= ushort.MaxValue))
                 throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
 
@@ -50,25 +53,12 @@ namespace FluentModbus
                 .AsBytes(buffer)
                 .Slice(address * 2);
 
-            var data_set = ModbusUtils.SwitchEndiannessToMidLittleEndian(value);
+            if (!BitConverter.IsLittleEndian)
+                value = ModbusUtils.SwitchEndianness(value);
 
-            switch (value)
-            {
-                case uint:
-                    Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), BitConverter.ToUInt32(data_set, 0));
-                    break;
+            value = ModbusUtils.ConvertBetweenLittleEndianAndMidLittleEndian(value);
 
-                case float:
-                    Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), BitConverter.ToSingle(data_set, 0));
-                    break;
-
-                case int:
-                    Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), BitConverter.ToInt32(data_set, 0));
-                    break;
-
-                default:
-                    throw new Exception("Unsupported value type");
-            };
+            Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), value);
         }
 
         /// <summary>
@@ -82,6 +72,7 @@ namespace FluentModbus
         public static void SetBigEndian<T>(this Span<short> buffer, int address, T value)
             where T : unmanaged
         {
+            // ABCD
             if (!(0 <= address && address <= ushort.MaxValue))
                 throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
 
@@ -113,6 +104,32 @@ namespace FluentModbus
                 .Slice(address * 2);
 
             var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
+
+            if (!BitConverter.IsLittleEndian)
+                value = ModbusUtils.SwitchEndianness(value);
+
+            return value;
+        }
+
+        /// <summary>
+        /// Reads a single mid-little-endian value of type <typeparamref name="T"/> from the registers.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to read.</typeparam>
+        /// <param name="buffer">The source buffer.</param>
+        /// <param name="address">The Modbus register address.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T GetMidLittleEndian<T>(this Span<short> buffer, int address)
+            where T : unmanaged
+        {
+            if (!(0 <= address && address <= ushort.MaxValue))
+                throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
+            var byteBuffer = MemoryMarshal
+                .AsBytes(buffer)
+                .Slice(address * 2);
+
+            var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
+            value = ModbusUtils.ConvertBetweenLittleEndianAndMidLittleEndian(value);
 
             if (!BitConverter.IsLittleEndian)
                 value = ModbusUtils.SwitchEndianness(value);

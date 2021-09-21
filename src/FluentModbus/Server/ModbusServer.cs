@@ -100,6 +100,8 @@ namespace FluentModbus
             _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
 
             _manualResetEvent = new ManualResetEventSlim(false);
+
+            this.UnitIdentifiers = _unitIdentifiers.AsReadOnly();
         }
 
         #endregion
@@ -107,10 +109,9 @@ namespace FluentModbus
         #region Properties
 
         /// <summary>
-        /// Gets the list of unit identifiers.
+        /// Gets list of identifiers of the currently active units.
         /// </summary>
-        public IReadOnlyList<byte> UnitIdentifiers 
-            => _unitIdentifiers.AsReadOnly();
+        public IReadOnlyList<byte> UnitIdentifiers { get; }
 
         /// <summary>
         /// Gets the lock object. For synchronous operation only.
@@ -145,7 +146,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets or sets a method that validates each client request.
         /// </summary>
-        public Func<ModbusFunctionCode, ushort, ushort, ModbusExceptionCode> RequestValidator { get; set; }
+        public Func<byte, ModbusFunctionCode, ushort, ushort, ModbusExceptionCode> RequestValidator { get; set; }
 
         /// <summary>
         /// Gets or sets whether the events should be raised when register or coil data changes. Default: false.
@@ -189,7 +190,7 @@ namespace FluentModbus
         /// Low level API. Use the generic version for easy access. This method gets the input register buffer as byte array.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier of the input register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
-        public Span<byte> GetInputRegisterBuffer(byte unitIdentifier)
+        public Span<byte> GetInputRegisterBuffer(byte unitIdentifier = 0)
         {
             return this.Find(unitIdentifier, this._inputRegisterBufferMap);
         }
@@ -217,7 +218,7 @@ namespace FluentModbus
         /// Low level API. Use the generic version for easy access. This method gets the holding register buffer as byte array.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier of the holding register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
-        public Span<byte> GetHoldingRegisterBuffer(byte unitIdentifier)
+        public Span<byte> GetHoldingRegisterBuffer(byte unitIdentifier = 0)
         {
             return this.Find(unitIdentifier, this._holdingRegisterBufferMap);
         }
@@ -245,7 +246,7 @@ namespace FluentModbus
         /// Low level API. Use the generic version for easy access. This method gets the coil buffer as byte array.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier of the coil buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
-        public Span<byte> GetCoilBuffer(byte unitIdentifier)
+        public Span<byte> GetCoilBuffer(byte unitIdentifier = 0)
         {
             return this.Find(unitIdentifier, this._coilBufferMap);
         }
@@ -273,7 +274,7 @@ namespace FluentModbus
         /// Low level API. Use the generic version for easy access. This method gets the discrete input buffer as byte array.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier of the discrete input buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
-        public Span<byte> GetDiscreteInputBuffer(byte unitIdentifier)
+        public Span<byte> GetDiscreteInputBuffer(byte unitIdentifier = 0)
         {
             return this.Find(unitIdentifier, this._discreteInputBufferMap);
         }
@@ -282,7 +283,7 @@ namespace FluentModbus
         /// Clears all buffer contents.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
-        public void ClearBuffers(byte unitIdentifier)
+        public void ClearBuffers(byte unitIdentifier = 0)
         {
             this.GetInputRegisterBuffer(unitIdentifier).Clear();
             this.GetHoldingRegisterBuffer(unitIdentifier).Clear();
@@ -349,27 +350,11 @@ namespace FluentModbus
         /// </summary>
         protected abstract void ProcessRequests();
 
-        private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
-        {
-            if (unitIdentifier == 0)
-            {
-                if (map.Count == 1)
-                    return map.First().Value;
-
-                else
-                    throw new Exception(ErrorMessage.ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode);
-            }
-
-            else
-            {
-                if (!map.TryGetValue(unitIdentifier, out var buffer))
-                    throw new Exception(ErrorMessage.ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode);
-
-                return buffer;
-            }
-        }
-
-        private protected void AddUnit(byte unitIdentifer)
+        /// <summary>
+        /// Dynamically adds a new unit to the server.
+        /// </summary>
+        /// <param name="unitIdentifer">The identifier of the unit to add.</param>
+        protected void AddUnit(byte unitIdentifer)
         {
             if (!_unitIdentifiers.Contains(unitIdentifer))
             {
@@ -381,7 +366,11 @@ namespace FluentModbus
             }
         }
 
-        private protected void RemoveUnit(byte unitIdentifer)
+        /// <summary>
+        /// Dynamically removes an existing unit from the server.
+        /// </summary>
+        /// <param name="unitIdentifer">The identifier of the unit to remove.</param>
+        protected void RemoveUnit(byte unitIdentifer)
         {
             if (_unitIdentifiers.Contains(unitIdentifer))
             {
@@ -390,6 +379,26 @@ namespace FluentModbus
                 _coilBufferMap.Remove(unitIdentifer);
                 _discreteInputBufferMap.Remove(unitIdentifer);
                 _unitIdentifiers.Remove(unitIdentifer);
+            }
+        }
+
+        private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
+        {
+            if (unitIdentifier == 0)
+            {
+                if (map.Count == 1)
+                    return map.First().Value;
+
+                else
+                    throw new ArgumentException(ErrorMessage.ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode);
+            }
+
+            else
+            {
+                if (!map.TryGetValue(unitIdentifier, out var buffer))
+                    throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound);
+
+                return buffer;
             }
         }
 

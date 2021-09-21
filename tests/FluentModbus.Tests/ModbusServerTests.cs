@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Xunit;
@@ -180,7 +181,7 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                RequestValidator = (functionCode, address, quantityOfRegisters) =>
+                RequestValidator = (unitIdentifier, functionCode, address, quantityOfRegisters) =>
                 {
                     var holdingLimits = (address >= 50 && address < 90) ||
                                          address >= 2000 && address < 2100;
@@ -330,8 +331,8 @@ namespace FluentModbus.Tests
 
             server.CoilsChanged += (sender, e) =>
             {
-                Assert.True(e.Count == 1);
-                actual = e.Contains(address);
+                Assert.True(e.Coils.Length == 1);
+                actual = e.Coils.Contains(address);
             };
 
             server.Start(endpoint);
@@ -369,8 +370,8 @@ namespace FluentModbus.Tests
 
             server.RegistersChanged += (sender, e) =>
             {
-                Assert.True(e.Count == 1);
-                actual = e.Contains(address);
+                Assert.True(e.Registers.Length == 1);
+                actual = e.Registers.Contains(address);
             };
 
             server.Start(endpoint);
@@ -410,11 +411,11 @@ namespace FluentModbus.Tests
 
             server.RegistersChanged += (sender, e) =>
             {
-                Assert.True(e.Count == 2);
+                Assert.True(e.Registers.Length == 2);
 
                 for (int i = 0; i < initialValues.Length; i++)
                 {
-                    actual[i] = e.Contains(address + i);
+                    actual[i] = e.Registers.Contains(address + i);
                 }
             };
 
@@ -429,12 +430,120 @@ namespace FluentModbus.Tests
 
                 if (useReadWriteMethod)
                     client.ReadWriteMultipleRegisters<short, short>(0, 0, 1, address, newValues);
+
                 else
                     client.WriteMultipleRegisters(0, address, newValues);
             });
 
             // Assert
             Assert.True(expected.SequenceEqual(actual));
+        }
+
+        [Fact]
+        public void ServerCanUpdateRegistersPerUnit()
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new SimpleMultiUnitTcpServer();
+            server.AddUnit(1);
+            server.AddUnit(2);
+            server.AddUnit(3);
+            server.StartMultiUnit(endpoint);
+
+            var registersOne = server.GetHoldingRegisters(unitIdentifier: 1);
+            var registersTwo = server.GetHoldingRegisters(unitIdentifier: 2);
+            var registersThree = server.GetHoldingRegisters(unitIdentifier: 3);
+
+            // Act
+            registersOne.SetLittleEndian<short>(address: 7, 1);
+            registersTwo.SetLittleEndian<short>(address: 7, 2);
+            registersThree.SetLittleEndian<short>(address: 7, 3);
+
+            // Assert
+            var client = new ModbusTcpClient();
+            client.Connect(endpoint);
+
+            var actualOne = client.ReadHoldingRegisters<short>(unitIdentifier: 1, startingAddress: 7, count: 1).ToArray();
+            var actualTwo = client.ReadHoldingRegisters<short>(unitIdentifier: 2, startingAddress: 7, count: 1).ToArray();
+            var actualThree = client.ReadHoldingRegisters<short>(unitIdentifier: 3, startingAddress: 7, count: 1).ToArray();
+
+            Assert.Equal(1, actualOne[0]);
+            Assert.Equal(2, actualTwo[0]);
+            Assert.Equal(3, actualThree[0]);
+        }
+
+        [Fact]
+        public void ClientCanUpdateRegistersPerUnit()
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new SimpleMultiUnitTcpServer();
+            server.AddUnit(1);
+            server.AddUnit(2);
+            server.AddUnit(3);
+            server.StartMultiUnit(endpoint);
+
+            var registersOne = server.GetHoldingRegisters(unitIdentifier: 1);
+            var registersTwo = server.GetHoldingRegisters(unitIdentifier: 2);
+            var registersThree = server.GetHoldingRegisters(unitIdentifier: 3);
+
+            // Act
+            var client = new ModbusTcpClient();
+            client.Connect(endpoint);
+
+            client.WriteMultipleRegisters(unitIdentifier: 1, startingAddress: 7, dataset: new short[] { 1 });
+            client.WriteMultipleRegisters(unitIdentifier: 2, startingAddress: 7, dataset: new short[] { 2 });
+            client.WriteMultipleRegisters(unitIdentifier: 3, startingAddress: 7, dataset: new short[] { 3 });
+
+            // Assert
+            var actualOne = registersOne.GetLittleEndian<short>(address: 7);
+            var actualTwo = registersTwo.GetLittleEndian<short>(address: 7);
+            var actualThree = registersThree.GetLittleEndian<short>(address: 7);
+
+            Assert.Equal(1, actualOne);
+            Assert.Equal(2, actualTwo);
+            Assert.Equal(3, actualThree);
+        }
+
+        [Fact]
+        public void CanAddRemoveUnitsDynamically()
+        {
+            // Arrange
+            const int startingAddress = 7;
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new SimpleMultiUnitTcpServer();
+            server.StartMultiUnit(endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(endpoint);
+
+            // Act
+            server.AddUnit(1);
+            var registersOne = server.GetHoldingRegisters(unitIdentifier: 1);
+            registersOne.SetLittleEndian<short>(startingAddress, value: 1);
+            var actualOne = client.ReadHoldingRegisters<short>(unitIdentifier: 1, startingAddress, count: 1).ToArray();
+
+            server.AddUnit(2);
+            var registersTwo = server.GetHoldingRegisters(unitIdentifier: 2);
+            registersTwo.SetLittleEndian<short>(startingAddress, value: 2);
+            var actualTwo = client.ReadHoldingRegisters<short>(unitIdentifier: 2, startingAddress, count: 1).ToArray();
+
+            server.AddUnit(3);
+            var registersThree = server.GetHoldingRegisters(unitIdentifier: 3);
+            registersThree.SetLittleEndian<short>(startingAddress, value: 3);
+            var actualThree = client.ReadHoldingRegisters<short>(unitIdentifier: 3, startingAddress, count: 1).ToArray();
+
+            server.RemoveUnit(2);
+
+            // Assert
+            Assert.Equal(1, actualOne[0]);
+            Assert.Equal(2, actualTwo[0]);
+            Assert.Equal(3, actualThree[0]);
+
+            Assert.Throws<KeyNotFoundException>(() => server.GetHoldingRegisters(unitIdentifier: 2));
         }
     }
 }

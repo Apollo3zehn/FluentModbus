@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FluentModbus
@@ -19,8 +20,6 @@ namespace FluentModbus
             _serialPort = serialPort;
             _serialPort.Open();
 
-            this.ModbusRtuServer = rtuServer;
-
             base.Start();
         }
 
@@ -28,11 +27,9 @@ namespace FluentModbus
 
         #region Properties
 
-        public ModbusRtuServer ModbusRtuServer { get; }
-
         public override string DisplayName => _serialPort.PortName;
 
-        protected override bool IsResponseRequired => this.UnitIdentifier == this.ModbusRtuServer.UnitIdentifier;
+        protected override bool IsResponseRequired => this.ModbusServer.UnitIdentifiers.Contains(this.UnitIdentifier);
 
         #endregion
 
@@ -121,7 +118,7 @@ namespace FluentModbus
             }
 
             // make sure that the incoming frame is actually adressed to this server
-            if (this.UnitIdentifier == this.ModbusRtuServer.UnitIdentifier)
+            if (this.ModbusServer.UnitIdentifiers.Contains(this.UnitIdentifier))
             {
                 this.LastRequest.Restart();
                 return true;

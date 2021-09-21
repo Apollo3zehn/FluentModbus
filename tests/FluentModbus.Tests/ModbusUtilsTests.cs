@@ -22,7 +22,7 @@ namespace FluentModbus.Tests
 
             // Assert
             Assert.True(success);
-            Assert.Equal(expected, actual);
+            Assert.Equal(actual, expected);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace FluentModbus.Tests
             var actual = ModbusUtils.CalculateCRC(data);
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace FluentModbus.Tests
             var actual = ModbusUtils.SwitchEndianness(data);
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace FluentModbus.Tests
             var actual = ModbusUtils.SwitchEndianness(data);
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         public static IList<object[]> GenericTestData => new List<object[]>
@@ -86,7 +86,23 @@ namespace FluentModbus.Tests
             var actual = dataset;
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void SwapsEndiannessMidLittleEndian()
+        {
+            // Arrange
+            var data = (uint)0x01020304;
+
+            // Act
+            var expected = (uint)0x02010403;
+            var actual1 = ModbusUtils.ConvertBetweenLittleEndianAndMidLittleEndian(data);
+            var actual2 = ModbusUtils.ConvertBetweenLittleEndianAndMidLittleEndian(actual1);
+
+            // Assert
+            Assert.Equal(expected, actual1);
+            Assert.Equal(data, actual2);
         }
     }
 }

@@ -295,6 +295,15 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No unit found for the specified unit identifier. ähnelt.
+        /// </summary>
+        internal static string ModbusServer_UnitIdentifierNotFound {
+            get {
+                return ResourceManager.GetString("ModbusServer_UnitIdentifierNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die A unit identifier of 0 is only applicable in single unit mode. ähnelt.
         /// </summary>
         internal static string ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode {

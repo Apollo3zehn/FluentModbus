@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus
@@ -128,17 +129,27 @@ namespace FluentModbus
             return data[0];
         }
 
-        public static byte[] SwitchEndiannessToMidLittleEndian<T>(T value) where T : unmanaged
+        public static T ConvertBetweenLittleEndianAndMidLittleEndian<T>(T value) where T : unmanaged
         {
-            if (value is int or uint or float)
+            // from DCBA to CDAB
+
+            if (Unsafe.SizeOf<T>() == 4)
             {
-                Span<T> data = stackalloc T[] { value };
+                Span<T> data = stackalloc T[] { value, default };
+
                 var dataset_bytes = MemoryMarshal.Cast<T, byte>(data);
-                return new[] { dataset_bytes[1], dataset_bytes[0], dataset_bytes[3], dataset_bytes[2] };
+                var offset = 4;
+
+                dataset_bytes[offset + 0] = dataset_bytes[1];
+                dataset_bytes[offset + 1] = dataset_bytes[0];
+                dataset_bytes[offset + 2] = dataset_bytes[3];
+                dataset_bytes[offset + 3] = dataset_bytes[2];
+
+                return data[1];
             }
             else
             {
-                throw new ArgumentException("Wrong parameter type");
+                throw new Exception($"Type {value.GetType().Name} cannot be represented as mid-little-endian.");
             }
         }
 

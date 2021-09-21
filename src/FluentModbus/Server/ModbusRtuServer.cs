@@ -165,6 +165,24 @@ namespace FluentModbus
             this.RequestHandler?.Dispose();            
         }
 
+        /// <summary>
+        /// Dynamically adds a new unit to the server.
+        /// </summary>
+        /// <param name="unitIdentifer">The identifier of the unit to add.</param>
+        public new void AddUnit(byte unitIdentifer)
+        {
+            base.AddUnit(unitIdentifer);
+        }
+
+        /// <summary>
+        /// Dynamically removes an existing unit from the server.
+        /// </summary>
+        /// <param name="unitIdentifer">The identifier of the unit to remove.</param>
+        public new void RemoveUnit(byte unitIdentifer)
+        {
+            base.RemoveUnit(unitIdentifer);
+        }
+
         ///<inheritdoc/>
         protected override void ProcessRequests()
         {
