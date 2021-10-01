@@ -52,9 +52,9 @@ namespace FluentModbus
         public Handshake Handshake { get; set; } = Handshake.None;
 
         /// <summary>
-        /// Gets or sets the parity-checking protocol. Default is Parity.Even.
+        /// Gets or sets the parity-checking protocol. Default is Parity.None.
         /// </summary>
-        public Parity Parity { get; set; } = Parity.Even;
+        public Parity Parity { get; set; } = Parity.None;
 
         /// <summary>
         /// Gets or sets the standard number of stopbits per byte. Default is StopBits.One.
@@ -122,9 +122,6 @@ namespace FluentModbus
 
         internal void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
         {
-            if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
-                throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
-
             base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian
                          || !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
 
