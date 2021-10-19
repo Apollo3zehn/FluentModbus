@@ -13,6 +13,7 @@ branches:
   only:
   - master
   - dev
+  - v3-backports
 
 configuration:
   - Release
