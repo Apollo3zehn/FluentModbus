@@ -201,7 +201,4 @@
   <data name="Modbus_InvalidValueUShort" xml:space="preserve">
     <value>The value is invalid. Valid values are in the range of 0 - 65535.</value>
   </data>
-  <data name="Modbus_NoParityRequiresTwoStopBits" xml:space="preserve">
-    <value>The use of no parity bit requires 2 stop bits.</value>
-  </data>
 </root>
