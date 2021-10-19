@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 
 <# 
-	var csstring = File.ReadAllText("FluentModbus/src/FluentModbus/Client/ModbusClient.cs");
+	var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusClient.cs");
 	var methodsToConvert = Regex.Matches(csstring, @"        \/{3}.*?\n        }", RegexOptions.Singleline);
 
 #>

@@ -32,7 +32,6 @@ namespace FluentModbus
                     case ModbusFunctionCode.WriteFileRecord:
                     case ModbusFunctionCode.MaskWriteRegister:
                         break;
-
                     default:
                         throw new ModbusException(ErrorMessage.Modbus_InvalidUseOfBroadcast);
                 }
