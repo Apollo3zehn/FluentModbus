@@ -79,15 +79,6 @@ namespace FluentModbus {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The use of no parity bit requires 2 stop bits. ähnelt.
-        /// </summary>
-        internal static string Modbus_NoParityRequiresTwoStopBits {
-            get {
-                return ResourceManager.GetString("Modbus_NoParityRequiresTwoStopBits", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The function code received in the query is not an allowable action for the server. This may be because the function code is only applicable to newer devices, and was not implemented in the unit selected. It could also indicate that the server is in the wrong state to process a request of this type, for example because it is unconfigured and is being asked to return register values. ähnelt.
         /// </summary>
         internal static string ModbusClient_0x01_IllegalFunction {
