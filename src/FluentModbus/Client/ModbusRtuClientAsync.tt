@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 
 <# 
-	var csstring = File.ReadAllText("FluentModbus/src/FluentModbus/Client/ModbusRtuClient.cs");
+	var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusRtuClient.cs");
 	var match = Regex.Matches(csstring, @"(private protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n        })", RegexOptions.Singleline)[0];
 
 #>
