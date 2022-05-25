@@ -34,7 +34,7 @@ namespace FluentModbus
         public ModbusRtuServer(byte unitIdentifier, bool isAsynchronous) : base(isAsynchronous)
         {
             if (0 < unitIdentifier && unitIdentifier <= 247)
-                this.AddUnit(unitIdentifier);
+                AddUnit(unitIdentifier);
 
             else
                 throw new ArgumentException(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
@@ -59,7 +59,7 @@ namespace FluentModbus
             foreach (var unitIdentifier in unitIdentifiers)
             {
                 if (0 < unitIdentifier && unitIdentifier <= 247)
-                    this.AddUnit(unitIdentifier);
+                    AddUnit(unitIdentifier);
 
                 else
                     throw new ArgumentException(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
@@ -125,17 +125,17 @@ namespace FluentModbus
         {
             IModbusRtuSerialPort serialPort = new ModbusRtuSerialPort(new SerialPort(port)
             {
-                BaudRate = this.BaudRate,
-                Handshake = this.Handshake,
-                Parity = this.Parity,
-                StopBits = this.StopBits,
-                ReadTimeout = this.ReadTimeout,
-                WriteTimeout = this.WriteTimeout
+                BaudRate = BaudRate,
+                Handshake = Handshake,
+                Parity = Parity,
+                StopBits = StopBits,
+                ReadTimeout = ReadTimeout,
+                WriteTimeout = WriteTimeout
             });
 
             _serialPort = serialPort;
 
-            this.Start(serialPort);
+            Start(serialPort);
         }
 
         /// <summary>
@@ -149,13 +149,13 @@ namespace FluentModbus
              * Remove this check to improve compatibility (#56).
              */
 
-            //if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
+            //if (Parity == Parity.None && StopBits != StopBits.Two)
             //    throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
 
             base.StopProcessing();
             base.StartProcessing();
 
-            this.RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
+            RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace FluentModbus
         {
             base.StopProcessing();
 
-            this.RequestHandler?.Dispose();            
+            RequestHandler?.Dispose();            
         }
 
         /// <summary>
@@ -189,14 +189,14 @@ namespace FluentModbus
         ///<inheritdoc/>
         protected override void ProcessRequests()
         {
-            lock (this.Lock)
+            lock (Lock)
             {
-                if (this.RequestHandler.IsReady)
+                if (RequestHandler.IsReady)
                 {
-                    if (this.RequestHandler.Length > 0)
-                        this.RequestHandler.WriteResponse();
+                    if (RequestHandler.Length > 0)
+                        RequestHandler.WriteResponse();
 
-                    _ = this.RequestHandler.ReceiveRequestAsync();
+                    _ = RequestHandler.ReceiveRequestAsync();
                 }
             }
         }

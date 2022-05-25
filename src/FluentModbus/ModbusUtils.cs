@@ -24,7 +24,7 @@ namespace FluentModbus
 
             if (IPAddress.TryParse(value.Slice(0, addressLength).ToString(), out var address))
             {
-                var port = 0U;
+                var port = 502U;
 
                 if (addressLength == value.Length ||
                     (uint.TryParse(value.Slice(addressLength + 1).ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out port) && port <= 65536))

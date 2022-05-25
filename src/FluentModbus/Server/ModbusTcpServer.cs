@@ -56,8 +56,8 @@ namespace FluentModbus
         /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
         public ModbusTcpServer(ILogger logger, bool isAsynchronous) : base(isAsynchronous)
         {
-            this.Logger = logger;
-            this.AddUnit(0);
+            Logger = logger;
+            AddUnit(0);
         }
 
         #endregion
@@ -77,7 +77,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the number of currently connected clients.
         /// </summary>
-        public int ConnectionCount => this.RequestHandlers.Count;
+        public int ConnectionCount => RequestHandlers.Count;
 
         internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
@@ -94,7 +94,7 @@ namespace FluentModbus
         /// </summary>
         public void Start()
         {
-            this.Start(new IPEndPoint(IPAddress.Any, 502));
+            Start(new IPEndPoint(IPAddress.Any, 502));
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace FluentModbus
         /// </summary>
         public void Start(IPAddress ipAddress)
         {
-            this.Start(new IPEndPoint(ipAddress, 502));
+            Start(new IPEndPoint(ipAddress, 502));
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace FluentModbus
         /// </summary>
         public void Start(IPEndPoint localEndpoint)
         {
-            this.Start(new DefaultTcpClientProvider(localEndpoint));
+            Start(new DefaultTcpClientProvider(localEndpoint));
         }
 
         /// <summary>
@@ -126,59 +126,59 @@ namespace FluentModbus
             base.StopProcessing();
             base.StartProcessing();
 
-            this.RequestHandlers = new List<ModbusTcpRequestHandler>();
+            RequestHandlers = new List<ModbusTcpRequestHandler>();
 
             // accept clients asynchronously
             /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
             Task.Run(async () =>
             {
-                while (!this.CTS.IsCancellationRequested)
+                while (!CTS.IsCancellationRequested)
                 {
                     // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                     // use ConnectionTimeout instead.
                     var tcpClient = await _tcpClientProvider.AcceptTcpClientAsync();
                     var requestHandler = new ModbusTcpRequestHandler(tcpClient, this);
 
-                    lock (this.Lock)
+                    lock (Lock)
                     {
-                        if (this.MaxConnections > 0 &&
+                        if (MaxConnections > 0 &&
                             /* request handler is added later in 'else' block, so count needs to be increased by 1 */
-                            this.RequestHandlers.Count + 1 > this.MaxConnections)
+                            RequestHandlers.Count + 1 > MaxConnections)
                         {
                             tcpClient.Close();
                         }
                         else
                         {
-                            this.RequestHandlers.Add(requestHandler);
-                            this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
+                            RequestHandlers.Add(requestHandler);
+                            Logger.LogInformation($"{RequestHandlers.Count} {(RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
                         }
                     }
                 }
-            }, this.CTS.Token);
+            }, CTS.Token);
 
             // remove clients asynchronously
             /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
             Task.Run(async () =>
             {
-                while (!this.CTS.IsCancellationRequested)
+                while (!CTS.IsCancellationRequested)
                 {
-                    lock (this.Lock)
+                    lock (Lock)
                     {
                         // see remarks to "TcpClient.Connected" property
                         // https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connected?redirectedfrom=MSDN&view=netframework-4.8#System_Net_Sockets_TcpClient_Connected
-                        foreach (var requestHandler in this.RequestHandlers.ToList())
+                        foreach (var requestHandler in RequestHandlers.ToList())
                         {
-                            if (requestHandler.LastRequest.Elapsed > this.ConnectionTimeout)
+                            if (requestHandler.LastRequest.Elapsed > ConnectionTimeout)
                             {
                                 try
                                 {
-                                    this.Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
+                                    Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
 
-                                    lock (this.Lock)
+                                    lock (Lock)
                                     {
                                         // remove request handler
-                                        this.RequestHandlers.Remove(requestHandler);
-                                        this.Logger.LogInformation($"{this.RequestHandlers.Count} {(this.RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
+                                        RequestHandlers.Remove(requestHandler);
+                                        Logger.LogInformation($"{RequestHandlers.Count} {(RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
                                     }
 
                                     requestHandler.Dispose();
@@ -193,7 +193,7 @@ namespace FluentModbus
 
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
-            }, this.CTS.Token);
+            }, CTS.Token);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace FluentModbus
             base.StopProcessing();
             base.StartProcessing();
 
-            this.RequestHandlers = new List<ModbusTcpRequestHandler>()
+            RequestHandlers = new List<ModbusTcpRequestHandler>()
             {
                 new ModbusTcpRequestHandler(tcpClient, this)
             };
@@ -221,15 +221,15 @@ namespace FluentModbus
             if (!_leaveOpen)
                 _tcpClientProvider?.Dispose();
 
-            this.RequestHandlers?.ForEach(requestHandler => requestHandler.Dispose());
+            RequestHandlers?.ForEach(requestHandler => requestHandler.Dispose());
         }
 
         ///<inheritdoc/>
         protected override void ProcessRequests()
         {
-            lock (this.Lock)
+            lock (Lock)
             {
-                foreach (var requestHandler in this.RequestHandlers)
+                foreach (var requestHandler in RequestHandlers)
                 {
                     if (requestHandler.IsReady)
                     {

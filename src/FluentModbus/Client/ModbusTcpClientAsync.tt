@@ -5,11 +5,11 @@
 
 <# 
 	var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusTcpClient.cs");
-	var match = Regex.Matches(csstring, @"(private protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n        })", RegexOptions.Singleline)[0];
+	var match = Regex.Matches(csstring, @"(protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n        })", RegexOptions.Singleline)[0];
 
 #>
  /* This is automatically translated code. */
-
+ 
 using System;
 using System.IO;
 using System.Threading;
@@ -27,7 +27,7 @@ namespace FluentModbus
 			body = Regex.Replace(body, @"_networkStream.Write\((.*?)\)", m => $"await _networkStream.WriteAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
 			body = Regex.Replace(body, @"_networkStream.Read\((.*?)\)", m => $"await _networkStream.ReadAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
 
-			this.Write($"private protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
+			Write($"///<inheritdoc/>\n        protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
 		#>
 	
 	}
