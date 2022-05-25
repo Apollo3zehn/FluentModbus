@@ -9,12 +9,12 @@ namespace FluentModbus
     {
         internal ModbusException(string message) : base(message)
         {
-            this.ExceptionCode -= 1;
+            ExceptionCode -= 1;
         }
 
         internal ModbusException(ModbusExceptionCode exceptionCode, string message) : base(message)
         {
-            this.ExceptionCode = exceptionCode;
+            ExceptionCode = exceptionCode;
         }
 
         /// <summary>

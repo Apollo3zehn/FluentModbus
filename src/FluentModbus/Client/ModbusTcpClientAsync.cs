@@ -1,6 +1,6 @@
 ﻿
  /* This is automatically translated code. */
-
+ 
 using System;
 using System.IO;
 using System.Threading;
@@ -10,7 +10,8 @@ namespace FluentModbus
 {
 	public partial class ModbusTcpClient
 	{
-		private protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
+		///<inheritdoc/>
+        protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
         {
             int frameLength;
             int partialLength;
@@ -41,13 +42,13 @@ namespace FluentModbus
 
             if (BitConverter.IsLittleEndian)
             {
-                writer.WriteReverse(this.GetTransactionIdentifier());          // 00-01  Transaction Identifier
+                writer.WriteReverse(GetTransactionIdentifier());          // 00-01  Transaction Identifier
                 writer.WriteReverse((ushort)0);                                // 02-03  Protocol Identifier
                 writer.WriteReverse((ushort)(frameLength - 6));                // 04-05  Length
             }
             else
             {
-                writer.Write(this.GetTransactionIdentifier());                 // 00-01  Transaction Identifier
+                writer.Write(GetTransactionIdentifier());                 // 00-01  Transaction Identifier
                 writer.Write((ushort)0);                                       // 02-03  Protocol Identifier
                 writer.Write((ushort)(frameLength - 6));                       // 04-05  Length
             }
@@ -105,7 +106,7 @@ namespace FluentModbus
             rawFunctionCode = reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
+                ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
 
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);

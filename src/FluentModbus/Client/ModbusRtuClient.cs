@@ -83,7 +83,7 @@ namespace FluentModbus
         /// <param name="port">The COM port to be used, e.g. COM1.</param>
         public void Connect(string port)
         {
-            this.Connect(port, ModbusEndianness.LittleEndian);
+            Connect(port, ModbusEndianness.LittleEndian);
         }
 
         /// <summary>
@@ -93,19 +93,17 @@ namespace FluentModbus
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(string port, ModbusEndianness endianness)
         {
-            IModbusRtuSerialPort serialPort;
-
-            serialPort = new ModbusRtuSerialPort(new SerialPort(port)
+            var serialPort = new ModbusRtuSerialPort(new SerialPort(port)
             {
-                BaudRate = this.BaudRate,
-                Handshake = this.Handshake,
-                Parity = this.Parity,
-                StopBits = this.StopBits,
-                ReadTimeout = this.ReadTimeout,
-                WriteTimeout = this.WriteTimeout
+                BaudRate = BaudRate,
+                Handshake = Handshake,
+                Parity = Parity,
+                StopBits = StopBits,
+                ReadTimeout = ReadTimeout,
+                WriteTimeout = WriteTimeout
             });
 
-            this.Connect(serialPort, endianness);
+            Connect(serialPort, endianness);
         }
 
         /// <summary>
@@ -119,7 +117,7 @@ namespace FluentModbus
 
         internal void Connect(IModbusRtuSerialPort serialPort)
         {
-            this.Connect(serialPort, ModbusEndianness.LittleEndian);
+            Connect(serialPort, ModbusEndianness.LittleEndian);
         }
 
         internal void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
@@ -129,7 +127,7 @@ namespace FluentModbus
              * Remove this check to improve compatibility (#56).
              */
 
-            //if (this.Parity == Parity.None && this.StopBits != StopBits.Two)
+            //if (Parity == Parity.None && StopBits != StopBits.Two)
             //    throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
 
             base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian
@@ -142,7 +140,8 @@ namespace FluentModbus
             _serialPort.Open();
         }
 
-        private protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
+        ///<inheritdoc/>
+        protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
             int frameLength;
             byte rawFunctionCode;
@@ -211,7 +210,7 @@ namespace FluentModbus
             rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
+                ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
 
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);

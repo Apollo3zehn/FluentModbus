@@ -33,7 +33,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(short value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(ushort value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(int value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(uint value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(long value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(ulong value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(float value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace FluentModbus
         /// <param name="value">The value to be written.</param>
         public void WriteReverse(double value)
         {
-            this.WriteReverse(BitConverter.GetBytes(value));
+            WriteReverse(BitConverter.GetBytes(value));
         }
     }
 }

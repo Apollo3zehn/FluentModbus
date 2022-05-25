@@ -10,7 +10,8 @@ namespace FluentModbus
 {
 	public partial class ModbusRtuClient
 	{
-		private protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
+		///<inheritdoc/>
+        protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
         {
             int frameLength;
             byte rawFunctionCode;
@@ -79,7 +80,7 @@ namespace FluentModbus
             rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
+                ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
 
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);

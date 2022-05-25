@@ -86,22 +86,22 @@ namespace FluentModbus
         /// <param name="isAsynchronous">A boolean which indicates if the server responds to client requests asynchronously (immediately) or synchronously (regularly at fixed events).</param>
         protected ModbusServer(bool isAsynchronous)
         {
-            this.Lock = this;
-            this.IsAsynchronous = isAsynchronous;
+            Lock = this;
+            IsAsynchronous = isAsynchronous;
 
-            this.MaxInputRegisterAddress = UInt16.MaxValue;
-            this.MaxHoldingRegisterAddress = UInt16.MaxValue;
-            this.MaxCoilAddress = UInt16.MaxValue;
-            this.MaxDiscreteInputAddress = UInt16.MaxValue;
+            MaxInputRegisterAddress = UInt16.MaxValue;
+            MaxHoldingRegisterAddress = UInt16.MaxValue;
+            MaxCoilAddress = UInt16.MaxValue;
+            MaxDiscreteInputAddress = UInt16.MaxValue;
 
-            _inputRegisterSize = (this.MaxInputRegisterAddress + 1) * 2;
-            _holdingRegisterSize = (this.MaxHoldingRegisterAddress + 1) * 2;
-            _coilSize = (this.MaxCoilAddress + 1 + 7) / 8;
-            _discreteInputSize = (this.MaxDiscreteInputAddress + 1 + 7) / 8;
+            _inputRegisterSize = (MaxInputRegisterAddress + 1) * 2;
+            _holdingRegisterSize = (MaxHoldingRegisterAddress + 1) * 2;
+            _coilSize = (MaxCoilAddress + 1 + 7) / 8;
+            _discreteInputSize = (MaxDiscreteInputAddress + 1 + 7) / 8;
 
             _manualResetEvent = new ManualResetEventSlim(false);
 
-            this.UnitIdentifiers = _unitIdentifiers.AsReadOnly();
+            UnitIdentifiers = _unitIdentifiers.AsReadOnly();
         }
 
         #endregion
@@ -173,7 +173,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the input registers to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<short> GetInputRegisters(byte unitIdentifier = 0)
         {
-            return MemoryMarshal.Cast<byte, short>(this.GetInputRegisterBuffer(unitIdentifier));
+            return MemoryMarshal.Cast<byte, short>(GetInputRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the input register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<T> GetInputRegisterBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetInputRegisterBuffer(unitIdentifier));
+            return MemoryMarshal.Cast<byte, T>(GetInputRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the input register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<byte> GetInputRegisterBuffer(byte unitIdentifier = 0)
         {
-            return this.Find(unitIdentifier, this._inputRegisterBufferMap);
+            return Find(unitIdentifier, _inputRegisterBufferMap);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the holding registers to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<short> GetHoldingRegisters(byte unitIdentifier = 0)
         {
-            return MemoryMarshal.Cast<byte, short>(this.GetHoldingRegisterBuffer(unitIdentifier));
+            return MemoryMarshal.Cast<byte, short>(GetHoldingRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the holding register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<T> GetHoldingRegisterBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetHoldingRegisterBuffer(unitIdentifier));
+            return MemoryMarshal.Cast<byte, T>(GetHoldingRegisterBuffer(unitIdentifier));
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the holding register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<byte> GetHoldingRegisterBuffer(byte unitIdentifier = 0)
         {
-            return this.Find(unitIdentifier, this._holdingRegisterBufferMap);
+            return Find(unitIdentifier, _holdingRegisterBufferMap);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the coils to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<byte> GetCoils(byte unitIdentifier = 0)
         {
-            return this.GetCoilBuffer(unitIdentifier);
+            return GetCoilBuffer(unitIdentifier);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the coil buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<T> GetCoilBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetCoilBuffer(unitIdentifier));
+            return MemoryMarshal.Cast<byte, T>(GetCoilBuffer(unitIdentifier));
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the coil buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<byte> GetCoilBuffer(byte unitIdentifier = 0)
         {
-            return this.Find(unitIdentifier, this._coilBufferMap);
+            return Find(unitIdentifier, _coilBufferMap);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the discrete inputs to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<byte> GetDiscreteInputs(byte unitIdentifier = 0)
         {
-            return this.GetDiscreteInputBuffer(unitIdentifier);
+            return GetDiscreteInputBuffer(unitIdentifier);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the discrete input buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<T> GetDiscreteInputBuffer<T>(byte unitIdentifier = 0) where T : unmanaged
         {
-            return MemoryMarshal.Cast<byte, T>(this.GetDiscreteInputBuffer(unitIdentifier));
+            return MemoryMarshal.Cast<byte, T>(GetDiscreteInputBuffer(unitIdentifier));
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier of the discrete input buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<byte> GetDiscreteInputBuffer(byte unitIdentifier = 0)
         {
-            return this.Find(unitIdentifier, this._discreteInputBufferMap);
+            return Find(unitIdentifier, _discreteInputBufferMap);
         }
 
         /// <summary>
@@ -285,10 +285,10 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unit identifier. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public void ClearBuffers(byte unitIdentifier = 0)
         {
-            this.GetInputRegisterBuffer(unitIdentifier).Clear();
-            this.GetHoldingRegisterBuffer(unitIdentifier).Clear();
-            this.GetCoilBuffer(unitIdentifier).Clear();
-            this.GetDiscreteInputBuffer(unitIdentifier).Clear();
+            GetInputRegisterBuffer(unitIdentifier).Clear();
+            GetHoldingRegisterBuffer(unitIdentifier).Clear();
+            GetCoilBuffer(unitIdentifier).Clear();
+            GetDiscreteInputBuffer(unitIdentifier).Clear();
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace FluentModbus
         /// </summary>
         public void Update()
         {
-            if (this.IsAsynchronous || !this.IsReady)
+            if (IsAsynchronous || !IsReady)
                 return;
 
             _manualResetEvent.Set();
@@ -307,7 +307,7 @@ namespace FluentModbus
         /// </summary>
         public virtual void StopProcessing()
         {
-            this.CTS?.Cancel();
+            CTS?.Cancel();
             _manualResetEvent?.Set();
 
             try
@@ -325,23 +325,23 @@ namespace FluentModbus
         /// </summary>
         protected virtual void StartProcessing()
         {
-            this.CTS = new CancellationTokenSource();
+            CTS = new CancellationTokenSource();
 
-            if (!this.IsAsynchronous)
+            if (!IsAsynchronous)
             {
                 // only process requests when it is explicitly triggered
                 _task_process_requests = Task.Run(() =>
                 {
-                    _manualResetEvent.Wait(this.CTS.Token);
+                    _manualResetEvent.Wait(CTS.Token);
 
-                    while (!this.CTS.IsCancellationRequested)
+                    while (!CTS.IsCancellationRequested)
                     {
-                        this.ProcessRequests();
+                        ProcessRequests();
 
                         _manualResetEvent.Reset();
-                        _manualResetEvent.Wait(this.CTS.Token);
+                        _manualResetEvent.Wait(CTS.Token);
                     }
-                }, this.CTS.Token);
+                }, CTS.Token);
             }
         }
 
@@ -404,7 +404,7 @@ namespace FluentModbus
 
         internal void OnRegistersChanged(byte unitIdentifier, int[] registers)
         {
-            this.RegistersChanged?.Invoke(this, new RegistersChangedEventArgs() 
+            RegistersChanged?.Invoke(this, new RegistersChangedEventArgs() 
             { 
                 UnitIdentifier = unitIdentifier,
                 Registers = registers 
@@ -413,7 +413,7 @@ namespace FluentModbus
 
         internal void OnCoilsChanged(byte unitIdentifier, int[] coils)
         {
-            this.CoilsChanged?.Invoke(this, new CoilsChangedEventArgs()
+            CoilsChanged?.Invoke(this, new CoilsChangedEventArgs()
             {
                 UnitIdentifier = unitIdentifier,
                 Coils = coils
@@ -435,7 +435,7 @@ namespace FluentModbus
             if (!disposedValue)
             {
                 if (disposing)
-                    this.StopProcessing();
+                    StopProcessing();
 
                 disposedValue = true;
             }

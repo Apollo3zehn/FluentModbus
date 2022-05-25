@@ -8,7 +8,7 @@ namespace FluentModbus.Tests
     {
         public SimpleMultiUnitTcpServer()
         {
-            this.RemoveUnit(0);
+            RemoveUnit(0);
         }
 
         public void StartMultiUnit(IPEndPoint localEndpoint)
@@ -24,28 +24,28 @@ namespace FluentModbus.Tests
             /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
             Task.Run(async () =>
             {
-                while (!this.CTS.IsCancellationRequested)
+                while (!CTS.IsCancellationRequested)
                 {
                     // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                     // use ConnectionTimeout instead.
                     var tcpClient = await tcpClientProvider.AcceptTcpClientAsync();
                     var requestHandler = new ModbusTcpRequestHandler(tcpClient, this, handleUnitIdentifiers: true);
 
-                    lock (this.Lock)
+                    lock (Lock)
                     {
-                        if (this.MaxConnections > 0 &&
+                        if (MaxConnections > 0 &&
                             /* request handler is added later in 'else' block, so count needs to be increased by 1 */
-                            this.RequestHandlers.Count + 1 > this.MaxConnections)
+                            RequestHandlers.Count + 1 > MaxConnections)
                         {
                             tcpClient.Close();
                         }
                         else
                         {
-                            this.RequestHandlers.Add(requestHandler);
+                            RequestHandlers.Add(requestHandler);
                         }
                     }
                 }
-            }, this.CTS.Token);
+            }, CTS.Token);
         }
 
         public new void AddUnit(byte unitIdentifer)

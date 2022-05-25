@@ -69,7 +69,7 @@ namespace FluentModbus
         /// </summary>
         public void Connect()
         {
-            this.Connect(ModbusEndianness.LittleEndian);
+            Connect(ModbusEndianness.LittleEndian);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace FluentModbus
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(ModbusEndianness endianness)
         {
-            this.Connect(new IPEndPoint(IPAddress.Loopback, 502), endianness);
+            Connect(new IPEndPoint(IPAddress.Loopback, 502), endianness);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace FluentModbus
         /// <param name="remoteEndpoint">The IP address and optional port of the end unit with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout. Examples: "192.168.0.1", "192.168.0.1:502", "::1", "[::1]:502". The default port is 502.</param>
         public void Connect(string remoteEndpoint)
         {
-            this.Connect(remoteEndpoint, ModbusEndianness.LittleEndian);
+            Connect(remoteEndpoint, ModbusEndianness.LittleEndian);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace FluentModbus
             if (!ModbusUtils.TryParseEndpoint(remoteEndpoint.AsSpan(), out var parsedRemoteEndpoint))
                 throw new FormatException("An invalid IPEndPoint was specified.");
 
-            this.Connect(parsedRemoteEndpoint, endianness);
+            Connect(parsedRemoteEndpoint, endianness);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace FluentModbus
         /// <param name="remoteIpAddress">The IP address of the end unit with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout. Example: IPAddress.Parse("192.168.0.1").</param>
         public void Connect(IPAddress remoteIpAddress)
         {
-            this.Connect(remoteIpAddress, ModbusEndianness.LittleEndian);
+            Connect(remoteIpAddress, ModbusEndianness.LittleEndian);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace FluentModbus
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(IPAddress remoteIpAddress, ModbusEndianness endianness)
         {
-            this.Connect(new IPEndPoint(remoteIpAddress, 502), endianness);
+            Connect(new IPEndPoint(remoteIpAddress, 502), endianness);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace FluentModbus
         /// <param name="remoteEndpoint">The IP address and port of the end unit.</param>
         public void Connect(IPEndPoint remoteEndpoint)
         {
-            this.Connect(remoteEndpoint, ModbusEndianness.LittleEndian);
+            Connect(remoteEndpoint, ModbusEndianness.LittleEndian);
         }
 
         /// <summary>
@@ -146,12 +146,12 @@ namespace FluentModbus
             _tcpClient?.Close();
             _tcpClient = new TcpClient();
 
-            if (!_tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(this.ConnectTimeout))
+            if (!_tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
                 throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
 
             _networkStream = _tcpClient.GetStream();
-            _networkStream.ReadTimeout = this.ReadTimeout;
-            _networkStream.WriteTimeout = this.WriteTimeout;
+            _networkStream.ReadTimeout = ReadTimeout;
+            _networkStream.WriteTimeout = WriteTimeout;
         }
 
         /// <summary>
@@ -167,7 +167,8 @@ namespace FluentModbus
                 _tcpClient = null;
         }
 
-        private protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
+        ///<inheritdoc/>
+        protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
             int frameLength;
             int partialLength;
@@ -198,13 +199,13 @@ namespace FluentModbus
 
             if (BitConverter.IsLittleEndian)
             {
-                writer.WriteReverse(this.GetTransactionIdentifier());          // 00-01  Transaction Identifier
+                writer.WriteReverse(GetTransactionIdentifier());          // 00-01  Transaction Identifier
                 writer.WriteReverse((ushort)0);                                // 02-03  Protocol Identifier
                 writer.WriteReverse((ushort)(frameLength - 6));                // 04-05  Length
             }
             else
             {
-                writer.Write(this.GetTransactionIdentifier());                 // 00-01  Transaction Identifier
+                writer.Write(GetTransactionIdentifier());                 // 00-01  Transaction Identifier
                 writer.Write((ushort)0);                                       // 02-03  Protocol Identifier
                 writer.Write((ushort)(frameLength - 6));                       // 04-05  Length
             }
@@ -262,7 +263,7 @@ namespace FluentModbus
             rawFunctionCode = reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
-                this.ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
+                ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
 
             else if (rawFunctionCode != (byte)functionCode)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);

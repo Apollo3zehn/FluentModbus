@@ -10,10 +10,10 @@ namespace FluentModbus
 
         public ModbusFrameBuffer(int size)
         {
-            this.Buffer = ArrayPool<byte>.Shared.Rent(size);
+            Buffer = ArrayPool<byte>.Shared.Rent(size);
 
-            this.Writer = new ExtendedBinaryWriter(new MemoryStream(this.Buffer));
-            this.Reader = new ExtendedBinaryReader(new MemoryStream(this.Buffer));
+            Writer = new ExtendedBinaryWriter(new MemoryStream(Buffer));
+            Reader = new ExtendedBinaryReader(new MemoryStream(Buffer));
         }
 
         #endregion
@@ -37,10 +37,10 @@ namespace FluentModbus
             {
                 if (disposing)
                 {
-                    this.Writer.Dispose();
-                    this.Reader.Dispose();
+                    Writer.Dispose();
+                    Reader.Dispose();
 
-                    ArrayPool<byte>.Shared.Return(this.Buffer);
+                    ArrayPool<byte>.Shared.Return(Buffer);
                 }
 
                 disposedValue = true;

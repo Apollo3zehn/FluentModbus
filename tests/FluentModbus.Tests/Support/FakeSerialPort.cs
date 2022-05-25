@@ -36,12 +36,12 @@ namespace FluentModbus
 
         public void Open()
         {
-            this.IsOpen = true;
+            IsOpen = true;
         }
 
         public void Close()
         {
-            this.IsOpen = false;
+            IsOpen = false;
         }
 
         public int Read(byte[] buffer, int offset, int count)
@@ -54,7 +54,7 @@ namespace FluentModbus
 
         public async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken token)
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
                 throw new Exception("This method is only available when the port is open.");
 
             var registration = token.Register(() =>
@@ -63,7 +63,7 @@ namespace FluentModbus
                 _autoResetEvent.Set();
             });
 
-            await Task.Run(() => this.Read(buffer, offset, count), token);
+            await Task.Run(() => Read(buffer, offset, count), token);
 
             registration.Dispose();
 

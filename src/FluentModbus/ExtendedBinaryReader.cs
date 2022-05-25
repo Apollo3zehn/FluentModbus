@@ -23,7 +23,7 @@ namespace FluentModbus
         /// </summary>
         public short ReadInt16Reverse()
         {
-            return this.ReadReverse<short>(BitConverter.GetBytes(this.ReadInt16()));
+            return ReadReverse<short>(BitConverter.GetBytes(ReadInt16()));
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace FluentModbus
         /// </summary>
         public ushort ReadUInt16Reverse()
         {
-            return this.ReadReverse<ushort>(BitConverter.GetBytes(this.ReadUInt16()));
+            return ReadReverse<ushort>(BitConverter.GetBytes(ReadUInt16()));
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace FluentModbus
         /// </summary>
         public int ReadInt32Reverse()
         {
-            return this.ReadReverse<int>(BitConverter.GetBytes(this.ReadInt32()));
+            return ReadReverse<int>(BitConverter.GetBytes(ReadInt32()));
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace FluentModbus
         /// </summary>
         public uint ReadUInt32Reverse()
         {
-            return this.ReadReverse<uint>(BitConverter.GetBytes(this.ReadUInt32()));
+            return ReadReverse<uint>(BitConverter.GetBytes(ReadUInt32()));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace FluentModbus
         /// </summary>
         public long ReadInt64Reverse()
         {
-            return this.ReadReverse<long>(BitConverter.GetBytes(this.ReadInt64()));
+            return ReadReverse<long>(BitConverter.GetBytes(ReadInt64()));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace FluentModbus
         /// </summary>
         public ulong ReadUInt64Reverse()
         {
-            return this.ReadReverse<ulong>(BitConverter.GetBytes(this.ReadUInt64()));
+            return ReadReverse<ulong>(BitConverter.GetBytes(ReadUInt64()));
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace FluentModbus
         /// </summary>
         public float ReadFloat32Reverse()
         {
-            return this.ReadReverse<float>(BitConverter.GetBytes(this.ReadSingle()));
+            return ReadReverse<float>(BitConverter.GetBytes(ReadSingle()));
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace FluentModbus
         /// </summary>
         public double ReadFloat64Reverse()
         {
-            return this.ReadReverse<double>(BitConverter.GetBytes(this.ReadDouble()));
+            return ReadReverse<double>(BitConverter.GetBytes(ReadDouble()));
         }
 
         private T ReadReverse<T>(byte[] data) where T : struct

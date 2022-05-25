@@ -30,8 +30,8 @@ namespace FluentModbus
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
 
-            this.DisplayName = ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
-            this.CTS.Token.Register(() => _networkStream.Close());
+            DisplayName = ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
+            CTS.Token.Register(() => _networkStream.Close());
 
             _handleUnitIdentifiers = handleUnitIdentifiers;
 
@@ -52,23 +52,23 @@ namespace FluentModbus
 
         internal override async Task ReceiveRequestAsync()
         {
-            if (this.CTS.IsCancellationRequested)
+            if (CTS.IsCancellationRequested)
                 return;
 
-            this.IsReady = false;
+            IsReady = false;
 
             try
             {
-                await this.InternalReceiveRequestAsync();
+                await InternalReceiveRequestAsync();
 
-                this.IsReady = true; // only when IsReady = true, this.WriteResponse() can be called
+                IsReady = true; // only when IsReady = true, WriteResponse() can be called
 
-                if (this.ModbusServer.IsAsynchronous)
-                    this.WriteResponse();
+                if (ModbusServer.IsAsynchronous)
+                    WriteResponse();
             }
             catch (Exception)
             {
-                this.CTS.Cancel();
+                CTS.Cancel();
             }
         }
 
@@ -76,36 +76,36 @@ namespace FluentModbus
         {
             int length;
 
-            this.FrameBuffer.Writer.Seek(7, SeekOrigin.Begin);
+            FrameBuffer.Writer.Seek(7, SeekOrigin.Begin);
 
             // add PDU
             extendFrame.Invoke();
 
             // add MBAP
-            length = (int)this.FrameBuffer.Writer.BaseStream.Position;
-            this.FrameBuffer.Writer.Seek(0, SeekOrigin.Begin);
+            length = (int)FrameBuffer.Writer.BaseStream.Position;
+            FrameBuffer.Writer.Seek(0, SeekOrigin.Begin);
 
             if (BitConverter.IsLittleEndian)
             {
-                this.FrameBuffer.Writer.WriteReverse(_transactionIdentifier);
-                this.FrameBuffer.Writer.WriteReverse(_protocolIdentifier);
-                this.FrameBuffer.Writer.WriteReverse((byte)(length - 6));
+                FrameBuffer.Writer.WriteReverse(_transactionIdentifier);
+                FrameBuffer.Writer.WriteReverse(_protocolIdentifier);
+                FrameBuffer.Writer.WriteReverse((byte)(length - 6));
             }
             else
             {
-                this.FrameBuffer.Writer.Write(_transactionIdentifier);
-                this.FrameBuffer.Writer.Write(_protocolIdentifier);
-                this.FrameBuffer.Writer.Write((byte)(length - 6));
+                FrameBuffer.Writer.Write(_transactionIdentifier);
+                FrameBuffer.Writer.Write(_protocolIdentifier);
+                FrameBuffer.Writer.Write((byte)(length - 6));
             }
 
-            this.FrameBuffer.Writer.Write(this.UnitIdentifier);
+            FrameBuffer.Writer.Write(UnitIdentifier);
 
             return length;
         }
 
         protected override void OnResponseReady(int frameLength)
         {
-            _networkStream.Write(this.FrameBuffer.Buffer, 0, frameLength);
+            _networkStream.Write(FrameBuffer.Buffer, 0, frameLength);
         }
 
         private async Task<bool> InternalReceiveRequestAsync()
@@ -115,43 +115,43 @@ namespace FluentModbus
 
             isParsed = false;
 
-            this.Length = 0;
+            Length = 0;
             _bytesFollowing = 0;
 
             while (true)
             {
                 if (_networkStream.DataAvailable)
                 {
-                    partialLength = _networkStream.Read(this.FrameBuffer.Buffer, 0, this.FrameBuffer.Buffer.Length);
+                    partialLength = _networkStream.Read(FrameBuffer.Buffer, 0, FrameBuffer.Buffer.Length);
                 }
                 else
                 {
                     // actually, CancellationToken is ignored - therefore: _cts.Token.Register(() => ...);
-                    partialLength = await _networkStream.ReadAsync(this.FrameBuffer.Buffer, 0, this.FrameBuffer.Buffer.Length, this.CTS.Token);
+                    partialLength = await _networkStream.ReadAsync(FrameBuffer.Buffer, 0, FrameBuffer.Buffer.Length, CTS.Token);
                 }
 
                 if (partialLength > 0)
                 {
-                    this.Length += partialLength;
+                    Length += partialLength;
 
-                    if (this.Length >= 7)
+                    if (Length >= 7)
                     {
                         if (!isParsed) // read MBAP header only once
                         {
-                            this.FrameBuffer.Reader.BaseStream.Seek(0, SeekOrigin.Begin);
+                            FrameBuffer.Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                             // read MBAP header
-                            _transactionIdentifier = this.FrameBuffer.Reader.ReadUInt16Reverse();       // 00-01  Transaction Identifier
-                            _protocolIdentifier = this.FrameBuffer.Reader.ReadUInt16Reverse();          // 02-03  Protocol Identifier               
-                            _bytesFollowing = this.FrameBuffer.Reader.ReadUInt16Reverse();              // 04-05  Length
-                            var unitIdentifier = this.FrameBuffer.Reader.ReadByte();                    // 06     Unit Identifier
+                            _transactionIdentifier = FrameBuffer.Reader.ReadUInt16Reverse();       // 00-01  Transaction Identifier
+                            _protocolIdentifier = FrameBuffer.Reader.ReadUInt16Reverse();          // 02-03  Protocol Identifier               
+                            _bytesFollowing = FrameBuffer.Reader.ReadUInt16Reverse();              // 04-05  Length
+                            var unitIdentifier = FrameBuffer.Reader.ReadByte();                    // 06     Unit Identifier
 
                             if (_handleUnitIdentifiers)
-                                this.UnitIdentifier = unitIdentifier;
+                                UnitIdentifier = unitIdentifier;
 
                             if (_protocolIdentifier != 0)
                             {
-                                this.Length = 0;
+                                Length = 0;
                                 break;
                             }
 
@@ -159,24 +159,24 @@ namespace FluentModbus
                         }
 
                         // full frame received
-                        if (this.Length - 6 >= _bytesFollowing)
+                        if (Length - 6 >= _bytesFollowing)
                         {
-                            this.LastRequest.Restart();
+                            LastRequest.Restart();
                             break;
                         }
                     }
                 }
                 else
                 {
-                    this.Length = 0;
+                    Length = 0;
                     break;
                 }
             }
 
             // make sure that the incoming frame is actually adressed to this server
-            if (this.ModbusServer.UnitIdentifiers.Contains(this.UnitIdentifier))
+            if (ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
             {
-                this.LastRequest.Restart();
+                LastRequest.Restart();
                 return true;
             }
             else

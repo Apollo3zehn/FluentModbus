@@ -16,7 +16,13 @@ namespace FluentModbus
 
         #region Methods
 
-        private protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
+        /// <summary>
+        /// Sends the requested modbus message and waits for the response.
+        /// </summary>
+        /// <param name="unitIdentifier">The unit identifier.</param>
+        /// <param name="functionCode">The function code.</param>
+        /// <param name="extendFrame">An action to be called to extend the prepared Modbus frame with function code specific data.</param>
+        protected abstract Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame);
 
         internal void ProcessError(ModbusFunctionCode functionCode, ModbusExceptionCode exceptionCode)
         {
@@ -24,8 +30,10 @@ namespace FluentModbus
             {
                 case ModbusExceptionCode.IllegalFunction:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x01_IllegalFunction);
+
                 case ModbusExceptionCode.IllegalDataAddress:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x02_IllegalDataAddress);
+
                 case ModbusExceptionCode.IllegalDataValue:
 
                     switch (functionCode)
@@ -47,16 +55,22 @@ namespace FluentModbus
 
                 case ModbusExceptionCode.ServerDeviceFailure:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x04_ServerDeviceFailure);
+
                 case ModbusExceptionCode.Acknowledge:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x05_Acknowledge);
+
                 case ModbusExceptionCode.ServerDeviceBusy:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x06_ServerDeviceBusy);
+
                 case ModbusExceptionCode.MemoryParityError:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x08_MemoryParityError);
+
                 case ModbusExceptionCode.GatewayPathUnavailable:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x0A_GatewayPathUnavailable);
+
                 case ModbusExceptionCode.GatewayTargetDeviceFailedToRespond:
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x0B_GatewayTargetDeviceFailedToRespond);
+
                 default:
                     throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_InvalidExceptionCode);
             }
@@ -104,14 +118,14 @@ namespace FluentModbus
         /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
         public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var startingAddress_converted = this.ConvertUshort(startingAddress);
-            var count_converted = this.ConvertUshort(count);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = ConvertUshort(startingAddress);
+            var count_converted = ConvertUshort(count);
 
             var dataset = MemoryMarshal.Cast<byte, T>(
-                this.ReadHoldingRegisters(unitIdentifier_converted, startingAddress_converted, this.ConvertSize<T>(count_converted)));
+                ReadHoldingRegisters(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)));
 
-            if (this.SwapBytes)
+            if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
 
             return dataset;
@@ -125,7 +139,7 @@ namespace FluentModbus
         /// <param name="quantity">The number of holding registers (16 bit per register) to read.</param>
         public Span<byte> ReadHoldingRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
-            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, writer =>
+            var buffer = TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);              // 07     Function Code
                 
@@ -156,13 +170,13 @@ namespace FluentModbus
         /// <param name="dataset">The data of type <typeparamref name="T"/> to write to the server.</param>
         public void WriteMultipleRegisters<T>(int unitIdentifier, int startingAddress, T[] dataset) where T : unmanaged
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var startingAddress_converted = this.ConvertUshort(startingAddress);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = ConvertUshort(startingAddress);
 
-            if (this.SwapBytes)
+            if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset.AsSpan());
 
-            this.WriteMultipleRegisters(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray());
+            WriteMultipleRegisters(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray());
         }
 
         /// <summary>
@@ -178,7 +192,7 @@ namespace FluentModbus
 
             var quantity = dataset.Length / 2;
 
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteMultipleRegisters, writer =>
+            TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteMultipleRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteMultipleRegisters);            // 07     Function Code
 
@@ -211,11 +225,11 @@ namespace FluentModbus
         /// <param name="quantity">The number of coils to read.</param>
         public Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity)
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var startingAddress_converted = this.ConvertUshort(startingAddress);
-            var quantity_converted = this.ConvertUshort(quantity);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = ConvertUshort(startingAddress);
+            var quantity_converted = ConvertUshort(quantity);
 
-            var buffer = this.TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.ReadCoils, writer =>
+            var buffer = TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.ReadCoils, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadCoils);                         // 07     Function Code
 
@@ -245,11 +259,11 @@ namespace FluentModbus
         /// <param name="quantity">The number of discrete inputs to read.</param>
         public Span<byte> ReadDiscreteInputs(int unitIdentifier, int startingAddress, int quantity)
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var startingAddress_converted = this.ConvertUshort(startingAddress);
-            var quantity_converted = this.ConvertUshort(quantity);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = ConvertUshort(startingAddress);
+            var quantity_converted = ConvertUshort(quantity);
 
-            var buffer = this.TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.ReadDiscreteInputs, writer =>
+            var buffer = TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.ReadDiscreteInputs, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadDiscreteInputs);                // 07     Function Code
 
@@ -280,14 +294,14 @@ namespace FluentModbus
         /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
         public Span<T> ReadInputRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var startingAddress_converted = this.ConvertUshort(startingAddress);
-            var count_converted = this.ConvertUshort(count);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = ConvertUshort(startingAddress);
+            var count_converted = ConvertUshort(count);
 
             var dataset = MemoryMarshal.Cast<byte, T>(
-                this.ReadInputRegisters(unitIdentifier_converted, startingAddress_converted, this.ConvertSize<T>(count_converted)));
+                ReadInputRegisters(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)));
 
-            if (this.SwapBytes)
+            if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
 
             return dataset;
@@ -301,7 +315,7 @@ namespace FluentModbus
         /// <param name="quantity">The number of input registers (16 bit per register) to read.</param>
         public Span<byte> ReadInputRegisters(byte unitIdentifier, ushort startingAddress, ushort quantity)
         {
-            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, writer =>
+            var buffer = TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadInputRegisters);                // 07     Function Code
 
@@ -331,10 +345,10 @@ namespace FluentModbus
         /// <param name="value">The value to write to the server.</param>
         public void WriteSingleCoil(int unitIdentifier, int registerAddress, bool value)
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var registerAddress_converted = this.ConvertUshort(registerAddress);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var registerAddress_converted = ConvertUshort(registerAddress);
 
-            this.TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.WriteSingleCoil, writer =>
+            TransceiveFrame(unitIdentifier_converted, ModbusFunctionCode.WriteSingleCoil, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);                   // 07     Function Code
 
@@ -359,13 +373,13 @@ namespace FluentModbus
         /// <param name="value">The value to write to the server.</param>
         public void WriteSingleRegister(int unitIdentifier, int registerAddress, short value)
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var registerAddress_converted = this.ConvertUshort(registerAddress);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var registerAddress_converted = ConvertUshort(registerAddress);
 
-            if (this.SwapBytes)
+            if (SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            this.WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray());
+            WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray());
         }
 
         /// <summary>
@@ -376,13 +390,13 @@ namespace FluentModbus
         /// <param name="value">The value to write to the server.</param>
         public void WriteSingleRegister(int unitIdentifier, int registerAddress, ushort value)
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var registerAddress_converted = this.ConvertUshort(registerAddress);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var registerAddress_converted = ConvertUshort(registerAddress);
 
-            if (this.SwapBytes)
+            if (SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            this.WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray());
+            WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray());
         }
 
         /// <summary>
@@ -396,7 +410,7 @@ namespace FluentModbus
             if (value.Length != 2)
                 throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_ArrayLengthMustBeEqualToTwo);
 
-            this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, writer =>
+            TransceiveFrame(unitIdentifier, ModbusFunctionCode.WriteSingleRegister, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);               // 07     Function Code
 
@@ -460,20 +474,20 @@ namespace FluentModbus
         public Span<TRead> ReadWriteMultipleRegisters<TRead, TWrite>(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset) where TRead : unmanaged
                                                                                                                                                                              where TWrite : unmanaged
         {
-            var unitIdentifier_converted = this.ConvertUnitIdentifier(unitIdentifier);
-            var readStartingAddress_converted = this.ConvertUshort(readStartingAddress);
-            var readCount_converted = this.ConvertUshort(readCount);
-            var writeStartingAddress_converted = this.ConvertUshort(writeStartingAddress);
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var readStartingAddress_converted = ConvertUshort(readStartingAddress);
+            var readCount_converted = ConvertUshort(readCount);
+            var writeStartingAddress_converted = ConvertUshort(writeStartingAddress);
 
-            if (this.SwapBytes)
+            if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset.AsSpan());
 
-            var readQuantity = this.ConvertSize<TRead>(readCount_converted);
+            var readQuantity = ConvertSize<TRead>(readCount_converted);
             var byteData = MemoryMarshal.Cast<TWrite, byte>(dataset).ToArray();
 
-            var dataset2 = MemoryMarshal.Cast<byte, TRead>(this.ReadWriteMultipleRegisters(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData));
+            var dataset2 = MemoryMarshal.Cast<byte, TRead>(ReadWriteMultipleRegisters(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData));
 
-            if (this.SwapBytes)
+            if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset2);
 
             return dataset2;
@@ -494,7 +508,7 @@ namespace FluentModbus
 
             var writeQuantity = dataset.Length / 2;
 
-            var buffer = this.TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadWriteMultipleRegisters, writer =>
+            var buffer = TransceiveFrame(unitIdentifier, ModbusFunctionCode.ReadWriteMultipleRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadWriteMultipleRegisters);      // 07     Function Code
 
