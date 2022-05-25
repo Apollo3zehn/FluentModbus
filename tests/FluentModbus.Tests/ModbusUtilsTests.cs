@@ -8,14 +8,14 @@ namespace FluentModbus.Tests
     public class ModbusUtilsTests : IClassFixture<XUnitFixture>
     {
         [Theory]
-        [InlineData("127.0.0.1")]
-        [InlineData("127.0.0.1:502")]
-        [InlineData("::1")]
-        [InlineData("[::1]:502")]
-        public void CanParseEndpoint(string endpoint)
+        [InlineData("127.0.0.1:502", "127.0.0.1")]
+        [InlineData("127.0.0.1:503", "127.0.0.1:503")]
+        [InlineData("[::1]:502", "::1")]
+        [InlineData("[::1]:503", "[::1]:503")]
+        public void CanParseEndpoint(string expectedString, string endpoint)
         {
             // Arrange
-            var expected = IPEndPoint.Parse(endpoint);
+            var expected = IPEndPoint.Parse(expectedString);
 
             // Act
             var success = ModbusUtils.TryParseEndpoint(endpoint, out var actual);
