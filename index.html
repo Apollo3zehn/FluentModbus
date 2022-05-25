@@ -277,7 +277,7 @@ while (!cts.IsCancellationRequested)
 </code></pre>
 <p>Note that in the second example, the <code>Task.Delay()</code> period is much lower. Since we want coordinated access between the application and the clients <em>without</em> locks, we need to ensure that at certain points in time, the application is safe to access the buffers. This is the case when the <code>IsReady</code> propery is <code>true</code> (when all client requests have been served). After the application finished manipulating the server data, it triggers the server to serve all accumulated client requests (via the <code>Update()</code> method). Finally, the process repeats.</p>
 <h2 id="modbus-rtu-server">Modbus RTU server</h2>
-<p>When you need a Modbus RTU server, you need to instantiate it like this providing a <code>unitIdentifier</code>, which must be in the range of 1..247 and unique for each Modbus server / Modbus slave:</p>
+<p>When you need a Modbus RTU server, you can instantiate it like this providing a <code>unitIdentifier</code>, which must be in the range of 1..247 and unique for each Modbus server / Modbus slave:</p>
 <pre><code class="lang-cs">var server = new ModbusRtuServer(unitIdentifier: 1);
 </code></pre>
 <p>Then you can start it e.g. on COM port 1:</p>
@@ -286,6 +286,7 @@ while (!cts.IsCancellationRequested)
 <p>When you don't need the server anymore, dispose it:</p>
 <pre><code class="lang-cs">server.Dispose();
 </code></pre>
+<p>The <code>ModbusRtuServer</code> also supports multiple unit identifiers, just use the corresponding constructor overload to initialize it. Alternatively you can add / remove units at runtime using <code>server.AddUnit(...)</code> or <code>server.RemoveUnit(...)</code>, respectively. Be sure to remove a unit only when no client is in the process of interacting with it to avoid unexpected errors. This feature is intended for setups where you want to simulate multiple RTU devices on a single <code>COM</code> port.</p>
 <p>As for the TCP server, there are two options to operate the server (synchronous and asynchronous). See above for details.</p>
 <h2 id="events">Events</h2>
 <p>In case you need notifications on data change, enable the event system and then subscribe to the event:</p>
@@ -322,12 +323,14 @@ registers.SetBigEndian(address: 1, value: 99);
 registers.SetBigEndian&lt;short&gt;(address: 1, value: 99); /* recommended */
 registers.SetBigEndian(address: 1, value: (short)99);
 </code></pre>
-<p>There are complementary methods for little-endian data and methods for reading data. The full list of <code>Span&lt;short&gt;</code> extension methods is:</p>
+<p>There are complementary methods for little-endian and mid-little-endian data and methods for reading data. The full list of <code>Span&lt;short&gt;</code> extension methods is:</p>
 <pre><code class="lang-cs">void registers.SetBigEndian&lt;T&gt;(...);
 void registers.SetLittleEndian&lt;T&gt;(...);
+void registers.SetMidLittleEndian&lt;T&gt;(...);
 
 Span&lt;short&gt; registers.GetBigEndian&lt;T&gt;(...);
 Span&lt;short&gt; registers.GetLittleEndian&lt;T&gt;(...);
+Span&lt;short&gt; registers.GetMidLittleEndian&lt;T&gt;(...);
 </code></pre>
 <h2 id="coils-and-discrete-inputs">Coils and Discrete Inputs</h2>
 <p>There is not endianness problem with bit-oriented data, so no special methods are required here, but to ease access there are some convenience methods:</p>
@@ -351,7 +354,7 @@ var value = coils.Get(address: 1); // should return 'true'
 <pre><code class="lang-cs">
 var server = new ModbusTcpServer()
 {
-    RequestValidator = (functionCode, address, quantityOfRegisters) =&gt;
+    RequestValidator = (unitIdentifier, functionCode, address, quantityOfRegisters) =&gt;
     {
         if (functionCode == ModbusFunctionCode.WriteSingleRegister)
             return ModbusExceptionCode.IllegalFunction;
