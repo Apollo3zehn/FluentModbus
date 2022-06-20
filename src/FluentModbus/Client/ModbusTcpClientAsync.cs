@@ -65,7 +65,30 @@ namespace FluentModbus
 
             while (true)
             {
-                partialLength = await _networkStream.ReadAsync(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
+                using var timeoutCts = new CancellationTokenSource(_networkStream.ReadTimeout);
+                
+                // https://stackoverflow.com/a/62162138
+                // https://github.com/Apollo3zehn/FluentModbus/blob/181586d88cbbef3b2b3e6ace7b29099e04b30627/src/FluentModbus/ModbusRtuSerialPort.cs#L54
+                using (timeoutCts.Token.Register(_networkStream.Close))
+                using (cancellationToken.Register(timeoutCts.Cancel))
+                {
+                    try
+                    {
+                        partialLength = await _networkStream.ReadAsync(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                    {
+                        throw;
+                    }
+                    catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
+                    {
+                        throw new TimeoutException("The asynchronous read operation timed out.");
+                    }
+                    catch (IOException) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+                    {
+                        throw new TimeoutException("The asynchronous read operation timed out.");
+                    }
+                }
 
                 /* From MSDN (https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.read):
                  * Implementations of this method read a maximum of count bytes from the current stream and store 
