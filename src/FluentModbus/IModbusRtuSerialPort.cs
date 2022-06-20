@@ -25,6 +25,7 @@ namespace FluentModbus
         /// <param name="buffer">The byte array to write the input to.</param>
         /// <param name="offset">The offset in <paramref name="buffer"/> at which to write the bytes.</param>
         /// <param name="count">The maximum number of bytes to read. Fewer bytes are read if <paramref name="count"/> is greater than the number of bytes in the input buffer.</param>
+        /// <param name="token">A token to cancel the current operation.</param>
         /// <returns>The number of bytes read.</returns>
         Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken token);
 
@@ -42,6 +43,7 @@ namespace FluentModbus
         /// <param name="buffer">The byte array that contains the data to write to the port.</param>
         /// <param name="offset">The zero-based byte offset in the <paramref name="buffer"/> parameter at which to begin copying bytes to the port.</param>
         /// <param name="count">The number of bytes to write.</param>
+        /// <param name="token">A token to cancel the current operation.</param>
         Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken token);
 
         /// <summary>

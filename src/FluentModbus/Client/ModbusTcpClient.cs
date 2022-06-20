@@ -222,7 +222,30 @@ namespace FluentModbus
 
             while (true)
             {
-                partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
+                // ASYNC-ONLY: using var timeoutCts = new CancellationTokenSource(_networkStream.ReadTimeout);
+                // ASYNC-ONLY: 
+                // ASYNC-ONLY: // https://stackoverflow.com/a/62162138
+                // ASYNC-ONLY: // https://github.com/Apollo3zehn/FluentModbus/blob/181586d88cbbef3b2b3e6ace7b29099e04b30627/src/FluentModbus/ModbusRtuSerialPort.cs#L54
+                // ASYNC-ONLY: using (timeoutCts.Token.Register(_networkStream.Close))
+                // ASYNC-ONLY: using (cancellationToken.Register(timeoutCts.Cancel))
+                // ASYNC-ONLY: {
+                // ASYNC-ONLY:     try
+                // ASYNC-ONLY:     {
+                        partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
+                // ASYNC-ONLY:     }
+                // ASYNC-ONLY:     catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                // ASYNC-ONLY:     {
+                // ASYNC-ONLY:         throw;
+                // ASYNC-ONLY:     }
+                // ASYNC-ONLY:     catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested)
+                // ASYNC-ONLY:     {
+                // ASYNC-ONLY:         throw new TimeoutException("The asynchronous read operation timed out.");
+                // ASYNC-ONLY:     }
+                // ASYNC-ONLY:     catch (IOException) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+                // ASYNC-ONLY:     {
+                // ASYNC-ONLY:         throw new TimeoutException("The asynchronous read operation timed out.");
+                // ASYNC-ONLY:     }
+                // ASYNC-ONLY: }
 
                 /* From MSDN (https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.read):
                  * Implementations of this method read a maximum of count bytes from the current stream and store 
