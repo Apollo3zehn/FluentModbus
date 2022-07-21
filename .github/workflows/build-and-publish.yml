@@ -32,10 +32,7 @@ jobs:
         run: echo "VERSION=$(python build/print_version.py       ${{ github.run_number }} ${{ env.IS_RELEASE }} false)" >> $GITHUB_ENV
 
       - name: PrintEnv
-        run: echo $GITHUB_ENV
-
-      - name: PrintEnv2
-        run: echo $IS_RELEASE
+        run: cat $GITHUB_ENV
 
       - name: adasd
         run: env
