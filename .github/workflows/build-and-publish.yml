@@ -24,12 +24,12 @@ jobs:
         run: git fetch --tags --force
 
       - name: Metadata
-        id: metadata_builder
         run: echo "IS_RELEASE=${{ startsWith(github.ref, 'refs/tags/') }}" >> $GITHUB_ENV
           
-      - name: Version
-        id: version_builder
-        run: echo "VERSION=$(python build/print_version.py       ${{ github.run_number }} ${{ env.IS_RELEASE }} false)" >> $GITHUB_ENV
+      - name: Environment
+        run: |
+          echo "VERSION=$(python build/print_version.py ${{ github.run_number }} ${{ env.IS_RELEASE }} false)" >> $GITHUB_ENV
+          echo $(python build/print_solution.py) >> $GITHUB_ENV
 
       - name: PrintEnv
         run: cat $GITHUB_ENV
