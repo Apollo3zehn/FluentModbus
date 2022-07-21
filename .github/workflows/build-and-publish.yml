@@ -32,7 +32,7 @@ jobs:
           echo $(python build/print_solution.py) >> $GITHUB_ENV
 
       - name: PrintEnv
-        run: cat $GITHUB_ENV | hd
+        run: hexdump $GITHUB_ENV
 
       - name: adasd
         run: env
