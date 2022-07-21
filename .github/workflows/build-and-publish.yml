@@ -34,6 +34,12 @@ jobs:
       - name: PrintEnv
         run: echo $GITHUB_ENV
 
+      - name: PrintEnv2
+        run: echo $IS_RELEASE
+
+      - name: adasd
+        run: env
+
       - name: Extract annotation tag
         if: ${{ env.IS_RELEASE == 'true' }}
         run: python build/create_tag_body.py
