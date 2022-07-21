@@ -10,11 +10,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
     
-  <PropertyGroup>
-    <!-- 'COPYRIGHT' seems to be reserved by GitHub workflow -->
-    <Copyright>$(PROJECT_COPYRIGHT)</Copyright>
-  </PropertyGroup>
-
   <PropertyGroup Condition="$(VERSION) != ''">
     <AssemblyVersion>$(VERSION.Split('.')[0]).0.0.0</AssemblyVersion>
     <FileVersion>$(VERSION.Split('.')[0]).$(VERSION.Split('.')[1]).$(VERSION.Split('.')[2].Split('-')[0]).0</FileVersion>
