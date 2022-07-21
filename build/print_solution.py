@@ -7,7 +7,7 @@ print(
 f"""
 AUTHORS="{solution_data["authors"]}"
 COMPANY="{solution_data["company"]}"
-COPYRIGHT="{solution_data["copyright"]}"
+PROJECT_COPYRIGHT="{solution_data["copyright"]}"
 PRODUCT="{solution_data["product"]}"
 LICENSE="{solution_data["license"]}"
 PROJECT_URL="{solution_data["project-url"]}"

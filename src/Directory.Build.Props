@@ -13,7 +13,7 @@
   <PropertyGroup>
     <Authors>$(AUTHORS)</Authors>
     <Company>$(COMPANY)</Company>
-    <Copyright>$(COPYRIGHT)</Copyright>
+    <Copyright>$(PROJECT_COPYRIGHT)</Copyright>
     <Product>$(PRODUCT)</Product>
   </PropertyGroup>
 
