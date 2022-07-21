@@ -29,7 +29,7 @@ jobs:
       - name: Environment
         run: |
           echo "VERSION=$(python build/print_version.py ${{ github.run_number }} ${{ env.IS_RELEASE }} false)" >> $GITHUB_ENV
-          echo $(python build/print_solution.py) >> $GITHUB_ENV
+          echo "$(python build/print_solution.py)" >> $GITHUB_ENV
 
       - name: PrintEnv
         run: hexdump -C $GITHUB_ENV
