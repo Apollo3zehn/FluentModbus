@@ -11,10 +11,7 @@
   </PropertyGroup>
     
   <PropertyGroup>
-    <Authors>$(AUTHORS)</Authors>
-    <Company>$(COMPANY)</Company>
     <Copyright>$(PROJECT_COPYRIGHT)</Copyright>
-    <Product>$(PRODUCT)</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(VERSION) != ''">
@@ -23,10 +20,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageLicenseExpression>$(LICENSE)</PackageLicenseExpression>
-    <PackageProjectUrl>$(PROJECT_URL)</PackageProjectUrl>
-    <RepositoryUrl>$(REPOSITORY_URL)</RepositoryUrl>
-    <PackageIconUrl>$(ICON_URL)</PackageIconUrl>
+    <PackageLicenseExpression>$(PACKAGELICENSEEXPRESSION)</PackageLicenseExpression>
+    <PackageProjectUrl>$(PACKAGEPROJECTURL)</PackageProjectUrl>
+    <RepositoryUrl>$(REPOSITORYURL)</RepositoryUrl>
+    <PackageIconUrl>$(PACKAGEICONURL)</PackageIconUrl>
   </PropertyGroup>
 
 </Project>
