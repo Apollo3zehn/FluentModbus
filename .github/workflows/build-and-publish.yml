@@ -32,10 +32,7 @@ jobs:
           echo $(python build/print_solution.py) >> $GITHUB_ENV
 
       - name: PrintEnv
-        run: hexdump $GITHUB_ENV
-
-      - name: adasd
-        run: env
+        run: hexdump -C $GITHUB_ENV
 
       - name: Extract annotation tag
         if: ${{ env.IS_RELEASE == 'true' }}
