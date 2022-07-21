@@ -1,0 +1,32 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+    <EmbedAllSources>true</EmbedAllSources>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+    
+  <PropertyGroup>
+    <Authors>$(AUTHORS)</Authors>
+    <Company>$(COMPANY)</Company>
+    <Copyright>$(COPYRIGHT)</Copyright>
+    <Product>$(PRODUCT)</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(VERSION) != ''">
+    <AssemblyVersion>$(VERSION.Split('.')[0]).0.0.0</AssemblyVersion>
+    <FileVersion>$(VERSION.Split('.')[0]).$(VERSION.Split('.')[1]).$(VERSION.Split('.')[2].Split('-')[0]).0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageLicenseExpression>$(LICENSE)</PackageLicenseExpression>
+    <PackageProjectUrl>$(PROJECT_URL)</PackageProjectUrl>
+    <RepositoryUrl>$(REPOSITORY_URL)</RepositoryUrl>
+    <PackageIconUrl>$(ICON_URL)</PackageIconUrl>
+  </PropertyGroup>
+
+</Project>

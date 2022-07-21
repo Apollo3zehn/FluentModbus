@@ -1,12 +1,18 @@
 <Project>
 
-  <Import Project="./build/build.props" />
-
   <PropertyGroup>
-    <PackageIconUrl>https://raw.githubusercontent.com/Apollo3zehn/FluentModbus/master/doc/images/icon.png</PackageIconUrl>
-    <PackageLicenseExpression Condition="$(PackageLicenseExpression) == ''">LGPL-3.0-only</PackageLicenseExpression>
-    <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://apollo3zehn.github.io/FluentModbus/</PackageProjectUrl>
-    <RepositoryUrl Condition="$(RepositoryUrl) == ''">https://github.com/Apollo3zehn/FluentModbus</RepositoryUrl>
+    <TargetFrameworkVersion>net6.0</TargetFrameworkVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+      
+  <PropertyGroup>
+    <ArtifactsPath>$([MSBuild]::NormalizePath($(MSBuildThisFileDirectory)artifacts))</ArtifactsPath>
+    <BaseIntermediateOutputPath>$(ArtifactsPath)/obj/$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)/$(Configuration)</IntermediateOutputPath>
+    <OutputPath>$(ArtifactsPath)/bin/$(MSBuildProjectName)/$(Configuration)</OutputPath>
+    <PackageOutputPath>$(ArtifactsPath)/packages</PackageOutputPath>
   </PropertyGroup>
 
 </Project>
