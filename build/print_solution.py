@@ -8,6 +8,8 @@ f"""
 AUTHORS={solution_data["authors"]}
 COMPANY={solution_data["company"]}
 COPYRIGHT={solution_data["copyright"]}
+COPYRIGHT2={solution_data["copyright"]}
+C2OPYRIGHT2={solution_data["company"]}
 PRODUCT={solution_data["product"]}
 PACKAGELICENSEEXPRESSION={solution_data["license"]}
 PACKAGEPROJECTURL={solution_data["project-url"]}
