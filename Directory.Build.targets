@@ -1,5 +1,0 @@
-<Project>
-
-  <Import Project="./build/build.targets" />
-
-</Project>

@@ -1,11 +1,12 @@
 .vs/
-.vscode/
 artifacts/
 
 doc/_site
 /**/obj
+**/wwwroot/lib/
 
 doc/api/*
 
 *.suo
 *.user
+*.pyc

@@ -5,22 +5,6 @@ VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8449A872-2591-4C77-A810-974A20DD0227}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D422FCDF-E2F9-4FCC-8BAA-81237E70455D}"
-	ProjectSection(SolutionItems) = preProject
-		.appveyor.yml = .appveyor.yml
-		.gitignore = .gitignore
-		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
-		LICENSE.md = LICENSE.md
-		README.md = README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{15DEDCE6-3981-4AF5-8F1C-0DA8A070F91F}"
-	ProjectSection(SolutionItems) = preProject
-		build\build.props = build\build.props
-		build\build.targets = build\build.targets
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2B4BA2BB-B561-4301-A1B9-9E59E58BE8EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{D6452DF6-D009-4A4D-A161-E25DE443C0D8}"
@@ -78,7 +62,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{15DEDCE6-3981-4AF5-8F1C-0DA8A070F91F} = {D422FCDF-E2F9-4FCC-8BAA-81237E70455D}
 		{226ABEFD-EC87-42B1-9F7E-DDDA298C124D} = {D6452DF6-D009-4A4D-A161-E25DE443C0D8}
 		{ACFCBF6C-4363-47CB-B412-907464C7888F} = {D6452DF6-D009-4A4D-A161-E25DE443C0D8}
 		{BE6DE3F6-ED5E-4603-AC45-8966CD4EB2D1} = {8449A872-2591-4C77-A810-974A20DD0227}

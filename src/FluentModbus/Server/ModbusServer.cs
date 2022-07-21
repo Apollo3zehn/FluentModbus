@@ -424,7 +424,7 @@ namespace FluentModbus
 
         #region IDisposable Support
 
-        private bool disposedValue = false;
+        private bool _disposedValue = false;
 
         /// <summary>
         /// Disposes the <see cref="ModbusServer"/> and frees all managed and unmanaged resources.
@@ -432,12 +432,12 @@ namespace FluentModbus
         /// <param name="disposing">A value indicating if the finalizer or the dispose method triggered the dispose process.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                     StopProcessing();
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 

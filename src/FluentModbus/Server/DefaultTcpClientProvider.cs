@@ -34,18 +34,18 @@ namespace FluentModbus
 
         #region IDisposable Support
 
-        private bool disposedValue;
+        private bool _disposedValue;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
                     _tcpListener.Stop();
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 

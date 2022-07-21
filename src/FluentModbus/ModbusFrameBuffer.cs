@@ -29,11 +29,11 @@ namespace FluentModbus
 
         #region IDisposable Support
 
-        private bool disposedValue = false;
+        private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
@@ -43,7 +43,7 @@ namespace FluentModbus
                     ArrayPool<byte>.Shared.Return(Buffer);
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 
