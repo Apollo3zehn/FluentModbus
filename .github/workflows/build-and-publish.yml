@@ -36,7 +36,7 @@ jobs:
         run: python build/create_tag_body.py
 
       - name: Build
-        run: dotnet build -c Release ./src/FluentModbus/FluentModbus.csproj
+        run: dotnet build -c Release src/FluentModbus/FluentModbus.csproj
 
       - name: Test
         run: dotnet test -c Release /p:BuildProjectReferences=false
