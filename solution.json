@@ -5,6 +5,5 @@
     "product": "FluentModbus",
     "license": "MIT",
     "project-url": "https://apollo3zehn.github.io/FluentModbus",
-    "repository-url": "https://github.com/Apollo3zehn/FluentModbus",
-    "icon-url": "https://raw.githubusercontent.com/Apollo3zehn/FluentModbus/master/doc/images/icon.png"
+    "repository-url": "https://github.com/Apollo3zehn/FluentModbus"
 }

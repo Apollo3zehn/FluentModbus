@@ -1,5 +1,6 @@
 .vs/
 artifacts/
+BenchmarkDotNet.Artifacts
 
 doc/_site
 /**/obj
