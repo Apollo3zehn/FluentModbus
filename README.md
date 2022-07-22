@@ -1,7 +1,6 @@
 # FluentModbus
 
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/fluentmodbus?svg=true&branch=master)](https://ci.appveyor.com/project/Apollo3zehn/fluentmodbus)
-[![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
+[![GitHub Actions](https://github.com/Apollo3zehn/FluentModbus/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/Apollo3zehn/FluentModbus/actions) [![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
 
 FluentModbus is a .NET Standard library (2.0 and 2.1) that provides Modbus TCP/RTU server and client implementations for easy process data exchange. Both, the server and the client, implement class 0, class 1 and class 2 (partially) functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
 
