@@ -1,6 +1,8 @@
 import itertools
 import subprocess
 import sys
+import re
+import json
 
 import requests
 
@@ -17,11 +19,14 @@ if not "* master" in subprocess.check_output(["git", "branch"], stdin=None, stde
 print("  master branch: OK")
 
 # check if release version already exist
-access_token = sys.argv[1]
-request_url = f"https://api.github.com/repos/nexuforge/nexus/releases"
+with open("solution.json", "r") as fh:
+    solution_data = json.load(fh)
+
+pattern = r"https:\/\/github.com\/(.*)"
+request_url = re.sub(pattern, r"https://api.github.com/repos/\1/releases", solution_data["repository-url"])
 
 headers = {
-    "Authorization": f"token {access_token}",
+    "Authorization": f"token {sys.argv[1]}",
     "User-Agent": "Nexus",
     "Accept": "application/vnd.github.v3+json"
 }
