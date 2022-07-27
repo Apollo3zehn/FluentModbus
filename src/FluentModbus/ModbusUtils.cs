@@ -99,7 +99,7 @@ namespace FluentModbus
             }
 
             // Byte count check
-            if (span.Length < span[2] + 5)
+            if (span[1] < 0x80 && span.Length < span[2] + 5)
                 return false;
 
             // CRC check
