@@ -45,7 +45,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
-          path: artifacts/
+          path: |
+            artifacts/packages/
+            artifacts/tag_body.txt
 
     outputs:
       is_release: ${{ env.IS_RELEASE }}
