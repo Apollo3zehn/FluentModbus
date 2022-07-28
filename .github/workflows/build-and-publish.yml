@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
-          path: artifacts/packages/
+          path: artifacts/
 
     outputs:
       is_release: ${{ env.IS_RELEASE }}
@@ -94,6 +94,6 @@ jobs:
           body_path: artifacts/tag_body.txt
 
       - name: Nuget package (Nuget)
-        run: dotnet nuget push 'artifacts/*.nupkg' --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push 'artifacts/packages/*.nupkg' --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
