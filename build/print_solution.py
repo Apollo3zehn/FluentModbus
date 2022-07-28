@@ -12,5 +12,4 @@ PRODUCT={solution_data["product"]}
 PACKAGELICENSEEXPRESSION={solution_data["license"]}
 PACKAGEPROJECTURL={solution_data["project-url"]}
 REPOSITORYURL={solution_data["repository-url"]}
-PACKAGEICONURL={solution_data["icon-url"]}
 """)
