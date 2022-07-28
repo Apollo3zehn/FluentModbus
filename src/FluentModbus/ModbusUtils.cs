@@ -99,6 +99,10 @@ namespace FluentModbus
                     return false;
             }
 
+            // Byte count check
+            if (span[1] < 0x80 && span.Length < span[2] + 5)
+                return false;
+
             // CRC check
             var crcBytes = span.Slice(span.Length - 2, 2);
             var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
