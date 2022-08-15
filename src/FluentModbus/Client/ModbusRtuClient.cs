@@ -13,6 +13,7 @@ namespace FluentModbus
 
         private IModbusRtuSerialPort _serialPort;
         private ModbusFrameBuffer _frameBuffer;
+        private bool _internalSerialPort = false;
 
         #endregion
 
@@ -103,6 +104,8 @@ namespace FluentModbus
                 WriteTimeout = WriteTimeout
             });
 
+            _internalSerialPort = true;
+
             Connect(serialPort, endianness);
         }
 
@@ -111,16 +114,27 @@ namespace FluentModbus
         /// </summary>
         public void Close()
         {
-            _serialPort?.Close();
+            if (_internalSerialPort)
+                _serialPort?.Close();
+
             _frameBuffer?.Dispose();
         }
 
-        internal void Connect(IModbusRtuSerialPort serialPort)
+        /// <summary>
+        /// Connect to the specified <paramref name="serialPort"/>.
+        /// </summary>
+        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/></param>
+        public void Connect(IModbusRtuSerialPort serialPort)
         {
             Connect(serialPort, ModbusEndianness.LittleEndian);
         }
 
-        internal void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
+        /// <summary>
+        /// Connect to the specified <paramref name="serialPort"/>.
+        /// </summary>
+        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/></param>
+        /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+        public void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
         {
             /* According to the spec (https://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf), 
              * section 2.5.1 RTU Transmission Mode: "... the use of no parity requires 2 stop bits."
@@ -135,9 +149,13 @@ namespace FluentModbus
 
             _frameBuffer = new ModbusFrameBuffer(256);
 
-            _serialPort?.Close();
+            if (_internalSerialPort) 
+                _serialPort?.Close();
+
             _serialPort = serialPort;
-            _serialPort.Open();
+
+            if (!_serialPort.IsOpen)
+                _serialPort.Open(); 
         }
 
         ///<inheritdoc/>

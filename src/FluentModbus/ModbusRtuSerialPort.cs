@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-    internal class ModbusRtuSerialPort : IModbusRtuSerialPort
+    public class ModbusRtuSerialPort : IModbusRtuSerialPort
     {
         #region Fields
 
