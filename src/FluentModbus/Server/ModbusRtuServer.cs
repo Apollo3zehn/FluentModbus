@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace FluentModbus
 {
@@ -11,7 +9,7 @@ namespace FluentModbus
     {
         #region Fields
 
-        private IModbusRtuSerialPort _serialPort;
+        private IModbusRtuSerialPort? _serialPort;
 
         #endregion
 
@@ -77,7 +75,9 @@ namespace FluentModbus
         {
             get
             {
-                return _serialPort != null ? _serialPort.IsOpen : false;
+                return _serialPort is not null 
+                    ? _serialPort.IsOpen 
+                    : false;
             }
         }
 
@@ -111,7 +111,7 @@ namespace FluentModbus
         /// </summary>
         public int WriteTimeout { get; set; } = 1000;
 
-        internal ModbusRtuRequestHandler RequestHandler { get; private set; }
+        internal ModbusRtuRequestHandler? RequestHandler { get; private set; }
 
         #endregion
 
@@ -123,7 +123,7 @@ namespace FluentModbus
         /// <param name="port">The COM port to be used, e.g. COM1.</param>
         public void Start(string port)
         {
-            IModbusRtuSerialPort serialPort = new ModbusRtuSerialPort(new SerialPort(port)
+            IModbusRtuSerialPort serialPort = ModbusRtuSerialPort.CreateInternal(new SerialPort(port)
             {
                 BaudRate = BaudRate,
                 Handshake = Handshake,
@@ -191,7 +191,7 @@ namespace FluentModbus
         {
             lock (Lock)
             {
-                if (RequestHandler.IsReady)
+                if (RequestHandler is not null && RequestHandler.IsReady)
                 {
                     if (RequestHandler.Length > 0)
                         RequestHandler.WriteResponse();

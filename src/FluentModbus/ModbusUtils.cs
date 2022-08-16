@@ -1,14 +1,22 @@
-using System;
 using System.Globalization;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+#if NETSTANDARD2_1_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 namespace FluentModbus
 {
     internal static class ModbusUtils
     {
-        public static bool TryParseEndpoint(ReadOnlySpan<char> value, out IPEndPoint result)
+#if NETSTANDARD2_0
+        public static bool TryParseEndpoint(ReadOnlySpan<char> value, out IPEndPoint? result)
+#endif
+#if NETSTANDARD2_1_OR_GREATER
+        public static bool TryParseEndpoint(ReadOnlySpan<char> value, [NotNullWhen(true)] out IPEndPoint? result)
+#endif
         {
             var addressLength = value.Length;
             var lastColonPos = value.LastIndexOf(':');
@@ -35,7 +43,7 @@ namespace FluentModbus
                 }
             }
 
-            result = null;
+            result = default;
 
             return false;
         }

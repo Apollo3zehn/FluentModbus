@@ -1,9 +1,5 @@
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FluentModbus
 {
@@ -11,7 +7,7 @@ namespace FluentModbus
     {
         #region Fields
 
-        private Task _task;
+        private Task? _task;
 
         #endregion
 
@@ -154,7 +150,7 @@ namespace FluentModbus
 
         private bool CheckRegisterBounds(ModbusFunctionCode functionCode, ushort address, ushort maxStartingAddress, ushort quantityOfRegisters, ushort maxQuantityOfRegisters)
         {
-            if (ModbusServer.RequestValidator != null)
+            if (ModbusServer.RequestValidator is not null)
             {
                 var result = ModbusServer.RequestValidator(UnitIdentifier, functionCode, address, quantityOfRegisters);
 

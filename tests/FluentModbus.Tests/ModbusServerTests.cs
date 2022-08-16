@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -155,7 +151,7 @@ namespace FluentModbus.Tests
                 client.Disconnect();
 
                 // Assert
-                Assert.True(lastRequest1 >= delay);
+                Assert.True(lastRequest2 < lastRequest1);
                 Assert.True(lastRequest2 < delay);
             });
 

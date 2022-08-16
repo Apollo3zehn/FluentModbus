@@ -1,16 +1,12 @@
-﻿using System;
-using System.IO;
-using System.IO.Ports;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.IO.Ports;
 
 namespace FluentModbus
 {
-    internal class ModbusRtuSerialPort : IModbusRtuSerialPort
+    public class ModbusRtuSerialPort : IModbusRtuSerialPort
     {
         #region Fields
 
-        SerialPort _serialPort;
+        private SerialPort _serialPort;
 
         #endregion
 
@@ -29,30 +25,62 @@ namespace FluentModbus
 
         public bool IsOpen => _serialPort.IsOpen;
 
+        internal bool IsInternal { get; private set; }
+
         #endregion
 
         #region Methods
 
+        internal static ModbusRtuSerialPort CreateInternal(SerialPort serialPort)
+        {
+            return new ModbusRtuSerialPort(serialPort)
+            {
+                IsInternal = true
+            };
+        }
+
+        /// <summary>
+        /// Opens a new serial port connection.
+        /// </summary>
         public void Open()
         {
             _serialPort.Open();
         }
 
+        /// <summary>
+        /// Closes the port connection, sets the <see cref="IsOpen"/> property to <see langword="false"/>, and disposes of the internal <see cref="Stream"/> object.
+        /// </summary>
         public void Close()
         {
             _serialPort.Close();
         }
 
+        /// <summary>
+        /// Reads from the <see cref="SerialPort"/> input buffer.
+        /// </summary>
+        /// <param name="buffer">The byte array to write the input to.</param>
+        /// <param name="offset">The offset in <see cref="buffer"/> at which to write the bytes.</param>
+        /// <param name="count">The maximum number of bytes to read. Fewer bytes are read if <see cref="count"/> is greater than the number of bytes in the input buffer.</param>
+        /// <returns>The number of bytes read.</returns>
         public int Read(byte[] buffer, int offset, int count)
         {
             return _serialPort.Read(buffer, offset, count);
         }
 
-        // https://github.com/AndreasAmMueller/Modbus/blob/a6d11080c2f5a1205681c881f3ba163d2ac84a1f/src/Modbus.Serial/Util/Extensions.cs#L69
-        // https://stackoverflow.com/a/54610437/11906695
-        // https://github.com/dotnet/runtime/issues/28968
+        /// <summary>
+        /// Asynchronously reads from the <see cref="SerialPort"/> input buffer.
+        /// </summary>
+        /// <param name="buffer">The byte array to write the input to.</param>
+        /// <param name="offset">The offset in <see cref="buffer"/> at which to write the bytes.</param>
+        /// <param name="count">The maximum number of bytes to read. Fewer bytes are read if <see cref="count"/> is greater than the number of bytes in the input buffer.</param>
+        /// <param name="token">A token to cancel the current operation.</param>
+        /// <returns>The number of bytes read.</returns>
         public async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken token)
         {
+            // https://github.com/AndreasAmMueller/Modbus/blob/a6d11080c2f5a1205681c881f3ba163d2ac84a1f/src/Modbus.Serial/Util/Extensions.cs#L69
+            // https://stackoverflow.com/a/54610437/11906695
+            // https://github.com/dotnet/runtime/issues/28968
+
             using var timeoutCts = new CancellationTokenSource(_serialPort.ReadTimeout);
 
             /* _serialPort.DiscardInBuffer is essential here to cancel the operation */
@@ -78,16 +106,29 @@ namespace FluentModbus
             }
         }
 
+        /// <summary>
+        /// Writes data to the serial port output buffer.
+        /// </summary>
+        /// <param name="buffer">The byte array that contains the data to write to the port.</param>
+        /// <param name="offset">The zero-based byte offset in the <see cref="buffer"/> parameter at which to begin copying bytes to the port.</param>
+        /// <param name="count">The number of bytes to write.</param>
         public void Write(byte[] buffer, int offset, int count)
         {
             _serialPort.Write(buffer, offset, count);
         }
 
-        // https://github.com/AndreasAmMueller/Modbus/blob/a6d11080c2f5a1205681c881f3ba163d2ac84a1f/src/Modbus.Serial/Util/Extensions.cs#L69
-        // https://stackoverflow.com/a/54610437/11906695
-        // https://github.com/dotnet/runtime/issues/28968
+        /// <summary>
+        /// Asynchronously writes data to the serial port output buffer.
+        /// </summary>
+        /// <param name="buffer">The byte array that contains the data to write to the port.</param>
+        /// <param name="offset">The zero-based byte offset in the <see cref="buffer"/> parameter at which to begin copying bytes to the port.</param>
+        /// <param name="count">The number of bytes to write.</param>
+        /// <param name="token">A token to cancel the current operation.</param>
         public async Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken token)
         {
+            // https://github.com/AndreasAmMueller/Modbus/blob/a6d11080c2f5a1205681c881f3ba163d2ac84a1f/src/Modbus.Serial/Util/Extensions.cs#L69
+            // https://stackoverflow.com/a/54610437/11906695
+            // https://github.com/dotnet/runtime/issues/28968
             using var timeoutCts = new CancellationTokenSource(_serialPort.WriteTimeout);
 
             /* _serialPort.DiscardInBuffer is essential here to cancel the operation */

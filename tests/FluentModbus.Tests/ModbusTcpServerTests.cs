@@ -1,9 +1,5 @@
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -28,7 +24,7 @@ namespace FluentModbus.Tests
             var client = new ModbusTcpClient();
 
             var expected = new double[] { 0.1, 0.2, 0.3, 0.4, 0.5 };
-            double[] actual = null;
+            double[]? actual = default;
 
             // Act
             listener.Start();
@@ -53,7 +49,7 @@ namespace FluentModbus.Tests
             await clientTask;
 
             // Assert
-            Assert.True(actual.SequenceEqual(expected));
+            Assert.True(actual!.SequenceEqual(expected));
         }
 
         [Fact(Skip = "Test depends on machine power.")]

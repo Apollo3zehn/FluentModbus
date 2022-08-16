@@ -1,14 +1,8 @@
-﻿
- /* This is automatically translated code. */
-
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
+﻿/* This is automatically translated code. */
 
 namespace FluentModbus
 {
-	public partial class ModbusRtuClient
+    public partial class ModbusRtuClient
 	{
 		///<inheritdoc/>
         protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)

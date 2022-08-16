@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FluentModbus
+﻿namespace FluentModbus
 {
     /// <summary>
     /// This exception is used for Modbus protocol errors.

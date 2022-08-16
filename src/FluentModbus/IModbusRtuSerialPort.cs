@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace FluentModbus
+﻿namespace FluentModbus
 {
     /// <summary>
     /// A serial port for Modbus RTU communication.
