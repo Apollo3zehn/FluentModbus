@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace FluentModbus
 {
@@ -13,7 +11,6 @@ namespace FluentModbus
 
         private IModbusRtuSerialPort _serialPort;
         private ModbusFrameBuffer _frameBuffer;
-        private bool _internalSerialPort = false;
 
         #endregion
 
@@ -94,7 +91,7 @@ namespace FluentModbus
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(string port, ModbusEndianness endianness)
         {
-            var serialPort = new ModbusRtuSerialPort(new SerialPort(port)
+            var serialPort = ModbusRtuSerialPort.CreateInternal(new SerialPort(port)
             {
                 BaudRate = BaudRate,
                 Handshake = Handshake,
@@ -104,26 +101,13 @@ namespace FluentModbus
                 WriteTimeout = WriteTimeout
             });
 
-            _internalSerialPort = true;
-
             Connect(serialPort, endianness);
-        }
-
-        /// <summary>
-        /// Closes the opened COM port and frees all resources.
-        /// </summary>
-        public void Close()
-        {
-            if (_internalSerialPort)
-                _serialPort?.Close();
-
-            _frameBuffer?.Dispose();
         }
 
         /// <summary>
         /// Connect to the specified <paramref name="serialPort"/>.
         /// </summary>
-        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/></param>
+        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/>.</param>
         public void Connect(IModbusRtuSerialPort serialPort)
         {
             Connect(serialPort, ModbusEndianness.LittleEndian);
@@ -132,7 +116,7 @@ namespace FluentModbus
         /// <summary>
         /// Connect to the specified <paramref name="serialPort"/>.
         /// </summary>
-        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/></param>
+        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/>.</param>
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
         {
@@ -149,8 +133,8 @@ namespace FluentModbus
 
             _frameBuffer = new ModbusFrameBuffer(256);
 
-            if (_internalSerialPort) 
-                _serialPort?.Close();
+            if (_serialPort is ModbusRtuSerialPort maybeInternalPort && maybeInternalPort.IsInternal)
+                maybeInternalPort.Close();
 
             _serialPort = serialPort;
 
@@ -158,9 +142,22 @@ namespace FluentModbus
                 _serialPort.Open(); 
         }
 
+        /// <summary>
+        /// Closes the opened COM port and frees all resources.
+        /// </summary>
+        public void Close()
+        {
+            if (_serialPort is ModbusRtuSerialPort maybeInternalPort && maybeInternalPort.IsInternal)
+                maybeInternalPort.Close();
+
+            _frameBuffer?.Dispose();
+        }
+
         ///<inheritdoc/>
         protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
+            // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
+
             int frameLength;
             byte rawFunctionCode;
             ushort crc;
