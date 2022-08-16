@@ -1,11 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace FluentModbus
 {
@@ -17,7 +13,7 @@ namespace FluentModbus
         #region Fields
 
         private bool _leaveOpen;
-        private ITcpClientProvider _tcpClientProvider;
+        private ITcpClientProvider? _tcpClientProvider;
 
         #endregion
 
@@ -78,10 +74,10 @@ namespace FluentModbus
         /// Gets the number of currently connected clients.
         /// </summary>
         public int ConnectionCount => RequestHandlers.Count;
-
+        
         internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
-        internal List<ModbusTcpRequestHandler> RequestHandlers { get; private set; }
+        internal List<ModbusTcpRequestHandler> RequestHandlers { get; private set; } = new List<ModbusTcpRequestHandler>();
 
         private ILogger Logger { get; }
 
@@ -147,6 +143,7 @@ namespace FluentModbus
                         {
                             tcpClient.Close();
                         }
+
                         else
                         {
                             RequestHandlers.Add(requestHandler);
@@ -221,7 +218,7 @@ namespace FluentModbus
             if (!_leaveOpen)
                 _tcpClientProvider?.Dispose();
 
-            RequestHandlers?.ForEach(requestHandler => requestHandler.Dispose());
+            RequestHandlers.ForEach(requestHandler => requestHandler.Dispose());
         }
 
         ///<inheritdoc/>

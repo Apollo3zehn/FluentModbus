@@ -3,7 +3,7 @@
   <PropertyGroup>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

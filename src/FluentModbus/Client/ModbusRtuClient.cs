@@ -9,8 +9,8 @@ namespace FluentModbus
     {
         #region Field
 
-        private IModbusRtuSerialPort _serialPort;
-        private ModbusFrameBuffer _frameBuffer;
+        private IModbusRtuSerialPort _serialPort = default!;
+        private ModbusFrameBuffer _frameBuffer = default!;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace FluentModbus
         {
             get
             {
-                return _serialPort != null ? _serialPort.IsOpen : false;
+                return _serialPort is not null ? _serialPort.IsOpen : false;
             }
         }
 

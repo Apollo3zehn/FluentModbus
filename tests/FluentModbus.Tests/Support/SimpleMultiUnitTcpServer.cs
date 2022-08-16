@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace FluentModbus.Tests
 {

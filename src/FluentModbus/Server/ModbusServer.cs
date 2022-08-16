@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("FluentModbus.Tests")]
 
@@ -50,18 +45,18 @@ namespace FluentModbus
         /// <summary>
         /// Occurs after one or more registers changed.
         /// </summary>
-        public event EventHandler<RegistersChangedEventArgs> RegistersChanged;
+        public event EventHandler<RegistersChangedEventArgs>? RegistersChanged;
 
         /// <summary>
         /// Occurs after one or more coils changed.
         /// </summary>
-        public event EventHandler<CoilsChangedEventArgs> CoilsChanged;
+        public event EventHandler<CoilsChangedEventArgs>? CoilsChanged;
 
         #endregion
 
         #region Fields
 
-        private Task _task_process_requests;
+        private Task? _task_process_requests;
         private ManualResetEventSlim _manualResetEvent;
 
         private Dictionary<byte, byte[]> _inputRegisterBufferMap = new();
@@ -146,14 +141,14 @@ namespace FluentModbus
         /// <summary>
         /// Gets or sets a method that validates each client request.
         /// </summary>
-        public Func<byte, ModbusFunctionCode, ushort, ushort, ModbusExceptionCode> RequestValidator { get; set; }
+        public Func<byte, ModbusFunctionCode, ushort, ushort, ModbusExceptionCode>? RequestValidator { get; set; }
 
         /// <summary>
         /// Gets or sets whether the events should be raised when register or coil data changes. Default: false.
         /// </summary>
         public bool EnableRaisingEvents { get; set; }
 
-        private protected CancellationTokenSource CTS { get; private set; }
+        private protected CancellationTokenSource CTS { get; private set; } = new CancellationTokenSource();
 
         private protected bool IsReady
         {

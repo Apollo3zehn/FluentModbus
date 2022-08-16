@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace FluentModbus
 {
@@ -17,9 +14,9 @@ namespace FluentModbus
         private ushort _transactionIdentifierBase;
         private object _transactionIdentifierLock;
 
-        private TcpClient _tcpClient;
-        private NetworkStream _networkStream;
-        private ModbusFrameBuffer _frameBuffer;
+        private TcpClient? _tcpClient;
+        private NetworkStream _networkStream = default!;
+        private ModbusFrameBuffer _frameBuffer = default!;
 
         #endregion
 
@@ -100,7 +97,13 @@ namespace FluentModbus
             if (!ModbusUtils.TryParseEndpoint(remoteEndpoint.AsSpan(), out var parsedRemoteEndpoint))
                 throw new FormatException("An invalid IPEndPoint was specified.");
 
+        #if NETSTANDARD2_0
+            Connect(parsedRemoteEndpoint!, endianness);
+        #endif
+        
+        #if NETSTANDARD2_1_OR_GREATER
             Connect(parsedRemoteEndpoint, endianness);
+        #endif
         }
 
         /// <summary>
@@ -170,6 +173,8 @@ namespace FluentModbus
         ///<inheritdoc/>
         protected override Span<byte> TransceiveFrame(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame)
         {
+            // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
+
             int frameLength;
             int partialLength;
 

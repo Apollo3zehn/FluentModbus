@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FluentModbus
+﻿namespace FluentModbus
 {
     public class XUnitFixture
     {
