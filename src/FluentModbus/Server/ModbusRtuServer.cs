@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace FluentModbus
 {
@@ -123,7 +121,7 @@ namespace FluentModbus
         /// <param name="port">The COM port to be used, e.g. COM1.</param>
         public void Start(string port)
         {
-            IModbusRtuSerialPort serialPort = new ModbusRtuSerialPort(new SerialPort(port)
+            IModbusRtuSerialPort serialPort = ModbusRtuSerialPort.CreateInternal(new SerialPort(port)
             {
                 BaudRate = BaudRate,
                 Handshake = Handshake,
