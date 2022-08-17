@@ -43,7 +43,7 @@ namespace FluentModbus
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // send request
-            await _serialPort.WriteAsync(_frameBuffer.Buffer, 0, frameLength, cancellationToken).ConfigureAwait(false);
+            await _serialPort!.Value.Value.WriteAsync(_frameBuffer.Buffer, 0, frameLength, cancellationToken).ConfigureAwait(false);
 
             // special case: broadcast (only for write commands)
             if (unitIdentifier == 0)
@@ -55,7 +55,7 @@ namespace FluentModbus
 
             while (true)
             {
-                frameLength += await _serialPort.ReadAsync(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
+                frameLength += await _serialPort!.Value.Value.ReadAsync(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
 
                 if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
                 {
