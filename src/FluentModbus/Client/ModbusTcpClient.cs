@@ -14,7 +14,7 @@ namespace FluentModbus
         private ushort _transactionIdentifierBase;
         private object _transactionIdentifierLock;
 
-        private TcpClient? _tcpClient;
+        private (TcpClient Value, bool IsInternal)? _tcpClient;
         private NetworkStream _networkStream = default!;
         private ModbusFrameBuffer _frameBuffer = default!;
 
@@ -59,7 +59,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the connection status of the underlying TCP client.
         /// </summary>
-        public bool IsConnected => _tcpClient?.Connected ?? false;
+        public bool IsConnected => _tcpClient?.Value.Connected ?? false;
 
         /// <summary>
         /// Connect to localhost at port 502 with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout.
@@ -141,18 +141,36 @@ namespace FluentModbus
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(IPEndPoint remoteEndpoint, ModbusEndianness endianness)
         {
-            base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian
-                         || !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
+            Connect(new TcpClient(), isInternal: true, remoteEndpoint, endianness);
+        }
 
-            _frameBuffer = new ModbusFrameBuffer(260);
+        /// <summary>
+        /// Connect to the specified <paramref name="remoteEndpoint"/>.
+        /// </summary>
+        /// <param name="tcpClient">The externally managed <see cref="TcpClient"/>.</param>
+        /// <param name="remoteEndpoint">The IP address and port of the end unit.</param>
+        /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+        public void Connect(TcpClient tcpClient, IPEndPoint remoteEndpoint, ModbusEndianness endianness)
+        {
+            Connect(tcpClient, isInternal: false, remoteEndpoint, endianness);
+        }
 
-            _tcpClient?.Close();
-            _tcpClient = new TcpClient();
+        private void Connect(TcpClient tcpClient, bool isInternal, IPEndPoint remoteEndpoint, ModbusEndianness endianness)
+        {
+            base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian || 
+                            !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
 
-            if (!_tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
+            _frameBuffer = new ModbusFrameBuffer(size: 260);
+
+            if (_tcpClient.HasValue && _tcpClient.Value.IsInternal)
+                _tcpClient.Value.Value.Close();
+
+            _tcpClient = (tcpClient, isInternal);
+
+            if (!tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
                 throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
 
-            _networkStream = _tcpClient.GetStream();
+            _networkStream = tcpClient.GetStream();
             _networkStream.ReadTimeout = ReadTimeout;
             _networkStream.WriteTimeout = WriteTimeout;
         }
@@ -162,7 +180,9 @@ namespace FluentModbus
         /// </summary>
         public void Disconnect()
         {
-            _tcpClient?.Close();
+            if (_tcpClient.HasValue && _tcpClient.Value.IsInternal)
+                _tcpClient.Value.Value.Close();
+                
             _frameBuffer?.Dispose();
 
             // workaround for https://github.com/Apollo3zehn/FluentModbus/issues/44#issuecomment-747321152

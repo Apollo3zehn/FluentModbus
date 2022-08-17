@@ -9,7 +9,7 @@ namespace FluentModbus
     {
         #region Field
 
-        private IModbusRtuSerialPort _serialPort = default!;
+        private (IModbusRtuSerialPort Value, bool IsInternal)? _serialPort;
         private ModbusFrameBuffer _frameBuffer = default!;
 
         #endregion
@@ -31,13 +31,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the connection status of the underlying serial port.
         /// </summary>
-        public bool IsConnected
-        {
-            get
-            {
-                return _serialPort is not null ? _serialPort.IsOpen : false;
-            }
-        }
+        public bool IsConnected => _serialPort?.Value.IsOpen ?? false;
 
         /// <summary>
         /// Gets or sets the serial baud rate. Default is 9600.
@@ -91,7 +85,7 @@ namespace FluentModbus
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(string port, ModbusEndianness endianness)
         {
-            var serialPort = ModbusRtuSerialPort.CreateInternal(new SerialPort(port)
+            var serialPort = new ModbusRtuSerialPort(new SerialPort(port)
             {
                 BaudRate = BaudRate,
                 Handshake = Handshake,
@@ -101,7 +95,7 @@ namespace FluentModbus
                 WriteTimeout = WriteTimeout
             });
 
-            Connect(serialPort, endianness);
+            Connect(serialPort, isInternal: true, endianness);
         }
 
         /// <summary>
@@ -110,15 +104,20 @@ namespace FluentModbus
         /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/>.</param>
         public void Connect(IModbusRtuSerialPort serialPort)
         {
-            Connect(serialPort, ModbusEndianness.LittleEndian);
+            Connect(serialPort, isInternal: false, ModbusEndianness.LittleEndian);
         }
 
         /// <summary>
         /// Connect to the specified <paramref name="serialPort"/>.
         /// </summary>
-        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/>.</param>
+        /// <param name="serialPort">The externally managed <see cref="IModbusRtuSerialPort"/>.</param>
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
+        {
+            Connect(serialPort, isInternal: false, endianness);
+        }
+
+        private void Connect(IModbusRtuSerialPort serialPort, bool isInternal, ModbusEndianness endianness)
         {
             /* According to the spec (https://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf), 
              * section 2.5.1 RTU Transmission Mode: "... the use of no parity requires 2 stop bits."
@@ -133,13 +132,13 @@ namespace FluentModbus
 
             _frameBuffer = new ModbusFrameBuffer(256);
 
-            if (_serialPort is ModbusRtuSerialPort maybeInternalPort && maybeInternalPort.IsInternal)
-                maybeInternalPort.Close();
+            if (_serialPort.HasValue && _serialPort.Value.IsInternal)
+                _serialPort.Value.Value.Close();
 
-            _serialPort = serialPort;
+            _serialPort = (serialPort, isInternal);
 
-            if (!_serialPort.IsOpen)
-                _serialPort.Open(); 
+            if (!serialPort.IsOpen)
+                serialPort.Open(); 
         }
 
         /// <summary>
@@ -147,8 +146,8 @@ namespace FluentModbus
         /// </summary>
         public void Close()
         {
-            if (_serialPort is ModbusRtuSerialPort maybeInternalPort && maybeInternalPort.IsInternal)
-                maybeInternalPort.Close();
+            if (_serialPort.HasValue && _serialPort.Value.IsInternal)
+                _serialPort.Value.Value.Close();
 
             _frameBuffer?.Dispose();
         }
@@ -194,7 +193,7 @@ namespace FluentModbus
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // send request
-            _serialPort.Write(_frameBuffer.Buffer, 0, frameLength);
+            _serialPort!.Value.Value.Write(_frameBuffer.Buffer, 0, frameLength);
 
             // special case: broadcast (only for write commands)
             if (unitIdentifier == 0)
@@ -206,7 +205,8 @@ namespace FluentModbus
 
             while (true)
             {
-                frameLength += _serialPort.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
+                frameLength += _serialPort!.Value.Value
+                    .Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
 
                 if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
                 {
