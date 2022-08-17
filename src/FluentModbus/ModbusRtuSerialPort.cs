@@ -25,19 +25,9 @@ namespace FluentModbus
 
         public bool IsOpen => _serialPort.IsOpen;
 
-        internal bool IsInternal { get; private set; }
-
         #endregion
 
         #region Methods
-
-        internal static ModbusRtuSerialPort CreateInternal(SerialPort serialPort)
-        {
-            return new ModbusRtuSerialPort(serialPort)
-            {
-                IsInternal = true
-            };
-        }
 
         /// <summary>
         /// Opens a new serial port connection.
