@@ -167,7 +167,7 @@ namespace FluentModbus
 
             _tcpClient = (tcpClient, isInternal);
 
-            if (!tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
+            if (!IsConnected && !tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout)) 
                 throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
 
             _networkStream = tcpClient.GetStream();
