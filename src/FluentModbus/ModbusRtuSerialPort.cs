@@ -74,7 +74,13 @@ namespace FluentModbus
             using var timeoutCts = new CancellationTokenSource(_serialPort.ReadTimeout);
 
             /* _serialPort.DiscardInBuffer is essential here to cancel the operation */
-            using (timeoutCts.Token.Register(() => _serialPort.DiscardInBuffer()))
+            using (timeoutCts.Token.Register(() =>
+                   {
+                       if (this.IsOpen)
+                       {
+                           _serialPort.DiscardInBuffer();
+                       }
+                   }))
             using (token.Register(() => timeoutCts.Cancel()))
             {
                 try

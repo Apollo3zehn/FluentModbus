@@ -110,6 +110,7 @@ namespace FluentModbus
             catch (TimeoutException)
             {
                 Length = 0;
+                UnitIdentifier = 255;
             }
 
             // make sure that the incoming frame is actually adressed to this server
