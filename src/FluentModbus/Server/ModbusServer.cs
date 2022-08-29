@@ -298,6 +298,14 @@ namespace FluentModbus
         }
 
         /// <summary>
+        /// Stops the server operation and cleans up all resources.
+        /// </summary>
+        public virtual void Stop()
+        {
+            this.StopProcessing();
+        }
+
+        /// <summary>
         /// Stops the server operation.
         /// </summary>
         public virtual void StopProcessing()

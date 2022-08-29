@@ -211,7 +211,7 @@ namespace FluentModbus
         /// <summary>
         /// Stops the server and closes all open TCP connections.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             base.StopProcessing();
 
