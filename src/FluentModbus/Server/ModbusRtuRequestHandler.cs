@@ -32,21 +32,19 @@ namespace FluentModbus
 
         internal override async Task ReceiveRequestAsync()
         {
-            if (CTS.IsCancellationRequested)
-                return;
-
             IsReady = false;
 
             try
             {
-                await InternalReceiveRequestAsync();
+                if (await InternalReceiveRequestAsync())
+                {
+                    IsReady = true; // WriteResponse() can be called only when IsReady = true
 
-                IsReady = true; // only when IsReady = true, WriteResponse() can be called
-
-                if (ModbusServer.IsAsynchronous)
-                    WriteResponse();
+                    if (ModbusServer.IsAsynchronous)
+                        WriteResponse();
+                }
             }
-            catch (Exception)
+            catch
             {
                 CTS.Cancel();
             }
@@ -118,6 +116,7 @@ namespace FluentModbus
                 LastRequest.Restart();
                 return true;
             }
+            
             else
             {
                 return false;
