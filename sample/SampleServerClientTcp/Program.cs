@@ -34,12 +34,11 @@ namespace FluentModbus.SampleMaster
 
             /* run Modbus TCP server */
             var cts = new CancellationTokenSource();
+            server.Start();
+            serverLogger.LogInformation("Server started.");
 
             var task_server = Task.Run(async () =>
             {
-                server.Start();
-                serverLogger.LogInformation("Server started.");
-
                 while (!cts.IsCancellationRequested)
                 {
                     // lock is required to synchronize buffer access between this application and one or more Modbus clients
