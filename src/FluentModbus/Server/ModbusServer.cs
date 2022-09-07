@@ -308,7 +308,7 @@ namespace FluentModbus
         /// <summary>
         /// Stops the server operation.
         /// </summary>
-        protected void StopProcessing()
+        protected virtual void StopProcessing()
         {
             CTS?.Cancel();
             _manualResetEvent?.Set();
