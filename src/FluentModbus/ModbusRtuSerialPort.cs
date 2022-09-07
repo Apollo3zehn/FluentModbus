@@ -76,10 +76,8 @@ namespace FluentModbus
             /* _serialPort.DiscardInBuffer is essential here to cancel the operation */
             using (timeoutCts.Token.Register(() =>
                    {
-                       if (this.IsOpen)
-                       {
+                       if (IsOpen)
                            _serialPort.DiscardInBuffer();
-                       }
                    }))
             using (token.Register(() => timeoutCts.Cancel()))
             {
