@@ -161,7 +161,7 @@ namespace FluentModbus
         /// <summary>
         /// Stops the server and closes the underlying serial port.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             base.StopProcessing();
 
