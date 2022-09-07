@@ -85,7 +85,7 @@ namespace FluentModbus.SampleMaster
                 client.Close();
 
                 Console.WriteLine("Tests finished. Press any key to continue.");
-                Console.ReadKey(true);
+                Console.ReadKey(intercept: true);
             });
 
             // wait for client task to finish

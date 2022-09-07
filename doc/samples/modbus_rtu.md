@@ -105,7 +105,7 @@ When everything is prepared, first start the server ...
         client.Close();
 
         Console.WriteLine("Tests finished. Press any key to continue.");
-        Console.ReadKey(true);
+        Console.ReadKey(intercept: true);
     });
 
 ```

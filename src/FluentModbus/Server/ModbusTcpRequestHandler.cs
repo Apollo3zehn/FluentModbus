@@ -27,7 +27,7 @@ namespace FluentModbus
             _networkStream = tcpClient.GetStream();
 
             DisplayName = ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
-            CTS.Token.Register(() => _networkStream.Close());
+            CancellationToken.Register(() => _networkStream.Close());
 
             _handleUnitIdentifiers = handleUnitIdentifiers;
 
@@ -48,11 +48,14 @@ namespace FluentModbus
 
         internal override async Task ReceiveRequestAsync()
         {
+            if (CancellationToken.IsCancellationRequested)
+                return;
+
             IsReady = false;
 
             try
             {
-                if (await InternalReceiveRequestAsync())
+                if (await TryReceiveRequestAsync())
                 {
                     IsReady = true; // WriteResponse() can be called only when IsReady = true
 
@@ -62,7 +65,7 @@ namespace FluentModbus
             }
             catch
             {
-                CTS.Cancel();
+                CancelToken();
             }
         }
 
@@ -102,8 +105,14 @@ namespace FluentModbus
             _networkStream.Write(FrameBuffer.Buffer, 0, frameLength);
         }
 
-        private async Task<bool> InternalReceiveRequestAsync()
+        private async Task<bool> TryReceiveRequestAsync()
         {
+            // Whenever the network stream has a read timeout set, a TimeoutException
+            // might occur which is catched later in ReceiveRequestAsync() where the token is
+            // cancelled. Up to 1 second later, the connection clean up method detects that the 
+            // token has been cancelled and removes the client from the list of connectected
+            // clients.
+
             int partialLength;
             bool isParsed;
 
@@ -120,8 +129,8 @@ namespace FluentModbus
                 }
                 else
                 {
-                    // actually, CancellationToken is ignored - therefore: _cts.Token.Register(() => ...);
-                    partialLength = await _networkStream.ReadAsync(FrameBuffer.Buffer, 0, FrameBuffer.Buffer.Length, CTS.Token);
+                    // actually, CancellationToken is ignored - therefore: CancellationToken.Register(() => ...);
+                    partialLength = await _networkStream.ReadAsync(FrameBuffer.Buffer, 0, FrameBuffer.Buffer.Length, CancellationToken);
                 }
 
                 if (partialLength > 0)

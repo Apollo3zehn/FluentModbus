@@ -165,18 +165,21 @@ namespace FluentModbus
                         // https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connected?redirectedfrom=MSDN&view=netframework-4.8#System_Net_Sockets_TcpClient_Connected
                         foreach (var requestHandler in RequestHandlers.ToList())
                         {
-                            if (requestHandler.LastRequest.Elapsed > ConnectionTimeout)
+                            if (// This condition may become true if an external TcpClientProvider is used 
+                                // and the user set a custom read timeout on the provided TcpClient.
+                                // This should be the only cause but since "ReceiveRequestAsync" is never
+                                // awaited, the actual cause may be different.
+                                requestHandler.CancellationToken.IsCancellationRequested ||
+                                // or there was not request received within the specified timeout
+                                requestHandler.LastRequest.Elapsed > ConnectionTimeout)
                             {
                                 try
                                 {
                                     Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
 
-                                    lock (Lock)
-                                    {
-                                        // remove request handler
-                                        RequestHandlers.Remove(requestHandler);
-                                        Logger.LogInformation($"{RequestHandlers.Count} {(RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
-                                    }
+                                    // remove request handler
+                                    RequestHandlers.Remove(requestHandler);
+                                    Logger.LogInformation($"{RequestHandlers.Count} {(RequestHandlers.Count == 1 ? "client is" : "clients are")} connected");
 
                                     requestHandler.Dispose();
                                 }

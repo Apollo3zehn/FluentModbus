@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.IO.Ports;
+using Microsoft.Extensions.Logging;
 
 namespace FluentModbus.SampleMaster
 {
@@ -6,6 +7,8 @@ namespace FluentModbus.SampleMaster
     {
         static async Task Main(string[] args)
         {
+            var b = new SerialPort();
+
             /* create logger */
             var loggerFactory = LoggerFactory.Create(loggingBuilder =>
             {
@@ -69,7 +72,7 @@ namespace FluentModbus.SampleMaster
                 client.Disconnect();
 
                 Console.WriteLine("Tests finished. Press any key to continue.");
-                Console.ReadKey(true);
+                Console.ReadKey(intercept: true);
             });
 
             // wait for client task to finish
