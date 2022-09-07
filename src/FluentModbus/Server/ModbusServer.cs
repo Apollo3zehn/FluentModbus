@@ -302,13 +302,13 @@ namespace FluentModbus
         /// </summary>
         public virtual void Stop()
         {
-            this.StopProcessing();
+            StopProcessing();
         }
 
         /// <summary>
         /// Stops the server operation.
         /// </summary>
-        public virtual void StopProcessing()
+        protected virtual void StopProcessing()
         {
             CTS?.Cancel();
             _manualResetEvent?.Set();
