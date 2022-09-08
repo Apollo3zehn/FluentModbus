@@ -1,5 +1,4 @@
-﻿using System.IO.Ports;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace FluentModbus.SampleMaster
 {
@@ -7,8 +6,6 @@ namespace FluentModbus.SampleMaster
     {
         static async Task Main(string[] args)
         {
-            var b = new SerialPort();
-
             /* create logger */
             var loggerFactory = LoggerFactory.Create(loggingBuilder =>
             {
