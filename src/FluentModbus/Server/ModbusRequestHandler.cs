@@ -7,6 +7,7 @@ namespace FluentModbus
     {
         #region Fields
 
+        private CancellationTokenSource _cts;
         private Task? _task;
 
         #endregion
@@ -21,7 +22,8 @@ namespace FluentModbus
             LastRequest = Stopwatch.StartNew();
             IsReady = true;
 
-            CTS = new CancellationTokenSource();
+            _cts = new CancellationTokenSource();
+            CancellationToken = _cts.Token;
         }
 
         #endregion
@@ -36,11 +38,11 @@ namespace FluentModbus
 
         public bool IsReady { get; protected set; }
 
+        public CancellationToken CancellationToken { get; }
+
         public abstract string DisplayName { get; }
 
         protected byte UnitIdentifier { get; set; }
-
-        protected CancellationTokenSource CTS { get; }
 
         protected ModbusFrameBuffer FrameBuffer { get; }
 
@@ -49,6 +51,11 @@ namespace FluentModbus
         #endregion
 
         #region Methods
+
+        public void CancelToken()
+        {
+            _cts.Cancel();
+        }
 
         public void WriteResponse()
         {
@@ -125,11 +132,11 @@ namespace FluentModbus
             {
                 _task = Task.Run(async () =>
                 {
-                    while (!CTS.IsCancellationRequested)
+                    while (!CancellationToken.IsCancellationRequested)
                     {
                         await ReceiveRequestAsync();
                     }
-                }, CTS.Token);
+                }, CancellationToken);
             }
         }
 
@@ -439,7 +446,7 @@ namespace FluentModbus
                 {
                     if (ModbusServer.IsAsynchronous)
                     {
-                        CTS?.Cancel();
+                        CancelToken();
 
                         try
                         {

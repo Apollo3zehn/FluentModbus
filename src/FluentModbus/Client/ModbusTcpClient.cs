@@ -7,7 +7,7 @@ namespace FluentModbus
     /// <summary>
     /// A Modbus TCP client.
     /// </summary>
-    public partial class ModbusTcpClient : ModbusClient
+    public partial class ModbusTcpClient : ModbusClient, IDisposable
     {
         #region Fields
 
@@ -141,21 +141,20 @@ namespace FluentModbus
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
         public void Connect(IPEndPoint remoteEndpoint, ModbusEndianness endianness)
         {
-            Connect(new TcpClient(), isInternal: true, remoteEndpoint, endianness);
+            Initialize(new TcpClient(), remoteEndpoint, endianness);
         }
 
         /// <summary>
-        /// Connect to the specified <paramref name="remoteEndpoint"/>.
+        /// Initialize the Modbus TCP client with an externally managed <see cref="TcpClient"/>.
         /// </summary>
         /// <param name="tcpClient">The externally managed <see cref="TcpClient"/>.</param>
-        /// <param name="remoteEndpoint">The IP address and port of the end unit.</param>
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
-        public void Connect(TcpClient tcpClient, IPEndPoint remoteEndpoint, ModbusEndianness endianness)
+        public void Initialize(TcpClient tcpClient, ModbusEndianness endianness)
         {
-            Connect(tcpClient, isInternal: false, remoteEndpoint, endianness);
+            Initialize(tcpClient, default, endianness);
         }
 
-        private void Connect(TcpClient tcpClient, bool isInternal, IPEndPoint remoteEndpoint, ModbusEndianness endianness)
+        private void Initialize(TcpClient tcpClient, IPEndPoint? remoteEndpoint, ModbusEndianness endianness)
         {
             base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian || 
                             !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
@@ -165,14 +164,26 @@ namespace FluentModbus
             if (_tcpClient.HasValue && _tcpClient.Value.IsInternal)
                 _tcpClient.Value.Value.Close();
 
+            var isInternal = remoteEndpoint is not null;
             _tcpClient = (tcpClient, isInternal);
 
-            if (!tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
+            if (remoteEndpoint is not null && !tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
                 throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
 
+            // Why no method signature with NetworkStream only and then set the timeouts 
+            // in the Connect method like for the RTU client?
+            //
+            // "If a NetworkStream was associated with a TcpClient, the Close method will
+            //  close the TCP connection, but not dispose of the associated TcpClient."
+            // -> https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.networkstream.close?view=net-6.0
+
             _networkStream = tcpClient.GetStream();
-            _networkStream.ReadTimeout = ReadTimeout;
-            _networkStream.WriteTimeout = WriteTimeout;
+
+            if (isInternal)
+            {
+                _networkStream.ReadTimeout = ReadTimeout;
+                _networkStream.WriteTimeout = WriteTimeout;
+            }
         }
 
         /// <summary>
@@ -325,6 +336,31 @@ namespace FluentModbus
             {
                 return _transactionIdentifierBase++;
             }
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        private bool _disposedValue;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Disconnect();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

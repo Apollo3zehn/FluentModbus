@@ -156,12 +156,34 @@ namespace FluentModbus
             base.StartProcessing();
 
             RequestHandler = new ModbusRtuRequestHandler(serialPort, this);
+
+            // remove clients asynchronously
+            /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
+            Task.Run(async () =>
+            {
+                while (!CTS.IsCancellationRequested)
+                {
+                    lock (Lock)
+                    {
+                        if (// This condition may become true if an external SerialPort is used 
+                            // and the user set a custom read timeout.
+                            // This should be the only cause but since "ReceiveRequestAsync" is never
+                            // awaited, the actual cause may be different.
+                            RequestHandler.CancellationToken.IsCancellationRequested)
+                        {
+                            StopProcessing();
+                        }
+                    }
+
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+            }, CTS.Token);
         }
 
         /// <summary>
         /// Stops the server and closes the underlying serial port.
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             base.StopProcessing();
 

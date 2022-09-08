@@ -23,7 +23,7 @@ namespace FluentModbus.Tests
             server.Start(serialPort);
 
             var client = new ModbusRtuClient();
-            client.Connect(serialPort);
+            client.Initialize(serialPort, ModbusEndianness.LittleEndian);
 
             await Task.Run(() =>
             {

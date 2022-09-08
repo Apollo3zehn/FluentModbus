@@ -90,7 +90,7 @@ When everything is prepared, first start the server ...
         client.Disconnect();
 
         Console.WriteLine("Tests finished. Press any key to continue.");
-        Console.ReadKey(true);
+        Console.ReadKey(intercept: true);
     });
 
 ```

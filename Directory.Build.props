@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <RestoreAdditionalProjectSources>
+      https://www.myget.org/F/apollo3zehn-dev/api/v3/index.json
+    </RestoreAdditionalProjectSources>
   </PropertyGroup>
       
   <PropertyGroup>

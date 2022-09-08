@@ -50,12 +50,11 @@ namespace FluentModbus.SampleMaster
 
             /* run Modbus RTU server */
             var cts = new CancellationTokenSource();
+            server.Start(serverPort);
+            serverLogger.LogInformation("Server started.");
 
             var task_server = Task.Run(async () =>
             {
-                server.Start(serverPort);
-                serverLogger.LogInformation("Server started.");
-
                 while (!cts.IsCancellationRequested)
                 {
                     // lock is required to synchronize buffer access between this application and the Modbus client
@@ -86,7 +85,7 @@ namespace FluentModbus.SampleMaster
                 client.Close();
 
                 Console.WriteLine("Tests finished. Press any key to continue.");
-                Console.ReadKey(true);
+                Console.ReadKey(intercept: true);
             });
 
             // wait for client task to finish

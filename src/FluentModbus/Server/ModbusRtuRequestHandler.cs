@@ -32,23 +32,24 @@ namespace FluentModbus
 
         internal override async Task ReceiveRequestAsync()
         {
-            if (CTS.IsCancellationRequested)
+            if (CancellationToken.IsCancellationRequested)
                 return;
 
             IsReady = false;
 
             try
             {
-                await InternalReceiveRequestAsync();
+                if (await TryReceiveRequestAsync())
+                {
+                    IsReady = true; // WriteResponse() can be called only when IsReady = true
 
-                IsReady = true; // only when IsReady = true, WriteResponse() can be called
-
-                if (ModbusServer.IsAsynchronous)
-                    WriteResponse();
+                    if (ModbusServer.IsAsynchronous)
+                        WriteResponse();
+                }
             }
-            catch (Exception)
+            catch
             {
-                CTS.Cancel();
+                CancelToken();
             }
         }
 
@@ -78,15 +79,21 @@ namespace FluentModbus
             _serialPort.Write(FrameBuffer.Buffer, 0, frameLength);
         }
 
-        private async Task<bool> InternalReceiveRequestAsync()
+        private async Task<bool> TryReceiveRequestAsync()
         {
+            // Whenever the serial port has a read timeout set, a TimeoutException might
+            // occur which is catched immediately. The reason is that - opposed to the TCP
+            // server - the RTU server maintains only a single connection and if that 
+            // connection is closed, there would be no point in running that server anymore. 
+            // To avoid that, the connection is kept alive by catching the TimeoutException.
+
             Length = 0;
 
             try
-            {
+            {               
                 while (true)
                 {
-                    Length += await _serialPort.ReadAsync(FrameBuffer.Buffer, Length, FrameBuffer.Buffer.Length - Length, CTS.Token);
+                    Length += await _serialPort.ReadAsync(FrameBuffer.Buffer, Length, FrameBuffer.Buffer.Length - Length, CancellationToken);
 
                     // full frame received
                     if (ModbusUtils.DetectFrame(255, FrameBuffer.Buffer.AsMemory(0, Length)))
@@ -109,7 +116,7 @@ namespace FluentModbus
             }
             catch (TimeoutException)
             {
-                Length = 0;
+                return false;
             }
 
             // make sure that the incoming frame is actually adressed to this server
@@ -118,6 +125,7 @@ namespace FluentModbus
                 LastRequest.Restart();
                 return true;
             }
+            
             else
             {
                 return false;

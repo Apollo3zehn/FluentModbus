@@ -5,7 +5,7 @@ namespace FluentModbus
     /// <summary>
     /// A Modbus RTU client.
     /// </summary>
-    public partial class ModbusRtuClient : ModbusClient
+    public partial class ModbusRtuClient : ModbusClient, IDisposable
     {
         #region Field
 
@@ -95,29 +95,20 @@ namespace FluentModbus
                 WriteTimeout = WriteTimeout
             });
 
-            Connect(serialPort, isInternal: true, endianness);
+            Initialize(serialPort, isInternal: true, endianness);
         }
 
         /// <summary>
-        /// Connect to the specified <paramref name="serialPort"/>.
-        /// </summary>
-        /// <param name="serialPort">The externally managed <see cref="ModbusRtuSerialPort"/>.</param>
-        public void Connect(IModbusRtuSerialPort serialPort)
-        {
-            Connect(serialPort, isInternal: false, ModbusEndianness.LittleEndian);
-        }
-
-        /// <summary>
-        /// Connect to the specified <paramref name="serialPort"/>.
+        /// Initialize the Modbus TCP client with an externally managed <see cref="IModbusRtuSerialPort"/>.
         /// </summary>
         /// <param name="serialPort">The externally managed <see cref="IModbusRtuSerialPort"/>.</param>
         /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
-        public void Connect(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
+        public void Initialize(IModbusRtuSerialPort serialPort, ModbusEndianness endianness)
         {
-            Connect(serialPort, isInternal: false, endianness);
+            Initialize(serialPort, isInternal: false, endianness);
         }
 
-        private void Connect(IModbusRtuSerialPort serialPort, bool isInternal, ModbusEndianness endianness)
+        private void Initialize(IModbusRtuSerialPort serialPort, bool isInternal, ModbusEndianness endianness)
         {
             /* According to the spec (https://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf), 
              * section 2.5.1 RTU Transmission Mode: "... the use of no parity requires 2 stop bits."
@@ -231,6 +222,31 @@ namespace FluentModbus
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
             return _frameBuffer.Buffer.AsSpan(1, frameLength - 3);
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        private bool _disposedValue;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Close();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

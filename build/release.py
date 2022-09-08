@@ -38,18 +38,31 @@ releases = response.json()
 if final_version in (release["name"] for release in releases):
     raise Exception(f"Release {final_version} already exists.")
 
-print(" unique release: OK")
+print("    unique release: OK")
 
-# prompt for annotation
-print("Please enter the release message (type 'quit' to stop):")
-lines = itertools.takewhile(lambda x: x.strip() != "quit" and x.strip() != "quit()", sys.stdin)
-release_message = "".join(lines).rstrip('\n')
+# get annotation
+with open("CHANGELOG.md") as file:
+    changelog = file.read()
+    
+matches = list(re.finditer(r"^##\s(.*?)\s-\s[0-9]{4}-[0-9]{2}-[0-9]{2}(.*?)(?=(?:\Z|^##\s))", changelog, re.MULTILINE | re.DOTALL))
+
+if not matches:
+    raise Exception(f"The file CHANGELOG.md is malformed.")
+
+match_for_version = next((match for match in matches if match[1] == final_version), None)
+
+if not match_for_version:
+    raise Exception(f"No change log entry found for version {final_version}.")
+
+release_message = match_for_version[2].strip()
+
+print("extract annotation: OK")
 
 # create tag
 subprocess.check_output(["git", "tag", "-a", final_version, "-m", release_message, "--cleanup=whitespace"], stdin=None, stderr=None, shell=False)
 
-print("     create tag: OK")
+print("        create tag: OK")
 
 # push tag
 subprocess.check_output(["git", "push", "--quiet", "origin", final_version], stdin=None, stderr=None, shell=False)
-print("       push tag: OK")
+print("          push tag: OK")
