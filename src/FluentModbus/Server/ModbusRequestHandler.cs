@@ -88,7 +88,7 @@ namespace FluentModbus
                         ModbusFunctionCode.WriteSingleCoil => ProcessWriteSingleCoil,
                         ModbusFunctionCode.WriteSingleRegister => ProcessWriteSingleRegister,
                         //ModbusFunctionCode.ReadExceptionStatus
-                        //ModbusFunctionCode.WriteMultipleCoils
+                        ModbusFunctionCode.WriteMultipleCoils => ProcessWriteMultipleCoils,
                         //ModbusFunctionCode.ReadFileRecord
                         //ModbusFunctionCode.WriteFileRecord
                         //ModbusFunctionCode.MaskWriteRegister
@@ -325,6 +325,73 @@ namespace FluentModbus
             }
         }
 
+        private void ProcessWriteMultipleCoils()
+        {
+            const int maxQuantityOfRegisters = 0x07b0;
+            var startAddress = FrameBuffer.Reader.ReadUInt16Reverse();
+            var quantityOfOutputs = FrameBuffer.Reader.ReadUInt16Reverse();
+            var byteCount = FrameBuffer.Reader.ReadByte();
+            var byteCountFromQuantity = quantityOfOutputs / 8;
+            var bitCountFromQuantity = quantityOfOutputs % 8;
+
+            if (bitCountFromQuantity != 0)
+                ++byteCountFromQuantity;
+
+            if ((quantityOfOutputs is < 1 or > maxQuantityOfRegisters) || byteCountFromQuantity != byteCount)
+            {
+                WriteExceptionResponse(ModbusFunctionCode.WriteMultipleCoils, ModbusExceptionCode.IllegalDataValue);
+                return;
+            }
+
+            if (CheckRegisterBounds(ModbusFunctionCode.WriteMultipleCoils, startAddress, ModbusServer.MaxCoilAddress, quantityOfOutputs, maxQuantityOfRegisters))
+            {
+                byte[] values = new byte[byteCount];
+                for (int i = 0; i < byteCount; ++i)
+                    values[i] = FrameBuffer.Reader.ReadByte();
+
+                for (ushort i = 0; i < quantityOfOutputs; ++i)
+                {
+                    byte b = values[i / 8];
+                    int bit = i % 8;
+                    bool value = (b & (1 << bit - 1)) != 0;
+                    WriteCoil(value, (ushort)(startAddress + i));
+                }
+            }
+
+            FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteMultipleCoils);
+
+            if (BitConverter.IsLittleEndian)
+            {
+                FrameBuffer.Writer.WriteReverse(startAddress);
+                FrameBuffer.Writer.WriteReverse(quantityOfOutputs);
+            }
+            else
+            {
+                FrameBuffer.Writer.Write(startAddress);
+                FrameBuffer.Writer.Write(quantityOfOutputs);
+            }
+        }
+
+        private void WriteCoil(bool value, ushort outputAddress)
+        {
+            var bufferByteIndex = outputAddress / 8;
+            var bufferBitIndex = outputAddress % 8;
+
+            var coils = ModbusServer.GetCoils(UnitIdentifier);
+            var oldValue = coils[bufferByteIndex];
+            var newValue = oldValue;
+
+            if (!value)
+                newValue &= (byte)~(1 << bufferBitIndex);
+            else
+                newValue |= (byte)(1 << bufferBitIndex);
+
+            coils[bufferByteIndex] = newValue;
+
+            if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
+                ModbusServer.OnCoilsChanged(UnitIdentifier, new int[] { outputAddress });
+        }
+
         private void ProcessWriteSingleCoil()
         {
             var outputAddress = FrameBuffer.Reader.ReadUInt16Reverse();
@@ -338,22 +405,7 @@ namespace FluentModbus
                 }
                 else
                 {
-                    var bufferByteIndex = outputAddress / 8;
-                    var bufferBitIndex = outputAddress % 8;
-
-                    var coils = ModbusServer.GetCoils(UnitIdentifier);
-                    var oldValue = coils[bufferByteIndex];
-                    var newValue = oldValue;
-
-                    if (outputValue == 0x0000)
-                        newValue &= (byte)~(1 << bufferBitIndex);
-                    else
-                        newValue |= (byte)(1 << bufferBitIndex);
-
-                    coils[bufferByteIndex] = newValue;
-
-                    if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
-                        ModbusServer.OnCoilsChanged(UnitIdentifier, new int[] { outputAddress });
+                    WriteCoil(outputValue == 0x00FF, outputAddress);
 
                     FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
 
