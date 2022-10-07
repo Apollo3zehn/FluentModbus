@@ -74,7 +74,7 @@ namespace FluentModbus
         /// Gets the number of currently connected clients.
         /// </summary>
         public int ConnectionCount => RequestHandlers.Count;
-        
+
         internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
         internal List<ModbusTcpRequestHandler> RequestHandlers { get; private set; } = new List<ModbusTcpRequestHandler>();
@@ -88,25 +88,25 @@ namespace FluentModbus
         /// <summary>
         /// Starts the server. It will listen on any IP address on port 502.
         /// </summary>
-        public void Start()
+        public void Start(bool reuseAddress = false)
         {
-            Start(new IPEndPoint(IPAddress.Any, 502));
+            Start(new IPEndPoint(IPAddress.Any, 502), reuseAddress);
         }
 
         /// <summary>
         /// Starts the server. It will listen on the provided <paramref name="ipAddress"/> on port 502.
         /// </summary>
-        public void Start(IPAddress ipAddress)
+        public void Start(IPAddress ipAddress, bool reuseAddress = false)
         {
-            Start(new IPEndPoint(ipAddress, 502));
+            Start(new IPEndPoint(ipAddress, 502), reuseAddress);
         }
 
         /// <summary>
         /// Starts the server. It will listen on the provided <paramref name="localEndpoint"/>.
         /// </summary>
-        public void Start(IPEndPoint localEndpoint)
+        public void Start(IPEndPoint localEndpoint, bool reuseAddress = false)
         {
-            Start(new DefaultTcpClientProvider(localEndpoint));
+            Start(new DefaultTcpClientProvider(localEndpoint) { ReuseAddress = reuseAddress });
         }
 
         /// <summary>

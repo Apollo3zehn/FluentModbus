@@ -7,15 +7,20 @@ namespace FluentModbus
     {
         #region Fields
 
-        private TcpListener _tcpListener;
+        private readonly TcpListener _tcpListener;
 
         #endregion
+
+        public bool ReuseAddress { get; set; }
 
         #region Constructors
 
         public DefaultTcpClientProvider(IPEndPoint endPoint)
         {
             _tcpListener = new TcpListener(endPoint);
+
+            if (ReuseAddress)
+                _tcpListener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             _tcpListener.Start();
         }
 
