@@ -353,7 +353,7 @@ namespace FluentModbus
                 {
                     byte b = values[i / 8];
                     int bit = i % 8;
-                    bool value = (b & (1 << bit - 1)) != 0;
+                    bool value = (b & (1 << bit)) != 0;
                     WriteCoil(value, (ushort)(startAddress + i));
                 }
             }
