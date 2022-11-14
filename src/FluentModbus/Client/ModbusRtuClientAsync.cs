@@ -57,7 +57,7 @@ namespace FluentModbus
             {
                 frameLength += await _serialPort!.Value.Value.ReadAsync(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
 
-                if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
+                if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
                 {
                     break;
                 }

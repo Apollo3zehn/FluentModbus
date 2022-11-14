@@ -199,7 +199,7 @@ namespace FluentModbus
                 frameLength += _serialPort!.Value.Value
                     .Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
 
-                if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
+                if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
                 {
                     break;
                 }
@@ -230,6 +230,7 @@ namespace FluentModbus
 
         private bool _disposedValue;
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -243,6 +244,9 @@ namespace FluentModbus
             }
         }
 
+        /// <summary>
+        /// Disposes the current instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);

@@ -358,7 +358,9 @@ namespace FluentModbus
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Diposes the current instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);

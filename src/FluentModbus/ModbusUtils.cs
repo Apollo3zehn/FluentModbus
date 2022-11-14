@@ -74,7 +74,42 @@ namespace FluentModbus
             return crc;
         }
 
-        public static bool DetectFrame(byte unitIdentifier, Memory<byte> frame)
+        public static bool DetectRequestFrame(byte unitIdentifier, Memory<byte> frame)
+        {
+#warning This method should be improved byte validating the total length against the expected length depending on the function code
+            /* Correct response frame (min. 4 bytes)
+             * 00 Unit Identifier
+             * 01 Function Code
+             * (0..x bytes - depends on function code)
+             * n-1 CRC Byte 1
+             * n   CRC Byte 2
+             */
+
+            var span = frame.Span;
+
+            if (span.Length < 4)
+                return false;
+
+            if (unitIdentifier != 255) // 255 means "skip unit identifier check"
+            {
+                var newUnitIdentifier = span[0];
+
+                if (newUnitIdentifier != unitIdentifier)
+                    return false;
+            }
+
+            // CRC check
+            var crcBytes = span.Slice(span.Length - 2, 2);
+            var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
+            var expectedCRC = ModbusUtils.CalculateCRC(frame.Slice(0, frame.Length - 2));
+
+            if (actualCRC != expectedCRC)
+                return false;
+
+            return true;
+        }
+
+        public static bool DetectResponseFrame(byte unitIdentifier, Memory<byte> frame)
         {
             /* Correct response frame (min. 6 bytes)
              * 00 Unit Identifier
