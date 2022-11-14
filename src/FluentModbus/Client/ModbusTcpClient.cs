@@ -344,6 +344,7 @@ namespace FluentModbus
 
         private bool _disposedValue;
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -357,6 +358,9 @@ namespace FluentModbus
             }
         }
 
+        /// <summary>
+        /// Diposes the current instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);

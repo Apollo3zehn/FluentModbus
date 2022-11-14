@@ -96,7 +96,7 @@ namespace FluentModbus
                     Length += await _serialPort.ReadAsync(FrameBuffer.Buffer, Length, FrameBuffer.Buffer.Length - Length, CancellationToken);
 
                     // full frame received
-                    if (ModbusUtils.DetectFrame(255, FrameBuffer.Buffer.AsMemory(0, Length)))
+                    if (ModbusUtils.DetectRequestFrame(255, FrameBuffer.Buffer.AsMemory(0, Length)))
                     {
                         FrameBuffer.Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
