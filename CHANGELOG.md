@@ -1,8 +1,14 @@
+## v5.0.2 - 2022-11-14
+
+### Bugs Fixed
+
+- The Modbus RTU client did not correctly detect response frames (thanks @zhangchaoza, fixes https://github.com/Apollo3zehn/FluentModbus/issues/83)
+
 ## v5.0.1 - 2022-11-14
 
 ### Bugs Fixed
 
-- The Modbus server did not correctly detect request frames (thanks @jmsqlr, https://github.com/Apollo3zehn/FluentModbus/pull/75#issuecomment-1304653670)
+- The Modbus RTU server did not correctly detect request frames (thanks @jmsqlr, https://github.com/Apollo3zehn/FluentModbus/pull/75#issuecomment-1304653670)
 
 ## v5.0.0 - 2022-09-08
 
