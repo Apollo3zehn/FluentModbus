@@ -54,7 +54,7 @@ client.Connect();
 client.Connect(IPAddress.Parse("127.0.0.1"));
 
 // use specified IP adress and port
-client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502))
+client.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502));
 ```
 
 ## Modbus RTU client
