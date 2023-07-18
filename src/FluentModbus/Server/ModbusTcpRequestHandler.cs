@@ -170,8 +170,6 @@ namespace FluentModbus
             }
 
             // make sure that the incoming frame is actually addressed to this server
-            //// If we have only one UnitIdentifier, and it is zero, then we accept all incoming messages
-            //if (ModbusServer.IsSingleZeroUnitMode || ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
             if (ModbusServer.GetActualUnitIdentifier(UnitIdentifier).HasValue)
             {
                 LastRequest.Restart();

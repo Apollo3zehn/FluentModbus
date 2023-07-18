@@ -119,13 +119,13 @@ namespace FluentModbus
                 return false;
             }
 
-            // make sure that the incoming frame is actually adressed to this server
-            if (ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
+            // make sure that the incoming frame is actually addressed to this server
+            if (ModbusServer.GetActualUnitIdentifier(UnitIdentifier).HasValue)
             {
                 LastRequest.Restart();
                 return true;
             }
-            
+
             else
             {
                 return false;
