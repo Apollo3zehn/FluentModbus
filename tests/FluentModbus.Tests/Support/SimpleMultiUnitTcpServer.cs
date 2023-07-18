@@ -27,7 +27,7 @@ namespace FluentModbus.Tests
                     // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                     // use ConnectionTimeout instead.
                     var tcpClient = await tcpClientProvider.AcceptTcpClientAsync();
-                    var requestHandler = new ModbusTcpRequestHandler(tcpClient, this, handleUnitIdentifiers: true);
+                    var requestHandler = new ModbusTcpRequestHandler(tcpClient, this);
 
                     lock (Lock)
                     {
