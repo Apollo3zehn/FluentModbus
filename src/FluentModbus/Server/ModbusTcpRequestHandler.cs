@@ -91,6 +91,8 @@ namespace FluentModbus
                 FrameBuffer.Writer.Write((byte)(length - 6));
             }
 
+            // add unit identifier
+            // (the UnitIdentifier that originated in the Request, NOT the ActualUnitIdentifier)
             FrameBuffer.Writer.Write(UnitIdentifier);
 
             return length;
@@ -170,12 +172,14 @@ namespace FluentModbus
             }
 
             // make sure that the incoming frame is actually addressed to this server
-            if (ModbusServer.GetActualUnitIdentifier(UnitIdentifier).HasValue)
+            var actualUnitIdentifier = ModbusServer.GetActualUnitIdentifier(UnitIdentifier);
+            if (actualUnitIdentifier.HasValue)
             {
+                ActualUnitIdentifier = actualUnitIdentifier.Value;
                 LastRequest.Restart();
                 return true;
             }
-            
+
             else
             {
                 return false;

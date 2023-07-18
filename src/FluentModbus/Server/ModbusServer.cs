@@ -467,10 +467,7 @@ namespace FluentModbus
 
         private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
         {
-            var actualUnitIdentifier = GetActualUnitIdentifier(unitIdentifier);
-
-            if (!actualUnitIdentifier.HasValue
-                || !map.TryGetValue(actualUnitIdentifier.Value, out var buffer))
+            if (!map.TryGetValue(unitIdentifier, out var buffer))
                 throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound + $" ({unitIdentifier})");
 
             return buffer;
