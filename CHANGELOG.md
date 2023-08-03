@@ -1,4 +1,4 @@
-## v5.0.2 - 2023-08-03
+## v5.0.3 - 2023-08-03
 
 - The Modbus TCP server now returns the received unit identifier even when its own unit identifier is set to zero (the default) (solves #93).
 - The protected methods `AddUnit()` and `RemoveUnit()` have been made public.
