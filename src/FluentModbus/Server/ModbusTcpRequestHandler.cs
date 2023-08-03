@@ -7,20 +7,18 @@ namespace FluentModbus
     {
         #region Fields
 
-        private TcpClient _tcpClient;
-        private NetworkStream _networkStream;
+        private readonly TcpClient _tcpClient;
+        private readonly NetworkStream _networkStream;
 
         private ushort _transactionIdentifier;
         private ushort _protocolIdentifier;
         private ushort _bytesFollowing;
 
-        private bool _handleUnitIdentifiers;
-
         #endregion
 
         #region Constructors
 
-        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusTcpServer tcpServer, bool handleUnitIdentifiers = false /* For testing only */)
+        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusTcpServer tcpServer)
             : base(tcpServer, 260)
         {
             _tcpClient = tcpClient;
@@ -28,8 +26,6 @@ namespace FluentModbus
 
             DisplayName = ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
             CancellationToken.Register(() => _networkStream.Close());
-
-            _handleUnitIdentifiers = handleUnitIdentifiers;
 
             base.Start();
         }
@@ -144,13 +140,10 @@ namespace FluentModbus
                             FrameBuffer.Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                             // read MBAP header
-                            _transactionIdentifier = FrameBuffer.Reader.ReadUInt16Reverse();       // 00-01  Transaction Identifier
-                            _protocolIdentifier = FrameBuffer.Reader.ReadUInt16Reverse();          // 02-03  Protocol Identifier               
-                            _bytesFollowing = FrameBuffer.Reader.ReadUInt16Reverse();              // 04-05  Length
-                            var unitIdentifier = FrameBuffer.Reader.ReadByte();                    // 06     Unit Identifier
-
-                            if (_handleUnitIdentifiers)
-                                UnitIdentifier = unitIdentifier;
+                            _transactionIdentifier = FrameBuffer.Reader.ReadUInt16Reverse();   // 00-01  Transaction Identifier
+                            _protocolIdentifier = FrameBuffer.Reader.ReadUInt16Reverse();      // 02-03  Protocol Identifier               
+                            _bytesFollowing = FrameBuffer.Reader.ReadUInt16Reverse();          // 04-05  Length
+                            UnitIdentifier = FrameBuffer.Reader.ReadByte();                    // 06     Unit Identifier
 
                             if (_protocolIdentifier != 0)
                             {
@@ -176,8 +169,10 @@ namespace FluentModbus
                 }
             }
 
-            // make sure that the incoming frame is actually adressed to this server
-            if (ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
+            // Make sure that the incoming frame is actually addressed to this server.
+            // If we have only one UnitIdentifier, and it is zero, then we accept all 
+            // incoming messages
+            if (ModbusServer.IsSingleZeroUnitMode || ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
             {
                 LastRequest.Restart();
                 return true;
