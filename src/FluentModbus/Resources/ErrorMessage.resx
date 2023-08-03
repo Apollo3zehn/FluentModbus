@@ -189,9 +189,6 @@
   <data name="ModbusServer_UnitIdentifierNotFound" xml:space="preserve">
     <value>No unit found for the specified unit identifier.</value>
   </data>
-  <data name="ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode" xml:space="preserve">
-    <value>A unit identifier of 0 is only applicable in single unit mode.</value>
-  </data>
   <data name="ModbusTcpRequestHandler_NoValidRequestAvailable" xml:space="preserve">
     <value>There is no valid request available.</value>
   </data>

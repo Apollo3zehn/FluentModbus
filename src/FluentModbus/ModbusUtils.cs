@@ -26,16 +26,16 @@ namespace FluentModbus
                 if (value[lastColonPos - 1] == ']')
                     addressLength = lastColonPos;
 
-                else if (value.Slice(0, lastColonPos).LastIndexOf(':') == -1)
+                else if (value[..lastColonPos].LastIndexOf(':') == -1)
                     addressLength = lastColonPos;
             }
 
-            if (IPAddress.TryParse(value.Slice(0, addressLength).ToString(), out var address))
+            if (IPAddress.TryParse(value[..addressLength].ToString(), out var address))
             {
                 var port = 502U;
 
                 if (addressLength == value.Length ||
-                    (uint.TryParse(value.Slice(addressLength + 1).ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out port) && port <= 65536))
+                    (uint.TryParse(value[(addressLength + 1)..].ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out port) && port <= 65536))
 
                 {
                     result = new IPEndPoint(address, (int)port);
@@ -76,7 +76,7 @@ namespace FluentModbus
 
         public static bool DetectRequestFrame(byte unitIdentifier, Memory<byte> frame)
         {
-#warning This method should be improved byte validating the total length against the expected length depending on the function code
+#warning This method should be improved by validating the total length against the expected length depending on the function code
             /* Correct response frame (min. 4 bytes)
              * 00 Unit Identifier
              * 01 Function Code
@@ -101,7 +101,7 @@ namespace FluentModbus
             // CRC check
             var crcBytes = span.Slice(span.Length - 2, 2);
             var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
-            var expectedCRC = ModbusUtils.CalculateCRC(frame.Slice(0, frame.Length - 2));
+            var expectedCRC = CalculateCRC(frame[..^2]);
 
             if (actualCRC != expectedCRC)
                 return false;
@@ -196,7 +196,7 @@ namespace FluentModbus
             // CRC check
             var crcBytes = span.Slice(span.Length - 2, 2);
             var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
-            var expectedCRC = ModbusUtils.CalculateCRC(frame.Slice(0, frame.Length - 2));
+            var expectedCRC = CalculateCRC(frame[..^2]);
 
             if (actualCRC != expectedCRC)
                 return false;
@@ -219,7 +219,7 @@ namespace FluentModbus
         public static T SwitchEndianness<T>(T value) where T : unmanaged
         {
             Span<T> data = stackalloc T[] { value };
-            ModbusUtils.SwitchEndianness(data);
+            SwitchEndianness(data);
 
             return data[0];
         }
@@ -250,7 +250,7 @@ namespace FluentModbus
 
         public static void SwitchEndianness<T>(Memory<T> dataset) where T : unmanaged
         {
-            ModbusUtils.SwitchEndianness(dataset.Span);
+            SwitchEndianness(dataset.Span);
         }
 
         public static void SwitchEndianness<T>(Span<T> dataset) where T : unmanaged
@@ -265,9 +265,7 @@ namespace FluentModbus
                     var i1 = i + j;
                     var i2 = i - j + size - 1;
 
-                    byte tmp = dataset_bytes[i1];
-                    dataset_bytes[i1] = dataset_bytes[i2];
-                    dataset_bytes[i2] = tmp;
+                    (dataset_bytes[i2], dataset_bytes[i1]) = (dataset_bytes[i1], dataset_bytes[i2]);
                 }
             }
         }

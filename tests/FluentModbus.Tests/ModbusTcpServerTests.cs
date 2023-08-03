@@ -7,7 +7,7 @@ namespace FluentModbus.Tests
 {
     public class ModbusTcpServerTests : IClassFixture<XUnitFixture>
     {
-        private ITestOutputHelper _logger;
+        private readonly ITestOutputHelper _logger;
 
         public ModbusTcpServerTests(ITestOutputHelper logger)
         {

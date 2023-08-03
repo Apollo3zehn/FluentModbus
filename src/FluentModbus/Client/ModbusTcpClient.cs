@@ -12,7 +12,7 @@ namespace FluentModbus
         #region Fields
 
         private ushort _transactionIdentifierBase;
-        private object _transactionIdentifierLock;
+        private readonly object _transactionIdentifierLock;
 
         private (TcpClient Value, bool IsInternal)? _tcpClient;
         private NetworkStream _networkStream = default!;
@@ -209,7 +209,6 @@ namespace FluentModbus
             int frameLength;
             int partialLength;
 
-            ushort transactionIdentifier;
             ushort protocolIdentifier;
             ushort bytesFollowing;
 
@@ -302,10 +301,10 @@ namespace FluentModbus
                     if (!isParsed) // read MBAP header only once
                     {
                         // read MBAP header
-                        transactionIdentifier = reader.ReadUInt16Reverse();              // 00-01  Transaction Identifier
-                        protocolIdentifier = reader.ReadUInt16Reverse();                 // 02-03  Protocol Identifier               
-                        bytesFollowing = reader.ReadUInt16Reverse();                     // 04-05  Length
-                        unitIdentifier = reader.ReadByte();                              // 06     Unit Identifier
+                        _ = reader.ReadUInt16Reverse();                                     // 00-01  Transaction Identifier
+                        protocolIdentifier = reader.ReadUInt16Reverse();                    // 02-03  Protocol Identifier               
+                        bytesFollowing = reader.ReadUInt16Reverse();                        // 04-05  Length
+                        _ = reader.ReadByte();                                              // 06     Unit Identifier
 
                         if (protocolIdentifier != 0)
                             throw new ModbusException(ErrorMessage.ModbusClient_InvalidProtocolIdentifier);
