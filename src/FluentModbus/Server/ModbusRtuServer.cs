@@ -31,11 +31,7 @@ namespace FluentModbus
         /// <param name="unitIdentifier">The unique Modbus RTU unit identifier (1..247).</param>
         public ModbusRtuServer(byte unitIdentifier, bool isAsynchronous) : base(isAsynchronous)
         {
-            if (0 < unitIdentifier && unitIdentifier <= 247)
-                AddUnit(unitIdentifier);
-
-            else
-                throw new ArgumentException(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
+            AddUnit(unitIdentifier);
         }
 
         /// <summary>
@@ -56,11 +52,7 @@ namespace FluentModbus
         {
             foreach (var unitIdentifier in unitIdentifiers)
             {
-                if (0 < unitIdentifier && unitIdentifier <= 247)
-                    AddUnit(unitIdentifier);
-
-                else
-                    throw new ArgumentException(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
+                AddUnit(unitIdentifier);
             }
         }
 
@@ -75,9 +67,9 @@ namespace FluentModbus
         {
             get
             {
-                return _serialPort is not null 
-                    ? _serialPort.IsOpen 
-                    : false;
+                return 
+                    _serialPort is not null && 
+                    _serialPort.IsOpen;
             }
         }
 
@@ -187,25 +179,19 @@ namespace FluentModbus
         {
             base.StopProcessing();
 
-            RequestHandler?.Dispose();            
+            RequestHandler?.Dispose();
         }
-
         /// <summary>
         /// Dynamically adds a new unit to the server.
         /// </summary>
-        /// <param name="unitIdentifer">The identifier of the unit to add.</param>
-        public new void AddUnit(byte unitIdentifer)
+        /// <param name="unitIdentifier">The identifier of the unit to add.</param>
+        public new void AddUnit(byte unitIdentifier)
         {
-            base.AddUnit(unitIdentifer);
-        }
+            if (0 < unitIdentifier && unitIdentifier <= 247)
+                    base.AddUnit(unitIdentifier);
 
-        /// <summary>
-        /// Dynamically removes an existing unit from the server.
-        /// </summary>
-        /// <param name="unitIdentifer">The identifier of the unit to remove.</param>
-        public new void RemoveUnit(byte unitIdentifer)
-        {
-            base.RemoveUnit(unitIdentifer);
+            else
+                throw new ArgumentException(ErrorMessage.ModbusServer_InvalidUnitIdentifier);
         }
 
         ///<inheritdoc/>

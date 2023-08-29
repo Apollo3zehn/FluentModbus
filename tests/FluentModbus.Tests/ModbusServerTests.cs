@@ -440,11 +440,11 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            using var server = new SimpleMultiUnitTcpServer();
+            using var server = new ModbusTcpServer();
             server.AddUnit(1);
             server.AddUnit(2);
             server.AddUnit(3);
-            server.StartMultiUnit(endpoint);
+            server.Start(endpoint);
 
             var registersOne = server.GetHoldingRegisters(unitIdentifier: 1);
             var registersTwo = server.GetHoldingRegisters(unitIdentifier: 2);
@@ -474,11 +474,11 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            using var server = new SimpleMultiUnitTcpServer();
+            using var server = new ModbusTcpServer();
             server.AddUnit(1);
             server.AddUnit(2);
             server.AddUnit(3);
-            server.StartMultiUnit(endpoint);
+            server.Start(endpoint);
 
             var registersOne = server.GetHoldingRegisters(unitIdentifier: 1);
             var registersTwo = server.GetHoldingRegisters(unitIdentifier: 2);
@@ -509,8 +509,8 @@ namespace FluentModbus.Tests
             const int startingAddress = 7;
             var endpoint = EndpointSource.GetNext();
 
-            using var server = new SimpleMultiUnitTcpServer();
-            server.StartMultiUnit(endpoint);
+            using var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);

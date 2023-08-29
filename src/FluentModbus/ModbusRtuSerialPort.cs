@@ -9,7 +9,7 @@ namespace FluentModbus
     {
         #region Fields
 
-        private SerialPort _serialPort;
+        private readonly SerialPort _serialPort;
 
         #endregion
 

@@ -7,8 +7,8 @@ namespace FluentModbus
     {
         #region Fields
 
-        private TcpClient _tcpClient;
-        private NetworkStream _networkStream;
+        private readonly TcpClient _tcpClient;
+        private readonly NetworkStream _networkStream;
 
         private ushort _transactionIdentifier;
         private ushort _protocolIdentifier;
@@ -171,9 +171,10 @@ namespace FluentModbus
                 }
             }
 
-            // make sure that the incoming frame is actually addressed to this server
-            var actualUnitIdentifier = ModbusServer.GetActualUnitIdentifier(UnitIdentifier);
-            if (actualUnitIdentifier.HasValue)
+            // Make sure that the incoming frame is actually addressed to this server.
+            // If we have only one UnitIdentifier, and it is zero, then we accept all 
+            // incoming messages
+            if (ModbusServer.IsSingleZeroUnitMode || ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
             {
                 ActualUnitIdentifier = actualUnitIdentifier.Value;
                 LastRequest.Restart();
