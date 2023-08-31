@@ -191,7 +191,7 @@ namespace FluentModbus
 
             for (int i = 0; i < newValues.Length; i++)
             {
-                if (newValues[i] != oldValues[i])
+                if (newValues[i] != oldValues[i] || ModbusServer.AlwaysRaiseChangedEvent)
                 {
                     changedRegisters[index] = startingAddress + i;
                     index++;
@@ -352,7 +352,7 @@ namespace FluentModbus
 
                     coils[bufferByteIndex] = newValue;
 
-                    if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
+                    if (ModbusServer.EnableRaisingEvents && (newValue != oldValue || ModbusServer.AlwaysRaiseChangedEvent))
                         ModbusServer.OnCoilsChanged(UnitIdentifier, new int[] { outputAddress });
 
                     FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
@@ -379,7 +379,7 @@ namespace FluentModbus
                 var newValue = registerValue;
                 holdingRegisters[registerAddress] = newValue;
 
-                if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
+                if (ModbusServer.EnableRaisingEvents && (newValue != oldValue || ModbusServer.AlwaysRaiseChangedEvent))
                     ModbusServer.OnRegistersChanged(UnitIdentifier, new int[] { registerAddress });
 
                 FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);
