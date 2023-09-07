@@ -119,7 +119,7 @@ namespace FluentModbus.SampleMaster
             //var unitIdentifier = 7;
             var unitIdentifier = 0xFF;  // The "insignificant" identifier
 
-            // Zero is valid, but non-zero addresses are visible in WireShark captures
+            // Zero is valid, but non-zero addresses are more easily visible in WireShark captures
             var startingAddress = 3;
             var registerAddress = 3;
 

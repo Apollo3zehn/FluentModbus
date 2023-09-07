@@ -43,7 +43,7 @@ namespace FluentModbus
         public abstract string DisplayName { get; }
 
         /// <summary>
-        /// This is the UnitIdentifier that originates with an incoming request,
+        /// This is the UnitIdentifier that is specified in an incoming request,
         /// and is also used in the outgoing response.
         /// </summary>
         protected byte UnitIdentifier { get; set; }
