@@ -12,5 +12,7 @@ namespace FluentModbus
         /// </summary>
         /// <returns></returns>
         Task<TcpClient> AcceptTcpClientAsync();
+
+        ushort Port { get; }
     }
 }

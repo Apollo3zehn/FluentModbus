@@ -15,6 +15,8 @@ namespace FluentModbus
         private bool _leaveOpen;
         private ITcpClientProvider? _tcpClientProvider;
 
+        public ushort Port => _tcpClientProvider?.Port ?? 0;
+
         #endregion
 
         #region Constructors

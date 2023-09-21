@@ -13,6 +13,17 @@ namespace FluentModbus
 
         public bool ReuseAddress { get; set; }
 
+        public ushort Port
+        {
+            get
+            {
+                if (_tcpListener.LocalEndpoint is IPEndPoint end)
+                    return (ushort)end.Port;
+
+                return 0;
+            }
+        }
+
         #region Constructors
 
         public DefaultTcpClientProvider(IPEndPoint endPoint)
