@@ -88,7 +88,7 @@ namespace FluentModbus
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset.AsSpan());
 
-            await WriteMultipleRegistersAsync(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray()).ConfigureAwait(false);
+            await WriteMultipleRegistersAsync(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray(), cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace FluentModbus
             var count_converted = ConvertUshort(count);
 
             var dataset = SpanExtensions.Cast<byte, T>(await 
-                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)).ConfigureAwait(false));
+                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted), cancellationToken).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
