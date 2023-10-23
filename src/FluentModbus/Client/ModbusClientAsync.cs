@@ -64,12 +64,12 @@ namespace FluentModbus
                     writer.Write(startingAddress);                                        // 08-09  Starting Address
                     writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false));
 
-            if (buffer.Length < quantity * 2)
+            if (buffer.Length < quantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -155,12 +155,12 @@ namespace FluentModbus
                     writer.Write(startingAddress_converted);                              // 08-09  Starting Address
                     writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false));
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8) + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -190,12 +190,12 @@ namespace FluentModbus
                     writer.Write(startingAddress_converted);                              // 08-09  Starting Address
                     writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false));
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8) + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -244,12 +244,12 @@ namespace FluentModbus
                     writer.Write(startingAddress);                                        // 08-09  Starting Address
                     writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false));
 
-            if (buffer.Length < quantity * 2)
+            if (buffer.Length < quantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -449,12 +449,12 @@ namespace FluentModbus
                 writer.Write((byte)(writeQuantity * 2));                                // 16     Byte Count = Quantity to Write * 2
 
                 writer.Write(dataset, 0, dataset.Length);
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false));
 
-            if (buffer.Length < readQuantity * 2)
+            if (buffer.Length < readQuantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
