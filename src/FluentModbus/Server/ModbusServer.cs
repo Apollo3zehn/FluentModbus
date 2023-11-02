@@ -449,8 +449,8 @@ namespace FluentModbus
                 return actualUnitIdentifier;
 
             // If the passed-in unitIdentifier is zero (broadcast) then we accept it.
-            if (unitIdentifer == 0 && SingleUnitAcceptsBroadcast) 
-                return unitIdentifer;
+            if (unitIdentifer == 0) 
+                return SingleUnitAcceptsBroadcast ? actualUnitIdentifier : null;
 
             // If we are ignoring the unit identifier, then all of them are accepted.
             if (SingleUnitIgnoresUnitIdentifiers)
