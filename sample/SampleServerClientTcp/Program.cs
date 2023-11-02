@@ -113,9 +113,15 @@ namespace FluentModbus.SampleMaster
             Span<byte> data;
 
             var sleepTime = TimeSpan.FromMilliseconds(100);
-            var unitIdentifier = 0xFF;
-            var startingAddress = 0;
-            var registerAddress = 0;
+
+            // Various identifiers for testing
+            //var unitIdentifier = 0;
+            //var unitIdentifier = 7;
+            var unitIdentifier = 0xFF;  // The "insignificant" identifier
+
+            // Zero is valid, but non-zero addresses are more easily visible in WireShark captures
+            var startingAddress = 3;
+            var registerAddress = 3;
 
             // ReadHoldingRegisters = 0x03,        // FC03
             data = client.ReadHoldingRegisters<byte>(unitIdentifier, startingAddress, 10);
@@ -123,7 +129,7 @@ namespace FluentModbus.SampleMaster
             Thread.Sleep(sleepTime);
 
             // WriteMultipleRegisters = 0x10,      // FC16
-            client.WriteMultipleRegisters(unitIdentifier, startingAddress, new byte[] { 10, 00, 20, 00, 30, 00, 255, 00, 255, 01 });
+            client.WriteMultipleRegisters(unitIdentifier, startingAddress, new byte[] { 10, 00, 20, 00, 30, 00, 40, 00, 50, 00, 255, 00, 255, 01 });
             logger.LogInformation("FC16 - WriteMultipleRegisters: Done");
             Thread.Sleep(sleepTime);
 

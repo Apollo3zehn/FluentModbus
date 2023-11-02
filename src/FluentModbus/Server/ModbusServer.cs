@@ -106,6 +106,14 @@ namespace FluentModbus
         /// <summary>
         /// Gets list of identifiers of the currently active units.
         /// </summary>
+        // TODO: Apollo3zehn: Should access to the UnitIdentifiers list be locked?
+        //       It is checked from the ModbusTcpRequestHandler objects, which all run in different threads.
+        //       Do we support AddUnit and RemoveUnit after the Server has been started?
+        //       If so, then we should lock access to this list and also to the _*BufferMap Dictionaries.
+        //
+        //       Even better, these should be combined into a single locked list (or Dictionary) of UnitInfo objects that contain both the unit identifier and the buffers.
+        //       This would be a good place to put any other per-Unit information that we might need, such as whether a Unit should 
+        //       accept the broadcast unit identifier (zero) in a request.
         public IReadOnlyList<byte> UnitIdentifiers { get; }
 
         /// <summary>
@@ -147,8 +155,6 @@ namespace FluentModbus
         /// Gets or sets whether the events should be raised when register or coil data changes. Default: false.
         /// </summary>
         public bool EnableRaisingEvents { get; set; }
-
-        internal bool IsSingleZeroUnitMode => UnitIdentifiers.Count == 1 && UnitIdentifiers[0] == 0;
 
         private protected CancellationTokenSource CTS { get; private set; } = new CancellationTokenSource();
 
@@ -361,24 +367,6 @@ namespace FluentModbus
         /// <param name="unitIdentifer">The identifier of the unit to add.</param>
         public void AddUnit(byte unitIdentifer)
         {
-            // there are some or more unit identifiers - check if the operation is allowed
-            if (_unitIdentifiers.Any())
-            {
-                if (unitIdentifer == 0)
-                {
-                    // we are not in single zero unit mode
-                    if (!_unitIdentifiers.Contains(0))
-                        throw new ArgumentException("Zero unit identifier can only be added in single zero unit identifier mode.");
-                }
-
-                else
-                {
-                    // we are in single zero unit mode -> remove zero unit identifier to leave that mode
-                    if (_unitIdentifiers.Contains(0))
-                        RemoveUnit(0);
-                }
-            }
-
             if (!_unitIdentifiers.Contains(unitIdentifer))
             {
                 _unitIdentifiers.Add(unitIdentifer);
@@ -404,11 +392,78 @@ namespace FluentModbus
                 _unitIdentifiers.Remove(unitIdentifer);
             }
         }
+        
+        /// <summary>
+        /// Returns true if this Server has only one UnitIdentifier.
+        /// </summary>
+        public bool IsSingleUnitMode => UnitIdentifiers.Count == 1;
+
+        /// <summary>
+        /// If true, then a Single Unit will ignore incoming Unit Identifiers, and accept all requests (except zero, which is controlled separately).
+        /// The response Unit Identifier will be the same as the request Unit Identifier.
+        /// </summary>
+        // TODO: Apollo3zehn: If we support adding multiple units, we might want to support setting this on a per-Unit basis
+        //       in the UnitInfo objects I mentioned in a previous comment above.
+        //       In that case, this property would either be deprecated, or we could change it to be a global setting for all the Units.
+        public bool SingleUnitIgnoresUnitIdentifiers { get; set; } = false;
+
+        /// <summary>
+        /// If true, then a Single Unit will accept messages with a zero Unit Identifier.
+        /// </summary>
+        // TODO: Apollo3zehn: Typically, units don't respond to broadcast messages.  
+        //       If you agree, that would need to be implemented after we handle the request.
+        // TODO: Apollo3zehn: If we support adding multiple units, we might want to support setting this on a per-Unit basis
+        //       in the UnitInfo objects I mentioned in a previous comment above.
+        //       In that case, this property would either be deprecated, or we could change it to be a global setting for all the Units.
+        public bool SingleUnitAcceptsBroadcast { get; set; } = true;
+
+        /// <summary>
+        /// Returns the unit identifier that best matches the unitIdentifier passed in.
+        /// If the unitIdentifier is 1 - 254, then that will be the value returned, if the Unit exists.
+        /// If the unitIdentifier is 0 or 0xFF (255), then the Unit that accepts those values will return its unit identifier.
+        /// If no Unit accepts the passed-in unitIdentifier, then null is returned.
+        /// </summary>
+        /// <param name="unitIdentifer"></param>
+        /// <returns></returns>
+        public byte? GetActualUnitIdentifier(byte unitIdentifer)
+        {
+            if (!IsSingleUnitMode)
+            {
+                // We have multiple units.
+                // The Unit Identifier must be present in our list
+                // TODO: Apollo3zehn: We will need to decide what to do if the Unit Identifier is zero, which is used for broadcast.
+                //       In that case, we could change the return value to be a list of unit identifiers.
+                return UnitIdentifiers.Contains(unitIdentifer) ? unitIdentifer : null;
+            }
+
+            // We have only one Unit defined.
+            // For safety, we will check to make sure that we actually have a unit present.
+            if (!UnitIdentifiers.Any())
+                return null;
+
+            var actualUnitIdentifier = UnitIdentifiers[0];
+
+            // If the passed-in unitIdentifier matches ours, OR it is 0xFF, 
+            // then we accept it.
+            if (unitIdentifer == actualUnitIdentifier || unitIdentifer == 0xFF)
+                return actualUnitIdentifier;
+
+            // If the passed-in unitIdentifier is zero (broadcast) then we accept it.
+            if (unitIdentifer == 0) 
+                return SingleUnitAcceptsBroadcast ? actualUnitIdentifier : null;
+
+            // If we are ignoring the unit identifier, then all of them are accepted.
+            if (SingleUnitIgnoresUnitIdentifiers)
+                return actualUnitIdentifier;
+
+            // Nothing matches, so we return null
+            return null;
+        }
 
         private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
         {
             if (!map.TryGetValue(unitIdentifier, out var buffer))
-                throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound);
+                throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound + $" ({unitIdentifier})");
 
             return buffer;
         }

@@ -97,13 +97,13 @@ namespace FluentModbus
             if (!ModbusUtils.TryParseEndpoint(remoteEndpoint.AsSpan(), out var parsedRemoteEndpoint))
                 throw new FormatException("An invalid IPEndPoint was specified.");
 
-        #if NETSTANDARD2_0
+#if NETSTANDARD2_0
             Connect(parsedRemoteEndpoint!, endianness);
-        #endif
-        
-        #if NETSTANDARD2_1_OR_GREATER
+#endif
+
+#if NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
             Connect(parsedRemoteEndpoint, endianness);
-        #endif
+#endif
         }
 
         /// <summary>

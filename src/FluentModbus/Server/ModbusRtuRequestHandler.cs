@@ -24,7 +24,7 @@ namespace FluentModbus
 
         public override string DisplayName => _serialPort.PortName;
 
-        protected override bool IsResponseRequired => ModbusServer.UnitIdentifiers.Contains(UnitIdentifier);
+        protected override bool IsResponseRequired => ModbusServer.UnitIdentifiers.Contains(ActualUnitIdentifier);
 
         #endregion
 
@@ -61,6 +61,7 @@ namespace FluentModbus
             FrameBuffer.Writer.Seek(0, SeekOrigin.Begin);
 
             // add unit identifier
+            // (the UnitIdentifier that originated in the Request, NOT the ActualUnitIdentifier)
             FrameBuffer.Writer.Write(UnitIdentifier);
 
             // add PDU
@@ -119,13 +120,15 @@ namespace FluentModbus
                 return false;
             }
 
-            // make sure that the incoming frame is actually adressed to this server
-            if (ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
+            // make sure that the incoming frame is actually addressed to this server
+            var actualUnitIdentifier = ModbusServer.GetActualUnitIdentifier(UnitIdentifier);
+            if (actualUnitIdentifier.HasValue)
             {
+                ActualUnitIdentifier = actualUnitIdentifier.Value;
                 LastRequest.Restart();
                 return true;
             }
-            
+
             else
             {
                 return false;
