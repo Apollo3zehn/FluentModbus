@@ -71,7 +71,7 @@ namespace FluentModbus
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x0B_GatewayTargetDeviceFailedToRespond);
 
                 default:
-                    throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_InvalidExceptionCode);
+                    throw new ModbusException(exceptionCode, string.Format(ErrorMessage.ModbusClient_Unknown_Error, (int)exceptionCode));
             }
         }
 
