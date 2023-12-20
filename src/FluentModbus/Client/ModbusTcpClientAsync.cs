@@ -29,6 +29,26 @@ namespace FluentModbus
             reader = _frameBuffer.Reader;
 
             // build request
+            if (!(0 <= unitIdentifier && unitIdentifier <= 247))
+                throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
+
+            // special case: broadcast (only for write commands)
+            if (unitIdentifier == 0)
+            {
+                switch (functionCode)
+                {
+                    case ModbusFunctionCode.WriteMultipleRegisters:
+                    case ModbusFunctionCode.WriteSingleCoil:
+                    case ModbusFunctionCode.WriteSingleRegister:
+                    case ModbusFunctionCode.WriteMultipleCoils:
+                    case ModbusFunctionCode.WriteFileRecord:
+                    case ModbusFunctionCode.MaskWriteRegister:
+                        break;
+                    default:
+                        throw new ModbusException(ErrorMessage.Modbus_InvalidUseOfBroadcast);
+                }
+            }
+
             writer.Seek(7, SeekOrigin.Begin);
             extendFrame(writer);
             frameLength = (int)writer.BaseStream.Position;
@@ -52,6 +72,10 @@ namespace FluentModbus
 
             // send request
             await _networkStream.WriteAsync(frameBuffer.Buffer, 0, frameLength, cancellationToken).ConfigureAwait(false);
+
+            // special case: broadcast (only for write commands)
+            if (unitIdentifier == 0)
+                return _frameBuffer.Buffer.AsMemory(0, 0);
 
             // wait for and process response
             frameLength = 0;
