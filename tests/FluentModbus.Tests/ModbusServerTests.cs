@@ -347,8 +347,10 @@ namespace FluentModbus.Tests
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public async Task CanDetectCoilsChanged()
+        [Theory]
+        [InlineData(new int[] { 100, 101, 114 }, false)]
+        [InlineData(new int[] { 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114 }, true)]
+        public async Task CanDetectCoilsChanged(int[] expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             int[] actual = default!;
@@ -357,7 +359,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             server.GetCoils().Set(address + 0, false);
@@ -379,7 +382,6 @@ namespace FluentModbus.Tests
 
             server.CoilsChanged += (sender, e) =>
             {
-                Assert.True(e.Coils.Length == 3);
                 actual = e.Coils;
             };
 
@@ -399,8 +401,6 @@ namespace FluentModbus.Tests
             });
 
             // Assert
-            var expected = new int[] { 100, 101, 114 };
-
             Assert.True(expected.SequenceEqual(actual));
         }
 
@@ -450,7 +450,7 @@ namespace FluentModbus.Tests
         [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 }, false)]
         [InlineData(false, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new int[] { 99, 100, 101 }, true)]
         [InlineData(true, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new int[] { 99, 100, 101 }, true)]
-        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, bool[] expected, bool alwaysRaiseChangedEvent)
+        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, int[] expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             int[] actual = default!;
@@ -470,7 +470,6 @@ namespace FluentModbus.Tests
 
             server.RegistersChanged += (sender, e) =>
             {
-                Assert.True(e.Registers.Length == 2);
                 actual = e.Registers;
             };
 
