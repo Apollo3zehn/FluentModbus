@@ -42,7 +42,7 @@ namespace FluentModbus
         methodString = Regex.Replace(methodString, @"(TransceiveFrame)(.*?\n            })\)\.Slice", m => $"(await {m.Groups[1]}Async{m.Groups[2]}, cancellationToken).ConfigureAwait(false)).Slice", RegexOptions.Singleline);
 
         // replace MemoryMarshal
-        methodString = Regex.Replace(methodString, @"MemoryMarshal(.+?)\(((?:\r?\n)?.+?)(\(.+?\))\);", m => $"SpanExtensions{m.Groups[1]}(await {m.Groups[2]}Async{m.Groups[3]}.ConfigureAwait(false));");
+        methodString = Regex.Replace(methodString, @"MemoryMarshal(.+?)\(((?:\r?\n)?.+?)\((.+?)\)\);", m => $"SpanExtensions{m.Groups[1]}(await {m.Groups[2]}Async({m.Groups[3]}, cancellationToken).ConfigureAwait(false));");
 
         // replace remaining (WriteXXXRegister(s))
         methodString = Regex.Replace(methodString, @"(\n            )(Write.*?Registers?)\((.*?)\);", m => $"{m.Groups[1]}await {m.Groups[2]}Async({m.Groups[3]}, cancellationToken).ConfigureAwait(false);", RegexOptions.Singleline);

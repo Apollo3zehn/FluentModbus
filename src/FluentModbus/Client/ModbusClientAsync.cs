@@ -33,7 +33,7 @@ namespace FluentModbus
             var count_converted = ConvertUshort(count);
 
             var dataset = SpanExtensions.Cast<byte, T>(await 
-                ReadHoldingRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)).ConfigureAwait(false));
+                ReadHoldingRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted), cancellationToken).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
@@ -213,7 +213,7 @@ namespace FluentModbus
             var count_converted = ConvertUshort(count);
 
             var dataset = SpanExtensions.Cast<byte, T>(await 
-                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)).ConfigureAwait(false));
+                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted), cancellationToken).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
@@ -403,7 +403,7 @@ namespace FluentModbus
             var readQuantity = ConvertSize<TRead>(readCount_converted);
             var byteData = MemoryMarshal.Cast<TWrite, byte>(dataset).ToArray();
 
-            var dataset2 = SpanExtensions.Cast<byte, TRead>(await ReadWriteMultipleRegistersAsync(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData).ConfigureAwait(false));
+            var dataset2 = SpanExtensions.Cast<byte, TRead>(await ReadWriteMultipleRegistersAsync(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData, cancellationToken).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset2);
@@ -466,7 +466,7 @@ namespace FluentModbus
             throw new NotImplementedException();
         }
 
-	}
+    }
 }
 
 #pragma warning restore CS1998
