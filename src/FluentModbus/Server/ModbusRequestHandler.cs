@@ -187,18 +187,18 @@ namespace FluentModbus
         {
             Span<int> changedRegisters = stackalloc int[newValues.Length];
 
-            var index = 0;
+            var length = 0;
 
             for (int i = 0; i < newValues.Length; i++)
             {
                 if (newValues[i] != oldValues[i])
                 {
-                    changedRegisters[index] = startingAddress + i;
-                    index++;
+                    changedRegisters[length] = startingAddress + i;
+                    length++;
                 }
             }
 
-            ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters.Slice(0, index).ToArray());
+            ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters[..length].ToArray());
         }
 
         // class 0
@@ -224,10 +224,14 @@ namespace FluentModbus
             if (CheckRegisterBounds(ModbusFunctionCode.WriteMultipleRegisters, startingAddress, ModbusServer.MaxHoldingRegisterAddress, quantityOfRegisters, 0x7B))
             {
                 var holdingRegisters = ModbusServer.GetHoldingRegisters(UnitIdentifier);
-                var oldValues = holdingRegisters.Slice(startingAddress).ToArray();
+
+                var oldValues = ModbusServer.EnableRaisingEvents
+                    ? holdingRegisters[startingAddress..].ToArray()
+                    : Array.Empty<short>();
+
                 var newValues = MemoryMarshal.Cast<byte, short>(FrameBuffer.Reader.ReadBytes(byteCount).AsSpan());
 
-                newValues.CopyTo(holdingRegisters.Slice(startingAddress));
+                newValues.CopyTo(holdingRegisters[startingAddress..]);
 
                 if (ModbusServer.EnableRaisingEvents)
                     DetectChangedRegisters(startingAddress, oldValues, newValues);
@@ -327,52 +331,64 @@ namespace FluentModbus
 
         private void ProcessWriteMultipleCoils()
         {
-            const int maxQuantityOfRegisters = 0x07b0;
-            var startAddress = FrameBuffer.Reader.ReadUInt16Reverse();
+            const int maxQuantityOfOutputs = 0x07B0;
+
+            var startingAddress = FrameBuffer.Reader.ReadUInt16Reverse();
             var quantityOfOutputs = FrameBuffer.Reader.ReadUInt16Reverse();
             var byteCount = FrameBuffer.Reader.ReadByte();
-            var byteCountFromQuantity = quantityOfOutputs / 8;
-            var bitCountFromQuantity = quantityOfOutputs % 8;
+            var byteCountFromQuantity = (quantityOfOutputs + 7) / 8;
 
-            if (bitCountFromQuantity != 0)
-                ++byteCountFromQuantity;
-
-            if ((quantityOfOutputs is < 1 or > maxQuantityOfRegisters) || byteCountFromQuantity != byteCount)
+            if (byteCountFromQuantity != byteCount)
             {
                 WriteExceptionResponse(ModbusFunctionCode.WriteMultipleCoils, ModbusExceptionCode.IllegalDataValue);
                 return;
             }
 
-            if (CheckRegisterBounds(ModbusFunctionCode.WriteMultipleCoils, startAddress, ModbusServer.MaxCoilAddress, quantityOfOutputs, maxQuantityOfRegisters))
+            if (CheckRegisterBounds(ModbusFunctionCode.WriteMultipleCoils, startingAddress, ModbusServer.MaxCoilAddress, quantityOfOutputs, maxQuantityOfOutputs))
             {
-                byte[] values = new byte[byteCount];
-                for (int i = 0; i < byteCount; ++i)
-                    values[i] = FrameBuffer.Reader.ReadByte();
+                var newValues = FrameBuffer.Reader.ReadBytes(byteCount);
 
-                for (ushort i = 0; i < quantityOfOutputs; ++i)
+                Span<int> changedOutputs = stackalloc int[0];
+
+                if (ModbusServer.EnableRaisingEvents)
+                    changedOutputs = stackalloc int[quantityOfOutputs];
+
+                var changedOutputsLength = 0;
+
+                for (var i = 0; i < quantityOfOutputs; i++)
                 {
-                    byte b = values[i / 8];
+                    byte b = newValues[i / 8];
                     int bit = i % 8;
                     bool value = (b & (1 << bit)) != 0;
-                    WriteCoil(value, (ushort)(startAddress + i));
+
+                    var hasChanged = WriteCoil(value, (ushort)(startingAddress + i));
+                    
+                    if (ModbusServer.EnableRaisingEvents && (hasChanged || ModbusServer.AlwaysRaiseChangedEvent))
+                    {
+                        changedOutputs[changedOutputsLength] = startingAddress + i;
+                        changedOutputsLength++;
+                    }
                 }
+
+                if (ModbusServer.EnableRaisingEvents)
+                    ModbusServer.OnCoilsChanged(UnitIdentifier, changedOutputs[..changedOutputsLength].ToArray());
             }
 
             FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteMultipleCoils);
 
             if (BitConverter.IsLittleEndian)
             {
-                FrameBuffer.Writer.WriteReverse(startAddress);
+                FrameBuffer.Writer.WriteReverse(startingAddress);
                 FrameBuffer.Writer.WriteReverse(quantityOfOutputs);
             }
             else
             {
-                FrameBuffer.Writer.Write(startAddress);
+                FrameBuffer.Writer.Write(startingAddress);
                 FrameBuffer.Writer.Write(quantityOfOutputs);
             }
         }
 
-        private void WriteCoil(bool value, ushort outputAddress)
+        private bool WriteCoil(bool value, ushort outputAddress)
         {
             var bufferByteIndex = outputAddress / 8;
             var bufferBitIndex = outputAddress % 8;
@@ -381,15 +397,15 @@ namespace FluentModbus
             var oldValue = coils[bufferByteIndex];
             var newValue = oldValue;
 
-            if (!value)
-                newValue &= (byte)~(1 << bufferBitIndex);
-            else
+            if (value)
                 newValue |= (byte)(1 << bufferBitIndex);
+
+            else
+                newValue &= (byte)~(1 << bufferBitIndex);
 
             coils[bufferByteIndex] = newValue;
 
-            if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
-                ModbusServer.OnCoilsChanged(UnitIdentifier, new int[] { outputAddress });
+            return newValue != oldValue;
         }
 
         private void ProcessWriteSingleCoil()
@@ -405,7 +421,10 @@ namespace FluentModbus
                 }
                 else
                 {
-                    WriteCoil(outputValue == 0x00FF, outputAddress);
+                    var hasChanged = WriteCoil(outputValue == 0x00FF, outputAddress);
+
+                    if (ModbusServer.EnableRaisingEvents && (hasChanged || ModbusServer.AlwaysRaiseChangedEvent))
+                        ModbusServer.OnCoilsChanged(UnitIdentifier, [outputAddress]);
 
                     FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
 
@@ -432,7 +451,7 @@ namespace FluentModbus
                 holdingRegisters[registerAddress] = newValue;
 
                 if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
-                    ModbusServer.OnRegistersChanged(UnitIdentifier, new int[] { registerAddress });
+                    ModbusServer.OnRegistersChanged(UnitIdentifier, [registerAddress]);
 
                 FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);
 
@@ -463,10 +482,13 @@ namespace FluentModbus
                     // write data (write is performed before read according to spec)
                     var writeData = MemoryMarshal.Cast<byte, short>(FrameBuffer.Reader.ReadBytes(writeByteCount).AsSpan());
 
-                    var oldValues = holdingRegisters.Slice(writeStartingAddress).ToArray();
+                    var oldValues = ModbusServer.EnableRaisingEvents
+                        ? holdingRegisters[writeStartingAddress..].ToArray()
+                        : Array.Empty<short>();
+
                     var newValues = writeData;
 
-                    newValues.CopyTo(holdingRegisters.Slice(writeStartingAddress));
+                    newValues.CopyTo(holdingRegisters[writeStartingAddress..]);
 
                     if (ModbusServer.EnableRaisingEvents)
                         DetectChangedRegisters(writeStartingAddress, oldValues, newValues);

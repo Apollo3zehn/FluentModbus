@@ -345,6 +345,63 @@ namespace FluentModbus.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task CanDetectCoilsChanged()
+        {
+            // Arrange
+            int[] actual = default!;
+            var address = 99;
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new ModbusTcpServer()
+            {
+                EnableRaisingEvents = true
+            };
+
+            server.GetCoils().Set(address + 0, false);
+            server.GetCoils().Set(address + 1, true);
+            server.GetCoils().Set(address + 2, false);
+            server.GetCoils().Set(address + 3, true);
+            server.GetCoils().Set(address + 4, false);
+            server.GetCoils().Set(address + 5, false);
+            server.GetCoils().Set(address + 6, false);
+            server.GetCoils().Set(address + 7, false);
+            server.GetCoils().Set(address + 8, false);
+            server.GetCoils().Set(address + 9, true);
+            server.GetCoils().Set(address + 10, false);
+            server.GetCoils().Set(address + 11, false);
+            server.GetCoils().Set(address + 12, false);
+            server.GetCoils().Set(address + 13, false);
+            server.GetCoils().Set(address + 14, false);
+            server.GetCoils().Set(address + 15, true);
+
+            server.CoilsChanged += (sender, e) =>
+            {
+                Assert.True(e.Coils.Length == 3);
+                actual = e.Coils;
+            };
+
+            server.Start(endpoint);
+
+            // Act
+            var client = new ModbusTcpClient();
+
+            await Task.Run(() =>
+            {
+                client.Connect(endpoint);
+
+                client.WriteMultipleCoils(0, address, [
+                    false, false, true, true, false, false, false, false,
+                    false, true, false, false, false, false, false, false
+                ]);
+            });
+
+            // Assert
+            var expected = new int[] { 100, 101, 114 };
+
+            Assert.True(expected.SequenceEqual(actual));
+        }
+
         [Theory]
         [InlineData(99, 100, true)]
         [InlineData(0, -1, true)]
@@ -385,12 +442,12 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
-        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
-        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, bool[] expected)
+        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 })]
+        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 })]
+        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, int[] expected)
         {
             // Arrange
-            var actual = new bool[3];
+            int[] actual = default!;
             var address = 99;
             var endpoint = EndpointSource.GetNext();
 
@@ -407,11 +464,7 @@ namespace FluentModbus.Tests
             server.RegistersChanged += (sender, e) =>
             {
                 Assert.True(e.Registers.Length == 2);
-
-                for (int i = 0; i < initialValues.Length; i++)
-                {
-                    actual[i] = e.Registers.Contains(address + i);
-                }
+                actual = e.Registers;
             };
 
             server.Start(endpoint);

@@ -3,6 +3,7 @@
 
 #pragma warning disable CS1998
 
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus
@@ -343,12 +344,43 @@ namespace FluentModbus
         }
 
         /// <summary>
-        /// This methdod is not implemented.
+        /// Writes the provided <paramref name="values"/> to the coil registers.
         /// </summary>
-        [Obsolete("This method is not implemented.")]
-        public async Task WriteMultipleCoilsAsync()
+        /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
+        /// <param name="startingAddress">The coil register start address for the write operation.</param>
+        /// <param name="values">The values to write to the server.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        public void WriteMultipleCoilsAsync(int unitIdentifier, int startingAddress, bool[] values, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = ConvertUshort(startingAddress);
+            var quantityOfOutputs = values.Length;
+            var byteCount = (quantityOfOutputs + 7) / 8;
+            var convertedData = new byte[byteCount];
+
+            new BitArray(values)
+                .CopyTo(convertedData, 0);
+
+            TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.WriteMultipleCoils, writer =>
+            {
+                writer.Write((byte)ModbusFunctionCode.WriteMultipleCoils);                  // 07     Function Code
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(startingAddress_converted);                         // 08-09  Starting Address
+                    writer.WriteReverse((ushort)quantityOfOutputs);                         // 10-11  Quantity of Outputs
+                }
+
+                else
+                {
+                    writer.Write(startingAddress_converted);                                // 08-09  Starting Address
+                    writer.Write((ushort)quantityOfOutputs);                                // 10-11  Quantity of Outputs
+                }
+
+                writer.Write((byte)byteCount);                                              // 12     Byte Count = Outputs
+
+                writer.Write(convertedData);
+            }, cancellationToken);
         }
 
         /// <summary>
