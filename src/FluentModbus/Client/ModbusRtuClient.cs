@@ -197,8 +197,7 @@ namespace FluentModbus
 
             while (true)
             {
-                frameLength += _serialPort!.Value.Value
-                    .Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
+                frameLength += _serialPort!.Value.Value.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
 
                 if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory()[..frameLength]))
                 {

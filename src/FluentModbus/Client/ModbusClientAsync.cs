@@ -1,5 +1,5 @@
 ﻿
-/* This is automatically translated code. */
+ /* This is automatically translated code. */
 
 #pragma warning disable CS1998
 
@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace FluentModbus
 {
     public abstract partial class ModbusClient
-	{
+    {
         /// <summary>
         /// Sends the requested modbus message and waits for the response.
         /// </summary>
@@ -164,7 +164,7 @@ namespace FluentModbus
         }
 
         /// <summary>
-        /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discete input.
+        /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discrete input.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The discrete input start address for the read operation.</param>
@@ -213,7 +213,7 @@ namespace FluentModbus
             var count_converted = ConvertUshort(count);
 
             var dataset = SpanExtensions.Cast<byte, T>(await 
-                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted), cancellationToken).ConfigureAwait(false));
+                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
@@ -296,7 +296,7 @@ namespace FluentModbus
             if (SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray()).ConfigureAwait(false);
+            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray(), cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace FluentModbus
             if (SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray()).ConfigureAwait(false);
+            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray(), cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -1,17 +1,18 @@
-﻿/* This is automatically translated code. */
-
-
+﻿
+ /* This is automatically translated code. */
+ 
 namespace FluentModbus
 {
-    public partial class ModbusTcpClient
+	public partial class ModbusTcpClient
 	{
 		///<inheritdoc/>
         protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
         {
+            // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
+
             int frameLength;
             int partialLength;
 
-            ushort transactionIdentifier;
             ushort protocolIdentifier;
             ushort bytesFollowing;
 
@@ -104,10 +105,10 @@ namespace FluentModbus
                     if (!isParsed) // read MBAP header only once
                     {
                         // read MBAP header
-                        transactionIdentifier = reader.ReadUInt16Reverse();              // 00-01  Transaction Identifier
-                        protocolIdentifier = reader.ReadUInt16Reverse();                 // 02-03  Protocol Identifier               
-                        bytesFollowing = reader.ReadUInt16Reverse();                     // 04-05  Length
-                        unitIdentifier = reader.ReadByte();                              // 06     Unit Identifier
+                        _ = reader.ReadUInt16Reverse();                                     // 00-01  Transaction Identifier
+                        protocolIdentifier = reader.ReadUInt16Reverse();                    // 02-03  Protocol Identifier               
+                        bytesFollowing = reader.ReadUInt16Reverse();                        // 04-05  Length
+                        _ = reader.ReadByte();                                              // 06     Unit Identifier
 
                         if (protocolIdentifier != 0)
                             throw new ModbusException(ErrorMessage.ModbusClient_InvalidProtocolIdentifier);
