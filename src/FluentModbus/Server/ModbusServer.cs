@@ -149,7 +149,7 @@ namespace FluentModbus
         public bool EnableRaisingEvents { get; set; }
 
         /// <summary>
-        /// Trigger the RegisterChanged or CoilsChanged event even when value has not been updated. Default: false.
+        /// Trigger the RegistersChanged or CoilsChanged event even when value has not been updated. Default: false.
         /// </summary>
         public bool AlwaysRaiseChangedEvent { get; set; } = false;
 

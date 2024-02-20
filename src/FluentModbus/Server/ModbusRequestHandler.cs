@@ -187,18 +187,31 @@ namespace FluentModbus
         {
             Span<int> changedRegisters = stackalloc int[newValues.Length];
 
-            var index = 0;
+            var length = 0;
 
-            for (int i = 0; i < newValues.Length; i++)
+            if (ModbusServer.AlwaysRaiseChangedEvent) 
             {
-                if (newValues[i] != oldValues[i] || ModbusServer.AlwaysRaiseChangedEvent)
+                for (int i = 0; i < newValues.Length; i++)
                 {
-                    changedRegisters[index] = startingAddress + i;
-                    index++;
+                    changedRegisters[length] = startingAddress + i;
+                }
+
+                length = newValues.Length;
+            }
+
+            else
+            {
+                for (int i = 0; i < newValues.Length; i++)
+                {
+                    if (newValues[i] != oldValues[i])
+                    {
+                        changedRegisters[length] = startingAddress + i;
+                        length++;
+                    }
                 }
             }
 
-            ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters.Slice(0, index).ToArray());
+            ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters.Slice(0, length).ToArray());
         }
 
         // class 0
