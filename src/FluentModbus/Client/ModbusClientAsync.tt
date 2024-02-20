@@ -4,57 +4,54 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 
 <# 
-	var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusClient.cs");
-	var methodsToConvert = Regex.Matches(csstring, @"        \/{3}.*?(\n        }|extendFrame\);)", RegexOptions.Singleline);
+    var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusClient.cs");
+    var methodsToConvert = Regex.Matches(csstring, @"        \/{3}.*?(\n        }|extendFrame\);)", RegexOptions.Singleline);
 
 #>
  /* This is automatically translated code. */
 
 #pragma warning disable CS1998
 
-using System;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FluentModbus
 {
-	public abstract partial class ModbusClient
-	{
+    public abstract partial class ModbusClient
+    {
 <#
-	foreach (Match method in methodsToConvert)
-	{
-		var methodString = method.Value;
+    foreach (Match method in methodsToConvert)
+    {
+        var methodString = method.Value;
 
-		// add cancellation token XML comment
-		methodString = Regex.Replace(methodString, @"(>\r?\n)        (public|protected)", m => $"{m.Groups[1]}        /// <param name=\"cancellationToken\">The token to monitor for cancellation requests. The default value is <see cref=\"CancellationToken.None\"/>.</param>\n        {m.Groups[2]}", RegexOptions.Singleline);
+        // add cancellation token XML comment
+        methodString = Regex.Replace(methodString, @"(>\r?\n)        (public|protected)", m => $"{m.Groups[1]}        /// <param name=\"cancellationToken\">The token to monitor for cancellation requests. The default value is <see cref=\"CancellationToken.None\"/>.</param>\n        {m.Groups[2]}", RegexOptions.Singleline);
 
-		// add cancellation token
-		methodString = Regex.Replace(methodString, @"(>\r?\n        (?:public|protected).*?)\((.*?)\)", m => $"{m.Groups[1]}({m.Groups[2]}, CancellationToken cancellationToken = default)");
+        // add cancellation token
+        methodString = Regex.Replace(methodString, @"(>\r?\n        (?:public|protected).*?)\((.*?)\)", m => $"{m.Groups[1]}({m.Groups[2]}, CancellationToken cancellationToken = default)");
 
-		// replace return values
-		methodString = Regex.Replace(methodString, " void", $" {(methodString.Contains("abstract") ? "" : "async")} Task");
-		methodString = Regex.Replace(methodString, " Span<(.*?)>", m => $"{(methodString.Contains("abstract") ? "" : " async")} Task<Memory<{m.Groups[1]}>>");
+        // replace return values
+        methodString = Regex.Replace(methodString, " void", $" {(methodString.Contains("abstract") ? "" : "async")} Task");
+        methodString = Regex.Replace(methodString, " Span<(.*?)>", m => $"{(methodString.Contains("abstract") ? "" : " async")} Task<Memory<{m.Groups[1]}>>");
 
-		// replace method name
-		methodString = Regex.Replace(methodString, @"(.* Task[^ ]*) (.*?)([<|\(])", m => $"{m.Groups[1]} {m.Groups[2]}Async{m.Groups[3]}");
+        // replace method name
+        methodString = Regex.Replace(methodString, @"(.* Task[^ ]*) (.*?)([<|\(])", m => $"{m.Groups[1]} {m.Groups[2]}Async{m.Groups[3]}");
 
-		// replace TranceiveFrame
-		methodString = Regex.Replace(methodString, @"(TransceiveFrame)(.*?\n            })\);", m => $"await {m.Groups[1]}Async{m.Groups[2]}, cancellationToken).ConfigureAwait(false);", RegexOptions.Singleline);
+        // replace TranceiveFrame
+        methodString = Regex.Replace(methodString, @"(TransceiveFrame)(.*?\n            })\);", m => $"await {m.Groups[1]}Async{m.Groups[2]}, cancellationToken).ConfigureAwait(false);", RegexOptions.Singleline);
 
-		methodString = Regex.Replace(methodString, @"(TransceiveFrame)(.*?\n            })\)\.Slice", m => $"(await {m.Groups[1]}Async{m.Groups[2]}, cancellationToken).ConfigureAwait(false)).Slice", RegexOptions.Singleline);
+        methodString = Regex.Replace(methodString, @"(TransceiveFrame)(.*?\n            })\)\.Slice", m => $"(await {m.Groups[1]}Async{m.Groups[2]}, cancellationToken).ConfigureAwait(false)).Slice", RegexOptions.Singleline);
 
-		// replace MemoryMarshal
-		methodString = Regex.Replace(methodString, @"MemoryMarshal(.+?)\(((?:\r?\n)?.+?)(\(.+?\))\);", m => $"SpanExtensions{m.Groups[1]}(await {m.Groups[2]}Async{m.Groups[3]}.ConfigureAwait(false));");
+        // replace MemoryMarshal
+        methodString = Regex.Replace(methodString, @"MemoryMarshal(.+?)\(((?:\r?\n)?.+?)\((.+?)\)\);", m => $"SpanExtensions{m.Groups[1]}(await {m.Groups[2]}Async({m.Groups[3]}, cancellationToken).ConfigureAwait(false));");
 
-		// replace remaining (WriteXXXRegister(s))
-		methodString = Regex.Replace(methodString, @"(\n            )(Write.*?Registers?)(\(.*?\));", m => $"{m.Groups[1]}await {m.Groups[2]}Async{m.Groups[3]}.ConfigureAwait(false);", RegexOptions.Singleline);
+        // replace remaining (WriteXXXRegister(s))
+        methodString = Regex.Replace(methodString, @"(\n            )(Write.*?Registers?)\((.*?)\);", m => $"{m.Groups[1]}await {m.Groups[2]}Async({m.Groups[3]}, cancellationToken).ConfigureAwait(false);", RegexOptions.Singleline);
 
-		methodString += "\n\n";
-		Write(methodString);
-	}
+        methodString += "\n\n";
+        Write(methodString);
+    }
 #>
-	}
+    }
 }
 
 #pragma warning restore CS1998
