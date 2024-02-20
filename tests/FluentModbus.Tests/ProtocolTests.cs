@@ -8,7 +8,7 @@ namespace FluentModbus.Tests
 
         public ProtocolTests()
         {
-            _array = new float[] { 0, 0, 0, 0, 0, 65.455F, 24, 25, 0, 0 };
+            _array = [0, 0, 0, 0, 0, 65.455F, 24, 25, 0, 0];
         }
 
         // FC03: ReadHoldingRegisters
@@ -219,9 +219,36 @@ namespace FluentModbus.Tests
             }
         }
 
-        // F023 ReadWriteMultipleRegisters
+        // FC15: WriteMultipleCoils
         [Fact]
-        public void FC023Test()
+        public void FC15Test()
+        {
+            // Arrange
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new ModbusTcpServer();
+            server.Start(endpoint);
+
+            var client = new ModbusTcpClient();
+            client.Connect(endpoint);
+
+            // Act
+            client.WriteMultipleCoils(0, 15, [true, false, true, true, false]);
+            client.WriteMultipleCoils(0, 16, [      false, false, true, true, false, true]);
+
+            // Assert
+            var expected = new byte[] { 0b1000_0000, 0b0010_1100 };
+
+            lock (server.Lock)
+            {
+                var actual = server.GetCoilBuffer().Slice(1, 2).ToArray();
+                Assert.True(expected.SequenceEqual(actual.ToArray()));
+            }
+        }
+
+        // FC23 ReadWriteMultipleRegisters
+        [Fact]
+        public void FC23Test()
         {
             // Arrange
             var endpoint = EndpointSource.GetNext();

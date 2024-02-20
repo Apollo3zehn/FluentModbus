@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="System.IO.Ports" Version="5.0.0" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
+
     <PackageReference Include="PolySharp" Version="1.13.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -22,7 +23,7 @@
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="System.IO.Ports" Version="5.0.0" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
