@@ -277,7 +277,7 @@ namespace FluentModbus {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknonw {0} Modbus error received..
+        ///   Looks up a localized string similar to Unknown {0} Modbus error received..
         /// </summary>
         internal static string ModbusClient_Unknown_Error {
             get {

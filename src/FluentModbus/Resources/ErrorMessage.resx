@@ -184,7 +184,7 @@
     <value>Could not connect within the specified time.</value>
   </data>
   <data name="ModbusClient_Unknown_Error" xml:space="preserve">
-    <value>Unknonw {0} Modbus error received.</value>
+    <value>Unknown {0} Modbus error received.</value>
   </data>
   <data name="ModbusServer_InvalidUnitIdentifier" xml:space="preserve">
     <value>The unit identifier is invalid. Valid node addresses are in the range of 1 - 247.</value>
