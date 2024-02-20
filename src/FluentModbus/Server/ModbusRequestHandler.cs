@@ -194,9 +194,8 @@ namespace FluentModbus
                 for (int i = 0; i < newValues.Length; i++)
                 {
                     changedRegisters[length] = startingAddress + i;
+                    length++;
                 }
-
-                length = newValues.Length;
             }
 
             else

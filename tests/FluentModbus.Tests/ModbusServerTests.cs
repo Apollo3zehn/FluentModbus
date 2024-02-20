@@ -306,11 +306,12 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(true, false, true)]
-        [InlineData(false, true, true)]
-        [InlineData(false, false, false)]
-        [InlineData(true, true, false)]
-        public async Task CanDetectCoilChanged(bool initialValue, bool newValue, bool expected)
+        [InlineData(true, false, true, false)]
+        [InlineData(false, true, true, false)]
+        [InlineData(false, false, false, false)]
+        [InlineData(true, true, false, false)]
+        [InlineData(false, false, true, true)]
+        public async Task CanDetectCoilChanged(bool initialValue, bool newValue, bool expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             var actual = false;
@@ -319,7 +320,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             server.GetCoils().Set(address, initialValue);
@@ -346,10 +348,11 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(99, 100, true)]
-        [InlineData(0, -1, true)]
-        [InlineData(1, 1, false)]
-        public async Task CanDetectRegisterChanged(short initialValue, short newValue, bool expected)
+        [InlineData(99, 100, true, false)]
+        [InlineData(0, -1, true, false)]
+        [InlineData(1, 1, false, false)]
+        [InlineData(0, 0, true, true)]
+        public async Task CanDetectRegisterChanged(short initialValue, short newValue, bool expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             var actual = false;
@@ -358,7 +361,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             server.GetHoldingRegisters()[address] = initialValue;
@@ -385,9 +389,11 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
-        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
-        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, bool[] expected)
+        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true }, false)]
+        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true }, false)]
+        [InlineData(false, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new bool[] { true, true, true }, true)]
+        [InlineData(true, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new bool[] { true, true, true }, true)]
+        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, bool[] expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             var actual = new bool[3];
@@ -396,7 +402,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             for (int i = 0; i < initialValues.Length; i++)
@@ -406,7 +413,11 @@ namespace FluentModbus.Tests
 
             server.RegistersChanged += (sender, e) =>
             {
-                Assert.True(e.Registers.Length == 2);
+                if (alwaysRaiseChangedEvent)
+                    Assert.True(e.Registers.Length == 3);
+
+                else
+                    Assert.True(e.Registers.Length == 2);
 
                 for (int i = 0; i < initialValues.Length; i++)
                 {
