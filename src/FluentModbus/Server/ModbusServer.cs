@@ -148,6 +148,11 @@ namespace FluentModbus
         /// </summary>
         public bool EnableRaisingEvents { get; set; }
 
+        /// <summary>
+        /// Trigger the RegistersChanged or CoilsChanged event even when value has not been updated. Default: false.
+        /// </summary>
+        public bool AlwaysRaiseChangedEvent { get; set; } = false;
+
         internal bool IsSingleZeroUnitMode => UnitIdentifiers.Count == 1 && UnitIdentifiers[0] == 0;
 
         private protected CancellationTokenSource CTS { get; private set; } = new CancellationTokenSource();

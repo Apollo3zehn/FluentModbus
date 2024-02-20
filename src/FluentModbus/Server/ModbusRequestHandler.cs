@@ -187,18 +187,30 @@ namespace FluentModbus
         {
             Span<int> changedRegisters = stackalloc int[newValues.Length];
 
-            var index = 0;
+            var length = 0;
 
-            for (int i = 0; i < newValues.Length; i++)
+            if (ModbusServer.AlwaysRaiseChangedEvent) 
             {
-                if (newValues[i] != oldValues[i])
+                for (int i = 0; i < newValues.Length; i++)
                 {
-                    changedRegisters[index] = startingAddress + i;
-                    index++;
+                    changedRegisters[length] = startingAddress + i;
+                    length++;
                 }
             }
 
-            ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters.Slice(0, index).ToArray());
+            else
+            {
+                for (int i = 0; i < newValues.Length; i++)
+                {
+                    if (newValues[i] != oldValues[i])
+                    {
+                        changedRegisters[length] = startingAddress + i;
+                        length++;
+                    }
+                }
+            }
+
+            ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters.Slice(0, length).ToArray());
         }
 
         // class 0
@@ -352,7 +364,7 @@ namespace FluentModbus
 
                     coils[bufferByteIndex] = newValue;
 
-                    if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
+                    if (ModbusServer.EnableRaisingEvents && (newValue != oldValue || ModbusServer.AlwaysRaiseChangedEvent))
                         ModbusServer.OnCoilsChanged(UnitIdentifier, new int[] { outputAddress });
 
                     FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
@@ -379,7 +391,7 @@ namespace FluentModbus
                 var newValue = registerValue;
                 holdingRegisters[registerAddress] = newValue;
 
-                if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
+                if (ModbusServer.EnableRaisingEvents && (newValue != oldValue || ModbusServer.AlwaysRaiseChangedEvent))
                     ModbusServer.OnRegistersChanged(UnitIdentifier, new int[] { registerAddress });
 
                 FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);
