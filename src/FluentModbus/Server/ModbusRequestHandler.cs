@@ -189,12 +189,24 @@ namespace FluentModbus
 
             var length = 0;
 
-            for (int i = 0; i < newValues.Length; i++)
+            if (ModbusServer.AlwaysRaiseChangedEvent) 
             {
-                if (newValues[i] != oldValues[i])
+                for (int i = 0; i < newValues.Length; i++)
                 {
                     changedRegisters[length] = startingAddress + i;
                     length++;
+                }
+            }
+
+            else
+            {
+                for (int i = 0; i < newValues.Length; i++)
+                {
+                    if (newValues[i] != oldValues[i])
+                    {
+                        changedRegisters[length] = startingAddress + i;
+                        length++;
+                    }
                 }
             }
 
@@ -450,7 +462,7 @@ namespace FluentModbus
                 var newValue = registerValue;
                 holdingRegisters[registerAddress] = newValue;
 
-                if (ModbusServer.EnableRaisingEvents && newValue != oldValue)
+                if (ModbusServer.EnableRaisingEvents && (newValue != oldValue || ModbusServer.AlwaysRaiseChangedEvent))
                     ModbusServer.OnRegistersChanged(UnitIdentifier, [registerAddress]);
 
                 FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);

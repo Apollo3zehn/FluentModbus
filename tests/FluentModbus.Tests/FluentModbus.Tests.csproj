@@ -3,8 +3,6 @@
   <PropertyGroup>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
-    <!-- default lang version is 7.3: https://docs.microsoft.com/de-de/dotnet/csharp/language-reference/configure-language-version -->
-    <LangVersion>12.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

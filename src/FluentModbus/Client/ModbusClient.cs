@@ -72,7 +72,7 @@ namespace FluentModbus
                     throw new ModbusException(exceptionCode, ErrorMessage.ModbusClient_0x0B_GatewayTargetDeviceFailedToRespond);
 
                 default:
-                    throw new ArgumentOutOfRangeException(ErrorMessage.ModbusClient_InvalidExceptionCode);
+                    throw new ModbusException(exceptionCode, string.Format(ErrorMessage.ModbusClient_Unknown_Error, (int)exceptionCode));
             }
         }
 
@@ -153,12 +153,12 @@ namespace FluentModbus
                     writer.Write(startingAddress);                                        // 08-09  Starting Address
                     writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
                 }
-            }).Slice(2);
+            });
 
-            if (buffer.Length < quantity * 2)
+            if (buffer.Length < quantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -241,16 +241,16 @@ namespace FluentModbus
                     writer.Write(startingAddress_converted);                              // 08-09  Starting Address
                     writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
-            }).Slice(2);
+            });
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8) + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
-        /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discete input.
+        /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discrete input.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The discrete input start address for the read operation.</param>
@@ -275,12 +275,12 @@ namespace FluentModbus
                     writer.Write(startingAddress_converted);                              // 08-09  Starting Address
                     writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
-            }).Slice(2);
+            });
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8) + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -327,12 +327,12 @@ namespace FluentModbus
                     writer.Write(startingAddress);                                        // 08-09  Starting Address
                     writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
                 }
-            }).Slice(2);
+            });
 
-            if (buffer.Length < quantity * 2)
+            if (buffer.Length < quantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -558,12 +558,12 @@ namespace FluentModbus
                 writer.Write((byte)(writeQuantity * 2));                                // 16     Byte Count = Quantity to Write * 2
 
                 writer.Write(dataset, 0, dataset.Length);
-            }).Slice(2);
+            });
 
-            if (buffer.Length < readQuantity * 2)
+            if (buffer.Length < readQuantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>

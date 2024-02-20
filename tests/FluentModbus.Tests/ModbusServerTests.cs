@@ -306,11 +306,12 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(true, false, true)]
-        [InlineData(false, true, true)]
-        [InlineData(false, false, false)]
-        [InlineData(true, true, false)]
-        public async Task CanDetectCoilChanged(bool initialValue, bool newValue, bool expected)
+        [InlineData(true, false, true, false)]
+        [InlineData(false, true, true, false)]
+        [InlineData(false, false, false, false)]
+        [InlineData(true, true, false, false)]
+        [InlineData(false, false, true, true)]
+        public async Task CanDetectCoilChanged(bool initialValue, bool newValue, bool expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             var actual = false;
@@ -319,7 +320,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             server.GetCoils().Set(address, initialValue);
@@ -403,10 +405,11 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(99, 100, true)]
-        [InlineData(0, -1, true)]
-        [InlineData(1, 1, false)]
-        public async Task CanDetectRegisterChanged(short initialValue, short newValue, bool expected)
+        [InlineData(99, 100, true, false)]
+        [InlineData(0, -1, true, false)]
+        [InlineData(1, 1, false, false)]
+        [InlineData(0, 0, true, true)]
+        public async Task CanDetectRegisterChanged(short initialValue, short newValue, bool expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             var actual = false;
@@ -415,7 +418,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             server.GetHoldingRegisters()[address] = initialValue;
@@ -442,9 +446,11 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 })]
-        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 })]
-        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, int[] expected)
+        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 }, false)]
+        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 }, false)]
+        [InlineData(false, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new int[] { 99, 100, 101 }, true)]
+        [InlineData(true, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new int[] { 99, 100, 101 }, true)]
+        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, bool[] expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             int[] actual = default!;
@@ -453,7 +459,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             for (int i = 0; i < initialValues.Length; i++)
@@ -493,11 +500,11 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            using var server = new SimpleMultiUnitTcpServer();
+            using var server = new ModbusTcpServer();
             server.AddUnit(1);
             server.AddUnit(2);
             server.AddUnit(3);
-            server.StartMultiUnit(endpoint);
+            server.Start(endpoint);
 
             var registersOne = server.GetHoldingRegisters(unitIdentifier: 1);
             var registersTwo = server.GetHoldingRegisters(unitIdentifier: 2);
@@ -527,11 +534,11 @@ namespace FluentModbus.Tests
             // Arrange
             var endpoint = EndpointSource.GetNext();
 
-            using var server = new SimpleMultiUnitTcpServer();
+            using var server = new ModbusTcpServer();
             server.AddUnit(1);
             server.AddUnit(2);
             server.AddUnit(3);
-            server.StartMultiUnit(endpoint);
+            server.Start(endpoint);
 
             var registersOne = server.GetHoldingRegisters(unitIdentifier: 1);
             var registersTwo = server.GetHoldingRegisters(unitIdentifier: 2);
@@ -562,8 +569,8 @@ namespace FluentModbus.Tests
             const int startingAddress = 7;
             var endpoint = EndpointSource.GetNext();
 
-            using var server = new SimpleMultiUnitTcpServer();
-            server.StartMultiUnit(endpoint);
+            using var server = new ModbusTcpServer();
+            server.Start(endpoint);
 
             var client = new ModbusTcpClient();
             client.Connect(endpoint);

@@ -26,16 +26,16 @@ namespace FluentModbus
                 if (value[lastColonPos - 1] == ']')
                     addressLength = lastColonPos;
 
-                else if (value.Slice(0, lastColonPos).LastIndexOf(':') == -1)
+                else if (value[..lastColonPos].LastIndexOf(':') == -1)
                     addressLength = lastColonPos;
             }
 
-            if (IPAddress.TryParse(value.Slice(0, addressLength).ToString(), out var address))
+            if (IPAddress.TryParse(value[..addressLength].ToString(), out var address))
             {
                 var port = 502U;
 
                 if (addressLength == value.Length ||
-                    (uint.TryParse(value.Slice(addressLength + 1).ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out port) && port <= 65536))
+                    (uint.TryParse(value[(addressLength + 1)..].ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out port) && port <= 65536))
 
                 {
                     result = new IPEndPoint(address, (int)port);
@@ -74,15 +74,63 @@ namespace FluentModbus
             return crc;
         }
 
-        public static bool DetectFrame(byte unitIdentifier, Memory<byte> frame)
+        public static bool DetectRequestFrame(byte unitIdentifier, Memory<byte> frame)
         {
-            /* Correct response frame (min. 6 bytes)
+#warning This method should be improved by validating the total length against the expected length depending on the function code
+            /* Correct response frame (min. 4 bytes)
+             * 00 Unit Identifier
+             * 01 Function Code
+             * (0..x bytes - depends on function code)
+             * n-1 CRC Byte 1
+             * n   CRC Byte 2
+             */
+
+            var span = frame.Span;
+
+            if (span.Length < 4)
+                return false;
+
+            if (unitIdentifier != 255) // 255 means "skip unit identifier check"
+            {
+                var newUnitIdentifier = span[0];
+
+                if (newUnitIdentifier != unitIdentifier)
+                    return false;
+            }
+
+            // CRC check
+            var crcBytes = span.Slice(span.Length - 2, 2);
+            var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
+            var expectedCRC = CalculateCRC(frame[..^2]);
+
+            if (actualCRC != expectedCRC)
+                return false;
+
+            return true;
+        }
+
+        public static bool DetectResponseFrame(byte unitIdentifier, Memory<byte> frame)
+        {
+            // 
+
+            /* Response frame for read methods (0x01, 0x02, 0x03, 0x04, 0x17) (min. 6 bytes)
              * 00 Unit Identifier
              * 01 Function Code
              * 02 Byte count
              * 03 Minimum of 1 byte
              * 04 CRC Byte 1
              * 05 CRC Byte 2
+             */
+
+            /* Response frame for write methods (0x05, 0x06, 0x0F, 0x10) (8 bytes)
+             * 00 Unit Identifier
+             * 01 Function Code
+             * 02 Address
+             * 03 Address
+             * 04 Value
+             * 05 Value
+             * 06 CRC Byte 1
+             * 07 CRC Byte 2
              */
 
             /* Error response frame (5 bytes)
@@ -95,10 +143,12 @@ namespace FluentModbus
 
             var span = frame.Span;
 
+            // absolute minimum frame size
             if (span.Length < 5)
                 return false;
 
-            if (unitIdentifier != 255) // 255 means "skip unit identifier check"
+            // 255 means "skip unit identifier check"
+            if (unitIdentifier != 255)
             {
                 var newUnitIdentifier = span[0];
 
@@ -107,13 +157,46 @@ namespace FluentModbus
             }
 
             // Byte count check
-            if (span[1] < 0x80 && span.Length < span[2] + 5)
-                return false;
+            if (span[1] < 0x80)
+            {
+                switch (span[1])
+                {
+                    // Read methods
+                    case 0x01:
+                    case 0x02:
+                    case 0x03:
+                    case 0x04:
+                    case 0x17:
+
+                        if (span.Length < span[2] + 5)
+                            return false;
+
+                        break;
+
+                    // Write methods
+                    case 0x05:
+                    case 0x06:
+                    case 0x0F:
+                    case 0x10:
+
+                        if (span.Length < 8)
+                            return false;
+
+                        break;
+                }
+            }
+
+            // Error (only for completeness, length >= 5 has already been checked above)
+            else
+            {
+                if (span.Length < 5)
+                    return false;
+            }
 
             // CRC check
             var crcBytes = span.Slice(span.Length - 2, 2);
             var actualCRC = unchecked((ushort)((crcBytes[1] << 8) + crcBytes[0]));
-            var expectedCRC = ModbusUtils.CalculateCRC(frame.Slice(0, frame.Length - 2));
+            var expectedCRC = CalculateCRC(frame[..^2]);
 
             if (actualCRC != expectedCRC)
                 return false;
@@ -136,7 +219,7 @@ namespace FluentModbus
         public static T SwitchEndianness<T>(T value) where T : unmanaged
         {
             Span<T> data = stackalloc T[] { value };
-            ModbusUtils.SwitchEndianness(data);
+            SwitchEndianness(data);
 
             return data[0];
         }
@@ -167,7 +250,7 @@ namespace FluentModbus
 
         public static void SwitchEndianness<T>(Memory<T> dataset) where T : unmanaged
         {
-            ModbusUtils.SwitchEndianness(dataset.Span);
+            SwitchEndianness(dataset.Span);
         }
 
         public static void SwitchEndianness<T>(Span<T> dataset) where T : unmanaged
@@ -182,9 +265,7 @@ namespace FluentModbus
                     var i1 = i + j;
                     var i2 = i - j + size - 1;
 
-                    byte tmp = dataset_bytes[i1];
-                    dataset_bytes[i1] = dataset_bytes[i2];
-                    dataset_bytes[i2] = tmp;
+                    (dataset_bytes[i2], dataset_bytes[i1]) = (dataset_bytes[i1], dataset_bytes[i2]);
                 }
             }
         }

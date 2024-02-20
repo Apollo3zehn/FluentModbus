@@ -4,9 +4,9 @@ import version
 
 build = sys.argv[1]
 is_final_build = sys.argv[2] == "true"
-as_pypi_version = sys.argv[3] == "true"
+version_type = sys.argv[3]
 
 if is_final_build:
     build = None
 
-print(version.get_version(build, as_pypi_version))
+print(version.get_version(build, version_type))

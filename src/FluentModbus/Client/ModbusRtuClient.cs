@@ -118,8 +118,9 @@ namespace FluentModbus
             //if (Parity == Parity.None && StopBits != StopBits.Two)
             //    throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
 
-            base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian
-                         || !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
+            SwapBytes = 
+                BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian ||
+                !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
 
             _frameBuffer = new ModbusFrameBuffer(256);
 
@@ -179,7 +180,7 @@ namespace FluentModbus
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // add CRC
-            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory().Slice(0, frameLength));
+            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
@@ -196,13 +197,13 @@ namespace FluentModbus
 
             while (true)
             {
-                frameLength += _serialPort!.Value.Value
-                    .Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
+                frameLength += _serialPort!.Value.Value.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
 
-                if (ModbusUtils.DetectFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
+                if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory()[..frameLength]))
                 {
                     break;
                 }
+                
                 else
                 {
                     // reset length because one or more chunks of data were received and written to
@@ -212,7 +213,7 @@ namespace FluentModbus
                 }
             }
 
-            unitIdentifier = _frameBuffer.Reader.ReadByte();
+            _ = _frameBuffer.Reader.ReadByte();
             rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
@@ -230,6 +231,7 @@ namespace FluentModbus
 
         private bool _disposedValue;
 
+        /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -243,6 +245,9 @@ namespace FluentModbus
             }
         }
 
+        /// <summary>
+        /// Disposes the current instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);

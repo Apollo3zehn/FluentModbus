@@ -1,4 +1,3 @@
-import itertools
 import subprocess
 import sys
 import re

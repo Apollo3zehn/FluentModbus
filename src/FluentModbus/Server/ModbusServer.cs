@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace FluentModbus
 {
     /// Provides data for the registers changed event.
-    public struct RegistersChangedEventArgs
+    public readonly struct RegistersChangedEventArgs
     {
         /// <summary>
         /// The unit identifier for the registers that have changed.
@@ -22,7 +22,7 @@ namespace FluentModbus
     /// <summary>
     /// Provides data for the coils changed event.
     /// </summary>
-    public struct CoilsChangedEventArgs
+    public readonly struct CoilsChangedEventArgs
     {
         /// <summary>
         /// The unit identifier for the coils that have changed.
@@ -57,19 +57,19 @@ namespace FluentModbus
         #region Fields
 
         private Task? _task_process_requests;
-        private ManualResetEventSlim _manualResetEvent;
+        private readonly ManualResetEventSlim _manualResetEvent;
 
-        private Dictionary<byte, byte[]> _inputRegisterBufferMap = new();
-        private Dictionary<byte, byte[]> _holdingRegisterBufferMap = new();
-        private Dictionary<byte, byte[]> _coilBufferMap = new();
-        private Dictionary<byte, byte[]> _discreteInputBufferMap = new();
+        private readonly Dictionary<byte, byte[]> _inputRegisterBufferMap = new();
+        private readonly Dictionary<byte, byte[]> _holdingRegisterBufferMap = new();
+        private readonly Dictionary<byte, byte[]> _coilBufferMap = new();
+        private readonly Dictionary<byte, byte[]> _discreteInputBufferMap = new();
 
-        private int _inputRegisterSize;
-        private int _holdingRegisterSize;
-        private int _coilSize;
-        private int _discreteInputSize;
+        private readonly int _inputRegisterSize;
+        private readonly int _holdingRegisterSize;
+        private readonly int _coilSize;
+        private readonly int _discreteInputSize;
 
-        private List<byte> _unitIdentifiers = new();
+        private readonly List<byte> _unitIdentifiers = new();
 
         #endregion
 
@@ -84,10 +84,10 @@ namespace FluentModbus
             Lock = this;
             IsAsynchronous = isAsynchronous;
 
-            MaxInputRegisterAddress = UInt16.MaxValue;
-            MaxHoldingRegisterAddress = UInt16.MaxValue;
-            MaxCoilAddress = UInt16.MaxValue;
-            MaxDiscreteInputAddress = UInt16.MaxValue;
+            MaxInputRegisterAddress = ushort.MaxValue;
+            MaxHoldingRegisterAddress = ushort.MaxValue;
+            MaxCoilAddress = ushort.MaxValue;
+            MaxDiscreteInputAddress = ushort.MaxValue;
 
             _inputRegisterSize = (MaxInputRegisterAddress + 1) * 2;
             _holdingRegisterSize = (MaxHoldingRegisterAddress + 1) * 2;
@@ -121,22 +121,22 @@ namespace FluentModbus
         /// <summary>
         /// Gets the maximum input register address.
         /// </summary>
-        public UInt16 MaxInputRegisterAddress { get; }
+        public ushort MaxInputRegisterAddress { get; }
 
         /// <summary>
         /// Gets the maximum holding register address.
         /// </summary>
-        public UInt16 MaxHoldingRegisterAddress { get; }
+        public ushort MaxHoldingRegisterAddress { get; }
 
         /// <summary>
         /// Gets the maximum coil address.
         /// </summary>
-        public UInt16 MaxCoilAddress { get; }
+        public ushort MaxCoilAddress { get; }
 
         /// <summary>
         /// Gets the maximum discrete input address.
         /// </summary>
-        public UInt16 MaxDiscreteInputAddress { get; }
+        public ushort MaxDiscreteInputAddress { get; }
 
         /// <summary>
         /// Gets or sets a method that validates each client request.
@@ -147,6 +147,13 @@ namespace FluentModbus
         /// Gets or sets whether the events should be raised when register or coil data changes. Default: false.
         /// </summary>
         public bool EnableRaisingEvents { get; set; }
+
+        /// <summary>
+        /// Trigger the RegistersChanged or CoilsChanged event even when value has not been updated. Default: false.
+        /// </summary>
+        public bool AlwaysRaiseChangedEvent { get; set; } = false;
+
+        internal bool IsSingleZeroUnitMode => UnitIdentifiers.Count == 1 && UnitIdentifiers[0] == 0;
 
         private protected CancellationTokenSource CTS { get; private set; } = new CancellationTokenSource();
 
@@ -163,7 +170,7 @@ namespace FluentModbus
         #region Methods
 
         /// <summary>
-        /// Gets the input register as <see cref="UInt16"/> array.
+        /// Gets the input register as <see cref="ushort"/> array.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier of the input registers to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<short> GetInputRegisters(byte unitIdentifier = 0)
@@ -191,7 +198,7 @@ namespace FluentModbus
         }
 
         /// <summary>
-        /// Gets the holding register as <see cref="UInt16"/> array.
+        /// Gets the holding register as <see cref="ushort"/> array.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier of the holding registers to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
         public Span<short> GetHoldingRegisters(byte unitIdentifier = 0)
@@ -357,8 +364,26 @@ namespace FluentModbus
         /// Dynamically adds a new unit to the server.
         /// </summary>
         /// <param name="unitIdentifer">The identifier of the unit to add.</param>
-        protected void AddUnit(byte unitIdentifer)
+        public void AddUnit(byte unitIdentifer)
         {
+            // there are some or more unit identifiers - check if the operation is allowed
+            if (_unitIdentifiers.Any())
+            {
+                if (unitIdentifer == 0)
+                {
+                    // we are not in single zero unit mode
+                    if (!_unitIdentifiers.Contains(0))
+                        throw new ArgumentException("Zero unit identifier can only be added in single zero unit identifier mode.");
+                }
+
+                else
+                {
+                    // we are in single zero unit mode -> remove zero unit identifier to leave that mode
+                    if (_unitIdentifiers.Contains(0))
+                        RemoveUnit(0);
+                }
+            }
+
             if (!_unitIdentifiers.Contains(unitIdentifer))
             {
                 _unitIdentifiers.Add(unitIdentifer);
@@ -373,7 +398,7 @@ namespace FluentModbus
         /// Dynamically removes an existing unit from the server.
         /// </summary>
         /// <param name="unitIdentifer">The identifier of the unit to remove.</param>
-        protected void RemoveUnit(byte unitIdentifer)
+        public void RemoveUnit(byte unitIdentifer)
         {
             if (_unitIdentifiers.Contains(unitIdentifer))
             {
@@ -387,22 +412,10 @@ namespace FluentModbus
 
         private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
         {
-            if (unitIdentifier == 0)
-            {
-                if (map.Count == 1)
-                    return map.First().Value;
+            if (!map.TryGetValue(unitIdentifier, out var buffer))
+                throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound);
 
-                else
-                    throw new ArgumentException(ErrorMessage.ModbusServer_ZeroUnitOverloadOnlyApplicableInSingleUnitMode);
-            }
-
-            else
-            {
-                if (!map.TryGetValue(unitIdentifier, out var buffer))
-                    throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound);
-
-                return buffer;
-            }
+            return buffer;
         }
 
         internal void OnRegistersChanged(byte unitIdentifier, int[] registers)
