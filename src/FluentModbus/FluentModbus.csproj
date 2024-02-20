@@ -7,8 +7,6 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <!-- default lang version is 7.3: https://docs.microsoft.com/de-de/dotnet/csharp/language-reference/configure-language-version -->
-    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
