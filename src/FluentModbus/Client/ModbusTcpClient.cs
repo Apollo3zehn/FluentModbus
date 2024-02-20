@@ -226,7 +226,7 @@ namespace FluentModbus
             reader = _frameBuffer.Reader;
 
             // build request
-            if (!(0 <= unitIdentifier && unitIdentifier <= 247))
+            if (!(0 <= unitIdentifier && unitIdentifier <= 247 || unitIdentifier == 0xFF))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
 
             // special case: broadcast (only for write commands)
