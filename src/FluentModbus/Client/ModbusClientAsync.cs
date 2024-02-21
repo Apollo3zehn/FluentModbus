@@ -1,14 +1,15 @@
 ﻿
-/* This is automatically translated code. */
+ /* This is automatically translated code. */
 
 #pragma warning disable CS1998
 
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus
 {
     public abstract partial class ModbusClient
-	{
+    {
         /// <summary>
         /// Sends the requested modbus message and waits for the response.
         /// </summary>
@@ -33,7 +34,7 @@ namespace FluentModbus
             var count_converted = ConvertUshort(count);
 
             var dataset = SpanExtensions.Cast<byte, T>(await 
-                ReadHoldingRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)).ConfigureAwait(false));
+                ReadHoldingRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted), cancellationToken).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
@@ -50,7 +51,7 @@ namespace FluentModbus
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         public async Task<Memory<byte>> ReadHoldingRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default)
         {
-            var buffer = (await TransceiveFrameAsync(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, writer =>
+            var buffer = await TransceiveFrameAsync(unitIdentifier, ModbusFunctionCode.ReadHoldingRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadHoldingRegisters);              // 07     Function Code
                 
@@ -64,12 +65,12 @@ namespace FluentModbus
                     writer.Write(startingAddress);                                        // 08-09  Starting Address
                     writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false);
 
-            if (buffer.Length < quantity * 2)
+            if (buffer.Length < quantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace FluentModbus
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset.AsSpan());
 
-            await WriteMultipleRegistersAsync(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray()).ConfigureAwait(false);
+            await WriteMultipleRegistersAsync(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray(), cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace FluentModbus
             var startingAddress_converted = ConvertUshort(startingAddress);
             var quantity_converted = ConvertUshort(quantity);
 
-            var buffer = (await TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.ReadCoils, writer =>
+            var buffer = await TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.ReadCoils, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadCoils);                         // 07     Function Code
 
@@ -155,16 +156,16 @@ namespace FluentModbus
                     writer.Write(startingAddress_converted);                              // 08-09  Starting Address
                     writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false);
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8) + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
-        /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discete input.
+        /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discrete input.
         /// </summary>
         /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
         /// <param name="startingAddress">The discrete input start address for the read operation.</param>
@@ -176,7 +177,7 @@ namespace FluentModbus
             var startingAddress_converted = ConvertUshort(startingAddress);
             var quantity_converted = ConvertUshort(quantity);
 
-            var buffer = (await TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.ReadDiscreteInputs, writer =>
+            var buffer = await TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.ReadDiscreteInputs, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadDiscreteInputs);                // 07     Function Code
 
@@ -190,12 +191,12 @@ namespace FluentModbus
                     writer.Write(startingAddress_converted);                              // 08-09  Starting Address
                     writer.Write(quantity_converted);                                     // 10-11  Quantity of Coils
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false);
 
-            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8))
+            if (buffer.Length < (byte)Math.Ceiling((double)quantity_converted / 8) + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -213,7 +214,7 @@ namespace FluentModbus
             var count_converted = ConvertUshort(count);
 
             var dataset = SpanExtensions.Cast<byte, T>(await 
-                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)).ConfigureAwait(false));
+                ReadInputRegistersAsync(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted), cancellationToken).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset);
@@ -230,7 +231,7 @@ namespace FluentModbus
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
         public async Task<Memory<byte>> ReadInputRegistersAsync(byte unitIdentifier, ushort startingAddress, ushort quantity, CancellationToken cancellationToken = default)
         {
-            var buffer = (await TransceiveFrameAsync(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, writer =>
+            var buffer = await TransceiveFrameAsync(unitIdentifier, ModbusFunctionCode.ReadInputRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadInputRegisters);                // 07     Function Code
 
@@ -244,12 +245,12 @@ namespace FluentModbus
                     writer.Write(startingAddress);                                        // 08-09  Starting Address
                     writer.Write(quantity);                                               // 10-11  Quantity of Input Registers
                 }
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false);
 
-            if (buffer.Length < quantity * 2)
+            if (buffer.Length < quantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -296,7 +297,7 @@ namespace FluentModbus
             if (SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray()).ConfigureAwait(false);
+            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray(), cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -314,7 +315,7 @@ namespace FluentModbus
             if (SwapBytes)
                 value = ModbusUtils.SwitchEndianness(value);
 
-            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray()).ConfigureAwait(false);
+            await WriteSingleRegisterAsync(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray(), cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -343,12 +344,43 @@ namespace FluentModbus
         }
 
         /// <summary>
-        /// This methdod is not implemented.
+        /// Writes the provided <paramref name="values"/> to the coil registers.
         /// </summary>
-        [Obsolete("This method is not implemented.")]
-        public async Task WriteMultipleCoilsAsync()
+        /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
+        /// <param name="startingAddress">The coil register start address for the write operation.</param>
+        /// <param name="values">The values to write to the server.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        public void WriteMultipleCoilsAsync(int unitIdentifier, int startingAddress, bool[] values, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
+            var startingAddress_converted = ConvertUshort(startingAddress);
+            var quantityOfOutputs = values.Length;
+            var byteCount = (quantityOfOutputs + 7) / 8;
+            var convertedData = new byte[byteCount];
+
+            new BitArray(values)
+                .CopyTo(convertedData, 0);
+
+            TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.WriteMultipleCoils, writer =>
+            {
+                writer.Write((byte)ModbusFunctionCode.WriteMultipleCoils);                  // 07     Function Code
+
+                if (BitConverter.IsLittleEndian)
+                {
+                    writer.WriteReverse(startingAddress_converted);                         // 08-09  Starting Address
+                    writer.WriteReverse((ushort)quantityOfOutputs);                         // 10-11  Quantity of Outputs
+                }
+
+                else
+                {
+                    writer.Write(startingAddress_converted);                                // 08-09  Starting Address
+                    writer.Write((ushort)quantityOfOutputs);                                // 10-11  Quantity of Outputs
+                }
+
+                writer.Write((byte)byteCount);                                              // 12     Byte Count = Outputs
+
+                writer.Write(convertedData);
+            }, cancellationToken);
         }
 
         /// <summary>
@@ -403,7 +435,7 @@ namespace FluentModbus
             var readQuantity = ConvertSize<TRead>(readCount_converted);
             var byteData = MemoryMarshal.Cast<TWrite, byte>(dataset).ToArray();
 
-            var dataset2 = SpanExtensions.Cast<byte, TRead>(await ReadWriteMultipleRegistersAsync(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData).ConfigureAwait(false));
+            var dataset2 = SpanExtensions.Cast<byte, TRead>(await ReadWriteMultipleRegistersAsync(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData, cancellationToken).ConfigureAwait(false));
 
             if (SwapBytes)
                 ModbusUtils.SwitchEndianness(dataset2);
@@ -427,7 +459,7 @@ namespace FluentModbus
 
             var writeQuantity = dataset.Length / 2;
 
-            var buffer = (await TransceiveFrameAsync(unitIdentifier, ModbusFunctionCode.ReadWriteMultipleRegisters, writer =>
+            var buffer = await TransceiveFrameAsync(unitIdentifier, ModbusFunctionCode.ReadWriteMultipleRegisters, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.ReadWriteMultipleRegisters);      // 07     Function Code
 
@@ -449,12 +481,12 @@ namespace FluentModbus
                 writer.Write((byte)(writeQuantity * 2));                                // 16     Byte Count = Quantity to Write * 2
 
                 writer.Write(dataset, 0, dataset.Length);
-            }, cancellationToken).ConfigureAwait(false)).Slice(2);
+            }, cancellationToken).ConfigureAwait(false);
 
-            if (buffer.Length < readQuantity * 2)
+            if (buffer.Length < readQuantity * 2 + 2)
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseMessageLength);
 
-            return buffer;
+            return buffer.Slice(2);
         }
 
         /// <summary>
@@ -466,7 +498,7 @@ namespace FluentModbus
             throw new NotImplementedException();
         }
 
-	}
+    }
 }
 
 #pragma warning restore CS1998

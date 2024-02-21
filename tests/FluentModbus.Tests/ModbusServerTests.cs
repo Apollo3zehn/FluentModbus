@@ -306,11 +306,12 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(true, false, true)]
-        [InlineData(false, true, true)]
-        [InlineData(false, false, false)]
-        [InlineData(true, true, false)]
-        public async Task CanDetectCoilChanged(bool initialValue, bool newValue, bool expected)
+        [InlineData(true, false, true, false)]
+        [InlineData(false, true, true, false)]
+        [InlineData(false, false, false, false)]
+        [InlineData(true, true, false, false)]
+        [InlineData(false, false, true, true)]
+        public async Task CanDetectCoilChanged(bool initialValue, bool newValue, bool expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             var actual = false;
@@ -319,7 +320,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             server.GetCoils().Set(address, initialValue);
@@ -346,10 +348,68 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(99, 100, true)]
-        [InlineData(0, -1, true)]
-        [InlineData(1, 1, false)]
-        public async Task CanDetectRegisterChanged(short initialValue, short newValue, bool expected)
+        [InlineData(new int[] { 100, 101, 114 }, false)]
+        [InlineData(new int[] { 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114 }, true)]
+        public async Task CanDetectCoilsChanged(int[] expected, bool alwaysRaiseChangedEvent)
+        {
+            // Arrange
+            int[] actual = default!;
+            var address = 99;
+            var endpoint = EndpointSource.GetNext();
+
+            using var server = new ModbusTcpServer()
+            {
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
+            };
+
+            server.GetCoils().Set(address + 0, false);
+            server.GetCoils().Set(address + 1, true);
+            server.GetCoils().Set(address + 2, false);
+            server.GetCoils().Set(address + 3, true);
+            server.GetCoils().Set(address + 4, false);
+            server.GetCoils().Set(address + 5, false);
+            server.GetCoils().Set(address + 6, false);
+            server.GetCoils().Set(address + 7, false);
+            server.GetCoils().Set(address + 8, false);
+            server.GetCoils().Set(address + 9, true);
+            server.GetCoils().Set(address + 10, false);
+            server.GetCoils().Set(address + 11, false);
+            server.GetCoils().Set(address + 12, false);
+            server.GetCoils().Set(address + 13, false);
+            server.GetCoils().Set(address + 14, false);
+            server.GetCoils().Set(address + 15, true);
+
+            server.CoilsChanged += (sender, e) =>
+            {
+                actual = e.Coils;
+            };
+
+            server.Start(endpoint);
+
+            // Act
+            var client = new ModbusTcpClient();
+
+            await Task.Run(() =>
+            {
+                client.Connect(endpoint);
+
+                client.WriteMultipleCoils(0, address, [
+                    false, false, true, true, false, false, false, false,
+                    false, true, false, false, false, false, false, false
+                ]);
+            });
+
+            // Assert
+            Assert.True(expected.SequenceEqual(actual));
+        }
+
+        [Theory]
+        [InlineData(99, 100, true, false)]
+        [InlineData(0, -1, true, false)]
+        [InlineData(1, 1, false, false)]
+        [InlineData(0, 0, true, true)]
+        public async Task CanDetectRegisterChanged(short initialValue, short newValue, bool expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
             var actual = false;
@@ -358,7 +418,8 @@ namespace FluentModbus.Tests
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             server.GetHoldingRegisters()[address] = initialValue;
@@ -385,18 +446,21 @@ namespace FluentModbus.Tests
         }
 
         [Theory]
-        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
-        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new bool[] { true, false, true })]
-        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, bool[] expected)
+        [InlineData(false, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 }, false)]
+        [InlineData(true, new short[] { 99, 101, 102 }, new short[] { 100, 101, 103 }, new int[] { 99, 101 }, false)]
+        [InlineData(false, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new int[] { 99, 100, 101 }, true)]
+        [InlineData(true, new short[] { 0, 0, 0 }, new short[] { 0, 0, 0 }, new int[] { 99, 100, 101 }, true)]
+        public async Task CanDetectRegistersChanged(bool useReadWriteMethod, short[] initialValues, short[] newValues, int[] expected, bool alwaysRaiseChangedEvent)
         {
             // Arrange
-            var actual = new bool[3];
+            int[] actual = default!;
             var address = 99;
             var endpoint = EndpointSource.GetNext();
 
             using var server = new ModbusTcpServer()
             {
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                AlwaysRaiseChangedEvent = alwaysRaiseChangedEvent
             };
 
             for (int i = 0; i < initialValues.Length; i++)
@@ -406,12 +470,7 @@ namespace FluentModbus.Tests
 
             server.RegistersChanged += (sender, e) =>
             {
-                Assert.True(e.Registers.Length == 2);
-
-                for (int i = 0; i < initialValues.Length; i++)
-                {
-                    actual[i] = e.Registers.Contains(address + i);
-                }
+                actual = e.Registers;
             };
 
             server.Start(endpoint);

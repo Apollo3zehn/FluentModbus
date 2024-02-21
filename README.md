@@ -16,6 +16,7 @@ FluentModbus is a .NET Standard library (2.0 and 2.1) that provides Modbus TCP/R
 * FC06: WriteSingleRegister
 
 #### Class 2:
+* FC15: WriteMultipleCoils
 * FC23: ReadWriteMultipleRegisters
 
 Please see the [introduction](https://apollo3zehn.github.io/FluentModbus/) to get a more detailed description on how to use this library!

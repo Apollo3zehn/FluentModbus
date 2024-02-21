@@ -1,12 +1,15 @@
-﻿/* This is automatically translated code. */
+﻿
+ /* This is automatically translated code. */
 
 namespace FluentModbus
 {
-    public partial class ModbusRtuClient
+	public partial class ModbusRtuClient
 	{
 		///<inheritdoc/>
         protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
         {
+            // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
+
             int frameLength;
             byte rawFunctionCode;
             ushort crc;
@@ -38,7 +41,7 @@ namespace FluentModbus
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // add CRC
-            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory().Slice(0, frameLength));
+            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
@@ -57,10 +60,11 @@ namespace FluentModbus
             {
                 frameLength += await _serialPort!.Value.Value.ReadAsync(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
 
-                if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory().Slice(0, frameLength)))
+                if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory()[..frameLength]))
                 {
                     break;
                 }
+                
                 else
                 {
                     // reset length because one or more chunks of data were received and written to
@@ -70,7 +74,7 @@ namespace FluentModbus
                 }
             }
 
-            unitIdentifier = _frameBuffer.Reader.ReadByte();
+            _ = _frameBuffer.Reader.ReadByte();
             rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)

@@ -4,31 +4,26 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 
 <# 
-	var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusRtuClient.cs");
-	var match = Regex.Matches(csstring, @"(protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n        })", RegexOptions.Singleline)[0];
+    var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusRtuClient.cs");
+    var match = Regex.Matches(csstring, @"(protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n        })", RegexOptions.Singleline)[0];
 
 #>
  /* This is automatically translated code. */
 
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace FluentModbus
 {
-	public partial class ModbusRtuClient
-	{
-		<#
-			// replace AsSpan
-			var signature = match.Groups[2].Value;
-			var body = match.Groups[3].Value;
-			body = Regex.Replace(body, "AsSpan", "AsMemory");
-			body = Regex.Replace(body, @"_serialPort.Write\((.*?)\)", m => $"await _serialPort.WriteAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
-			body = Regex.Replace(body, @"_serialPort.Read\((.*?)\)", m => $"await _serialPort.ReadAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
-
-			Write($"///<inheritdoc/>\n        protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
-		#>
-	
-	}
+    public partial class ModbusRtuClient
+    {
+        <#
+            // replace AsSpan
+            var signature = match.Groups[2].Value;
+            var body = match.Groups[3].Value;
+            body = Regex.Replace(body, "AsSpan", "AsMemory");
+            body = Regex.Replace(body, @"_serialPort!.Value.Value.Write\((.*?)\)", m => $"await _serialPort!.Value.Value.WriteAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
+            body = Regex.Replace(body, @"_serialPort!.Value.Value.Read\((.*?)\)", m => $"await _serialPort!.Value.Value.ReadAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
+            
+            Write($"///<inheritdoc/>\n        protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
+        #>
+    
+    }
 }

@@ -234,18 +234,18 @@ namespace FluentModbus
 
             if (BitConverter.IsLittleEndian)
             {
-                writer.WriteReverse(GetTransactionIdentifier());          // 00-01  Transaction Identifier
-                writer.WriteReverse((ushort)0);                                // 02-03  Protocol Identifier
-                writer.WriteReverse((ushort)(frameLength - 6));                // 04-05  Length
+                writer.WriteReverse(GetTransactionIdentifier());                // 00-01  Transaction Identifier
+                writer.WriteReverse((ushort)0);                                 // 02-03  Protocol Identifier
+                writer.WriteReverse((ushort)(frameLength - 6));                 // 04-05  Length
             }
             else
             {
-                writer.Write(GetTransactionIdentifier());                 // 00-01  Transaction Identifier
-                writer.Write((ushort)0);                                       // 02-03  Protocol Identifier
-                writer.Write((ushort)(frameLength - 6));                       // 04-05  Length
+                writer.Write(GetTransactionIdentifier());                       // 00-01  Transaction Identifier
+                writer.Write((ushort)0);                                        // 02-03  Protocol Identifier
+                writer.Write((ushort)(frameLength - 6));                        // 04-05  Length
             }
             
-            writer.Write(unitIdentifier);                                      // 06     Unit Identifier
+            writer.Write(unitIdentifier);                                       // 06     Unit Identifier
 
             // send request
             _networkStream.Write(frameBuffer.Buffer, 0, frameLength);

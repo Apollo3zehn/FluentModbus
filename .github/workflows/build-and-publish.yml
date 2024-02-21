@@ -46,7 +46,7 @@ jobs:
         with:
           name: artifacts
           path: |
-            artifacts/packages/
+            artifacts/package/release/
             artifacts/tag_body.txt
 
     outputs:
@@ -70,7 +70,7 @@ jobs:
           path: artifacts
 
       - name: Nuget package (MyGet)
-        run: dotnet nuget push 'artifacts/packages/*.nupkg' --api-key ${MYGET_API_KEY} --source https://www.myget.org/F/apollo3zehn-dev/api/v3/index.json
+        run: dotnet nuget push 'artifacts/package/release/*.nupkg' --api-key ${MYGET_API_KEY} --source https://www.myget.org/F/apollo3zehn-dev/api/v3/index.json
         env:
           MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
 
@@ -96,6 +96,6 @@ jobs:
           body_path: artifacts/tag_body.txt
 
       - name: Nuget package (Nuget)
-        run: dotnet nuget push 'artifacts/packages/*.nupkg' --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push 'artifacts/package/release/*.nupkg' --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
