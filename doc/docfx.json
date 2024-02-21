@@ -58,7 +58,8 @@
     "fileMetadataFiles": [],
     "template": [
       "default",
-      "modern"
+      "modern",
+      "dark-mode"
     ],
     "postProcessors": [],
     "keepFileLink": false,
