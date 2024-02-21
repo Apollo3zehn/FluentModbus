@@ -6,24 +6,26 @@
           "files": [
             "**/*.csproj"
           ],
-          "src": "./../src"
+          "src": "../src"
         }
       ],
-      "dest": "./api",
+      "dest": "api",
       "filter": "filterConfig.yml",
       "properties": {
         "TargetFramework": "netstandard2.1"
-      }
+      },
+      "includePrivateMembers": false,
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false,
+      "noRestore": false,
+      "namespaceLayout": "flattened",
+      "memberLayout": "samePage",
+      "EnumSortOrder": "alphabetic",
+      "allowCompilationErrors": false
     }
   ],
   "build": {
     "content": [
-      {
-        "files": [
-          "*.md",
-          "toc.yml"
-        ]
-      },
       {
         "files": [
           "api/**.yml",
@@ -33,7 +35,9 @@
       {
         "files": [
           "samples/**.md",
-          "samples/**/toc.yml"
+          "samples/**/toc.yml",
+          "toc.yml",
+          "*.md"
         ]
       }
     ],
@@ -44,15 +48,20 @@
         ]
       }
     ],
-    "dest": "_site",
+    "output": "_site",
     "globalMetadata": {
       "_appTitle": "FluentModbus",
-      "_appFooter": "Copyright © 2019 Vincent Wilms",
-      "_appFaviconPath": "images/icon.ico",
+      "_appFooter": "Copyright © 2024 Vincent Wilms",
+      "_appFaviconPath": "images/icon.png",
       "_appLogoPath": "images/logo.svg"
     },
     "fileMetadataFiles": [],
-    "template":["default","templates/material"],
-    "markdownEngineName": "markdig"
+    "template": [
+      "default",
+      "modern"
+    ],
+    "postProcessors": [],
+    "keepFileLink": false,
+    "disableGitFeatures": false
   }
 }
