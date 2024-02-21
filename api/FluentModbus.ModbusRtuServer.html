@@ -1,93 +1,123 @@
 ﻿<!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-  
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class ModbusRtuServer
-   | FluentModbus </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class ModbusRtuServer
-   | FluentModbus ">
-    <meta name="generator" content="docfx 2.58.4.0">
-    
-    <link rel="shortcut icon" href="../images/icon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
-  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
-        
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../images/logo.svg" alt="">
-              </a>
+      <title>Class ModbusRtuServer
+ | FluentModbus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ModbusRtuServer
+ | FluentModbus ">
+      
+      <link rel="icon" href="../images/icon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Apollo3zehn/FluentModbus/new/dev/apiSpec/new?filename=FluentModbus_ModbusRtuServer.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
             </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
-              </form>
-            </div>
-          </div>
-        </nav>
-        
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
           </div>
         </div>
-      </header>
-      <div role="main" class="container body-content hide-when-search">
-        
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
           </div>
         </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="FluentModbus.ModbusRtuServer">
-  
-  
-  <h1 id="FluentModbus_ModbusRtuServer" data-uid="FluentModbus.ModbusRtuServer" class="text-break">Class ModbusRtuServer
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="FluentModbus.ModbusRtuServer">
+
+
+
+  <h1 id="FluentModbus_ModbusRtuServer" data-uid="FluentModbus.ModbusRtuServer" class="text-break">
+    Class ModbusRtuServer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L8"><i class="bi bi-code-slash"></i></a>
   </h1>
-  <div class="markdown level0 summary"><p>A Modbus RTU server.</p>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FluentModbus.html">FluentModbus</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FluentModbus.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A Modbus RTU server.</p>
 </div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><a class="xref" href="FluentModbus.ModbusServer.html">ModbusServer</a></div>
-    <div class="level2"><span class="xref">ModbusRtuServer</span></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ModbusRtuServer : ModbusServer, IDisposable</code></pre>
   </div>
-  <div classs="implements">
-    <h5>Implements</h5>
-    <div><span class="xref">System.IDisposable</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="FluentModbus.ModbusServer.html">ModbusServer</a></div>
+      <div><span class="xref">ModbusRtuServer</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
     <div>
       <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_RegistersChanged">ModbusServer.RegistersChanged</a>
     </div>
@@ -122,43 +152,46 @@
       <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_EnableRaisingEvents">ModbusServer.EnableRaisingEvents</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisters_System_Byte_">ModbusServer.GetInputRegisters(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_AlwaysRaiseChangedEvent">ModbusServer.AlwaysRaiseChangedEvent</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer__1_System_Byte_">ModbusServer.GetInputRegisterBuffer&lt;T&gt;(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisters_System_Byte_">ModbusServer.GetInputRegisters(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer_System_Byte_">ModbusServer.GetInputRegisterBuffer(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer__1_System_Byte_">ModbusServer.GetInputRegisterBuffer&lt;T&gt;(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisters_System_Byte_">ModbusServer.GetHoldingRegisters(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetInputRegisterBuffer_System_Byte_">ModbusServer.GetInputRegisterBuffer(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer__1_System_Byte_">ModbusServer.GetHoldingRegisterBuffer&lt;T&gt;(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisters_System_Byte_">ModbusServer.GetHoldingRegisters(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer_System_Byte_">ModbusServer.GetHoldingRegisterBuffer(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer__1_System_Byte_">ModbusServer.GetHoldingRegisterBuffer&lt;T&gt;(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoils_System_Byte_">ModbusServer.GetCoils(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetHoldingRegisterBuffer_System_Byte_">ModbusServer.GetHoldingRegisterBuffer(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoilBuffer__1_System_Byte_">ModbusServer.GetCoilBuffer&lt;T&gt;(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoils_System_Byte_">ModbusServer.GetCoils(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoilBuffer_System_Byte_">ModbusServer.GetCoilBuffer(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoilBuffer__1_System_Byte_">ModbusServer.GetCoilBuffer&lt;T&gt;(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputs_System_Byte_">ModbusServer.GetDiscreteInputs(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetCoilBuffer_System_Byte_">ModbusServer.GetCoilBuffer(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer__1_System_Byte_">ModbusServer.GetDiscreteInputBuffer&lt;T&gt;(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputs_System_Byte_">ModbusServer.GetDiscreteInputs(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer_System_Byte_">ModbusServer.GetDiscreteInputBuffer(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer__1_System_Byte_">ModbusServer.GetDiscreteInputBuffer&lt;T&gt;(byte)</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_ClearBuffers_System_Byte_">ModbusServer.ClearBuffers(Byte)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_GetDiscreteInputBuffer_System_Byte_">ModbusServer.GetDiscreteInputBuffer(byte)</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_ClearBuffers_System_Byte_">ModbusServer.ClearBuffers(byte)</a>
     </div>
     <div>
       <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Update">ModbusServer.Update()</a>
@@ -170,602 +203,570 @@
       <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_StartProcessing">ModbusServer.StartProcessing()</a>
     </div>
     <div>
-      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Dispose_System_Boolean_">ModbusServer.Dispose(Boolean)</a>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_RemoveUnit_System_Byte_">ModbusServer.RemoveUnit(byte)</a>
+    </div>
+    <div>
+      <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Dispose_System_Boolean_">ModbusServer.Dispose(bool)</a>
     </div>
     <div>
       <a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_Dispose">ModbusServer.Dispose()</a>
     </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
-  <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
-  <h5 id="FluentModbus_ModbusRtuServer_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ModbusRtuServer : ModbusServer, IDisposable</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer__ctor_System_Byte_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.%23ctor(System.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L24">View Source</a>
-  </span>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
   <a id="FluentModbus_ModbusRtuServer__ctor_" data-uid="FluentModbus.ModbusRtuServer.#ctor*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer__ctor_System_Byte_" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Byte)">ModbusRtuServer(Byte)</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer__ctor_System_Byte_" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Byte)">
+  ModbusRtuServer(byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Creates a Modbus RTU server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public ModbusRtuServer(byte unitIdentifier)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unique Modbus RTU unit identifier (1..247).</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer__ctor_System_Byte_System_Boolean_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.%23ctor(System.Byte%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L34">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>unitIdentifier</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The unique Modbus RTU unit identifier (1..247).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer__ctor_" data-uid="FluentModbus.ModbusRtuServer.#ctor*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer__ctor_System_Byte_System_Boolean_" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Byte,System.Boolean)">ModbusRtuServer(Byte, Boolean)</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer__ctor_System_Byte_System_Boolean_" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Byte,System.Boolean)">
+  ModbusRtuServer(byte, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Creates a Modbus RTU server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public ModbusRtuServer(byte unitIdentifier, bool isAsynchronous)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifier</span></td>
-        <td><p>The unique Modbus RTU unit identifier (1..247).</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">isAsynchronous</span></td>
-        <td><p>Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <a href="https://github.com/Apollo3zehn/FluentModbus">documentation</a> for more details.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer__ctor_System_Collections_Generic_IEnumerable_System_Byte__.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.%23ctor(System.Collections.Generic.IEnumerable%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L47">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>unitIdentifier</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The unique Modbus RTU unit identifier (1..247).</p>
+</dd>
+    <dt><code>isAsynchronous</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <a href="https://github.com/Apollo3zehn/FluentModbus">documentation</a> for more details.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer__ctor_" data-uid="FluentModbus.ModbusRtuServer.#ctor*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer__ctor_System_Collections_Generic_IEnumerable_System_Byte__" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Collections.Generic.IEnumerable{System.Byte})">ModbusRtuServer(IEnumerable&lt;Byte&gt;)</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer__ctor_System_Collections_Generic_IEnumerable_System_Byte__" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Collections.Generic.IEnumerable{System.Byte})">
+  ModbusRtuServer(IEnumerable&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Creates a multi-unit Modbus RTU server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public ModbusRtuServer(IEnumerable&lt;byte&gt; unitIdentifiers)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td><span class="parametername">unitIdentifiers</span></td>
-        <td><p>The unique Modbus RTU unit identifiers (1..247).</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer__ctor_System_Collections_Generic_IEnumerable_System_Byte__System_Boolean_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.%23ctor(System.Collections.Generic.IEnumerable%7BSystem.Byte%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L57">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>unitIdentifiers</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The unique Modbus RTU unit identifiers (1..247).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer__ctor_" data-uid="FluentModbus.ModbusRtuServer.#ctor*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer__ctor_System_Collections_Generic_IEnumerable_System_Byte__System_Boolean_" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Collections.Generic.IEnumerable{System.Byte},System.Boolean)">ModbusRtuServer(IEnumerable&lt;Byte&gt;, Boolean)</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer__ctor_System_Collections_Generic_IEnumerable_System_Byte__System_Boolean_" data-uid="FluentModbus.ModbusRtuServer.#ctor(System.Collections.Generic.IEnumerable{System.Byte},System.Boolean)">
+  ModbusRtuServer(IEnumerable&lt;byte&gt;, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Creates a multi-unit Modbus RTU server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public ModbusRtuServer(IEnumerable&lt;byte&gt; unitIdentifiers, bool isAsynchronous)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td><span class="parametername">unitIdentifiers</span></td>
-        <td><p>The unique Modbus RTU unit identifiers (1..247).</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">isAsynchronous</span></td>
-        <td><p>Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <a href="https://github.com/Apollo3zehn/FluentModbus">documentation</a> for more details.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="properties">Properties
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_BaudRate.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.BaudRate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L87">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>unitIdentifiers</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The unique Modbus RTU unit identifiers (1..247).</p>
+</dd>
+    <dt><code>isAsynchronous</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <a href="https://github.com/Apollo3zehn/FluentModbus">documentation</a> for more details.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
   <a id="FluentModbus_ModbusRtuServer_BaudRate_" data-uid="FluentModbus.ModbusRtuServer.BaudRate*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_BaudRate" data-uid="FluentModbus.ModbusRtuServer.BaudRate">BaudRate</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_BaudRate" data-uid="FluentModbus.ModbusRtuServer.BaudRate">
+  BaudRate
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Gets or sets the serial baud rate. Default is 9600.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public int BaudRate { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_Handshake.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.Handshake%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L92">View Source</a>
-  </span>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_Handshake_" data-uid="FluentModbus.ModbusRtuServer.Handshake*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_Handshake" data-uid="FluentModbus.ModbusRtuServer.Handshake">Handshake</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_Handshake" data-uid="FluentModbus.ModbusRtuServer.Handshake">
+  Handshake
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L84"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Gets or sets the handshaking protocol for serial port transmission of data. Default is Handshake.None.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Handshake Handshake { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Handshake</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_IsConnected.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.IsConnected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L76">View Source</a>
-  </span>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ports.handshake">Handshake</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_IsConnected_" data-uid="FluentModbus.ModbusRtuServer.IsConnected*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_IsConnected" data-uid="FluentModbus.ModbusRtuServer.IsConnected">IsConnected</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_IsConnected" data-uid="FluentModbus.ModbusRtuServer.IsConnected">
+  IsConnected
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Gets the connection status of the underlying serial port.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool IsConnected { get; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_Parity.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.Parity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L97">View Source</a>
-  </span>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_Parity_" data-uid="FluentModbus.ModbusRtuServer.Parity*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_Parity" data-uid="FluentModbus.ModbusRtuServer.Parity">Parity</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_Parity" data-uid="FluentModbus.ModbusRtuServer.Parity">
+  Parity
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Gets or sets the parity-checking protocol. Default is Parity.Even.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Parity Parity { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Parity</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_ReadTimeout.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.ReadTimeout%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L107">View Source</a>
-  </span>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ports.parity">Parity</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_ReadTimeout_" data-uid="FluentModbus.ModbusRtuServer.ReadTimeout*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_ReadTimeout" data-uid="FluentModbus.ModbusRtuServer.ReadTimeout">ReadTimeout</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_ReadTimeout" data-uid="FluentModbus.ModbusRtuServer.ReadTimeout">
+  ReadTimeout
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Gets or sets the read timeout in milliseconds. Default is 1000 ms.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public int ReadTimeout { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_StopBits.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.StopBits%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L102">View Source</a>
-  </span>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_StopBits_" data-uid="FluentModbus.ModbusRtuServer.StopBits*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_StopBits" data-uid="FluentModbus.ModbusRtuServer.StopBits">StopBits</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_StopBits" data-uid="FluentModbus.ModbusRtuServer.StopBits">
+  StopBits
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Gets or sets the standard number of stopbits per byte. Default is StopBits.One.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public StopBits StopBits { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">StopBits</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_WriteTimeout.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.WriteTimeout%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L112">View Source</a>
-  </span>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ports.stopbits">StopBits</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_WriteTimeout_" data-uid="FluentModbus.ModbusRtuServer.WriteTimeout*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_WriteTimeout" data-uid="FluentModbus.ModbusRtuServer.WriteTimeout">WriteTimeout</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_WriteTimeout" data-uid="FluentModbus.ModbusRtuServer.WriteTimeout">
+  WriteTimeout
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Gets or sets the write timeout in milliseconds. Default is 1000 ms.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public int WriteTimeout { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_AddUnit_System_Byte_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.AddUnit(System.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L175">View Source</a>
-  </span>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
   <a id="FluentModbus_ModbusRtuServer_AddUnit_" data-uid="FluentModbus.ModbusRtuServer.AddUnit*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_AddUnit_System_Byte_" data-uid="FluentModbus.ModbusRtuServer.AddUnit(System.Byte)">AddUnit(Byte)</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_AddUnit_System_Byte_" data-uid="FluentModbus.ModbusRtuServer.AddUnit(System.Byte)">
+  AddUnit(byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L188"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Dynamically adds a new unit to the server.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void AddUnit(byte unitIdentifer)</code></pre>
+    <pre><code class="lang-csharp hljs">public void AddUnit(byte unitIdentifier)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifer</span></td>
-        <td><p>The identifier of the unit to add.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_ProcessRequests.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.ProcessRequests%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L190">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>unitIdentifier</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The identifier of the unit to add.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_ProcessRequests_" data-uid="FluentModbus.ModbusRtuServer.ProcessRequests*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_ProcessRequests" data-uid="FluentModbus.ModbusRtuServer.ProcessRequests">ProcessRequests()</h4>
-  <div class="markdown level1 summary"></div>
+
+  <h3 id="FluentModbus_ModbusRtuServer_ProcessRequests" data-uid="FluentModbus.ModbusRtuServer.ProcessRequests">
+  ProcessRequests()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L198"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Process incoming requests.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">protected override void ProcessRequests()</code></pre>
   </div>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="FluentModbus.ModbusServer.html#FluentModbus_ModbusServer_ProcessRequests">ModbusServer.ProcessRequests()</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_RemoveUnit_System_Byte_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.RemoveUnit(System.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L184">View Source</a>
-  </span>
-  <a id="FluentModbus_ModbusRtuServer_RemoveUnit_" data-uid="FluentModbus.ModbusRtuServer.RemoveUnit*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_RemoveUnit_System_Byte_" data-uid="FluentModbus.ModbusRtuServer.RemoveUnit(System.Byte)">RemoveUnit(Byte)</h4>
-  <div class="markdown level1 summary"><p>Dynamically removes an existing unit from the server.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void RemoveUnit(byte unitIdentifer)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Byte</span></td>
-        <td><span class="parametername">unitIdentifer</span></td>
-        <td><p>The identifier of the unit to remove.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_Start_FluentModbus_IModbusRtuSerialPort_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.Start(FluentModbus.IModbusRtuSerialPort)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L145">View Source</a>
-  </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_Start_" data-uid="FluentModbus.ModbusRtuServer.Start*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_Start_FluentModbus_IModbusRtuSerialPort_" data-uid="FluentModbus.ModbusRtuServer.Start(FluentModbus.IModbusRtuSerialPort)">Start(IModbusRtuSerialPort)</h4>
-  <div class="markdown level1 summary"><p>Starts the server. It will communicate using the provided <code data-dev-comment-type="paramref" class="paramref">serialPort</code>.</p>
+
+  <h3 id="FluentModbus_ModbusRtuServer_Start_FluentModbus_IModbusRtuSerialPort_" data-uid="FluentModbus.ModbusRtuServer.Start(FluentModbus.IModbusRtuSerialPort)">
+  Start(IModbusRtuSerialPort)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L137"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Starts the server. It will communicate using the provided <code class="paramref">serialPort</code>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Start(IModbusRtuSerialPort serialPort)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="FluentModbus.IModbusRtuSerialPort.html">IModbusRtuSerialPort</a></td>
-        <td><span class="parametername">serialPort</span></td>
-        <td><p>The serial port to be used.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_Start_System_String_.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.Start(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L124">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>serialPort</code> <a class="xref" href="FluentModbus.IModbusRtuSerialPort.html">IModbusRtuSerialPort</a></dt>
+    <dd><p>The serial port to be used.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_Start_" data-uid="FluentModbus.ModbusRtuServer.Start*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_Start_System_String_" data-uid="FluentModbus.ModbusRtuServer.Start(System.String)">Start(String)</h4>
-  <div class="markdown level1 summary"><p>Starts the server. It will listen on the provided <code data-dev-comment-type="paramref" class="paramref">port</code>.</p>
+
+  <h3 id="FluentModbus_ModbusRtuServer_Start_System_String_" data-uid="FluentModbus.ModbusRtuServer.Start(System.String)">
+  Start(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L116"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Starts the server. It will listen on the provided <code class="paramref">port</code>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Start(string port)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">port</span></td>
-        <td><p>The COM port to be used, e.g. COM1.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer_Stop.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer.Stop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L164">View Source</a>
-  </span>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>port</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The COM port to be used, e.g. COM1.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="FluentModbus_ModbusRtuServer_Stop_" data-uid="FluentModbus.ModbusRtuServer.Stop*"></a>
-  <h4 id="FluentModbus_ModbusRtuServer_Stop" data-uid="FluentModbus.ModbusRtuServer.Stop">Stop()</h4>
+
+  <h3 id="FluentModbus_ModbusRtuServer_Stop" data-uid="FluentModbus.ModbusRtuServer.Stop">
+  Stop()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L178"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>Stops the server and closes the underlying serial port.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Stop()</code></pre>
+    <pre><code class="lang-csharp hljs">public override void Stop()</code></pre>
   </div>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <span class="xref">System.IDisposable</span>
-  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </article>
-          </div>
-          
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ModbusRtuServer.md&amp;value=---%0Auid%3A%20FluentModbus.ModbusRtuServer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/Server/ModbusRtuServer.cs/#L10" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
-                <div></div>
-              </nav>
-            </div>
-          </div>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/Server/ModbusRtuServer.cs/#L8" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright © 2024 Vincent Wilms
         </div>
       </div>
-      
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-            Copyright © 2019 Vincent Wilms
-            
-          </div>
-        </div>
-      </footer>
-    </div>
-    
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    </footer>
   </body>
 </html>

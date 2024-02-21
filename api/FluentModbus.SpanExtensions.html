@@ -1,759 +1,585 @@
 ﻿<!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-  
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class SpanExtensions
-   | FluentModbus </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class SpanExtensions
-   | FluentModbus ">
-    <meta name="generator" content="docfx 2.58.4.0">
-    
-    <link rel="shortcut icon" href="../images/icon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
-  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
-        
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../images/logo.svg" alt="">
-              </a>
+      <title>Class SpanExtensions
+ | FluentModbus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SpanExtensions
+ | FluentModbus ">
+      
+      <link rel="icon" href="../images/icon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Apollo3zehn/FluentModbus/new/dev/apiSpec/new?filename=FluentModbus_SpanExtensions.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
             </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
-              </form>
-            </div>
-          </div>
-        </nav>
-        
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
           </div>
         </div>
-      </header>
-      <div role="main" class="container body-content hide-when-search">
-        
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-        </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="FluentModbus.SpanExtensions">
-  
-  
-  <h1 id="FluentModbus_SpanExtensions" data-uid="FluentModbus.SpanExtensions" class="text-break">Class SpanExtensions
-  </h1>
-  <div class="markdown level0 summary"><p>Contains extension methods to read and write data from the Modbus registers.</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">SpanExtensions</span></div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
-  <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
-  <h5 id="FluentModbus_SpanExtensions_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class SpanExtensions</code></pre>
-  </div>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_Cast__2_System_Memory___0__.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.Cast%60%602(System.Memory%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L231">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_Cast_" data-uid="FluentModbus.SpanExtensions.Cast*"></a>
-  <h4 id="FluentModbus_SpanExtensions_Cast__2_System_Memory___0__" data-uid="FluentModbus.SpanExtensions.Cast``2(System.Memory{``0})">Cast&lt;TFrom, TTo&gt;(Memory&lt;TFrom&gt;)</h4>
-  <div class="markdown level1 summary"><p>Casts a memory of one primitive type to a memory of another primitive type.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Memory&lt;TTo&gt; Cast&lt;TFrom, TTo&gt;(this Memory&lt;TFrom&gt; memory)
-
-    where TFrom : struct where TTo : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Memory</span>&lt;TFrom&gt;</td>
-        <td><span class="parametername">memory</span></td>
-        <td><p>The source slice to convert.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Memory</span>&lt;TTo&gt;</td>
-        <td><p>The converted memory.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">TFrom</span></td>
-        <td><p>The type of the source memory.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="parametername">TTo</span></td>
-        <td><p>The type of the target memory.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_Get_System_Span_System_Byte__System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.Get(System.Span%7BSystem.Byte%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L194">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_Get_" data-uid="FluentModbus.SpanExtensions.Get*"></a>
-  <h4 id="FluentModbus_SpanExtensions_Get_System_Span_System_Byte__System_Int32_" data-uid="FluentModbus.SpanExtensions.Get(System.Span{System.Byte},System.Int32)">Get(Span&lt;Byte&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Reads a single bit from the buffer.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool Get(this Span&lt;byte&gt; buffer, int address)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The source buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus address.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_GetBigEndian__1_System_Span_System_Int16__System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.GetBigEndian%60%601(System.Span%7BSystem.Int16%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L146">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_GetBigEndian_" data-uid="FluentModbus.SpanExtensions.GetBigEndian*"></a>
-  <h4 id="FluentModbus_SpanExtensions_GetBigEndian__1_System_Span_System_Int16__System_Int32_" data-uid="FluentModbus.SpanExtensions.GetBigEndian``1(System.Span{System.Int16},System.Int32)">GetBigEndian&lt;T&gt;(Span&lt;Int16&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Reads a single big-endian value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> from the registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T GetBigEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Int16</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The source buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus register address.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">T</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>The type of the value to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_GetLittleEndian__1_System_Span_System_Int16__System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.GetLittleEndian%60%601(System.Span%7BSystem.Int16%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L95">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_GetLittleEndian_" data-uid="FluentModbus.SpanExtensions.GetLittleEndian*"></a>
-  <h4 id="FluentModbus_SpanExtensions_GetLittleEndian__1_System_Span_System_Int16__System_Int32_" data-uid="FluentModbus.SpanExtensions.GetLittleEndian``1(System.Span{System.Int16},System.Int32)">GetLittleEndian&lt;T&gt;(Span&lt;Int16&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Reads a single little-endian value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> from the registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T GetLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Int16</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The source buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus register address.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">T</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>The type of the value to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_GetMidLittleEndian__1_System_Span_System_Int16__System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.GetMidLittleEndian%60%601(System.Span%7BSystem.Int16%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L120">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_GetMidLittleEndian_" data-uid="FluentModbus.SpanExtensions.GetMidLittleEndian*"></a>
-  <h4 id="FluentModbus_SpanExtensions_GetMidLittleEndian__1_System_Span_System_Int16__System_Int32_" data-uid="FluentModbus.SpanExtensions.GetMidLittleEndian``1(System.Span{System.Int16},System.Int32)">GetMidLittleEndian&lt;T&gt;(Span&lt;Int16&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Reads a single mid-little-endian value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> from the registers.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T GetMidLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Int16</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The source buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus register address.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">T</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>The type of the value to read.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_Set_System_Span_System_Byte__System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.Set(System.Span%7BSystem.Byte%7D%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L171">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_Set_" data-uid="FluentModbus.SpanExtensions.Set*"></a>
-  <h4 id="FluentModbus_SpanExtensions_Set_System_Span_System_Byte__System_Int32_System_Boolean_" data-uid="FluentModbus.SpanExtensions.Set(System.Span{System.Byte},System.Int32,System.Boolean)">Set(Span&lt;Byte&gt;, Int32, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Writes a single bit to the buffer.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Set(this Span&lt;byte&gt; buffer, int address, bool value)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The target buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus address.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to set.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_SetBigEndian__1_System_Span_System_Int16__System_Int32___0_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.SetBigEndian%60%601(System.Span%7BSystem.Int16%7D%2CSystem.Int32%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L71">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_SetBigEndian_" data-uid="FluentModbus.SpanExtensions.SetBigEndian*"></a>
-  <h4 id="FluentModbus_SpanExtensions_SetBigEndian__1_System_Span_System_Int16__System_Int32___0_" data-uid="FluentModbus.SpanExtensions.SetBigEndian``1(System.Span{System.Int16},System.Int32,``0)">SetBigEndian&lt;T&gt;(Span&lt;Int16&gt;, Int32, T)</h4>
-  <div class="markdown level1 summary"><p>Writes a single value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to the registers and converts it to the big-endian representation if necessary.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void SetBigEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address, T value)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Int16</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The target buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus register address.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">T</span></td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to write.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>The type of the value to write.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_SetLittleEndian__1_System_Span_System_Int16__System_Int32___0_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.SetLittleEndian%60%601(System.Span%7BSystem.Int16%7D%2CSystem.Int32%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L19">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_SetLittleEndian_" data-uid="FluentModbus.SpanExtensions.SetLittleEndian*"></a>
-  <h4 id="FluentModbus_SpanExtensions_SetLittleEndian__1_System_Span_System_Int16__System_Int32___0_" data-uid="FluentModbus.SpanExtensions.SetLittleEndian``1(System.Span{System.Int16},System.Int32,``0)">SetLittleEndian&lt;T&gt;(Span&lt;Int16&gt;, Int32, T)</h4>
-  <div class="markdown level1 summary"><p>Writes a single value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to the registers and converts it to the little-endian representation if necessary.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void SetLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address, T value)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Int16</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The target buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus register address.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">T</span></td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to write.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>The type of the value to write.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_SetMidLittleEndian__1_System_Span_System_Int16__System_Int32___0_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.SetMidLittleEndian%60%601(System.Span%7BSystem.Int16%7D%2CSystem.Int32%2C%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L44">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_SetMidLittleEndian_" data-uid="FluentModbus.SpanExtensions.SetMidLittleEndian*"></a>
-  <h4 id="FluentModbus_SpanExtensions_SetMidLittleEndian__1_System_Span_System_Int16__System_Int32___0_" data-uid="FluentModbus.SpanExtensions.SetMidLittleEndian``1(System.Span{System.Int16},System.Int32,``0)">SetMidLittleEndian&lt;T&gt;(Span&lt;Int16&gt;, Int32, T)</h4>
-  <div class="markdown level1 summary"><p>Writes a single value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> to the registers and converts it to the mid-little-endian representation.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void SetMidLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address, T value)
-
-    where T : struct</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Int16</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The target buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus register address.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">T</span></td>
-        <td><span class="parametername">value</span></td>
-        <td><p>The value to write.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>The type of the value to write.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions_Toggle_System_Span_System_Byte__System_Int32_.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions.Toggle(System.Span%7BSystem.Byte%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L212">View Source</a>
-  </span>
-  <a id="FluentModbus_SpanExtensions_Toggle_" data-uid="FluentModbus.SpanExtensions.Toggle*"></a>
-  <h4 id="FluentModbus_SpanExtensions_Toggle_System_Span_System_Byte__System_Int32_" data-uid="FluentModbus.SpanExtensions.Toggle(System.Span{System.Byte},System.Int32)">Toggle(Span&lt;Byte&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Toggles a single bit in the buffer.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Toggle(this Span&lt;byte&gt; buffer, int address)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Span</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
-        <td><span class="parametername">buffer</span></td>
-        <td><p>The source buffer.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">address</span></td>
-        <td><p>The Modbus address.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-</article>
-          </div>
-          
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_SpanExtensions.md&amp;value=---%0Auid%3A%20FluentModbus.SpanExtensions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/SpanExtensions.cs/#L10" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
-                <div></div>
-              </nav>
-            </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
           </div>
         </div>
       </div>
-      
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-            Copyright © 2019 Vincent Wilms
-            
-          </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-      </footer>
-    </div>
-    
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+
+        <article data-uid="FluentModbus.SpanExtensions">
+
+
+
+  <h1 id="FluentModbus_SpanExtensions" data-uid="FluentModbus.SpanExtensions" class="text-break">
+    Class SpanExtensions
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L9"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FluentModbus.html">FluentModbus</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FluentModbus.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Contains extension methods to read and write data from the Modbus registers.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class SpanExtensions</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">SpanExtensions</span></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="FluentModbus_SpanExtensions_Cast_" data-uid="FluentModbus.SpanExtensions.Cast*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_Cast__2_System_Memory___0__" data-uid="FluentModbus.SpanExtensions.Cast``2(System.Memory{``0})">
+  Cast&lt;TFrom, TTo&gt;(Memory&lt;TFrom&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L230"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Casts a memory of one primitive type to a memory of another primitive type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Memory&lt;TTo&gt; Cast&lt;TFrom, TTo&gt;(this Memory&lt;TFrom&gt; memory) where TFrom : struct where TTo : struct</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>memory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.memory-1">Memory</a>&lt;TFrom&gt;</dt>
+    <dd><p>The source slice to convert.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.memory-1">Memory</a>&lt;TTo&gt;</dt>
+    <dd><p>The converted memory.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TFrom</code></dt>
+    <dd><p>The type of the source memory.</p>
+</dd>
+    <dt><code>TTo</code></dt>
+    <dd><p>The type of the target memory.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_Get_" data-uid="FluentModbus.SpanExtensions.Get*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_Get_System_Span_System_Byte__System_Int32_" data-uid="FluentModbus.SpanExtensions.Get(System.Span{System.Byte},System.Int32)">
+  Get(Span&lt;byte&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L193"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a single bit from the buffer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool Get(this Span&lt;byte&gt; buffer, int address)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The source buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus address.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_GetBigEndian_" data-uid="FluentModbus.SpanExtensions.GetBigEndian*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_GetBigEndian__1_System_Span_System_Int16__System_Int32_" data-uid="FluentModbus.SpanExtensions.GetBigEndian``1(System.Span{System.Int16},System.Int32)">
+  GetBigEndian&lt;T&gt;(Span&lt;short&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L145"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a single big-endian value of type <code class="typeparamref">T</code> from the registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T GetBigEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address) where T : unmanaged</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>&gt;</dt>
+    <dd><p>The source buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus register address.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of the value to read.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_GetLittleEndian_" data-uid="FluentModbus.SpanExtensions.GetLittleEndian*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_GetLittleEndian__1_System_Span_System_Int16__System_Int32_" data-uid="FluentModbus.SpanExtensions.GetLittleEndian``1(System.Span{System.Int16},System.Int32)">
+  GetLittleEndian&lt;T&gt;(Span&lt;short&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a single little-endian value of type <code class="typeparamref">T</code> from the registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T GetLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address) where T : unmanaged</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>&gt;</dt>
+    <dd><p>The source buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus register address.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of the value to read.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_GetMidLittleEndian_" data-uid="FluentModbus.SpanExtensions.GetMidLittleEndian*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_GetMidLittleEndian__1_System_Span_System_Int16__System_Int32_" data-uid="FluentModbus.SpanExtensions.GetMidLittleEndian``1(System.Span{System.Int16},System.Int32)">
+  GetMidLittleEndian&lt;T&gt;(Span&lt;short&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L119"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a single mid-little-endian value of type <code class="typeparamref">T</code> from the registers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T GetMidLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address) where T : unmanaged</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>&gt;</dt>
+    <dd><p>The source buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus register address.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of the value to read.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_Set_" data-uid="FluentModbus.SpanExtensions.Set*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_Set_System_Span_System_Byte__System_Int32_System_Boolean_" data-uid="FluentModbus.SpanExtensions.Set(System.Span{System.Byte},System.Int32,System.Boolean)">
+  Set(Span&lt;byte&gt;, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L170"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Writes a single bit to the buffer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Set(this Span&lt;byte&gt; buffer, int address, bool value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The target buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus address.</p>
+</dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>The value to set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_SetBigEndian_" data-uid="FluentModbus.SpanExtensions.SetBigEndian*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_SetBigEndian__1_System_Span_System_Int16__System_Int32___0_" data-uid="FluentModbus.SpanExtensions.SetBigEndian``1(System.Span{System.Int16},System.Int32,``0)">
+  SetBigEndian&lt;T&gt;(Span&lt;short&gt;, int, T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Writes a single value of type <code class="typeparamref">T</code> to the registers and converts it to the big-endian representation if necessary.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetBigEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address, T value) where T : unmanaged</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>&gt;</dt>
+    <dd><p>The target buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus register address.</p>
+</dd>
+    <dt><code>value</code> <span class="xref">T</span></dt>
+    <dd><p>The value to write.</p>
+</dd>
+  </dl>
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of the value to write.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_SetLittleEndian_" data-uid="FluentModbus.SpanExtensions.SetLittleEndian*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_SetLittleEndian__1_System_Span_System_Int16__System_Int32___0_" data-uid="FluentModbus.SpanExtensions.SetLittleEndian``1(System.Span{System.Int16},System.Int32,``0)">
+  SetLittleEndian&lt;T&gt;(Span&lt;short&gt;, int, T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Writes a single value of type <code class="typeparamref">T</code> to the registers and converts it to the little-endian representation if necessary.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address, T value) where T : unmanaged</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>&gt;</dt>
+    <dd><p>The target buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus register address.</p>
+</dd>
+    <dt><code>value</code> <span class="xref">T</span></dt>
+    <dd><p>The value to write.</p>
+</dd>
+  </dl>
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of the value to write.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_SetMidLittleEndian_" data-uid="FluentModbus.SpanExtensions.SetMidLittleEndian*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_SetMidLittleEndian__1_System_Span_System_Int16__System_Int32___0_" data-uid="FluentModbus.SpanExtensions.SetMidLittleEndian``1(System.Span{System.Int16},System.Int32,``0)">
+  SetMidLittleEndian&lt;T&gt;(Span&lt;short&gt;, int, T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Writes a single value of type <code class="typeparamref">T</code> to the registers and converts it to the mid-little-endian representation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetMidLittleEndian&lt;T&gt;(this Span&lt;short&gt; buffer, int address, T value) where T : unmanaged</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>&gt;</dt>
+    <dd><p>The target buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus register address.</p>
+</dd>
+    <dt><code>value</code> <span class="xref">T</span></dt>
+    <dd><p>The value to write.</p>
+</dd>
+  </dl>
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of the value to write.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_SpanExtensions_Toggle_" data-uid="FluentModbus.SpanExtensions.Toggle*"></a>
+
+  <h3 id="FluentModbus_SpanExtensions_Toggle_System_Span_System_Byte__System_Int32_" data-uid="FluentModbus.SpanExtensions.Toggle(System.Span{System.Byte},System.Int32)">
+  Toggle(Span&lt;byte&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L211"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Toggles a single bit in the buffer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Toggle(this Span&lt;byte&gt; buffer, int address)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>The source buffer.</p>
+</dd>
+    <dt><code>address</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The Modbus address.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/SpanExtensions.cs/#L9" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright © 2024 Vincent Wilms
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

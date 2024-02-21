@@ -1,514 +1,533 @@
 ﻿<!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-  
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class ExtendedBinaryReader
-   | FluentModbus </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class ExtendedBinaryReader
-   | FluentModbus ">
-    <meta name="generator" content="docfx 2.58.4.0">
-    
-    <link rel="shortcut icon" href="../images/icon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-    <meta property="docfx:navrel" content="../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
-  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
-        
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../images/logo.svg" alt="">
-              </a>
+      <title>Class ExtendedBinaryReader
+ | FluentModbus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ExtendedBinaryReader
+ | FluentModbus ">
+      
+      <link rel="icon" href="../images/icon.png">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Apollo3zehn/FluentModbus/new/dev/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
             </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
-              </form>
-            </div>
-          </div>
-        </nav>
-        
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
           </div>
         </div>
-      </header>
-      <div role="main" class="container body-content hide-when-search">
-        
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-        </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="FluentModbus.ExtendedBinaryReader">
-  
-  
-  <h1 id="FluentModbus_ExtendedBinaryReader" data-uid="FluentModbus.ExtendedBinaryReader" class="text-break">Class ExtendedBinaryReader
-  </h1>
-  <div class="markdown level0 summary"><p>A binary reader with extended capability to handle big-endian data.</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">System.IO.BinaryReader</span></div>
-    <div class="level2"><span class="xref">ExtendedBinaryReader</span></div>
-  </div>
-  <div classs="implements">
-    <h5>Implements</h5>
-    <div><span class="xref">System.IDisposable</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Close()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Dispose()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Dispose(System.Boolean)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.FillBuffer(System.Int32)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.PeekChar()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Read()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Read(System.Byte[], System.Int32, System.Int32)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Read(System.Char[], System.Int32, System.Int32)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Read(System.Span&lt;System.Byte&gt;)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Read(System.Span&lt;System.Char&gt;)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.Read7BitEncodedInt()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadBoolean()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadByte()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadBytes(System.Int32)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadChar()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadChars(System.Int32)</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadDecimal()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadDouble()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadInt16()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadInt32()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadInt64()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadSByte()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadSingle()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadString()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadUInt16()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadUInt32()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.ReadUInt64()</span>
-    </div>
-    <div>
-      <span class="xref">System.IO.BinaryReader.BaseStream</span>
-    </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="FluentModbus.html">FluentModbus</a></h6>
-  <h6><strong>Assembly</strong>: FluentModbus.dll</h6>
-  <h5 id="FluentModbus_ExtendedBinaryReader_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ExtendedBinaryReader : BinaryReader, IDisposable</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader__ctor_System_IO_Stream_.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.%23ctor(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L16">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader__ctor_" data-uid="FluentModbus.ExtendedBinaryReader.#ctor*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader__ctor_System_IO_Stream_" data-uid="FluentModbus.ExtendedBinaryReader.#ctor(System.IO.Stream)">ExtendedBinaryReader(Stream)</h4>
-  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="FluentModbus.ExtendedBinaryReader.html">ExtendedBinaryReader</a> instance.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ExtendedBinaryReader(Stream stream)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.IO.Stream</span></td>
-        <td><span class="parametername">stream</span></td>
-        <td><p>The underlying data stream.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadFloat32Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadFloat32Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L72">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadFloat32Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat32Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadFloat32Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat32Reverse">ReadFloat32Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads a single value value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float ReadFloat32Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Single</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadFloat64Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadFloat64Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L80">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadFloat64Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat64Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadFloat64Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat64Reverse">ReadFloat64Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads a double value value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double ReadFloat64Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadInt16Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadInt16Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L24">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadInt16Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt16Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadInt16Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt16Reverse">ReadInt16Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads a signed short value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public short ReadInt16Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int16</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadInt32Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadInt32Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L40">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadInt32Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt32Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadInt32Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt32Reverse">ReadInt32Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads a signed integer value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int ReadInt32Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadInt64Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadInt64Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L56">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadInt64Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt64Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadInt64Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt64Reverse">ReadInt64Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads a signed long value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public long ReadInt64Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int64</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadUInt16Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadUInt16Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L32">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadUInt16Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt16Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadUInt16Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt16Reverse">ReadUInt16Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads an unsigned short value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ushort ReadUInt16Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.UInt16</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadUInt32Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadUInt32Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L48">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadUInt32Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt32Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadUInt32Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt32Reverse">ReadUInt32Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads an unsigned integer value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public uint ReadUInt32Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.UInt32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader_ReadUInt64Reverse.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader.ReadUInt64Reverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L64">View Source</a>
-  </span>
-  <a id="FluentModbus_ExtendedBinaryReader_ReadUInt64Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt64Reverse*"></a>
-  <h4 id="FluentModbus_ExtendedBinaryReader_ReadUInt64Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt64Reverse">ReadUInt64Reverse()</h4>
-  <div class="markdown level1 summary"><p>Reads an unsigned long value from the stream.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong ReadUInt64Reverse()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.UInt64</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <span class="xref">System.IDisposable</span>
-  </div>
-</article>
-          </div>
-          
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/new/master/apiSpec/new?filename=FluentModbus_ExtendedBinaryReader.md&amp;value=---%0Auid%3A%20FluentModbus.ExtendedBinaryReader%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/FluentModbus/blob/master/src/FluentModbus/ExtendedBinaryReader.cs/#L10" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
-                <div></div>
-              </nav>
-            </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
           </div>
         </div>
       </div>
-      
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-            Copyright © 2019 Vincent Wilms
-            
-          </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-      </footer>
+
+        <article data-uid="FluentModbus.ExtendedBinaryReader">
+
+
+
+  <h1 id="FluentModbus_ExtendedBinaryReader" data-uid="FluentModbus.ExtendedBinaryReader" class="text-break">
+    Class ExtendedBinaryReader
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L8"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FluentModbus.html">FluentModbus</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FluentModbus.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A binary reader with extended capability to handle big-endian data.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ExtendedBinaryReader : BinaryReader, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader">BinaryReader</a></div>
+      <div><span class="xref">ExtendedBinaryReader</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.close">BinaryReader.Close()</a>
     </div>
-    
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.dispose#system-io-binaryreader-dispose">BinaryReader.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.dispose#system-io-binaryreader-dispose(system-boolean)">BinaryReader.Dispose(bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.fillbuffer">BinaryReader.FillBuffer(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.peekchar">BinaryReader.PeekChar()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read">BinaryReader.Read()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-byte()-system-int32-system-int32)">BinaryReader.Read(byte[], int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-char()-system-int32-system-int32)">BinaryReader.Read(char[], int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-span((system-byte)))">BinaryReader.Read(Span&lt;byte&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-span((system-char)))">BinaryReader.Read(Span&lt;char&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read7bitencodedint">BinaryReader.Read7BitEncodedInt()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readboolean">BinaryReader.ReadBoolean()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readbyte">BinaryReader.ReadByte()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readbytes">BinaryReader.ReadBytes(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readchar">BinaryReader.ReadChar()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readchars">BinaryReader.ReadChars(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readdecimal">BinaryReader.ReadDecimal()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readdouble">BinaryReader.ReadDouble()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readint16">BinaryReader.ReadInt16()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readint32">BinaryReader.ReadInt32()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readint64">BinaryReader.ReadInt64()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readsbyte">BinaryReader.ReadSByte()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readsingle">BinaryReader.ReadSingle()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readstring">BinaryReader.ReadString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readuint16">BinaryReader.ReadUInt16()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readuint32">BinaryReader.ReadUInt32()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.readuint64">BinaryReader.ReadUInt64()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.binaryreader.basestream">BinaryReader.BaseStream</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="FluentModbus_ExtendedBinaryReader__ctor_" data-uid="FluentModbus.ExtendedBinaryReader.#ctor*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader__ctor_System_IO_Stream_" data-uid="FluentModbus.ExtendedBinaryReader.#ctor(System.IO.Stream)">
+  ExtendedBinaryReader(Stream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="FluentModbus.ExtendedBinaryReader.html">ExtendedBinaryReader</a> instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ExtendedBinaryReader(Stream stream)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>stream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd><p>The underlying data stream.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadFloat32Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat32Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadFloat32Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat32Reverse">
+  ReadFloat32Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a single value value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float ReadFloat32Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadFloat64Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat64Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadFloat64Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadFloat64Reverse">
+  ReadFloat64Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L78"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a double value value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double ReadFloat64Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadInt16Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt16Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadInt16Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt16Reverse">
+  ReadInt16Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a signed short value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public short ReadInt16Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadInt32Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt32Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadInt32Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt32Reverse">
+  ReadInt32Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a signed integer value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int ReadInt32Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadInt64Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt64Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadInt64Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadInt64Reverse">
+  ReadInt64Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L54"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads a signed long value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long ReadInt64Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadUInt16Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt16Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadUInt16Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt16Reverse">
+  ReadUInt16Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads an unsigned short value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort ReadUInt16Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint16">ushort</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadUInt32Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt32Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadUInt32Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt32Reverse">
+  ReadUInt32Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads an unsigned integer value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint ReadUInt32Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FluentModbus_ExtendedBinaryReader_ReadUInt64Reverse_" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt64Reverse*"></a>
+
+  <h3 id="FluentModbus_ExtendedBinaryReader_ReadUInt64Reverse" data-uid="FluentModbus.ExtendedBinaryReader.ReadUInt64Reverse">
+  ReadUInt64Reverse()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reads an unsigned long value from the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ulong ReadUInt64Reverse()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Apollo3zehn/FluentModbus/blob/dev/src/FluentModbus/ExtendedBinaryReader.cs/#L8" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright © 2024 Vincent Wilms
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
