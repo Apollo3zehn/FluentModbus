@@ -39,7 +39,7 @@ jobs:
         run: dotnet build -c Release src/FluentModbus/FluentModbus.csproj
 
       - name: Test
-        run: dotnet test -c Release /p:BuildProjectReferences=false
+        run: dotnet test -c Release /p:BuildProjectReferences=false /maxcpucount:1
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
