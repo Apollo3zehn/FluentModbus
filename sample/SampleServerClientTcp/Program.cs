@@ -113,7 +113,7 @@ namespace FluentModbus.SampleMaster
             Span<byte> data;
 
             var sleepTime = TimeSpan.FromMilliseconds(100);
-            var unitIdentifier = 0xFF;
+            var unitIdentifier = 0x00;
             var startingAddress = 0;
             var registerAddress = 0;
 

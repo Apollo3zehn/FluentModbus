@@ -5,20 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Sample: TCP",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/artifacts/bin/SampleServerClientTcp/net6.0/SampleServerClientTcp.dll",
+            "program": "${workspaceFolder}/artifacts/bin/SampleServerClientTcp/SampleServerClientTcp.dll",
             "args": [],
             "cwd": "${workspaceFolder}/sample/SampleServerClientTcp",
-            "console": "internalConsole",
+            "console": "externalTerminal",
             "stopAtEntry": false
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach"
         }
     ]
 }

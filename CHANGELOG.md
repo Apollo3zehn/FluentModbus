@@ -1,3 +1,15 @@
+## v5.1.0 - 2024-02-21
+
+### Features
+- Add option for raising event even if values of buffer have not changed (#96) 
+- support for WriteMultipleCoils (#111)
+
+### Bugs Fixed
+- Fixed propagation of cancellationToken (#100)
+- Fixed exception for malformed messages (#101)
+- typo in ModbusClient docstring (#95)
+- SampleServerClientTCP broken? (#102)
+
 ## v5.0.3 - 2023-08-03
 
 - The Modbus TCP server now returns the received unit identifier even when its own unit identifier is set to zero (the default) (solves #93).
