@@ -36,6 +36,12 @@ namespace FluentModbus
         #region Properties
 
         /// <summary>
+        /// Gets or sets the gateway mode flag.
+        /// If set to true it enables the use of the unit identifier 0 for modbus broadcasts.
+        /// </summary>
+        public bool RTUGatewayMode { get; set; }
+
+        /// <summary>
         /// Gets or sets the connect timeout in milliseconds. Default is 1000 ms.
         /// </summary>
         public int ConnectTimeout { get; set; } = ModbusTcpClient.DefaultConnectTimeout;
@@ -226,6 +232,26 @@ namespace FluentModbus
             reader = _frameBuffer.Reader;
 
             // build request
+            if (RTUGatewayMode && !(0 <= unitIdentifier && unitIdentifier <= 247))
+                throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
+
+            // special case: broadcast (only for write commands)
+            if (RTUGatewayMode && unitIdentifier == 0)
+            {
+                switch (functionCode)
+                {
+                    case ModbusFunctionCode.WriteMultipleRegisters:
+                    case ModbusFunctionCode.WriteSingleCoil:
+                    case ModbusFunctionCode.WriteSingleRegister:
+                    case ModbusFunctionCode.WriteMultipleCoils:
+                    case ModbusFunctionCode.WriteFileRecord:
+                    case ModbusFunctionCode.MaskWriteRegister:
+                        break;
+                    default:
+                        throw new ModbusException(ErrorMessage.Modbus_InvalidUseOfBroadcast);
+                }
+            }
+
             writer.Seek(7, SeekOrigin.Begin);
             extendFrame(writer);
             frameLength = (int)writer.BaseStream.Position;
@@ -249,6 +275,10 @@ namespace FluentModbus
 
             // send request
             _networkStream.Write(frameBuffer.Buffer, 0, frameLength);
+
+            // special case: broadcast (only for write commands)
+            if (RTUGatewayMode && unitIdentifier == 0)
+                return _frameBuffer.Buffer.AsSpan(0, 0);
 
             // wait for and process response
             frameLength = 0;
