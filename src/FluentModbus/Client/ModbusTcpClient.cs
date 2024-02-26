@@ -36,6 +36,12 @@ namespace FluentModbus
         #region Properties
 
         /// <summary>
+        /// Gets or sets the gateway mode flag.
+        /// If set to true it enables the use of the unit identifier 0 for modbus broadcasts.
+        /// </summary>
+        public bool RTUGatewayMode { get; set; }
+
+        /// <summary>
         /// Gets or sets the connect timeout in milliseconds. Default is 1000 ms.
         /// </summary>
         public int ConnectTimeout { get; set; } = ModbusTcpClient.DefaultConnectTimeout;
@@ -226,11 +232,11 @@ namespace FluentModbus
             reader = _frameBuffer.Reader;
 
             // build request
-            if (!(0 <= unitIdentifier && unitIdentifier <= 247))
+            if (RTUGatewayMode && !(0 <= unitIdentifier && unitIdentifier <= 247))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
 
             // special case: broadcast (only for write commands)
-            if (unitIdentifier == 0)
+            if (RTUGatewayMode && unitIdentifier == 0)
             {
                 switch (functionCode)
                 {
@@ -271,7 +277,7 @@ namespace FluentModbus
             _networkStream.Write(frameBuffer.Buffer, 0, frameLength);
 
             // special case: broadcast (only for write commands)
-            if (unitIdentifier == 0)
+            if (RTUGatewayMode && unitIdentifier == 0)
                 return _frameBuffer.Buffer.AsSpan(0, 0);
 
             // wait for and process response

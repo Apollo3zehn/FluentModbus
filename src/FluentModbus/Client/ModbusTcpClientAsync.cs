@@ -29,11 +29,11 @@ namespace FluentModbus
             reader = _frameBuffer.Reader;
 
             // build request
-            if (!(0 <= unitIdentifier && unitIdentifier <= 247))
+            if (RTUGatewayMode && !(0 <= unitIdentifier && unitIdentifier <= 247))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
 
             // special case: broadcast (only for write commands)
-            if (unitIdentifier == 0)
+            if (RTUGatewayMode && unitIdentifier == 0)
             {
                 switch (functionCode)
                 {
@@ -74,7 +74,7 @@ namespace FluentModbus
             await _networkStream.WriteAsync(frameBuffer.Buffer, 0, frameLength, cancellationToken).ConfigureAwait(false);
 
             // special case: broadcast (only for write commands)
-            if (unitIdentifier == 0)
+            if (RTUGatewayMode && unitIdentifier == 0)
                 return _frameBuffer.Buffer.AsMemory(0, 0);
 
             // wait for and process response
