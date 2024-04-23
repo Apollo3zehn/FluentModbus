@@ -1,3 +1,8 @@
+## v5.2.0 - 2024-04-23
+
+### Features
+- Make IsConnected an abstract member of ModbusClient (#115)
+
 ## v5.1.0 - 2024-02-21
 
 ### Features

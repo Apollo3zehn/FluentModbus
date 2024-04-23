@@ -31,7 +31,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets the connection status of the underlying serial port.
         /// </summary>
-        public bool IsConnected => _serialPort?.Value.IsOpen ?? false;
+        public override bool IsConnected => _serialPort?.Value.IsOpen ?? false;
 
         /// <summary>
         /// Gets or sets the serial baud rate. Default is 9600.

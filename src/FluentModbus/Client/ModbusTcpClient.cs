@@ -36,6 +36,11 @@ namespace FluentModbus
         #region Properties
 
         /// <summary>
+        /// Gets the connection status of the underlying TCP client.
+        /// </summary>
+        public override bool IsConnected => _tcpClient?.Value.Connected ?? false;
+        
+        /// <summary>
         /// Gets or sets the connect timeout in milliseconds. Default is 1000 ms.
         /// </summary>
         public int ConnectTimeout { get; set; } = ModbusTcpClient.DefaultConnectTimeout;
@@ -55,11 +60,6 @@ namespace FluentModbus
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Gets the connection status of the underlying TCP client.
-        /// </summary>
-        public bool IsConnected => _tcpClient?.Value.Connected ?? false;
 
         /// <summary>
         /// Connect to localhost at port 502 with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout.
