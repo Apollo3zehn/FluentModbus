@@ -10,6 +10,11 @@ namespace FluentModbus
     {
         #region Properties
 
+        /// <summary>
+        /// Gets the connection status of the underlying client.
+        /// </summary>
+        public abstract bool IsConnected { get; }
+        
         protected private bool SwapBytes { get; set; }
 
         #endregion
