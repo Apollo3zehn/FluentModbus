@@ -216,7 +216,10 @@ namespace FluentModbus
                     // reset length because one or more chunks of data were received and written to
                     // the buffer, but no valid Modbus frame could be detected and now the buffer is full
                     if (frameLength == _frameBuffer.Buffer.Length)
+                    {
+                        LogFrame("no valid", _frameBuffer.Buffer);
                         frameLength = 0;
+                    }
                 }
             }
 

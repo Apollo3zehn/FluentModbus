@@ -77,6 +77,7 @@ namespace FluentModbus
                     // the buffer, but no valid Modbus frame could be detected and now the buffer is full
                     if (frameLength == _frameBuffer.Buffer.Length)
                     {
+                        LogFrame("no valid", _frameBuffer.Buffer);
                         frameLength = 0;
                     }
                 }
