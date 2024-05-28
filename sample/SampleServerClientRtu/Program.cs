@@ -25,7 +25,7 @@ namespace FluentModbus.SampleMaster
             /* create logger */
             var loggerFactory = LoggerFactory.Create(loggingBuilder =>
             {
-                loggingBuilder.SetMinimumLevel(LogLevel.Debug);
+                loggingBuilder.SetMinimumLevel(LogLevel.Trace);
                 loggingBuilder.AddConsole();
             });
 
@@ -47,6 +47,7 @@ namespace FluentModbus.SampleMaster
 
             /* create Modbus RTU client */
             var client = new ModbusRtuClient();
+            client.Logger = clientLogger;
 
             /* run Modbus RTU server */
             var cts = new CancellationTokenSource();

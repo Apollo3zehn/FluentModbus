@@ -3,9 +3,9 @@
 
 namespace FluentModbus
 {
-	public partial class ModbusRtuClient
-	{
-		///<inheritdoc/>
+    public partial class ModbusRtuClient
+    {
+        ///<inheritdoc/>
         protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
         {
             // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
@@ -45,6 +45,7 @@ namespace FluentModbus
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
+           LogFrame("Tx", _frameBuffer.Buffer.AsMemory(0, frameLength).ToArray());
             // send request
             await _serialPort!.Value.Value.WriteAsync(_frameBuffer.Buffer, 0, frameLength, cancellationToken).ConfigureAwait(false);
 
@@ -58,19 +59,26 @@ namespace FluentModbus
 
             while (true)
             {
-                frameLength += await _serialPort!.Value.Value.ReadAsync(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
+                int numBytesRead = await _serialPort!.Value.Value.ReadAsync(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
+                if (numBytesRead == 0)
+                {
+                    throw new IOException("Read resulted in 0 bytes returned.");
+                }
 
+                frameLength += numBytesRead;
                 if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory()[..frameLength]))
                 {
+                    LogFrame("Rx",_frameBuffer.Buffer.AsMemory()[..frameLength].ToArray());
                     break;
                 }
-                
                 else
                 {
                     // reset length because one or more chunks of data were received and written to
                     // the buffer, but no valid Modbus frame could be detected and now the buffer is full
                     if (frameLength == _frameBuffer.Buffer.Length)
+                    {
                         frameLength = 0;
+                    }
                 }
             }
 
@@ -84,6 +92,6 @@ namespace FluentModbus
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
             return _frameBuffer.Buffer.AsMemory(1, frameLength - 3);
-        }	
-	}
+        }    
+    }
 }

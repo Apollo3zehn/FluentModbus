@@ -1,4 +1,6 @@
-﻿using System.IO.Ports;
+﻿using Microsoft.Extensions.Logging;
+using System.IO.Ports;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace FluentModbus
 {
@@ -21,7 +23,6 @@ namespace FluentModbus
         /// </summary>
         public ModbusRtuClient()
         {
-            //
         }
 
         #endregion
@@ -184,6 +185,7 @@ namespace FluentModbus
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
+           LogFrame("Tx", _frameBuffer.Buffer.AsSpan(0, frameLength).ToArray());
             // send request
             _serialPort!.Value.Value.Write(_frameBuffer.Buffer, 0, frameLength);
 
@@ -197,13 +199,18 @@ namespace FluentModbus
 
             while (true)
             {
-                frameLength += _serialPort!.Value.Value.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
+                int numBytesRead = _serialPort!.Value.Value.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
+                if (numBytesRead == 0)
+                {
+                    throw new IOException("Read resulted in 0 bytes returned.");
+                }
 
+                frameLength += numBytesRead;
                 if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory()[..frameLength]))
                 {
+                    LogFrame("Rx",_frameBuffer.Buffer.AsMemory()[..frameLength].ToArray());
                     break;
                 }
-                
                 else
                 {
                     // reset length because one or more chunks of data were received and written to

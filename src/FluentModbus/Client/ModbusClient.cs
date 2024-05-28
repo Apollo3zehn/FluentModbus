@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus
@@ -16,6 +18,13 @@ namespace FluentModbus
         public abstract bool IsConnected { get; }
         
         protected private bool SwapBytes { get; set; }
+
+        /// <summary>
+        ///  Get or set the logger
+        /// </summary>
+
+        public ILogger Logger { get; set; } = NullLogger.Instance;
+
 
         #endregion
 
@@ -578,6 +587,13 @@ namespace FluentModbus
         public void ReadFifoQueue()
         {
             throw new NotImplementedException();
+        }
+
+
+
+        protected void LogFrame(string prefix, byte[] frame)
+        {
+            Logger.LogTrace($"{prefix}: {string.Join(" ", frame.Select(b => b.ToString("X2")))}");
         }
     }
 }
