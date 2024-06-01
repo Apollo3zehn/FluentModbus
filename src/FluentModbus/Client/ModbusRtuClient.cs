@@ -184,8 +184,8 @@ namespace FluentModbus
             crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
-
-           LogFrame("Tx", _frameBuffer.Buffer.AsSpan(0, frameLength).ToArray());
+            if (IsLogFrameData)
+                LogFrame("Tx", _frameBuffer.Buffer.AsMemory(0, frameLength));
             // send request
             _serialPort!.Value.Value.Write(_frameBuffer.Buffer, 0, frameLength);
 
@@ -208,7 +208,8 @@ namespace FluentModbus
                 frameLength += numBytesRead;
                 if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory()[..frameLength]))
                 {
-                    LogFrame("Rx",_frameBuffer.Buffer.AsMemory()[..frameLength].ToArray());
+                    if (IsLogFrameData)
+                        LogFrame("Rx",_frameBuffer.Buffer.AsMemory()[..frameLength].ToArray());
                     break;
                 }
                 else
@@ -217,7 +218,8 @@ namespace FluentModbus
                     // the buffer, but no valid Modbus frame could be detected and now the buffer is full
                     if (frameLength == _frameBuffer.Buffer.Length)
                     {
-                        LogFrame("no valid", _frameBuffer.Buffer);
+                        if (IsLogFrameData)
+                            LogFrame("no valid", _frameBuffer.Buffer);
                         frameLength = 0;
                     }
                 }

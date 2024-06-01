@@ -19,11 +19,24 @@ namespace FluentModbus
         
         protected private bool SwapBytes { get; set; }
 
+        private ILogger _logger = NullLogger.Instance;
         /// <summary>
         ///  Get or set the logger
         /// </summary>
+        public ILogger Logger
+        {
+            get => _logger;
+            set
+            {
+                IsLogFrameData = value != NullLogger.Instance;
+                _logger = value;
+            }
+        }
 
-        public ILogger Logger { get; set; } = NullLogger.Instance;
+        /// <summary>
+        ///  Is Log Out Frame Data 
+        /// </summary>
+        protected bool IsLogFrameData=false;
 
 
         #endregion
@@ -590,10 +603,90 @@ namespace FluentModbus
         }
 
 
-
-        protected void LogFrame(string prefix, byte[] frame)
+        /// <summary>
+        /// Log the frame in hexadecimal format.
+        /// </summary>
+        protected void LogFrame(string prefix, Memory<byte> frame)
         {
-            Logger.LogTrace($"{prefix}: {string.Join(" ", frame.Select(b => b.ToString("X2")))}");
+            Logger.LogTrace("{prefix}:{frameHex}", prefix, ByteToHex(frame));
         }
+
+#if NET5_0_OR_GREATER
+    /// <summary>
+    ///  Bytes Convert To Hex String
+    /// </summary>
+    public string ByteToHex(Memory<byte> bytes)
+    {
+        return Convert.ToHexString(bytes.Span);
+    }
+#else
+
+        private static readonly uint[] _lookup32Unsafe = CreateLookup32Unsafe();
+        private static readonly unsafe uint* _lookup32UnsafeP = (uint*)GCHandle.Alloc(_lookup32Unsafe, GCHandleType.Pinned).AddrOfPinnedObject();
+        private static uint[] CreateLookup32Unsafe()
+        {
+            var result = new uint[256];
+            for (int i = 0; i < 256; i++)
+            {
+                string s = i.ToString("X2");
+                if (System.BitConverter.IsLittleEndian)
+                    result[i] = ((uint)s[0]) + ((uint)s[1] << 16);
+                else
+                    result[i] = ((uint)s[1]) + ((uint)s[0] << 16);
+            }
+            return result;
+        }
+        /// <summary>
+        ///  High performance C# byte array to hex string 
+        /// https://stackoverflow.com/a/24343727/3161322
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public unsafe string ByteArrayToHexViaLookup32Unsafe(Memory<byte> bytes)
+        {
+            var lookupP = _lookup32UnsafeP;
+            var result = new char[bytes.Length * 2];
+            fixed (byte* bytesP = bytes.Span)
+            fixed (char* resultP = result)
+            {
+                uint* resultP2 = (uint*)resultP;
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    resultP2[i] = lookupP[bytesP[i]];
+                }
+            }
+            return new string(result);
+        }
+
+        /// <summary>
+        ///  High performance C# byte array to hex string by write into the string directly
+        /// https://stackoverflow.com/a/24343727/3161322
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public unsafe string ByteArrayToHexViaLookup32UnsafeDirect(Memory<byte> bytes)
+        {
+            var lookupP = _lookup32UnsafeP;
+            var result = new string((char)0, bytes.Length * 2);
+            fixed (byte* bytesP = bytes.Span)
+            fixed (char* resultP = result)
+            {
+                uint* resultP2 = (uint*)resultP;
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    resultP2[i] = lookupP[bytesP[i]];
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        ///  Bytes Convert To Hex String
+        /// </summary>
+        public string ByteToHex(Memory<byte> bytes)
+        {
+            return ByteArrayToHexViaLookup32UnsafeDirect(bytes);
+        }
+#endif
+
     }
 }
