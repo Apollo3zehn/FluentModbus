@@ -1,4 +1,6 @@
-﻿using System.IO.Ports;
+﻿using Microsoft.Extensions.Logging;
+using System.IO.Ports;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace FluentModbus
 {
@@ -21,7 +23,6 @@ namespace FluentModbus
         /// </summary>
         public ModbusRtuClient()
         {
-            //
         }
 
         #endregion
@@ -183,7 +184,8 @@ namespace FluentModbus
             crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
-
+            if (IsLogFrameData)
+                LogFrame("Tx", _frameBuffer.Buffer.AsMemory(0, frameLength));
             // send request
             _serialPort!.Value.Value.Write(_frameBuffer.Buffer, 0, frameLength);
 
@@ -197,19 +199,29 @@ namespace FluentModbus
 
             while (true)
             {
-                frameLength += _serialPort!.Value.Value.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
+                int numBytesRead = _serialPort!.Value.Value.Read(_frameBuffer.Buffer, frameLength, _frameBuffer.Buffer.Length - frameLength);
+                if (numBytesRead == 0)
+                {
+                    throw new IOException("Read resulted in 0 bytes returned.");
+                }
 
+                frameLength += numBytesRead;
                 if (ModbusUtils.DetectResponseFrame(unitIdentifier, _frameBuffer.Buffer.AsMemory()[..frameLength]))
                 {
+                    if (IsLogFrameData)
+                        LogFrame("Rx",_frameBuffer.Buffer.AsMemory()[..frameLength].ToArray());
                     break;
                 }
-                
                 else
                 {
                     // reset length because one or more chunks of data were received and written to
                     // the buffer, but no valid Modbus frame could be detected and now the buffer is full
                     if (frameLength == _frameBuffer.Buffer.Length)
+                    {
+                        if (IsLogFrameData)
+                            LogFrame("no valid", _frameBuffer.Buffer);
                         frameLength = 0;
+                    }
                 }
             }
 

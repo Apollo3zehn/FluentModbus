@@ -11,3 +11,4 @@ doc/api/*
 *.suo
 *.user
 *.pyc
+/_ReSharper.Caches/
