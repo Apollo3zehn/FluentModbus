@@ -22,37 +22,19 @@ namespace FluentModbus
         /// <summary>
         /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
         /// </summary>
-        public ModbusTcpServer() : this(NullLogger.Instance, true)
-        {
-            //
-        }
-
-        /// <summary>
-        /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
-        /// </summary>
-        /// <param name="logger">A logger instance to provide runtime information.</param>
-        public ModbusTcpServer(ILogger logger) : this(logger, true)
-        {
-            //
-        }
-
-        /// <summary>
-        /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
-        /// </summary>
         /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
-        public ModbusTcpServer(bool isAsynchronous) : this(NullLogger.Instance, isAsynchronous)
+        public ModbusTcpServer(bool isAsynchronous = true) : base(isAsynchronous, logger: NullLogger.Instance)
         {
-            //
+            AddUnit(0);
         }
 
         /// <summary>
         /// Creates a Modbus TCP server with support for holding registers (read and write, 16 bit), input registers (read-only, 16 bit), coils (read and write, 1 bit) and discete inputs (read-only, 1 bit).
         /// </summary>
-        /// <param name="logger">A logger instance to provide runtime information.</param>
+        /// <param name="logger">The logger to use.</param>
         /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
-        public ModbusTcpServer(ILogger logger, bool isAsynchronous) : base(isAsynchronous)
+        public ModbusTcpServer(ILogger logger, bool isAsynchronous = true) : base(isAsynchronous, logger)
         {
-            Logger = logger;
             AddUnit(0);
         }
 
@@ -63,7 +45,7 @@ namespace FluentModbus
         /// <summary>
         /// Gets or sets the timeout for each client connection. When the client does not send any request within the specified period of time, the connection will be reset. Default is 1 minute.
         /// </summary>
-        public TimeSpan ConnectionTimeout { get; set; } = ModbusTcpServer.DefaultConnectionTimeout;
+        public TimeSpan ConnectionTimeout { get; set; } = DefaultConnectionTimeout;
 
         /// <summary>
         /// Gets or sets the maximum number of concurrent client connections. A value of zero means there is no limit.
@@ -78,8 +60,6 @@ namespace FluentModbus
         internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
         internal List<ModbusTcpRequestHandler> RequestHandlers { get; private set; } = new List<ModbusTcpRequestHandler>();
-
-        private ILogger Logger { get; }
 
         #endregion
 
@@ -133,7 +113,7 @@ namespace FluentModbus
                     // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                     // use ConnectionTimeout instead.
                     var tcpClient = await _tcpClientProvider.AcceptTcpClientAsync();
-                    var requestHandler = new ModbusTcpRequestHandler(tcpClient, this);
+                    var requestHandler = new ModbusTcpRequestHandler(tcpClient, this, Logger);
 
                     lock (Lock)
                     {
@@ -170,12 +150,16 @@ namespace FluentModbus
                                 // This should be the only cause but since "ReceiveRequestAsync" is never
                                 // awaited, the actual cause may be different.
                                 requestHandler.CancellationToken.IsCancellationRequested ||
-                                // or there was not request received within the specified timeout
+                                // or there was no request received within the specified timeout
                                 requestHandler.LastRequest.Elapsed > ConnectionTimeout)
                             {
                                 try
                                 {
-                                    Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out.");
+                                    if (requestHandler.CancellationToken.IsCancellationRequested)
+                                        Logger.LogInformation($"Connection {requestHandler.DisplayName} was closed due to an error");
+
+                                    else
+                                        Logger.LogInformation($"Connection {requestHandler.DisplayName} timed out");
 
                                     // remove request handler
                                     RequestHandlers.Remove(requestHandler);
@@ -207,7 +191,7 @@ namespace FluentModbus
 
             RequestHandlers = new List<ModbusTcpRequestHandler>()
             {
-                new ModbusTcpRequestHandler(tcpClient, this)
+                new ModbusTcpRequestHandler(tcpClient, this, Logger)
             };
         }
 

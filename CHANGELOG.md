@@ -1,3 +1,8 @@
+## vNext - xxxx-xx-xx
+
+### Breaking changes
+- The constructors of `ModbusTcpClient` and `ModbusRtuClient` have been unified so that both accept an `ILogger`.
+
 ## v5.2.0 - 2024-04-23
 
 ### Features

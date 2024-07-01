@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/artifacts/bin/SampleServerClientTcp/SampleServerClientTcp.dll",
+            "program": "${workspaceFolder}/artifacts/bin/SampleServerClientTcp/debug/SampleServerClientTcp.dll",
             "args": [],
             "cwd": "${workspaceFolder}/sample/SampleServerClientTcp",
             "console": "externalTerminal",

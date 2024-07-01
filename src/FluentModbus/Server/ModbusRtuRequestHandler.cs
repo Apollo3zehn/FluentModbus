@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace FluentModbus
 {
     internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
@@ -6,12 +8,15 @@ namespace FluentModbus
 
         private IModbusRtuSerialPort _serialPort;
 
+        private readonly ILogger _logger;
+
         #endregion
 
         #region Constructors
 
-        public ModbusRtuRequestHandler(IModbusRtuSerialPort serialPort, ModbusRtuServer rtuServer) : base(rtuServer, 256)
+        public ModbusRtuRequestHandler(IModbusRtuSerialPort serialPort, ModbusRtuServer rtuServer, ILogger logger) : base(rtuServer, 256)
         {
+            _logger = logger;
             _serialPort = serialPort;
             _serialPort.Open();
 
@@ -47,8 +52,10 @@ namespace FluentModbus
                         WriteResponse();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogDebug(ex, "The connection will be closed");
+                
                 CancelToken();
             }
         }

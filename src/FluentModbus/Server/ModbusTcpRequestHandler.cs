@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using Microsoft.Extensions.Logging;
 
 namespace FluentModbus
 {
@@ -14,13 +15,16 @@ namespace FluentModbus
         private ushort _protocolIdentifier;
         private ushort _bytesFollowing;
 
+        private readonly ILogger _logger;
+
         #endregion
 
         #region Constructors
 
-        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusTcpServer tcpServer)
+        public ModbusTcpRequestHandler(TcpClient tcpClient, ModbusTcpServer tcpServer, ILogger logger)
             : base(tcpServer, 260)
         {
+            _logger = logger;
             _tcpClient = tcpClient;
             _networkStream = tcpClient.GetStream();
 
@@ -59,8 +63,10 @@ namespace FluentModbus
                         WriteResponse();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogDebug(ex, "The connection will be closed");
+
                 CancelToken();
             }
         }

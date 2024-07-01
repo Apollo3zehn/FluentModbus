@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("FluentModbus.Tests")]
 
@@ -79,10 +80,12 @@ namespace FluentModbus
         /// Initializes a new instance of the <see cref="ModbusServer"/>.
         /// </summary>
         /// <param name="isAsynchronous">A boolean which indicates if the server responds to client requests asynchronously (immediately) or synchronously (regularly at fixed events).</param>
-        protected ModbusServer(bool isAsynchronous)
+        /// <param name="logger">The logger to use.</param>
+        protected ModbusServer(bool isAsynchronous, ILogger logger)
         {
             Lock = this;
             IsAsynchronous = isAsynchronous;
+            Logger = logger;
 
             MaxInputRegisterAddress = ushort.MaxValue;
             MaxHoldingRegisterAddress = ushort.MaxValue;
@@ -152,6 +155,11 @@ namespace FluentModbus
         /// Trigger the RegistersChanged or CoilsChanged event even when value has not been updated. Default: false.
         /// </summary>
         public bool AlwaysRaiseChangedEvent { get; set; } = false;
+
+        /// <summary>
+        /// Gets the logger.
+        /// </summary>
+        protected ILogger Logger { get; }
 
         internal bool IsSingleZeroUnitMode => UnitIdentifiers.Count == 1 && UnitIdentifiers[0] == 0;
 
