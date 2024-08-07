@@ -7,7 +7,7 @@
     {
         internal ModbusException(string message) : base(message)
         {
-            ExceptionCode -= 1;
+            ExceptionCode = (ModbusExceptionCode)255;
         }
 
         internal ModbusException(ModbusExceptionCode exceptionCode, string message) : base(message)
@@ -16,7 +16,7 @@
         }
 
         /// <summary>
-        /// The Modbus exception code. A value of -1 indicates that there is no specific exception code.
+        /// The Modbus exception code. A value of 255 indicates that there is no specific exception code.
         /// </summary>
         public ModbusExceptionCode ExceptionCode { get; }
     }
