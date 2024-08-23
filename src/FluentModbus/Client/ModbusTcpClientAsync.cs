@@ -1,66 +1,56 @@
 ﻿
- /* This is automatically translated code. */
+/* This is automatically translated code. */
  
 namespace FluentModbus
 {
-	public partial class ModbusTcpClient
-	{
-		///<inheritdoc/>
+    public partial class ModbusTcpClient
+    {
+        ///<inheritdoc/>
         protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
         {
             // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
 
-            int frameLength;
-            int partialLength;
+            ushort bytesFollowing = 0;
 
-            ushort protocolIdentifier;
-            ushort bytesFollowing;
-
-            byte rawFunctionCode;
-
-            bool isParsed;
-
-            ModbusFrameBuffer frameBuffer;
-            ExtendedBinaryWriter writer;
-            ExtendedBinaryReader reader;
-
-            bytesFollowing = 0;
-            frameBuffer = _frameBuffer;
-            writer = _frameBuffer.Writer;
-            reader = _frameBuffer.Reader;
+            var frameBuffer = _frameBuffer;
+            var writer = _frameBuffer.Writer;
+            var reader = _frameBuffer.Reader;
 
             // build request
             writer.Seek(7, SeekOrigin.Begin);
             extendFrame(writer);
-            frameLength = (int)writer.BaseStream.Position;
+            var frameLength = (int)writer.BaseStream.Position;
 
             writer.Seek(0, SeekOrigin.Begin);
 
             if (BitConverter.IsLittleEndian)
             {
-                writer.WriteReverse(GetTransactionIdentifier());          // 00-01  Transaction Identifier
-                writer.WriteReverse((ushort)0);                                // 02-03  Protocol Identifier
-                writer.WriteReverse((ushort)(frameLength - 6));                // 04-05  Length
+                writer.WriteReverse(GetTransactionIdentifier());                // 00-01  Transaction Identifier
+                writer.WriteReverse((ushort)0);                                 // 02-03  Protocol Identifier
+                writer.WriteReverse((ushort)(frameLength - 6));                 // 04-05  Length
             }
+
             else
             {
-                writer.Write(GetTransactionIdentifier());                 // 00-01  Transaction Identifier
-                writer.Write((ushort)0);                                       // 02-03  Protocol Identifier
-                writer.Write((ushort)(frameLength - 6));                       // 04-05  Length
+                writer.Write(GetTransactionIdentifier());                       // 00-01  Transaction Identifier
+                writer.Write((ushort)0);                                        // 02-03  Protocol Identifier
+                writer.Write((ushort)(frameLength - 6));                        // 04-05  Length
             }
             
-            writer.Write(unitIdentifier);                                      // 06     Unit Identifier
+            writer.Write(unitIdentifier);                                       // 06     Unit Identifier
 
             // send request
             await _networkStream.WriteAsync(frameBuffer.Buffer, 0, frameLength, cancellationToken).ConfigureAwait(false);
 
             // wait for and process response
             frameLength = 0;
-            isParsed = false;
+            var isParsed = false;
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             while (true)
             {
+                int partialLength;
+
                 using var timeoutCts = new CancellationTokenSource(_networkStream.ReadTimeout);
                 
                 // https://stackoverflow.com/a/62162138
@@ -70,7 +60,7 @@ namespace FluentModbus
                 {
                     try
                     {
-                        partialLength = await _networkStream.ReadAsync(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
+                         partialLength = await _networkStream.ReadAsync(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength, cancellationToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
                     {
@@ -106,7 +96,7 @@ namespace FluentModbus
                     {
                         // read MBAP header
                         _ = reader.ReadUInt16Reverse();                                     // 00-01  Transaction Identifier
-                        protocolIdentifier = reader.ReadUInt16Reverse();                    // 02-03  Protocol Identifier               
+                        var protocolIdentifier = reader.ReadUInt16Reverse();                // 02-03  Protocol Identifier               
                         bytesFollowing = reader.ReadUInt16Reverse();                        // 04-05  Length
                         _ = reader.ReadByte();                                              // 06     Unit Identifier
 
@@ -122,7 +112,7 @@ namespace FluentModbus
                 }
             }
 
-            rawFunctionCode = reader.ReadByte();
+            var rawFunctionCode = reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);
@@ -131,6 +121,6 @@ namespace FluentModbus
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
             return frameBuffer.Buffer.AsMemory(7, frameLength - 7);
-        }	
-	}
+        }    
+    }
 }

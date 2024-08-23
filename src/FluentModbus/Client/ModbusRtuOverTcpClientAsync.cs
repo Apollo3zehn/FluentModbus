@@ -1,5 +1,5 @@
 
- /* This is automatically translated code. */
+/* This is automatically translated code. */
  
 namespace FluentModbus
 {
@@ -10,18 +10,9 @@ namespace FluentModbus
         {
             // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
 
-            int frameLength;
-            byte rawFunctionCode;
-
-            ModbusFrameBuffer frameBuffer;
-            ExtendedBinaryWriter writer;
-            ExtendedBinaryReader reader;
-
-            frameBuffer = _frameBuffer;
-            writer = _frameBuffer.Writer;
-            reader = _frameBuffer.Reader;
-
-            ushort crc;
+            var frameBuffer = _frameBuffer;
+            var writer = _frameBuffer.Writer;
+            var reader = _frameBuffer.Reader;
 
             // build request
             if (!(0 <= unitIdentifier && unitIdentifier <= 247))
@@ -47,10 +38,11 @@ namespace FluentModbus
             writer.Seek(0, SeekOrigin.Begin);
             writer.Write(unitIdentifier);                                      // 00     Unit Identifier
             extendFrame(writer);
-            frameLength = (int)writer.BaseStream.Position;
+
+            var frameLength = (int)writer.BaseStream.Position;
 
             // add CRC
-            crc = ModbusUtils.CalculateCRC(frameBuffer.Buffer.AsMemory()[..frameLength]);
+            var crc = ModbusUtils.CalculateCRC(frameBuffer.Buffer.AsMemory()[..frameLength]);
             writer.Write(crc);
             frameLength = (int)writer.BaseStream.Position;
 
@@ -116,7 +108,7 @@ namespace FluentModbus
             }
 
             _ = reader.ReadByte();
-            rawFunctionCode = reader.ReadByte();
+            var rawFunctionCode = reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
@@ -125,7 +117,6 @@ namespace FluentModbus
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
             return _frameBuffer.Buffer.AsMemory(1, frameLength - 3);
-        }
-    
+        }    
     }
 }

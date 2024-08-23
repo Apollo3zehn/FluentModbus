@@ -206,6 +206,7 @@ namespace FluentModbus
                     writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
                     writer.WriteReverse((ushort)quantity);                                // 10-11  Quantity of Registers
                 }
+
                 else
                 {
                     writer.Write(startingAddress);                                        // 08-09  Starting Address

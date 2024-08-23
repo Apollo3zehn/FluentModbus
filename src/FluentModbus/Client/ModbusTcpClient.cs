@@ -245,6 +245,8 @@ namespace FluentModbus
 
             while (true)
             {
+                int partialLength;
+
                 // ASYNC-ONLY: using var timeoutCts = new CancellationTokenSource(_networkStream.ReadTimeout);
                 // ASYNC-ONLY: 
                 // ASYNC-ONLY: // https://stackoverflow.com/a/62162138
@@ -254,7 +256,7 @@ namespace FluentModbus
                 // ASYNC-ONLY: {
                 // ASYNC-ONLY:     try
                 // ASYNC-ONLY:     {
-                         var partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
+                         partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
                 // ASYNC-ONLY:     }
                 // ASYNC-ONLY:     catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
                 // ASYNC-ONLY:     {

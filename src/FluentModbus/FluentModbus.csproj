@@ -39,12 +39,16 @@
       <LastGenOutput>ModbusClientAsync.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+	<None Update="Client\ModbusRtuClientAsync.tt">
+		<LastGenOutput>ModbusRtuClientAsync.cs</LastGenOutput>
+		<Generator>TextTemplatingFileGenerator</Generator>
+	</None>
+	<None Update="Client\ModbusRtuOverTcpClientAsync.tt">
+		<LastGenOutput>ModbusRtuOverTcpClientAsync.cs</LastGenOutput>
+		<Generator>TextTemplatingFileGenerator</Generator>
+	</None>
     <None Update="Client\ModbusTcpClientAsync.tt">
       <LastGenOutput>ModbusTcpClientAsync.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Client\ModbusRtuClientAsync.tt">
-      <LastGenOutput>ModbusRtuClientAsync.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
@@ -54,6 +58,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ModbusClientAsync.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Client\ModbusRtuOverTcpClientAsync.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModbusRtuOverTcpClientAsync.tt</DependentUpon>
     </Compile>
     <Compile Update="Client\ModbusTcpClientAsync.cs">
       <DesignTime>True</DesignTime>

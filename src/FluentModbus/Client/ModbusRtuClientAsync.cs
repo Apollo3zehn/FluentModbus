@@ -1,18 +1,14 @@
 ﻿
- /* This is automatically translated code. */
+/* This is automatically translated code. */
 
 namespace FluentModbus
 {
-	public partial class ModbusRtuClient
-	{
-		///<inheritdoc/>
+    public partial class ModbusRtuClient
+    {
+        ///<inheritdoc/>
         protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
         {
             // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
-
-            int frameLength;
-            byte rawFunctionCode;
-            ushort crc;
 
             // build request
             if (!(0 <= unitIdentifier && unitIdentifier <= 247))
@@ -38,10 +34,11 @@ namespace FluentModbus
             _frameBuffer.Writer.Seek(0, SeekOrigin.Begin);
             _frameBuffer.Writer.Write(unitIdentifier);                                      // 00     Unit Identifier
             extendFrame(_frameBuffer.Writer);
-            frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
+
+            var frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // add CRC
-            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
+            var crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
@@ -75,7 +72,7 @@ namespace FluentModbus
             }
 
             _ = _frameBuffer.Reader.ReadByte();
-            rawFunctionCode = _frameBuffer.Reader.ReadByte();
+            var rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);
@@ -84,6 +81,6 @@ namespace FluentModbus
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
             return _frameBuffer.Buffer.AsMemory(1, frameLength - 3);
-        }	
-	}
+        }    
+    }
 }
