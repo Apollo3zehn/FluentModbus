@@ -206,29 +206,16 @@ namespace FluentModbus
         {
             // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
 
-            int frameLength;
-            int partialLength;
+            ushort bytesFollowing = 0;
 
-            ushort protocolIdentifier;
-            ushort bytesFollowing;
-
-            byte rawFunctionCode;
-
-            bool isParsed;
-
-            ModbusFrameBuffer frameBuffer;
-            ExtendedBinaryWriter writer;
-            ExtendedBinaryReader reader;
-
-            bytesFollowing = 0;
-            frameBuffer = _frameBuffer;
-            writer = _frameBuffer.Writer;
-            reader = _frameBuffer.Reader;
+            var frameBuffer = _frameBuffer;
+            var writer = _frameBuffer.Writer;
+            var reader = _frameBuffer.Reader;
 
             // build request
             writer.Seek(7, SeekOrigin.Begin);
             extendFrame(writer);
-            frameLength = (int)writer.BaseStream.Position;
+            var frameLength = (int)writer.BaseStream.Position;
 
             writer.Seek(0, SeekOrigin.Begin);
 
@@ -238,6 +225,7 @@ namespace FluentModbus
                 writer.WriteReverse((ushort)0);                                 // 02-03  Protocol Identifier
                 writer.WriteReverse((ushort)(frameLength - 6));                 // 04-05  Length
             }
+
             else
             {
                 writer.Write(GetTransactionIdentifier());                       // 00-01  Transaction Identifier
@@ -252,7 +240,7 @@ namespace FluentModbus
 
             // wait for and process response
             frameLength = 0;
-            isParsed = false;
+            var isParsed = false;
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
             while (true)
@@ -266,7 +254,7 @@ namespace FluentModbus
                 // ASYNC-ONLY: {
                 // ASYNC-ONLY:     try
                 // ASYNC-ONLY:     {
-                        partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
+                         var partialLength = _networkStream.Read(frameBuffer.Buffer, frameLength, frameBuffer.Buffer.Length - frameLength);
                 // ASYNC-ONLY:     }
                 // ASYNC-ONLY:     catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
                 // ASYNC-ONLY:     {
@@ -302,7 +290,7 @@ namespace FluentModbus
                     {
                         // read MBAP header
                         _ = reader.ReadUInt16Reverse();                                     // 00-01  Transaction Identifier
-                        protocolIdentifier = reader.ReadUInt16Reverse();                    // 02-03  Protocol Identifier               
+                        var protocolIdentifier = reader.ReadUInt16Reverse();                // 02-03  Protocol Identifier               
                         bytesFollowing = reader.ReadUInt16Reverse();                        // 04-05  Length
                         _ = reader.ReadByte();                                              // 06     Unit Identifier
 
@@ -318,7 +306,7 @@ namespace FluentModbus
                 }
             }
 
-            rawFunctionCode = reader.ReadByte();
+            var rawFunctionCode = reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 ProcessError(functionCode, (ModbusExceptionCode)frameBuffer.Buffer[8]);

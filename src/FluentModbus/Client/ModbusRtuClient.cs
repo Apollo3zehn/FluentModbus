@@ -149,10 +149,6 @@ namespace FluentModbus
         {
             // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
 
-            int frameLength;
-            byte rawFunctionCode;
-            ushort crc;
-
             // build request
             if (!(0 <= unitIdentifier && unitIdentifier <= 247))
                 throw new ModbusException(ErrorMessage.ModbusClient_InvalidUnitIdentifier);
@@ -177,10 +173,11 @@ namespace FluentModbus
             _frameBuffer.Writer.Seek(0, SeekOrigin.Begin);
             _frameBuffer.Writer.Write(unitIdentifier);                                      // 00     Unit Identifier
             extendFrame(_frameBuffer.Writer);
-            frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
+
+            var frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
             // add CRC
-            crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
+            var crc = ModbusUtils.CalculateCRC(_frameBuffer.Buffer.AsMemory()[..frameLength]);
             _frameBuffer.Writer.Write(crc);
             frameLength = (int)_frameBuffer.Writer.BaseStream.Position;
 
@@ -214,7 +211,7 @@ namespace FluentModbus
             }
 
             _ = _frameBuffer.Reader.ReadByte();
-            rawFunctionCode = _frameBuffer.Reader.ReadByte();
+            var rawFunctionCode = _frameBuffer.Reader.ReadByte();
 
             if (rawFunctionCode == (byte)ModbusFunctionCode.Error + (byte)functionCode)
                 ProcessError(functionCode, (ModbusExceptionCode)_frameBuffer.Buffer[2]);

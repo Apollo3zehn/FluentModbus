@@ -1,9 +1,4 @@
 
-
-
-
-
-
  /* This is automatically translated code. */
  
 namespace FluentModbus
