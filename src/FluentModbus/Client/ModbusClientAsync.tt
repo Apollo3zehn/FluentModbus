@@ -4,14 +4,17 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 
 <# 
-    var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusClient.cs");
-    var methodsToConvert = Regex.Matches(csstring, @"        \/{3}.*?(\n        }|extendFrame\);)", RegexOptions.Singleline);
+    var csstring = File
+        .ReadAllText("src/FluentModbus/Client/ModbusClient.cs")
+        .Replace("\r\n", "\n");
 
+    var methodsToConvert = Regex.Matches(csstring, @"        \/{3}(?:.(?!\n\n))*?(?:extendFrame\);|\).*?\n        })", RegexOptions.Singleline);
 #>
- /* This is automatically translated code. */
+/* This is automatically translated code. */
 
 #pragma warning disable CS1998
 
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus

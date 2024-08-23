@@ -1,5 +1,5 @@
 ﻿
- /* This is automatically translated code. */
+/* This is automatically translated code. */
 
 #pragma warning disable CS1998
 
@@ -114,13 +114,12 @@ namespace FluentModbus
                 {
                     writer.WriteReverse(startingAddress);                                 // 08-09  Starting Address
                     writer.WriteReverse((ushort)quantity);                                // 10-11  Quantity of Registers
-
                 }
+
                 else
                 {
                     writer.Write(startingAddress);                                        // 08-09  Starting Address
                     writer.Write((ushort)quantity);                                       // 10-11  Quantity of Registers
-
                 }
 
                 writer.Write((byte)(quantity * 2));                                       // 12     Byte Count = Quantity of Registers * 2
@@ -350,7 +349,7 @@ namespace FluentModbus
         /// <param name="startingAddress">The coil register start address for the write operation.</param>
         /// <param name="values">The values to write to the server.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-        public void WriteMultipleCoilsAsync(int unitIdentifier, int startingAddress, bool[] values, CancellationToken cancellationToken = default)
+        public async Task WriteMultipleCoilsAsync(int unitIdentifier, int startingAddress, bool[] values, CancellationToken cancellationToken = default)
         {
             var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
             var startingAddress_converted = ConvertUshort(startingAddress);
@@ -361,7 +360,7 @@ namespace FluentModbus
             new BitArray(values)
                 .CopyTo(convertedData, 0);
 
-            TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.WriteMultipleCoils, writer =>
+            await TransceiveFrameAsync(unitIdentifier_converted, ModbusFunctionCode.WriteMultipleCoils, writer =>
             {
                 writer.Write((byte)ModbusFunctionCode.WriteMultipleCoils);                  // 07     Function Code
 
@@ -380,7 +379,7 @@ namespace FluentModbus
                 writer.Write((byte)byteCount);                                              // 12     Byte Count = Outputs
 
                 writer.Write(convertedData);
-            }, cancellationToken);
+            }, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>

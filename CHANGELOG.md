@@ -1,3 +1,8 @@
+## v5.3.1 - 2025-01-02
+
+### Bugs Fixed
+- Fixed #141: Inconsistency in WriteMultipleCoilsAsync Function Signature
+
 ## v5.3.0 - 2024-09-19
 
 ### Features

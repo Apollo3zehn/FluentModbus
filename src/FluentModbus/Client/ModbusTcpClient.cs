@@ -207,7 +207,6 @@ namespace FluentModbus
             // WARNING: IF YOU EDIT THIS METHOD, REFLECT ALL CHANGES ALSO IN TransceiveFrameAsync!
 
             int frameLength;
-            int partialLength;
 
             ushort protocolIdentifier;
             ushort bytesFollowing;
@@ -257,6 +256,8 @@ namespace FluentModbus
 
             while (true)
             {
+                int partialLength;
+
                 // ASYNC-ONLY: using var timeoutCts = new CancellationTokenSource(_networkStream.ReadTimeout);
                 // ASYNC-ONLY: 
                 // ASYNC-ONLY: // https://stackoverflow.com/a/62162138
