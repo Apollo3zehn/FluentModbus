@@ -42,7 +42,7 @@ jobs:
         run: dotnet test -c Release /p:BuildProjectReferences=false
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: artifacts
           path: |
