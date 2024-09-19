@@ -1,3 +1,8 @@
+## v5.3.0 - 2024-09-19
+
+### Features
+- Implement `ModbusRtuOverTcpClient.cs` (#99) Thanks @schotime!
+
 ## v5.2.0 - 2024-04-23
 
 ### Features

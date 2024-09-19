@@ -11,11 +11,11 @@ import version
 final_version = f"v{version.get_version(build=None)}"
 print(f"release version: {final_version}")
 
-# check if on master branch
-if not "* master" in subprocess.check_output(["git", "branch"], stdin=None, stderr=None, shell=False).decode("utf8"):
-    raise Exception("Must be on master branch.")
+# check if on v5 branch
+if not "* v5" in subprocess.check_output(["git", "branch"], stdin=None, stderr=None, shell=False).decode("utf8"):
+    raise Exception("Must be on v5 branch.")
 
-print("  master branch: OK")
+print("      v5 branch: OK")
 
 # check if release version already exist
 with open("solution.json", "r") as fh:
