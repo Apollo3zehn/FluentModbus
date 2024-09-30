@@ -1,16 +1,15 @@
 using System.Net.Sockets;
 
-namespace FluentModbus
+namespace FluentModbus;
+
+/// <summary>
+/// Provides TCP clients.
+/// </summary>
+public interface ITcpClientProvider : IDisposable
 {
     /// <summary>
-    /// Provides TCP clients.
+    /// Accepts the next TCP client.
     /// </summary>
-    public interface ITcpClientProvider : IDisposable
-    {
-        /// <summary>
-        /// Accepts the next TCP client.
-        /// </summary>
-        /// <returns></returns>
-        Task<TcpClient> AcceptTcpClientAsync();
-    }
+    /// <returns></returns>
+    Task<TcpClient> AcceptTcpClientAsync();
 }
