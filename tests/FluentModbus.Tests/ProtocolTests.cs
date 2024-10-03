@@ -1,509 +1,508 @@
 using Xunit;
 
-namespace FluentModbus.Tests
+namespace FluentModbus.Tests;
+
+public class ProtocolTests : IClassFixture<XUnitFixture>
 {
-    public class ProtocolTests : IClassFixture<XUnitFixture>
+    private float[] _array;
+
+    public ProtocolTests()
     {
-        private float[] _array;
+        _array = [0, 0, 0, 0, 0, 65.455F, 24, 25, 0, 0];
+    }
 
-        public ProtocolTests()
+    // FC03: ReadHoldingRegisters
+    [Fact]
+    public void FC03Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        lock (server.Lock)
         {
-            _array = [0, 0, 0, 0, 0, 65.455F, 24, 25, 0, 0];
+            var buffer = server.GetHoldingRegisterBuffer<float>();
+
+            buffer[6] = 65.455F;
+            buffer[7] = 24;
+            buffer[8] = 25;
         }
 
-        // FC03: ReadHoldingRegisters
-        [Fact]
-        public void FC03Test()
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        var actual = client.ReadHoldingRegisters<float>(0, 2, 10);
+
+        // Assert
+        var expected = _array;
+
+        Assert.True(expected.SequenceEqual(actual.ToArray()));
+    }
+
+    // FC16: WriteMultipleRegisters
+    [Fact]
+    public void FC16Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        client.WriteMultipleRegisters(0, 2, _array);
+
+        // Assert
+        var expected = _array;
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-            
-            lock (server.Lock)
-            {
-                var buffer = server.GetHoldingRegisterBuffer<float>();
-
-                buffer[6] = 65.455F;
-                buffer[7] = 24;
-                buffer[8] = 25;
-            }
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            var actual = client.ReadHoldingRegisters<float>(0, 2, 10);
-
-            // Assert
-            var expected = _array;
-
+            var actual = server.GetHoldingRegisterBuffer<float>().Slice(1, 10);
             Assert.True(expected.SequenceEqual(actual.ToArray()));
         }
+    }
 
-        // FC16: WriteMultipleRegisters
-        [Fact]
-        public void FC16Test()
+    // FC01: ReadCoils
+    [Fact]
+    public void FC01Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+            var buffer = server.GetCoilBuffer<byte>();
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            client.WriteMultipleRegisters(0, 2, _array);
-
-            // Assert
-            var expected = _array;
-
-            lock (server.Lock)
-            {
-                var actual = server.GetHoldingRegisterBuffer<float>().Slice(1, 10);
-                Assert.True(expected.SequenceEqual(actual.ToArray()));
-            }
+            buffer[1] = 9;
+            buffer[2] = 0;
+            buffer[3] = 24;
         }
 
-        // FC01: ReadCoils
-        [Fact]
-        public void FC01Test()
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        var actual = client.ReadCoils(0, 8, 25);
+
+        // Assert
+        var expected = new byte[] { 9, 0, 24, 0 };
+
+        Assert.True(expected.SequenceEqual(actual.ToArray()));
+    }
+
+    // FC02: ReadDiscreteInputs
+    [Fact]
+    public void FC02Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+            var buffer = server.GetDiscreteInputBuffer<byte>();
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+            buffer[1] = 9;
+            buffer[2] = 0;
+            buffer[3] = 24;
+        }
 
-            lock (server.Lock)
-            {
-                var buffer = server.GetCoilBuffer<byte>();
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-                buffer[1] = 9;
-                buffer[2] = 0;
-                buffer[3] = 24;
-            }
+        // Act
+        var actual = client.ReadDiscreteInputs(0, 8, 25);
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+        // Assert
+        var expected = new byte[] { 9, 0, 24, 0 };
 
-            // Act
-            var actual = client.ReadCoils(0, 8, 25);
+        Assert.True(expected.SequenceEqual(actual.ToArray()));
+    }
 
-            // Assert
-            var expected = new byte[] { 9, 0, 24, 0 };
+    // FC04: ReadInputRegisters
+    [Fact]
+    public void FC04Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        lock (server.Lock)
+        {
+            var buffer = server.GetInputRegisterBuffer<float>();
+
+            buffer[6] = 65.455F;
+            buffer[7] = 24;
+            buffer[8] = 25;
+        }
+
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        var actual = client.ReadInputRegisters<float>(0, 2, 10);
+
+        // Assert
+        var expected = _array;
+
+        Assert.True(expected.SequenceEqual(actual.ToArray()));
+    }
+
+    // FC05: WriteSingleCoil
+    [Fact]
+    public void FC05Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        client.WriteSingleCoil(0, 2, true);
+        client.WriteSingleCoil(0, 7, true);
+        client.WriteSingleCoil(0, 9, true);
+        client.WriteSingleCoil(0, 26, true);
+
+        // Assert
+        var expected = new byte[] { 132, 2, 0, 4 };
+
+        lock (server.Lock)
+        {
+            var actual = server.GetCoilBuffer<byte>().Slice(0, 4);
             Assert.True(expected.SequenceEqual(actual.ToArray()));
         }
+    }
 
-        // FC02: ReadDiscreteInputs
-        [Fact]
-        public void FC02Test()
+    // FC06: WriteSingleRegister
+    [Fact]
+    public void FC06Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        client.WriteSingleRegister(0, 02, 259);
+        client.WriteSingleRegister(0, 10, 125);
+        client.WriteSingleRegister(0, 11, 16544);
+        client.WriteSingleRegister(0, 12, 4848);
+
+        // Assert
+        var expected = new short[] { 0, 0, 259, 0, 0, 0, 0, 0, 0, 0, 125, 16544, 4848 };
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            lock (server.Lock)
-            {
-                var buffer = server.GetDiscreteInputBuffer<byte>();
-
-                buffer[1] = 9;
-                buffer[2] = 0;
-                buffer[3] = 24;
-            }
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            var actual = client.ReadDiscreteInputs(0, 8, 25);
-
-            // Assert
-            var expected = new byte[] { 9, 0, 24, 0 };
-
+            var actual = server.GetHoldingRegisterBuffer<short>().Slice(0, 13);
             Assert.True(expected.SequenceEqual(actual.ToArray()));
         }
+    }
 
-        // FC04: ReadInputRegisters
-        [Fact]
-        public void FC04Test()
+    // FC15: WriteMultipleCoils
+    [Fact]
+    public void FC15Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        client.WriteMultipleCoils(0, 15, [true, false, true, true, false]);
+        client.WriteMultipleCoils(0, 16, [false, false, true, true, false, true]);
+
+        // Assert
+        var expected = new byte[] { 0b1000_0000, 0b0010_1100 };
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            lock (server.Lock)
-            {
-                var buffer = server.GetInputRegisterBuffer<float>();
-
-                buffer[6] = 65.455F;
-                buffer[7] = 24;
-                buffer[8] = 25;
-            }
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            var actual = client.ReadInputRegisters<float>(0, 2, 10);
-
-            // Assert
-            var expected = _array;
-
+            var actual = server.GetCoilBuffer().Slice(1, 2).ToArray();
             Assert.True(expected.SequenceEqual(actual.ToArray()));
         }
+    }
 
-        // FC05: WriteSingleCoil
-        [Fact]
-        public void FC05Test()
+    // FC23 ReadWriteMultipleRegisters
+    [Fact]
+    public void FC23Test()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+            var buffer = server.GetHoldingRegisterBuffer<float>();
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            client.WriteSingleCoil(0, 2, true);
-            client.WriteSingleCoil(0, 7, true);
-            client.WriteSingleCoil(0, 9, true);
-            client.WriteSingleCoil(0, 26, true);
-
-            // Assert
-            var expected = new byte[] { 132, 2, 0, 4 };
-
-            lock (server.Lock)
-            {
-                var actual = server.GetCoilBuffer<byte>().Slice(0, 4);
-                Assert.True(expected.SequenceEqual(actual.ToArray()));
-            }
+            buffer[6] = 65.455F;
+            buffer[7] = 24;
+            buffer[8] = 25;
         }
 
-        // FC06: WriteSingleRegister
-        [Fact]
-        public void FC06Test()
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
+
+        // Act
+        var actual1 = client.ReadWriteMultipleRegisters<float, float>(0, 2, 10, 12, new float[] { 1.211F });
+
+        // Assert
+        var expected = new float[] { 0, 0, 0, 0, 0, 1.211F, 24, 25, 0, 0 };
+
+        Assert.True(expected.SequenceEqual(actual1.ToArray()));
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            client.WriteSingleRegister(0, 02, 259);
-            client.WriteSingleRegister(0, 10, 125);
-            client.WriteSingleRegister(0, 11, 16544);
-            client.WriteSingleRegister(0, 12, 4848);
-
-            // Assert
-            var expected = new short[] { 0, 0, 259, 0, 0, 0, 0, 0, 0, 0, 125, 16544, 4848 };
-
-            lock (server.Lock)
-            {
-                var actual = server.GetHoldingRegisterBuffer<short>().Slice(0, 13);
-                Assert.True(expected.SequenceEqual(actual.ToArray()));
-            }
+            var actual2 = server.GetHoldingRegisterBuffer<float>().Slice(1, 10);
+            Assert.True(expected.SequenceEqual(actual2.ToArray()));
         }
+    }
 
-        // FC15: WriteMultipleCoils
-        [Fact]
-        public void FC15Test()
+    // more tests
+
+    [Fact]
+    public void HandlesBigEndian()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
+
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint, ModbusEndianness.BigEndian);
+
+        // Act
+        client.WriteMultipleRegisters(0, 0, new int[] { 0x20302020, 0x40101010, 0x11220000 });
+
+        // Assert
+        var expected = new int[] { 0x20203020, 0x10101040, 0x00002211 };
+
+        lock (server.Lock)
         {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            client.WriteMultipleCoils(0, 15, [true, false, true, true, false]);
-            client.WriteMultipleCoils(0, 16, [      false, false, true, true, false, true]);
-
-            // Assert
-            var expected = new byte[] { 0b1000_0000, 0b0010_1100 };
-
-            lock (server.Lock)
-            {
-                var actual = server.GetCoilBuffer().Slice(1, 2).ToArray();
-                Assert.True(expected.SequenceEqual(actual.ToArray()));
-            }
+            var actual = server.GetHoldingRegisterBuffer<int>().Slice(0, 3);
+            Assert.True(expected.SequenceEqual(actual.ToArray()));
         }
+    }
 
-        // FC23 ReadWriteMultipleRegisters
-        [Fact]
-        public void FC23Test()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+    [Fact]
+    public void ArraySizeIsCorrectForByteInput()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            lock (server.Lock)
-            {
-                var buffer = server.GetHoldingRegisterBuffer<float>();
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-                buffer[6] = 65.455F;
-                buffer[7] = 24;
-                buffer[8] = 25;
-            }
+        // Act
+        var actual = client.ReadHoldingRegisters<byte>(0, 0, 10).ToArray().Count();
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+        // Assert
+        var expected = 10;
 
-            // Act
-            var actual1 = client.ReadWriteMultipleRegisters<float, float>(0, 2, 10, 12, new float[] { 1.211F });
+        Assert.True(actual == expected);
+    }
 
-            // Assert
-            var expected = new float[] { 0, 0, 0, 0, 0, 1.211F, 24, 25, 0, 0 };
+    [Fact]
+    public void ArraySizeIsCorrectForShortInput()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            Assert.True(expected.SequenceEqual(actual1.ToArray()));
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            lock (server.Lock)
-            {
-                var actual2 = server.GetHoldingRegisterBuffer<float>().Slice(1, 10);
-                Assert.True(expected.SequenceEqual(actual2.ToArray()));
-            }
-        }
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-        // more tests
+        // Act
+        var actual = client.ReadHoldingRegisters<short>(0, 0, 10).ToArray().Count();
 
-        [Fact] 
-        public void HandlesBigEndian()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+        // Assert
+        var expected = 10;
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        Assert.True(actual == expected);
+    }
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint, ModbusEndianness.BigEndian);
+    [Fact]
+    public void ArraySizeIsCorrectForFloatInput()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            // Act
-            client.WriteMultipleRegisters(0, 0, new int[] { 0x20302020, 0x40101010, 0x11220000 });
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            // Assert
-            var expected = new int[] { 0x20203020, 0x10101040, 0x00002211 };
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-            lock (server.Lock)
-            {
-                var actual = server.GetHoldingRegisterBuffer<int>().Slice(0, 3);
-                Assert.True(expected.SequenceEqual(actual.ToArray()));
-            }
-        }
+        // Act
+        var actual = client.ReadHoldingRegisters<float>(0, 0, 10).ToArray().Count();
 
-        [Fact]
-        public void ArraySizeIsCorrectForByteInput()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+        // Assert
+        var expected = 10;
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        Assert.True(actual == expected);
+    }
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+    [Fact]
+    public void ArraySizeIsCorrectForBooleanInput()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            // Act
-            var actual = client.ReadHoldingRegisters<byte>(0, 0, 10).ToArray().Count();
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            // Assert
-            var expected = 10;
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-            Assert.True(actual == expected);
-        }
+        // Act
+        var actual = client.ReadHoldingRegisters<bool>(0, 0, 10).ToArray().Count();
 
-        [Fact]
-        public void ArraySizeIsCorrectForShortInput()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+        // Assert
+        var expected = 10;
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        Assert.True(actual == expected);
+    }
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+    [Fact]
+    public void CanReadMaximumNumberOfRegisters()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            // Act
-            var actual = client.ReadHoldingRegisters<short>(0, 0, 10).ToArray().Count();
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            // Assert
-            var expected = 10;
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-            Assert.True(actual == expected);
-        }
+        // Act
+        client.ReadHoldingRegisters<ushort>(0, 0, 125);
+        client.ReadInputRegisters<ushort>(0, 0, 125);
+    }
 
-        [Fact]
-        public void ArraySizeIsCorrectForFloatInput()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+    [Fact]
+    public void CanWriteMaximumNumberOfRegisters()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-            // Act
-            var actual = client.ReadHoldingRegisters<float>(0, 0, 10).ToArray().Count();
+        // Act
+        client.WriteMultipleRegisters<ushort>(0, 0, new ushort[123]);
+    }
 
-            // Assert
-            var expected = 10;
+    [Fact]
+    public void ThrowsWhenReadingTooManyRegisters()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            Assert.True(actual == expected);
-        }
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-        [Fact]
-        public void ArraySizeIsCorrectForBooleanInput()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        // Act
+        Action action1 = () => client.ReadHoldingRegisters<ushort>(0, 0, 126);
+        Action action2 = () => client.ReadInputRegisters<ushort>(0, 0, 126);
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+        // Assert
+        Assert.Throws<ModbusException>(action1);
+        Assert.Throws<ModbusException>(action2);
+    }
 
-            // Act
-            var actual = client.ReadHoldingRegisters<bool>(0, 0, 10).ToArray().Count();
+    [Fact]
+    public void ThrowsWhenWritingTooManyRegisters()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            // Assert
-            var expected = 10;
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            Assert.True(actual == expected);
-        }
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-        [Fact]
-        public void CanReadMaximumNumberOfRegisters()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+        // Act
+        Action action = () => client.WriteMultipleRegisters<ushort>(0, 0, new ushort[124]);
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        // Assert
+        Assert.Throws<ModbusException>(action);
+    }
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+    [Fact]
+    public void ThrowsIfZeroBytesAreRequested()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-            // Act
-            client.ReadHoldingRegisters<ushort>(0, 0, 125);
-            client.ReadInputRegisters<ushort>(0, 0, 125);
-        }
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-        [Fact]
-        public void CanWriteMaximumNumberOfRegisters()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        // Act
+        Action action = () => client.ReadHoldingRegisters<byte>(0, 0, 0);
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+        // Assert
+        Assert.Throws<ModbusException>(action);
+    }
 
-            // Act
-            client.WriteMultipleRegisters<ushort>(0, 0, new ushort[123]);
-        }
+    [Fact]
+    public void ThrowsIfOddNumberOfBytesIsRequested()
+    {
+        // Arrange
+        var endpoint = EndpointSource.GetNext();
 
-        [Fact]
-        public void ThrowsWhenReadingTooManyRegisters()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
+        using var server = new ModbusTcpServer();
+        server.Start(endpoint);
 
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
+        var client = new ModbusTcpClient();
+        client.Connect(endpoint);
 
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
+        // Act
+        Action action = () => client.ReadHoldingRegisters<byte>(0, 0, 3);
 
-            // Act
-            Action action1 = () => client.ReadHoldingRegisters<ushort>(0, 0, 126);
-            Action action2 = () => client.ReadInputRegisters<ushort>(0, 0, 126);
+        // Assert
 
-            // Assert
-            Assert.Throws<ModbusException>(action1);
-            Assert.Throws<ModbusException>(action2);
-        }
-
-        [Fact]
-        public void ThrowsWhenWritingTooManyRegisters()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            Action action = () => client.WriteMultipleRegisters<ushort>(0, 0, new ushort[124]);
-
-            // Assert
-            Assert.Throws<ModbusException>(action);
-        }
-
-        [Fact]
-        public void ThrowsIfZeroBytesAreRequested()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            Action action = () => client.ReadHoldingRegisters<byte>(0, 0, 0);
-
-            // Assert
-            Assert.Throws<ModbusException>(action);
-        }
-
-        [Fact]
-        public void ThrowsIfOddNumberOfBytesIsRequested()
-        {
-            // Arrange
-            var endpoint = EndpointSource.GetNext();
-
-            using var server = new ModbusTcpServer();
-            server.Start(endpoint);
-
-            var client = new ModbusTcpClient();
-            client.Connect(endpoint);
-
-            // Act
-            Action action = () => client.ReadHoldingRegisters<byte>(0, 0, 3);
-
-            // Assert
-
-            Assert.Throws<ArgumentOutOfRangeException>(action);
-        }
+        Assert.Throws<ArgumentOutOfRangeException>(action);
     }
 }
