@@ -10,20 +10,18 @@
 #>
  /* This is automatically translated code. */
 
-namespace FluentModbus
+namespace FluentModbus;
+
+public partial class ModbusRtuClient
 {
-    public partial class ModbusRtuClient
-    {
-        <#
-            // replace AsSpan
-            var signature = match.Groups[2].Value;
-            var body = match.Groups[3].Value;
-            body = Regex.Replace(body, "AsSpan", "AsMemory");
-            body = Regex.Replace(body, @"_serialPort!.Value.Value.Write\((.*?)\)", m => $"await _serialPort!.Value.Value.WriteAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
-            body = Regex.Replace(body, @"_serialPort!.Value.Value.Read\((.*?)\)", m => $"await _serialPort!.Value.Value.ReadAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
-            
-            Write($"///<inheritdoc/>\n        protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
-        #>
-    
-    }
+    <#
+        // replace AsSpan
+        var signature = match.Groups[2].Value;
+        var body = match.Groups[3].Value;
+        body = Regex.Replace(body, "AsSpan", "AsMemory");
+        body = Regex.Replace(body, @"_serialPort!.Value.Value.Write\((.*?)\)", m => $"await _serialPort!.Value.Value.WriteAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
+        body = Regex.Replace(body, @"_serialPort!.Value.Value.Read\((.*?)\)", m => $"await _serialPort!.Value.Value.ReadAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
+        
+        Write($"///<inheritdoc/>\n        protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
+    #>
 }

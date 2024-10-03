@@ -14,10 +14,10 @@
 
 using System.Runtime.InteropServices;
 
-namespace FluentModbus
+namespace FluentModbus;
+
+public abstract partial class ModbusClient
 {
-    public abstract partial class ModbusClient
-    {
 <#
     foreach (Match method in methodsToConvert)
     {
@@ -51,7 +51,6 @@ namespace FluentModbus
         Write(methodString);
     }
 #>
-    }
 }
 
 #pragma warning restore CS1998
