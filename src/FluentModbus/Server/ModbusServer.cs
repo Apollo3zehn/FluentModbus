@@ -37,6 +37,37 @@ public readonly struct CoilsChangedEventArgs
 }
 
 /// <summary>
+/// Provides data for the Request Validator
+/// </summary>
+public readonly struct RequestValidatorArgs
+{
+    /// <summary>
+    /// The unit identifier for the request.
+    /// </summary>
+    public byte UnitIdentifier { get; init; }
+    
+    /// <summary>
+    /// Modbus function code.
+    /// </summary>
+    public ModbusFunctionCode FunctionCode { get; init; }
+    
+    /// <summary>
+    /// Address of the first register or coil to read or write.
+    /// </summary>
+    public ushort Address { get; init; }
+    
+    /// <summary>
+    /// Quantity of registers or coils to read or write.
+    /// </summary>
+    public ushort QuantityOfRegisters { get; init; }
+    
+    /// <summary>
+    /// DisplayName of the connection that is requesting the data.
+    /// </summary>
+    public string DisplayName { get; init; }
+}
+
+/// <summary>
 /// Base class for a Modbus server.
 /// </summary>
 public abstract class ModbusServer : IDisposable
@@ -144,7 +175,7 @@ public abstract class ModbusServer : IDisposable
     /// <summary>
     /// Gets or sets a method that validates each client request.
     /// </summary>
-    public Func<byte, ModbusFunctionCode, ushort, ushort, ModbusExceptionCode>? RequestValidator { get; set; }
+    public Func<RequestValidatorArgs, ModbusExceptionCode>? RequestValidator { get; set; }
 
     /// <summary>
     /// Gets or sets whether the events should be raised when register or coil data changes. Default: false.

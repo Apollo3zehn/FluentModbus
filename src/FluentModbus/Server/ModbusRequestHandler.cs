@@ -159,7 +159,14 @@ internal abstract class ModbusRequestHandler : IDisposable
     {
         if (ModbusServer.RequestValidator is not null)
         {
-            var result = ModbusServer.RequestValidator(UnitIdentifier, functionCode, address, quantityOfRegisters);
+            var result = ModbusServer.RequestValidator(new RequestValidatorArgs
+            {
+                UnitIdentifier = UnitIdentifier,
+                Address = address,
+                QuantityOfRegisters = quantityOfRegisters,
+                FunctionCode = functionCode,
+                DisplayName = DisplayName
+            });
 
             if (result > ModbusExceptionCode.OK)
             {
