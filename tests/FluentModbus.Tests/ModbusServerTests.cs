@@ -176,9 +176,9 @@ public class ModbusServerTests : IClassFixture<XUnitFixture>
 
         using var server = new ModbusTcpServer()
         {
-            RequestValidator = (args) =>
+            RequestValidator = args =>
             {
-                var holdingLimits = (args.Address >= 50 && args.Address < 90) ||
+                var holdingLimits = args.Address >= 50 && args.Address < 90 ||
                                     args.Address >= 2000 && args.Address < 2100;
 
                 var inputLimits = args.Address >= 1000 && args.Address < 2000;

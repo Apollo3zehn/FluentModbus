@@ -408,7 +408,7 @@ It might happen that a server should not support all Modbus functions or only a 
 
 var server = new ModbusTcpServer()
 {
-    RequestValidator = (args) =>
+    RequestValidator = args =>
     {
         if (args.FunctionCode == ModbusFunctionCode.WriteSingleRegister)
             return ModbusExceptionCode.IllegalFunction;

@@ -37,7 +37,7 @@ public readonly struct CoilsChangedEventArgs
 }
 
 /// <summary>
-/// Provides data for the Request Validator
+/// Provides data for the request validator.
 /// </summary>
 public readonly struct RequestValidatorArgs
 {
