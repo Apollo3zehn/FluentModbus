@@ -8,21 +8,17 @@ var server = new ModbusTcpServer()
     RequestValidator = this.ModbusValidator;
 };
 
-private ModbusExceptionCode ModbusValidator(
-    byte unitIdentifier,
-    ModbusFunctionCode functionCode, 
-    ushort address, 
-    ushort quantityOfRegisters)
+private ModbusExceptionCode ModbusValidator(RequestValidatorArgs args)
 {
     // check if address is within valid holding register limits
-    var holdingLimits = (address >= 50 && address < 90) ||
-                         address >= 2000 && address < 2100;
+    var holdingLimits = args.Address >= 50 && args.Address < 90 ||
+                        args.Address >= 2000 && args.Address < 2100;
 
     // check if address is within valid input register limits
-    var inputLimits = address >= 1000 && address < 2000;
+    var inputLimits = args.Address >= 1000 && args.Address < 2000;
 
     // go through all cases and return proper response
-    return (functionCode, holdingLimits, inputLimits) switch
+    return (args.FunctionCode, holdingLimits, inputLimits) switch
     {
         // holding registers
         (ModbusFunctionCode.ReadHoldingRegisters, true, _)          => ModbusExceptionCode.OK,

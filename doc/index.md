@@ -408,12 +408,12 @@ It might happen that a server should not support all Modbus functions or only a 
 
 var server = new ModbusTcpServer()
 {
-    RequestValidator = (unitIdentifier, functionCode, address, quantityOfRegisters) =>
+    RequestValidator = args =>
     {
-        if (functionCode == ModbusFunctionCode.WriteSingleRegister)
+        if (args.FunctionCode == ModbusFunctionCode.WriteSingleRegister)
             return ModbusExceptionCode.IllegalFunction;
 
-        else if (address < 5 || address > 15)
+        else if (args.Address < 5 || args.Address > 15)
             return ModbusExceptionCode.IllegalDataAddress;
 
         else
