@@ -39,7 +39,7 @@ foreach (Match method in methodsToConvert)
     // replace method name
     methodString = Regex.Replace(methodString, @"(.* Task[^ ]*) (.*?)([<|\(])", m => $"{m.Groups[1]} {m.Groups[2]}Async{m.Groups[3]}");
 
-    // replace TranceiveFrame
+    // replace TransceiveFrame
     methodString = Regex.Replace(methodString, @"(TransceiveFrame)(.*?\n        })\);", m => $"await {m.Groups[1]}Async{m.Groups[2]}, cancellationToken).ConfigureAwait(false);", RegexOptions.Singleline);
 
     methodString = Regex.Replace(methodString, @"(TransceiveFrame)(.*?\n        })\)\.Slice", m => $"(await {m.Groups[1]}Async{m.Groups[2]}, cancellationToken).ConfigureAwait(false)).Slice", RegexOptions.Singleline);
