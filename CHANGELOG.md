@@ -1,3 +1,8 @@
+## v5.3.2 - 2025-03-28
+
+### Bugs Fixed
+- Fixed #144: ModbusRtuServer Start functions handle IModbusRtuSerialPort inconsistently
+
 ## v5.3.1 - 2025-01-02
 
 ### Bugs Fixed
