@@ -22,7 +22,7 @@ public class ModbusRtuServer : ModbusServer
     /// </summary>
     /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
     /// <param name="unitIdentifier">The unique Modbus RTU unit identifier (1..247).</param>
-    public ModbusRtuServer(byte unitIdentifier, bool isAsynchronous = true) 
+    public ModbusRtuServer(byte unitIdentifier, bool isAsynchronous = true)
         : this(logger: NullLogger.Instance, unitIdentifier, isAsynchronous)
     {
         //
@@ -44,7 +44,7 @@ public class ModbusRtuServer : ModbusServer
     /// </summary>
     /// <param name="isAsynchronous">Enables or disables the asynchronous operation, where each client request is processed immediately using a locking mechanism. Use synchronuous operation to avoid locks in the hosting application. See the <see href="https://github.com/Apollo3zehn/FluentModbus">documentation</see> for more details.</param>
     /// <param name="unitIdentifiers">The unique Modbus RTU unit identifiers (1..247).</param>
-    public ModbusRtuServer(IEnumerable<byte> unitIdentifiers, bool isAsynchronous = true) 
+    public ModbusRtuServer(IEnumerable<byte> unitIdentifiers, bool isAsynchronous = true)
         : this(logger: NullLogger.Instance, unitIdentifiers, isAsynchronous)
     {
         //
@@ -75,8 +75,8 @@ public class ModbusRtuServer : ModbusServer
     {
         get
         {
-            return 
-                _serialPort is not null && 
+            return
+                _serialPort is not null &&
                 _serialPort.IsOpen;
         }
     }
@@ -111,7 +111,7 @@ public class ModbusRtuServer : ModbusServer
     /// </summary>
     public int WriteTimeout { get; set; } = 1000;
 
-    internal ModbusRtuRequestHandler? RequestHandler { get; private set; }
+    internal IModbusRequestHandler? RequestHandler { get; private set; }
 
     #endregion
 
@@ -133,8 +133,6 @@ public class ModbusRtuServer : ModbusServer
             WriteTimeout = WriteTimeout
         });
 
-        _serialPort = serialPort;
-
         Start(serialPort);
     }
 
@@ -142,7 +140,18 @@ public class ModbusRtuServer : ModbusServer
     /// Starts the server. It will communicate using the provided <paramref name="serialPort"/>.
     /// </summary>
     /// <param name="serialPort">The serial port to be used.</param>
-    public void Start(IModbusRtuSerialPort serialPort)
+    public virtual void Start(IModbusRtuSerialPort serialPort)
+    {
+        var requestHandler = new ModbusRtuRequestHandler(serialPort, this, Logger);
+        Start(serialPort, requestHandler);
+    }
+
+    /// <summary>
+    /// Starts the server. It will communicate using the provided <paramref name="serialPort"/>.
+    /// </summary>
+    /// <param name="serialPort">The serial port to be used.</param>
+    /// <param name="requestHandler">The request handler that will deal with incoming traffic</param>
+    public void Start(IModbusRtuSerialPort serialPort, IModbusRequestHandler requestHandler)
     {
         /* According to the spec (https://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf), 
             * section 2.5.1 RTU Transmission Mode: "... the use of no parity requires 2 stop bits."
@@ -152,10 +161,12 @@ public class ModbusRtuServer : ModbusServer
         //if (Parity == Parity.None && StopBits != StopBits.Two)
         //    throw new InvalidOperationException(ErrorMessage.Modbus_NoParityRequiresTwoStopBits);
 
+        _serialPort = serialPort;
+
         base.StopProcessing();
         base.StartProcessing();
 
-        RequestHandler = new ModbusRtuRequestHandler(serialPort, this, Logger);
+        RequestHandler = requestHandler;
 
         // remove clients asynchronously
         /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
@@ -196,7 +207,7 @@ public class ModbusRtuServer : ModbusServer
     public new void AddUnit(byte unitIdentifier)
     {
         if (0 < unitIdentifier && unitIdentifier <= 247)
-                base.AddUnit(unitIdentifier);
+            base.AddUnit(unitIdentifier);
 
         else
             throw new ArgumentException(ErrorMessage.ModbusServer_InvalidUnitIdentifier);

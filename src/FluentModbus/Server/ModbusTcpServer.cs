@@ -56,10 +56,13 @@ public class ModbusTcpServer : ModbusServer
     /// Gets the number of currently connected clients.
     /// </summary>
     public int ConnectionCount => RequestHandlers.Count;
-    
+
     internal static TimeSpan DefaultConnectionTimeout { get; set; } = TimeSpan.FromMinutes(1);
 
-    internal List<ModbusTcpRequestHandler> RequestHandlers { get; private set; } = new List<ModbusTcpRequestHandler>();
+    /// <summary>
+    /// All request handlers for the server
+    /// </summary>
+    public List<IModbusRequestHandler> RequestHandlers { get; set; } = new List<IModbusRequestHandler>();
 
     #endregion
 
@@ -94,7 +97,17 @@ public class ModbusTcpServer : ModbusServer
     /// </summary>
     /// <param name="tcpClientProvider">The TCP client provider.</param>
     /// <param name="leaveOpen"><see langword="true"/> to leave the TCP client provider open after the <see cref="ModbusTcpServer"/> object is stopped or disposed; otherwise, <see langword="false"/>.</param>
-    public void Start(ITcpClientProvider tcpClientProvider, bool leaveOpen = false)
+    public virtual void Start(ITcpClientProvider tcpClientProvider, bool leaveOpen = false)
+    {
+        Start(tcpClientProvider, GetDefaultModbusRequestHandler, leaveOpen);
+    }
+
+    private IModbusRequestHandler GetDefaultModbusRequestHandler(TcpClient? client, ModbusTcpServer server, ILogger logger)
+    {
+        return new ModbusTcpRequestHandler(client, server, logger);
+    }
+
+    public virtual void Start(ITcpClientProvider tcpClientProvider, Func<TcpClient?, ModbusTcpServer, ILogger, IModbusRequestHandler> modbusRequestHandlerBuilder, bool leaveOpen = false)
     {
         _tcpClientProvider = tcpClientProvider;
         _leaveOpen = leaveOpen;
@@ -102,7 +115,7 @@ public class ModbusTcpServer : ModbusServer
         base.StopProcessing();
         base.StartProcessing();
 
-        RequestHandlers = new List<ModbusTcpRequestHandler>();
+        RequestHandlers = new List<IModbusRequestHandler>();
 
         // accept clients asynchronously
         /* https://stackoverflow.com/questions/2782802/can-net-task-instances-go-out-of-scope-during-run */
@@ -113,7 +126,7 @@ public class ModbusTcpServer : ModbusServer
                 // There are no default timeouts (SendTimeout and ReceiveTimeout = 0), 
                 // use ConnectionTimeout instead.
                 var tcpClient = await _tcpClientProvider.AcceptTcpClientAsync();
-                var requestHandler = new ModbusTcpRequestHandler(tcpClient, this, Logger);
+                var requestHandler = modbusRequestHandlerBuilder(tcpClient, this, Logger);
 
                 lock (Lock)
                 {
@@ -189,7 +202,7 @@ public class ModbusTcpServer : ModbusServer
         base.StopProcessing();
         base.StartProcessing();
 
-        RequestHandlers = new List<ModbusTcpRequestHandler>()
+        RequestHandlers = new List<IModbusRequestHandler>()
         {
             new ModbusTcpRequestHandler(tcpClient, this, Logger)
         };

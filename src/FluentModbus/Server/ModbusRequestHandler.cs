@@ -3,7 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace FluentModbus;
 
-internal abstract class ModbusRequestHandler : IDisposable
+/// <summary>
+/// The base request handler for all Modbus requests.
+/// </summary>
+public abstract class ModbusRequestHandler : IDisposable, IModbusRequestHandler
 {
     #region Fields
 
@@ -44,7 +47,7 @@ internal abstract class ModbusRequestHandler : IDisposable
 
     protected byte UnitIdentifier { get; set; }
 
-    protected ModbusFrameBuffer FrameBuffer { get; }
+    public ModbusFrameBuffer FrameBuffer { get; }
 
     protected abstract bool IsResponseRequired { get; }
 
@@ -124,7 +127,11 @@ internal abstract class ModbusRequestHandler : IDisposable
         OnResponseReady(frameLength);
     }
 
-    internal abstract Task ReceiveRequestAsync();
+    /// <summary>
+    /// ReceiveRequestAsync: Used when processing requests
+    /// </summary>
+    /// <returns></returns>
+    public abstract Task ReceiveRequestAsync();
 
     protected void Start()
     {
@@ -142,7 +149,7 @@ internal abstract class ModbusRequestHandler : IDisposable
 
     protected abstract int WriteFrame(Action extendFrame);
 
-    protected abstract void OnResponseReady(int frameLength);
+    public abstract void OnResponseReady(int frameLength);
 
     private void WriteExceptionResponse(ModbusFunctionCode functionCode, ModbusExceptionCode exceptionCode)
     {
@@ -196,7 +203,7 @@ internal abstract class ModbusRequestHandler : IDisposable
 
         var length = 0;
 
-        if (ModbusServer.AlwaysRaiseChangedEvent) 
+        if (ModbusServer.AlwaysRaiseChangedEvent)
         {
             for (int i = 0; i < newValues.Length; i++)
             {
@@ -381,7 +388,7 @@ internal abstract class ModbusRequestHandler : IDisposable
                 bool value = (b & (1 << bit)) != 0;
 
                 var hasChanged = WriteCoil(value, (ushort)(startingAddress + i));
-                
+
                 if (ModbusServer.EnableRaisingEvents && (hasChanged || ModbusServer.AlwaysRaiseChangedEvent))
                 {
                     changedOutputs[changedOutputsLength] = startingAddress + i;
