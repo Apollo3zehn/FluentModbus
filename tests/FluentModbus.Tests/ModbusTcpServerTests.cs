@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using Xunit;
 using Xunit.Abstractions;
+using System.Net;
 
 namespace FluentModbus.Tests;
 
@@ -132,6 +133,43 @@ public class ModbusTcpServerTests : IClassFixture<XUnitFixture>
 
         // Assert
     }
+
+    [Fact]
+    public async void RtuOverTcpServerHandlesRequests()
+    {
+        // Arrange
+        IPEndPoint endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer();
+        server.StartRtuOverTcp(endpoint);
+        server.AddUnit(2);
+
+        // Act
+        var client = new ModbusRtuOverTcpClient();
+        client.Connect(endpoint);
+
+        await Task.Run(() =>
+        {
+            var data = Enumerable.Range(0, 20).Select(i => (float)i).ToArray();
+            var sw = Stopwatch.StartNew();
+            var iterations = 10000;
+            var read = client.ReadHoldingRegisters<float>(2, 0, (ushort)data.Length);
+
+            for (int i = 0; i < iterations; i++)
+            {
+                client.WriteMultipleRegisters(2, 0, data);
+                read = client.ReadHoldingRegisters<float>(2, 0, (ushort)data.Length);
+            }
+
+            var timePerRequest = sw.Elapsed.TotalMilliseconds / iterations;
+            _logger.WriteLine($"Time per request: {timePerRequest * 1000:F0} us. Frequency: {1 / timePerRequest * 1000:F0} requests per second.");
+
+            client.Disconnect();
+        });
+
+    // Assert
+    
+}
 
     [Fact]
     public async void ServerRespectsMaxClientConnectionLimit()

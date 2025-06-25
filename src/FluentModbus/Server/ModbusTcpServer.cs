@@ -107,6 +107,17 @@ public class ModbusTcpServer : ModbusServer
         return new ModbusTcpRequestHandler(client, server, logger);
     }
 
+    public IModbusRequestHandler GetRtuOverTcpRequestHandler(TcpClient? client, ModbusTcpServer server, ILogger logger)
+    {
+        return new ModbusRtuOverTcpRequestHandler(client, server, logger);
+    }
+
+    public void StartRtuOverTcp(IPEndPoint localEndpoint)
+    {
+        Start(new DefaultTcpClientProvider(localEndpoint), GetRtuOverTcpRequestHandler, false);
+    }
+
+
     public virtual void Start(ITcpClientProvider tcpClientProvider, Func<TcpClient?, ModbusTcpServer, ILogger, IModbusRequestHandler> modbusRequestHandlerBuilder, bool leaveOpen = false)
     {
         _tcpClientProvider = tcpClientProvider;
