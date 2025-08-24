@@ -5,7 +5,7 @@
 
 <# 
     var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusRtuOverTcpClient.cs");
-    var match = Regex.Matches(csstring, @"(protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n        })", RegexOptions.Singleline)[0];
+    var match = Regex.Matches(csstring, @"(protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n    })", RegexOptions.Singleline)[0];
 
 #>
 /* This is automatically translated code. */
