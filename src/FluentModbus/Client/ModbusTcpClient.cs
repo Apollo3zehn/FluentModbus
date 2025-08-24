@@ -167,8 +167,28 @@ public partial class ModbusTcpClient : ModbusClient, IDisposable
         var isInternal = remoteEndpoint is not null;
         _tcpClient = (tcpClient, isInternal);
 
-        if (remoteEndpoint is not null && !tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
-            throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
+        if (remoteEndpoint is not null)
+        {
+            // ASYNC-ONLY: using var timeoutCts = new CancellationTokenSource(ConnectTimeout);
+            // ASYNC-ONLY: using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+            // ASYNC-ONLY: 
+            if (!tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
+            // ASYNC-ONLY: var cancellationTask = Task.Delay(-1, linkedCts.Token);
+            // ASYNC-ONLY: 
+            // ASYNC-ONLY: var completedTask = await Task.WhenAny(connectTask, cancellationTask).ConfigureAwait(false);
+            // ASYNC-ONLY: 
+            // ASYNC-ONLY: if (completedTask == cancellationTask)
+            // ASYNC-ONLY: {
+            // ASYNC-ONLY:     tcpClient.Close(); // Cancel the connect attempt
+            // ASYNC-ONLY:     
+            // ASYNC-ONLY:     if (cancellationToken.IsCancellationRequested)
+            // ASYNC-ONLY:         throw new OperationCanceledException(cancellationToken);
+            // ASYNC-ONLY:    
+                throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
+            // ASYNC-ONLY: }
+            // ASYNC-ONLY: 
+            // ASYNC-ONLY: await connectTask.ConfigureAwait(false); // Surface any connection exceptions
+        }
 
         // Why no method signature with NetworkStream only and then set the timeouts 
         // in the Connect method like for the RTU client?

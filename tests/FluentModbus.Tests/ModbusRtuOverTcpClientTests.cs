@@ -3,7 +3,7 @@ using Xunit;
 
 namespace FluentModbus.Tests;
 
-public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
+public class ModbusRtuOverTcpClientTests : IClassFixture<XUnitFixture>
 {
     [Fact]
     public void ClientRespectsConnectTimeout()
@@ -12,7 +12,7 @@ public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
         var endpoint = EndpointSource.GetNext();
         var connectTimeout = 500;
 
-        var client = new ModbusTcpClient()
+        var client = new ModbusRtuOverTcpClient()
         {
             ConnectTimeout = connectTimeout
         };
@@ -41,7 +41,7 @@ public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
         var server = new ModbusTcpServer();
         server.Start(endpoint);
 
-        var client = new ModbusTcpClient();
+        var client = new ModbusRtuOverTcpClient();
 
         try
         {
@@ -66,7 +66,7 @@ public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
         var endpoint = NonRoutableEndpointSource.GetNext();
         var connectTimeout = 500;
 
-        var client = new ModbusTcpClient()
+        var client = new ModbusRtuOverTcpClient()
         {
             ConnectTimeout = connectTimeout
         };
@@ -84,7 +84,7 @@ public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
     {
         // Arrange - use a non-routable IP address to ensure the connection hangs
         var endpoint = NonRoutableEndpointSource.GetNext();
-        var client = new ModbusTcpClient()
+        var client = new ModbusRtuOverTcpClient()
         {
             ConnectTimeout = 5000 // Set longer timeout so cancellation token wins
         };
@@ -110,7 +110,7 @@ public class ModbusTcpClientTests : IClassFixture<XUnitFixture>
         var server = new ModbusTcpServer();
         server.Start(endpoint);
 
-        var client = new ModbusTcpClient();
+        var client = new ModbusRtuOverTcpClient();
 
         try
         {
