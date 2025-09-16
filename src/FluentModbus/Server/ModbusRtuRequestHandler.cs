@@ -135,7 +135,9 @@ internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
         
         else
         {
-            return false;
+          _logger.LogDebug("Incoming request not addressed to this server, the connection will be closed");
+          CancelToken();
+          return false;
         }
     }
 
