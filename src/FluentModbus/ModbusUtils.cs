@@ -269,4 +269,25 @@ internal static class ModbusUtils
             }
         }
     }
+
+    public static T SwapBytes<T>(T value) where T : unmanaged
+    {
+      Span<T> data = stackalloc T[] { value };
+      SwapBytes(data);
+      return data[0];
+    }
+
+    public static void SwapBytes<T>(Span<T> dataset) where T : unmanaged
+    {
+      var dataset_bytes = MemoryMarshal.Cast<T, byte>(dataset);
+
+      for (int i = 0; i < dataset_bytes.Length; i += 2)
+      {
+
+        var i1 = i;
+        var i2 = i + 1;
+
+        (dataset_bytes[i2], dataset_bytes[i1]) = (dataset_bytes[i1], dataset_bytes[i2]);
+      }
+    }
 }

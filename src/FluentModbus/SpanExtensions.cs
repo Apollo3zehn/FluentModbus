@@ -34,6 +34,33 @@ public static class SpanExtensions
     }
 
     /// <summary>
+    /// Writes a single value of type <typeparamref name="T"/> to the registers and converts it to the little-endian bytes swapped representation if necessary.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to write.</typeparam>
+    /// <param name="buffer">The target buffer.</param>
+    /// <param name="address">The Modbus register address.</param>
+    /// <param name="value">The value to write.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SetLittleEndianSwapped<T>(this Span<short> buffer, int address, T value)
+        where T : unmanaged
+    {
+      // CDAB
+      if (!(0 <= address && address <= ushort.MaxValue))
+        throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
+      var byteBuffer = MemoryMarshal
+          .AsBytes(buffer)
+          .Slice(address * 2);
+
+      if (!BitConverter.IsLittleEndian)
+        value = ModbusUtils.SwitchEndianness(value);
+
+      value = ModbusUtils.SwapBytes(value);
+
+      Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), value);
+    }
+
+    /// <summary>
     /// Writes a single value of type <typeparamref name="T"/> to the registers and converts it to the mid-little-endian representation.
     /// </summary>
     /// <typeparam name="T">The type of the value to write.</typeparam>
@@ -86,6 +113,33 @@ public static class SpanExtensions
     }
 
     /// <summary>
+    /// Writes a single value of type <typeparamref name="T"/> to the registers and converts it to the big-endian bytes swapped representation if necessary.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to write.</typeparam>
+    /// <param name="buffer">The target buffer.</param>
+    /// <param name="address">The Modbus register address.</param>
+    /// <param name="value">The value to write.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SetBigEndianSwapped<T>(this Span<short> buffer, int address, T value)
+        where T : unmanaged
+    {
+      // BADC
+      if (!(0 <= address && address <= ushort.MaxValue))
+        throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
+      var byteBuffer = MemoryMarshal
+          .AsBytes(buffer)
+          .Slice(address * 2);
+
+      if (BitConverter.IsLittleEndian)
+        value = ModbusUtils.SwitchEndianness(value);
+
+      value = ModbusUtils.SwapBytes(value);
+
+      Unsafe.WriteUnaligned(ref byteBuffer.GetPinnableReference(), value);
+    }
+
+    /// <summary>
     /// Reads a single little-endian value of type <typeparamref name="T"/> from the registers.
     /// </summary>
     /// <typeparam name="T">The type of the value to read.</typeparam>
@@ -108,6 +162,33 @@ public static class SpanExtensions
             value = ModbusUtils.SwitchEndianness(value);
 
         return value;
+    }
+
+    /// <summary>
+    /// Reads a single little-endian bytes swapped value of type <typeparamref name="T"/> from the registers.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to read.</typeparam>
+    /// <param name="buffer">The source buffer.</param>
+    /// <param name="address">The Modbus register address.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T GetLittleEndianSwapped<T>(this Span<short> buffer, int address)
+          where T : unmanaged
+    {
+      if (!(0 <= address && address <= ushort.MaxValue))
+        throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
+      var byteBuffer = MemoryMarshal
+          .AsBytes(buffer)
+          .Slice(address * 2);
+
+      var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
+
+      if (!BitConverter.IsLittleEndian)
+        value = ModbusUtils.SwitchEndianness(value);
+
+      value = ModbusUtils.SwapBytes(value);
+
+      return value;
     }
 
     /// <summary>
@@ -159,6 +240,33 @@ public static class SpanExtensions
             value = ModbusUtils.SwitchEndianness(value);
 
         return value;
+    }
+
+    /// <summary>
+    /// Reads a single big-endian bytes swapped value of type <typeparamref name="T"/> from the registers.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to read.</typeparam>
+    /// <param name="buffer">The source buffer.</param>
+    /// <param name="address">The Modbus register address.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T GetBigEndianSwapped<T>(this Span<short> buffer, int address)
+        where T : unmanaged
+    {
+      if (!(0 <= address && address <= ushort.MaxValue))
+        throw new Exception(ErrorMessage.Modbus_InvalidValueUShort);
+
+      var byteBuffer = MemoryMarshal
+          .AsBytes(buffer)
+          .Slice(address * 2);
+
+      var value = Unsafe.ReadUnaligned<T>(ref byteBuffer.GetPinnableReference());
+
+      if (BitConverter.IsLittleEndian)
+        value = ModbusUtils.SwitchEndianness(value);
+
+      value = ModbusUtils.SwapBytes(value);
+
+      return value;
     }
 
     /// <summary>
