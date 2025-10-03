@@ -50,6 +50,9 @@ internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
 
                 if (ModbusServer.IsAsynchronous)
                     WriteResponse();
+            } else
+            {
+              WaitForConnectionToBeClosed();
             }
         }
         catch (Exception ex)
@@ -135,8 +138,8 @@ internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
         
         else
         {
-          _logger.LogDebug("Incoming request not addressed to this server, the connection will be closed");
-          CancelToken();
+          //_logger.LogDebug("Incoming request not addressed to this server, the connection will be closed");
+          //CancelToken();
           return false;
         }
     }
