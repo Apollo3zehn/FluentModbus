@@ -13,6 +13,7 @@ internal class Program
     {
       ModbusTcpServer server = new ModbusTcpServer();
       server.AddUnit(1);
+      //server.LooseUnitIdMode = true;
       Span<short> register = server.GetHoldingRegisters(1);
       UInt32 value = 327680;
       register.SetLittleEndianSwapped<UInt32>(0, value);

@@ -187,6 +187,12 @@ public abstract class ModbusServer : IDisposable
     /// </summary>
     public bool AlwaysRaiseChangedEvent { get; set; } = false;
 
+    private bool _looseUnitMode = false;
+    /// <summary>
+    /// Accept requests of any Unit Identifier, even if not managed. Default: false.
+    /// </summary>
+    public bool LooseUnitIdMode { get { return _looseUnitMode; } set { _looseUnitMode = value; AddUnit(0); } }
+
     /// <summary>
     /// Gets the logger.
     /// </summary>
@@ -411,7 +417,7 @@ public abstract class ModbusServer : IDisposable
             if (unitIdentifer == 0)
             {
                 // we are not in single zero unit mode
-                if (!_unitIdentifiers.Contains(0))
+                if (!_unitIdentifiers.Contains(0) && !LooseUnitIdMode)
                     throw new ArgumentException("Zero unit identifier can only be added in single zero unit identifier mode.");
             }
 
@@ -451,7 +457,12 @@ public abstract class ModbusServer : IDisposable
 
     private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
     {
-        if (!map.TryGetValue(unitIdentifier, out var buffer))
+        byte unitIdentifierToFind = unitIdentifier;
+        if(!map.ContainsKey(unitIdentifierToFind) && LooseUnitIdMode)
+        {
+          unitIdentifierToFind = 0;
+        }
+        if (!map.TryGetValue(unitIdentifierToFind, out var buffer))
             throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound);
 
         return buffer;

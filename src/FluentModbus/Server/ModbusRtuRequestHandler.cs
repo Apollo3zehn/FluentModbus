@@ -130,7 +130,7 @@ internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
         }
 
         // make sure that the incoming frame is actually adressed to this server
-        if (ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
+        if (ModbusServer.LooseUnitIdMode || ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
         {
             LastRequest.Restart();
             return true;
