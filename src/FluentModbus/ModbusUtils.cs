@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -253,6 +253,22 @@ internal static class ModbusUtils
         SwitchEndianness(dataset.Span);
     }
 
+    public static void SwitchRegistersBytes(Memory<byte> dataset)
+    {
+        SwitchRegistersBytes(dataset.Span);
+    }
+
+    public static void SwitchRegistersBytes(Span<byte> dataset_bytes)
+    {
+        for (int i = 0; i < dataset_bytes.Length; i += 2)
+        {
+            var i1 = i;
+            var i2 = i + 1;
+
+            (dataset_bytes[i2], dataset_bytes[i1]) = (dataset_bytes[i1], dataset_bytes[i2]);
+        }
+    }
+
     public static void SwitchEndianness<T>(Span<T> dataset) where T : unmanaged
     {
         var size = Marshal.SizeOf<T>();
@@ -268,5 +284,81 @@ internal static class ModbusUtils
                 (dataset_bytes[i2], dataset_bytes[i1]) = (dataset_bytes[i1], dataset_bytes[i2]);
             }
         }
+    }
+
+    /// <summary>
+    /// 通用：将 short 寄存器转换为任意 unmanaged 类型（int/float/double/long 等）
+    /// </summary>
+    public static Span<T> ConvertRegistersTo<T>(Span<short> registers, RegisterOrder registerOrder = RegisterOrder.LowHigh) where T : unmanaged
+    {
+        if(typeof(T) == typeof(short) || typeof(T) == typeof(ushort))
+        {
+            return MemoryMarshal.Cast<short, T>(registers);
+        }
+
+        int bytesPerValue = Marshal.SizeOf<T>();
+        if (bytesPerValue % 2 != 0)
+        {
+            throw new NotSupportedException($"类型 {typeof(T)} 的字节大小不是 2 的倍数，无法由 short 寄存器转换");
+        }
+
+        int shortsPerValue = bytesPerValue / 2;
+        if (registers.Length % shortsPerValue != 0)
+        {
+            throw new ArgumentException($"registers 的长度必须是 {shortsPerValue} 的倍数", nameof(registers));
+        }
+
+        if (registerOrder == RegisterOrder.HighLow)
+        {
+            for (int i = 0; i < registers.Length; i += shortsPerValue)
+            {
+                int left = i;
+                int right = i + shortsPerValue - 1;
+                while (left < right)
+                {
+                    (registers[left], registers[right]) = (registers[right], registers[left]);
+                    left++;
+                    right--;
+                }
+            }
+        }
+
+        return MemoryMarshal.Cast<short, T>(registers);
+    }
+
+    /// <summary>
+    /// 通用：将任意 unmanaged 类型（int/float/double/long 等）转换为 short 寄存器（支持 RegisterOrder）
+    /// </summary>
+    public static Span<short> ConvertToRegisters<T>(Span<T> dataset, RegisterOrder registerOrder = RegisterOrder.LowHigh) where T : unmanaged
+    {
+        if (typeof(T) == typeof(short) || typeof(T) == typeof(ushort))
+        {
+            return MemoryMarshal.Cast<T, short>(dataset);
+        }
+
+        int bytesPerValue = Marshal.SizeOf<T>();
+        if (bytesPerValue % 2 != 0)
+        {
+            throw new NotSupportedException($"类型 {typeof(T)} 的字节大小不是 2 的倍数，无法转换为 short 寄存器");
+        }
+
+        int shortsPerValue = bytesPerValue / 2;
+        var shorts2 = MemoryMarshal.Cast<T, short>(dataset);
+
+        if (registerOrder == RegisterOrder.HighLow)
+        {
+            for (int i = 0; i < shorts2.Length; i += shortsPerValue)
+            {
+                int left = i;
+                int right = i + shortsPerValue - 1;
+                while (left < right)
+                {
+                    (shorts2[left], shorts2[right]) = (shorts2[right], shorts2[left]);
+                    left++;
+                    right--;
+                }
+            }
+        }
+        return shorts2;
     }
 }

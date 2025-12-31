@@ -12,7 +12,7 @@ class Program
             loggingBuilder.SetMinimumLevel(LogLevel.Debug);
             loggingBuilder.AddConsole();
         });
-
+        bool needServer = false;
         var serverLogger = loggerFactory.CreateLogger("Server");
         var clientLogger = loggerFactory.CreateLogger("Client");
 
@@ -34,28 +34,32 @@ class Program
 
         /* run Modbus TCP server */
         var cts = new CancellationTokenSource();
-        server.Start();
-        serverLogger.LogInformation("Server started.");
-
-        var task_server = Task.Run(async () =>
+        Task? task_server = default;
+        if (needServer)
         {
-            while (!cts.IsCancellationRequested)
-            {
-                // lock is required to synchronize buffer access between this application and one or more Modbus clients
-                lock (server.Lock)
-                {
-                    DoServerWork(server);
-                }
+            server.Start();
+            serverLogger.LogInformation("Server started.");
 
-                // update server register content once per second
-                await Task.Delay(TimeSpan.FromSeconds(1));
-            }
-        }, cts.Token);
+            task_server = Task.Run(async () =>
+            {
+                while (!cts.IsCancellationRequested)
+                {
+                    // lock is required to synchronize buffer access between this application and one or more Modbus clients
+                    lock (server.Lock)
+                    {
+                        DoServerWork(server);
+                    }
+
+                    // update server register content once per second
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+            }, cts.Token);
+        }
 
         /* run Modbus TCP client */
         var task_client = Task.Run(() =>
         {
-            client.Connect();
+            client.Connect("127.0.0.1",ModbusEndianness.BigEndian);
 
             try
             {
@@ -77,10 +81,12 @@ class Program
 
         // stop server
         cts.Cancel();
-        await task_server;
-
-        server.Stop();
-        serverLogger.LogInformation("Server stopped.");
+        if(needServer && task_server != null)
+        {
+            await task_server;
+            server.Stop();
+            serverLogger.LogInformation("Server stopped.");
+        }
     }
 
     static void DoServerWork(ModbusTcpServer server)
@@ -113,32 +119,42 @@ class Program
         Span<byte> data;
 
         var sleepTime = TimeSpan.FromMilliseconds(100);
-        var unitIdentifier = 0x00;
+        var unitIdentifier = 0x01;
         var startingAddress = 0;
         var registerAddress = 0;
 
         // ReadHoldingRegisters = 0x03,        // FC03
         data = client.ReadHoldingRegisters<byte>(unitIdentifier, startingAddress, 10);
+        var data1 = client.ReadHoldingRegisters<short>(unitIdentifier, 10, 3).ToArray();
+        var data2 = client.ReadHoldingRegisters<int>(unitIdentifier, 16, 4).ToArray();
+        var data3 = client.ReadHoldingRegisters<float>(unitIdentifier, 24, 5).ToArray();
         logger.LogInformation("FC03 - ReadHoldingRegisters: Done");
+        client.WriteSingleRegister(unitIdentifier, 10, 41);
+
+
         Thread.Sleep(sleepTime);
 
         // WriteMultipleRegisters = 0x10,      // FC16
         client.WriteMultipleRegisters(unitIdentifier, startingAddress, new byte[] { 10, 00, 20, 00, 30, 00, 255, 00, 255, 01 });
+        client.WriteMultipleRegisters(unitIdentifier, 12, [41, 42]);
         logger.LogInformation("FC16 - WriteMultipleRegisters: Done");
         Thread.Sleep(sleepTime);
 
         // ReadCoils = 0x01,                   // FC01
         data = client.ReadCoils(unitIdentifier, startingAddress, 10);
+        var data5 = client.ReadCoils2(unitIdentifier, startingAddress, 10);
         logger.LogInformation("FC01 - ReadCoils: Done");
         Thread.Sleep(sleepTime);
 
         // ReadDiscreteInputs = 0x02,          // FC02
         data = client.ReadDiscreteInputs(unitIdentifier, startingAddress, 10);
+        var data6 = client.ReadDiscreteInputs2(unitIdentifier, startingAddress, 10);
         logger.LogInformation("FC02 - ReadDiscreteInputs: Done");
         Thread.Sleep(sleepTime);
 
         // ReadInputRegisters = 0x04,          // FC04
         data = client.ReadInputRegisters<byte>(unitIdentifier, startingAddress, 10);
+        var data4 = client.ReadInputRegisters<int>(unitIdentifier, 12, 10);
         logger.LogInformation("FC04 - ReadInputRegisters: Done");
         Thread.Sleep(sleepTime);
 

@@ -121,19 +121,28 @@ public abstract partial class ModbusClient
     /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
     /// <param name="startingAddress">The holding register start address for the read operation.</param>
     /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
-    public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
+    /// <param name="registerOrder">Desired Word Order (Low Register first or High Register first</param>
+    public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count, RegisterOrder registerOrder = RegisterOrder.LowHigh) where T : unmanaged
     {
         var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
         var startingAddress_converted = ConvertUshort(startingAddress);
         var count_converted = ConvertUshort(count);
 
-        var dataset = MemoryMarshal.Cast<byte, T>(
-            ReadHoldingRegisters(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)));
+        var bytes = ReadHoldingRegisters(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted));
+
+        if (typeof(T) == typeof(byte))
+        {
+            return MemoryMarshal.Cast<byte, T>(bytes);
+        }
 
         if (SwapBytes)
-            ModbusUtils.SwitchEndianness(dataset);
+            ModbusUtils.SwitchRegistersBytes(bytes);
 
-        return dataset;
+        var registers = MemoryMarshal.Cast<byte, short>(bytes);
+
+
+        var result = ModbusUtils.ConvertRegistersTo<T>(registers, registerOrder);
+        return result;
     }
 
     /// <summary>
@@ -173,15 +182,28 @@ public abstract partial class ModbusClient
     /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
     /// <param name="startingAddress">The holding register start address for the write operation.</param>
     /// <param name="dataset">The data of type <typeparamref name="T"/> to write to the server.</param>
-    public void WriteMultipleRegisters<T>(int unitIdentifier, int startingAddress, T[] dataset) where T : unmanaged
+    /// <param name="registerOrder">Desired Word Order (Low Register first or High Register first</param>
+    public void WriteMultipleRegisters<T>(int unitIdentifier, int startingAddress, T[] dataset, RegisterOrder registerOrder = RegisterOrder.LowHigh) where T : unmanaged
     {
         var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
         var startingAddress_converted = ConvertUshort(startingAddress);
 
-        if (SwapBytes)
-            ModbusUtils.SwitchEndianness(dataset.AsSpan());
+        Span<byte> bytes;
 
-        WriteMultipleRegisters(unitIdentifier_converted, startingAddress_converted, MemoryMarshal.Cast<T, byte>(dataset).ToArray());
+        if (typeof(T) == typeof(byte))
+        {
+            bytes = MemoryMarshal.Cast<T, byte>(new Span<T>(dataset));
+        }
+        else
+        {
+            var registers = ModbusUtils.ConvertToRegisters(dataset, registerOrder);
+            bytes = MemoryMarshal.Cast<short, byte>(registers);
+
+            if (SwapBytes)
+                ModbusUtils.SwitchRegistersBytes(bytes);
+        }
+
+        WriteMultipleRegisters(unitIdentifier_converted, startingAddress_converted, bytes.ToArray());
     }
 
     /// <summary>
@@ -256,6 +278,30 @@ public abstract partial class ModbusClient
     }
 
     /// <summary>
+    /// Reads the specified number of coils as byte array. Each bit of the returned array represents a single coil.
+    /// </summary>
+    /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
+    /// <param name="startingAddress">The coil start address for the read operation.</param>
+    /// <param name="quantity">The number of coils to read.</param>
+    public Span<bool> ReadCoils2(int unitIdentifier, int startingAddress, int quantity)
+    {
+        var buffer = ReadCoils(unitIdentifier, startingAddress, quantity);
+
+        bool[] array4 = new bool[quantity];
+        for (int i = 0; i < quantity; i++)
+        {
+            int num2 = buffer[unchecked(i / 8)];
+            unchecked
+            {
+                int num3 = Convert.ToInt32(Math.Pow(2.0, i % 8));
+                array4[i] = Convert.ToBoolean((num2 & num3) / num3);
+            }
+        }
+
+        return array4;
+    }
+
+    /// <summary>
     /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discrete input.
     /// </summary>
     /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
@@ -290,25 +336,54 @@ public abstract partial class ModbusClient
     }
 
     /// <summary>
+    /// Reads the specified number of discrete inputs as byte array. Each bit of the returned array represents a single discrete input.
+    /// </summary>
+    /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
+    /// <param name="startingAddress">The discrete input start address for the read operation.</param>
+    /// <param name="quantity">The number of discrete inputs to read.</param>
+    public Span<bool> ReadDiscreteInputs2(int unitIdentifier, int startingAddress, int quantity)
+    {
+        var buffer = ReadDiscreteInputs(unitIdentifier, startingAddress, quantity);
+
+        bool[] array4 = new bool[quantity];
+        for (int i = 0; i < quantity; i++)
+        {
+            int num2 = buffer[unchecked(i / 8)];
+            unchecked
+            {
+                int num3 = Convert.ToInt32(Math.Pow(2.0, i % 8));
+                array4[i] = Convert.ToBoolean((num2 & num3) / num3);
+            }
+        }
+
+        return array4;
+    }
+
+    /// <summary>
     /// Reads the specified number of values of type <typeparamref name="T"/> from the input registers.
     /// </summary>
     /// <typeparam name="T">Determines the type of the returned data.</typeparam>
     /// <param name="unitIdentifier">The unit identifier is used to communicate via devices such as bridges, routers and gateways that use a single IP address to support multiple independent Modbus end units. Thus, the unit identifier is the address of a remote slave connected on a serial line or on other buses. Use the default values 0x00 or 0xFF when communicating to a Modbus server that is directly connected to a TCP/IP network.</param>
     /// <param name="startingAddress">The input register start address for the read operation.</param>
     /// <param name="count">The number of elements of type <typeparamref name="T"/> to read.</param>
-    public Span<T> ReadInputRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
+    /// <param name="registerOrder">Desired Word Order (Low Register first or High Register first</param>
+    public Span<T> ReadInputRegisters<T>(int unitIdentifier, int startingAddress, int count, RegisterOrder registerOrder = RegisterOrder.LowHigh) where T : unmanaged
     {
         var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
         var startingAddress_converted = ConvertUshort(startingAddress);
         var count_converted = ConvertUshort(count);
 
-        var dataset = MemoryMarshal.Cast<byte, T>(
-            ReadInputRegisters(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted)));
-
+        var bytes = ReadInputRegisters(unitIdentifier_converted, startingAddress_converted, ConvertSize<T>(count_converted));
+        if (typeof(T) == typeof(byte))
+        {
+            return MemoryMarshal.Cast<byte, T>(bytes);
+        }
         if (SwapBytes)
-            ModbusUtils.SwitchEndianness(dataset);
+            ModbusUtils.SwitchRegistersBytes(bytes);
+        var registers = MemoryMarshal.Cast<byte, short>(bytes);
+        var result = ModbusUtils.ConvertRegistersTo<T>(registers, registerOrder);
 
-        return dataset;
+        return result;
     }
 
     /// <summary>
@@ -380,10 +455,11 @@ public abstract partial class ModbusClient
         var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
         var registerAddress_converted = ConvertUshort(registerAddress);
 
+        var bytes = MemoryMarshal.Cast<short, byte>(new Span<short>([value]));
         if (SwapBytes)
-            value = ModbusUtils.SwitchEndianness(value);
+            ModbusUtils.SwitchRegistersBytes(bytes);
 
-        WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<short, byte>(new [] { value }).ToArray());
+        WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, bytes.ToArray());
     }
 
     /// <summary>
@@ -397,10 +473,11 @@ public abstract partial class ModbusClient
         var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
         var registerAddress_converted = ConvertUshort(registerAddress);
 
+        var bytes = MemoryMarshal.Cast<ushort, byte>(new Span<ushort>([value]));
         if (SwapBytes)
-            value = ModbusUtils.SwitchEndianness(value);
+            ModbusUtils.SwitchRegistersBytes(bytes);
 
-        WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, MemoryMarshal.Cast<ushort, byte>(new[] { value }).ToArray());
+        WriteSingleRegister(unitIdentifier_converted, registerAddress_converted, bytes.ToArray());
     }
 
     /// <summary>
@@ -505,26 +582,41 @@ public abstract partial class ModbusClient
     /// <param name="readCount">The number of elements of type <typeparamref name="TRead"/> to read.</param>
     /// <param name="writeStartingAddress">The holding register start address for the write operation.</param>
     /// <param name="dataset">The data of type <typeparamref name="TWrite"/> to write to the server.</param>
-    public Span<TRead> ReadWriteMultipleRegisters<TRead, TWrite>(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset) where TRead : unmanaged
-                                                                                                                                                                            where TWrite : unmanaged
+    /// <param name="registerOrder">Desired Word Order (Low Register first or High Register first</param>
+    public Span<TRead> ReadWriteMultipleRegisters<TRead, TWrite>(int unitIdentifier, int readStartingAddress, int readCount, int writeStartingAddress, TWrite[] dataset, RegisterOrder registerOrder = RegisterOrder.LowHigh) where TRead : unmanaged
+                                                                                                                                                                         where TWrite : unmanaged
     {
         var unitIdentifier_converted = ConvertUnitIdentifier(unitIdentifier);
         var readStartingAddress_converted = ConvertUshort(readStartingAddress);
         var readCount_converted = ConvertUshort(readCount);
         var writeStartingAddress_converted = ConvertUshort(writeStartingAddress);
 
-        if (SwapBytes)
-            ModbusUtils.SwitchEndianness(dataset.AsSpan());
+        Span<byte> writeBytes;
+        if (typeof(TWrite) == typeof(byte))
+        {
+            writeBytes = MemoryMarshal.Cast<TWrite, byte>(new Span<TWrite>(dataset));
+        }
+        else
+        {
+            var writeRegisters = ModbusUtils.ConvertToRegisters(dataset, registerOrder);
+            writeBytes = MemoryMarshal.Cast<short, byte>(writeRegisters);
+
+            if (SwapBytes)
+                ModbusUtils.SwitchRegistersBytes(writeBytes);
+        }
 
         var readQuantity = ConvertSize<TRead>(readCount_converted);
-        var byteData = MemoryMarshal.Cast<TWrite, byte>(dataset).ToArray();
-
-        var dataset2 = MemoryMarshal.Cast<byte, TRead>(ReadWriteMultipleRegisters(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, byteData));
-
+        var readBytes = ReadWriteMultipleRegisters(unitIdentifier_converted, readStartingAddress_converted, readQuantity, writeStartingAddress_converted, writeBytes.ToArray());
+        if (typeof(TRead) == typeof(byte))
+        {
+            return MemoryMarshal.Cast<byte, TRead>(readBytes);
+        }
         if (SwapBytes)
-            ModbusUtils.SwitchEndianness(dataset2);
+            ModbusUtils.SwitchRegistersBytes(readBytes);
+        var readRegisters = MemoryMarshal.Cast<byte, short>(readBytes);
+        var result = ModbusUtils.ConvertRegistersTo<TRead>(readRegisters, registerOrder);
 
-        return dataset2;
+        return result;
     }
 
     /// <summary>

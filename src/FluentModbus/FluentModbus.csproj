@@ -39,14 +39,14 @@
       <LastGenOutput>ModbusClientAsync.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-	<None Update="Client\ModbusRtuClientAsync.tt">
-		<LastGenOutput>ModbusRtuClientAsync.cs</LastGenOutput>
-		<Generator>TextTemplatingFileGenerator</Generator>
-	</None>
-	<None Update="Client\ModbusRtuOverTcpClientAsync.tt">
-		<LastGenOutput>ModbusRtuOverTcpClientAsync.cs</LastGenOutput>
-		<Generator>TextTemplatingFileGenerator</Generator>
-	</None>
+    <None Update="Client\ModbusRtuClientAsync.tt">
+        <LastGenOutput>ModbusRtuClientAsync.cs</LastGenOutput>
+        <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Client\ModbusRtuOverTcpClientAsync.tt">
+        <LastGenOutput>ModbusRtuOverTcpClientAsync.cs</LastGenOutput>
+        <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Client\ModbusTcpClientAsync.tt">
       <LastGenOutput>ModbusTcpClientAsync.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -88,5 +88,9 @@
       <CustomToolNamespace>FluentModbus</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
 </Project>
