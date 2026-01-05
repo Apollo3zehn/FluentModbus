@@ -241,6 +241,15 @@ namespace FluentModbus {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The transaction identifier is invalid..
+        /// </summary>
+        internal static string ModbusClient_InvalidTransactionIdentifier {
+            get {
+                return ResourceManager.GetString("ModbusClient_InvalidTransactionIdentifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The unit identifier is invalid. Valid node addresses are in the range of 0 - 247. Use address &apos;0&apos; to broadcast write command to all available servers..
         /// </summary>
         internal static string ModbusClient_InvalidUnitIdentifier {

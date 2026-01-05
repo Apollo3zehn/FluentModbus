@@ -165,6 +165,9 @@
   <data name="ModbusClient_InvalidProtocolIdentifier" xml:space="preserve">
     <value>The protocol identifier is invalid.</value>
   </data>
+  <data name="ModbusClient_InvalidTransactionIdentifier" xml:space="preserve">
+    <value>The transaction identifier is invalid.</value>
+  </data>
   <data name="ModbusClient_InvalidResponseFunctionCode" xml:space="preserve">
     <value>The responsed function code is invalid.</value>
   </data>

@@ -15,7 +15,7 @@ public partial class ModbusTcpClient
         var frameBuffer = _frameBuffer;
         var writer = _frameBuffer.Writer;
         var reader = _frameBuffer.Reader;
-
+        
         // build request
         writer.Seek(7, SeekOrigin.Begin);
         extendFrame(writer);
@@ -23,16 +23,18 @@ public partial class ModbusTcpClient
 
         writer.Seek(0, SeekOrigin.Begin);
 
+        var requestTransactionIdentifier = GetTransactionIdentifier();
+        
         if (BitConverter.IsLittleEndian)
         {
-            writer.WriteReverse(GetTransactionIdentifier());                // 00-01  Transaction Identifier
+            writer.WriteReverse(requestTransactionIdentifier);                // 00-01  Transaction Identifier
             writer.WriteReverse((ushort)0);                                 // 02-03  Protocol Identifier
             writer.WriteReverse((ushort)(frameLength - 6));                 // 04-05  Length
         }
 
         else
         {
-            writer.Write(GetTransactionIdentifier());                       // 00-01  Transaction Identifier
+            writer.Write(requestTransactionIdentifier);                       // 00-01  Transaction Identifier
             writer.Write((ushort)0);                                        // 02-03  Protocol Identifier
             writer.Write((ushort)(frameLength - 6));                        // 04-05  Length
         }
@@ -95,10 +97,14 @@ public partial class ModbusTcpClient
                 if (!isParsed) // read MBAP header only once
                 {
                     // read MBAP header
-                    _ = reader.ReadUInt16Reverse();                                     // 00-01  Transaction Identifier
+                    var responseTransactionIdentifier = reader.ReadUInt16Reverse();     // 00-01  Transaction Identifier
+                    if (requestTransactionIdentifier != responseTransactionIdentifier)
+                    {
+                        throw new ModbusException(ErrorMessage.ModbusClient_InvalidTransactionIdentifier);
+                    }
                     var protocolIdentifier = reader.ReadUInt16Reverse();                // 02-03  Protocol Identifier               
-                    bytesFollowing = reader.ReadUInt16Reverse();                        // 04-05  Length
-                    _ = reader.ReadByte();                                              // 06     Unit Identifier
+                    bytesFollowing = reader.ReadUInt16Reverse();                              // 04-05  Length
+                    _ = reader.ReadByte();                                                    // 06     Unit Identifier
 
                     if (protocolIdentifier != 0)
                         throw new ModbusException(ErrorMessage.ModbusClient_InvalidProtocolIdentifier);
