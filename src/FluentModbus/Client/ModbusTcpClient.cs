@@ -167,8 +167,19 @@ public partial class ModbusTcpClient : ModbusClient, IDisposable
         var isInternal = remoteEndpoint is not null;
         _tcpClient = (tcpClient, isInternal);
 
-        if (remoteEndpoint is not null && !tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
-            throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
+        if (remoteEndpoint is not null)
+        {
+            var connectTask = tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port);
+            if (!connectTask.Wait(ConnectTimeout))
+            {
+                // Ensure the task exception is observed to avoid triggering UnobservedTaskException handlers (which can crash the process or flood logs).
+                // Attaching a continuation that accesses task.Exception guarantees the exception is observed.
+                connectTask.ContinueWith(t => t.Exception, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+                // Close the TcpClient to cancel the connection attempt.
+                tcpClient.Close();
+                throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
+            }
+        }
 
         // Why no method signature with NetworkStream only and then set the timeouts 
         // in the Connect method like for the RTU client?
