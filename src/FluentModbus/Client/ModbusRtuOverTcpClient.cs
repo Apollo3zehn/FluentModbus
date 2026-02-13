@@ -95,9 +95,7 @@ public partial class ModbusRtuOverTcpClient : ModbusClient, IDisposable
 
     #if NETSTANDARD2_0
         Connect(parsedRemoteEndpoint!, endianness);
-    #endif
-    
-    #if NETSTANDARD2_1_OR_GREATER
+    #else
         Connect(parsedRemoteEndpoint, endianness);
     #endif
     }

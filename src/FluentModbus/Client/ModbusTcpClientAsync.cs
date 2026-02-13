@@ -1,10 +1,162 @@
-﻿
+
 /* This is automatically translated code. */
+
+using System.Net;
+using System.Net.Sockets;
  
 namespace FluentModbus;
 
 public partial class ModbusTcpClient
 {
+    /// <summary>
+    /// Connect to localhost at port 502 with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout.
+    /// </summary>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    public Task ConnectAsync(CancellationToken cancellationToken = default)
+    {
+        return ConnectAsync(ModbusEndianness.LittleEndian, cancellationToken);
+    }
+
+    /// <summary>
+    /// Connect to localhost at port 502. 
+    /// </summary>
+    /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+    public Task ConnectAsync(ModbusEndianness endianness, CancellationToken cancellationToken = default)
+    {
+        return ConnectAsync(new IPEndPoint(IPAddress.Loopback, 502), endianness, cancellationToken);
+    }
+
+    /// <summary>
+    /// Connect to the specified <paramref name="remoteEndpoint"/>.
+    /// </summary>
+    /// <param name="remoteEndpoint">The IP address and optional port of the end unit with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout. Examples: "192.168.0.1", "192.168.0.1:502", "::1", "[::1]:502". The default port is 502.</param>
+    public Task ConnectAsync(string remoteEndpoint, CancellationToken cancellationToken = default)
+    {
+        return ConnectAsync(remoteEndpoint, ModbusEndianness.LittleEndian, cancellationToken);
+    }
+
+    /// <summary>
+    /// Connect to the specified <paramref name="remoteEndpoint"/>.
+    /// </summary>
+    /// <param name="remoteEndpoint">The IP address and optional port of the end unit. Examples: "192.168.0.1", "192.168.0.1:502", "::1", "[::1]:502". The default port is 502.</param>
+    /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+    public Task ConnectAsync(string remoteEndpoint, ModbusEndianness endianness, CancellationToken cancellationToken = default)
+    {
+        if (!ModbusUtils.TryParseEndpoint(remoteEndpoint.AsSpan(), out var parsedRemoteEndpoint))
+            throw new FormatException("An invalid IPEndPoint was specified.");
+
+    #if NETSTANDARD2_0
+        return ConnectAsync(parsedRemoteEndpoint!, endianness, cancellationToken);
+    #else
+        return ConnectAsync(parsedRemoteEndpoint, endianness, cancellationToken);
+    #endif
+    }
+
+    /// <summary>
+    /// Connect to the specified <paramref name="remoteIpAddress"/> at port 502.
+    /// </summary>
+    /// <param name="remoteIpAddress">The IP address of the end unit with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout. Example: IPAddress.Parse("192.168.0.1").</param>
+    public Task ConnectAsync(IPAddress remoteIpAddress, CancellationToken cancellationToken = default)
+    {
+        return ConnectAsync(remoteIpAddress, ModbusEndianness.LittleEndian, cancellationToken);
+    }
+
+    /// <summary>
+    /// Connect to the specified <paramref name="remoteIpAddress"/> at port 502.
+    /// </summary>
+    /// <param name="remoteIpAddress">The IP address of the end unit. Example: IPAddress.Parse("192.168.0.1").</param>
+    /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+    public Task ConnectAsync(IPAddress remoteIpAddress, ModbusEndianness endianness, CancellationToken cancellationToken = default)
+    {
+        return ConnectAsync(new IPEndPoint(remoteIpAddress, 502), endianness, cancellationToken);
+    }
+
+    /// <summary>
+    /// Connect to the specified <paramref name="remoteEndpoint"/> with <see cref="ModbusEndianness.LittleEndian"/> as default byte layout.
+    /// </summary>
+    /// <param name="remoteEndpoint">The IP address and port of the end unit.</param>
+    public Task ConnectAsync(IPEndPoint remoteEndpoint, CancellationToken cancellationToken = default)
+    {
+        return ConnectAsync(remoteEndpoint, ModbusEndianness.LittleEndian, cancellationToken);
+    }
+
+    /// <summary>
+    /// Connect to the specified <paramref name="remoteEndpoint"/>.
+    /// </summary>
+    /// <param name="remoteEndpoint">The IP address and port of the end unit.</param>
+    /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+    public Task ConnectAsync(IPEndPoint remoteEndpoint, ModbusEndianness endianness, CancellationToken cancellationToken = default)
+    {
+        return InitializeAsync(new TcpClient(), remoteEndpoint, endianness, cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously initialize the Modbus TCP client with an externally managed <see cref="TcpClient"/>.
+    /// </summary>
+    /// <param name="tcpClient">The externally managed <see cref="TcpClient"/>.</param>
+    /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    public Task InitializeAsync(TcpClient tcpClient, ModbusEndianness endianness, CancellationToken cancellationToken = default)
+    {
+        return InitializeAsync(tcpClient, default, endianness, cancellationToken);
+    }
+
+    private async Task InitializeAsync(TcpClient tcpClient, IPEndPoint? remoteEndpoint, ModbusEndianness endianness, CancellationToken cancellationToken)
+    {
+
+        base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian ||
+                        !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
+
+        _frameBuffer = new ModbusFrameBuffer(size: 260);
+
+        if (_tcpClient.HasValue && _tcpClient.Value.IsInternal)
+            _tcpClient.Value.Value.Close();
+
+        var isInternal = remoteEndpoint is not null;
+        _tcpClient = (tcpClient, isInternal);
+
+        if (remoteEndpoint is not null)
+        {
+#if NET5_0_OR_GREATER
+            using var timeoutCts = new CancellationTokenSource(ConnectTimeout);
+            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+            
+            try
+            {
+                await tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port, linkedCts.Token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+            {
+                throw new TimeoutException(ErrorMessage.ModbusClient_TcpConnectTimeout);
+            }
+#else
+            var connectTask = tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port);
+            var timeoutTask = Task.Delay(ConnectTimeout, cancellationToken);
+            var completedTask = await Task.WhenAny(connectTask, timeoutTask).ConfigureAwait(false);
+            
+            if (completedTask == timeoutTask)
+                throw new TimeoutException(ErrorMessage.ModbusClient_TcpConnectTimeout);
+            
+            await connectTask.ConfigureAwait(false); // Propagate any connection exceptions
+#endif
+        }
+
+        // Why no method signature with NetworkStream only and then set the timeouts
+        // in the Connect method like for the RTU client?
+        //
+        // "If a NetworkStream was associated with a TcpClient, the Close method will
+        //  close the TCP connection, but not dispose of the associated TcpClient."
+        // -> https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.networkstream.close?view=net-6.0
+
+        _networkStream = tcpClient.GetStream();
+
+        if (isInternal)
+        {
+            _networkStream.ReadTimeout = ReadTimeout;
+            _networkStream.WriteTimeout = WriteTimeout;
+        }
+    }
+
     ///<inheritdoc/>
     protected override async Task<Memory<byte>> TransceiveFrameAsync(byte unitIdentifier, ModbusFunctionCode functionCode, Action<ExtendedBinaryWriter> extendFrame, CancellationToken cancellationToken = default)
     {
@@ -121,5 +273,5 @@ public partial class ModbusTcpClient
             throw new ModbusException(ErrorMessage.ModbusClient_InvalidResponseFunctionCode);
 
         return frameBuffer.Buffer.AsMemory(7, frameLength - 7);
-    }    
+    }
 }

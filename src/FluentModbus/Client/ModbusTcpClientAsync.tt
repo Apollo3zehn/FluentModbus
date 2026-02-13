@@ -3,28 +3,117 @@
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
 
-<# 
+<#
     var csstring = File.ReadAllText("src/FluentModbus/Client/ModbusTcpClient.cs");
-    var match = Regex.Matches(csstring, @"(protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n        })", RegexOptions.Singleline)[0];
+    
+    // Extract TransceiveFrame - match until closing brace at method level (4 spaces indentation)
+    var transceiveMatch = Regex.Matches(csstring, @"(protected override Span<byte> TransceiveFrame\()(.*?)\)(.*?\n    })", RegexOptions.Singleline)[0];
+    
+    // Extract Connect methods - match XML docs (including param tags) + method signature + body
+    var connectMatches = Regex.Matches(csstring, @"    /// <summary>\r?\n(?:    /// .*?\r?\n)*    /// </summary>\r?\n(?:    /// .*?\r?\n)*    public void Connect\([^\)]*\)\r?\n    \{(?:[\s\S]*?)\r?\n    \}");
+    
+    // Extract Initialize method
+    var initializeMatch = Regex.Match(csstring, @"    private void Initialize\(TcpClient tcpClient, IPEndPoint\? remoteEndpoint, ModbusEndianness endianness\)\r?\n    \{(.*?)\r?\n    \}", RegexOptions.Singleline);
 
 #>
 /* This is automatically translated code. */
- 
-namespace FluentModbus
-{
-    public partial class ModbusTcpClient
-    {
-        <#
-            // replace AsSpan
-            var signature = match.Groups[2].Value;
-            var body = match.Groups[3].Value;
-            body = Regex.Replace(body, "AsSpan", "AsMemory");
-            body = Regex.Replace(body, @"_networkStream.Write\((.*?)\)", m => $"await _networkStream.WriteAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
-            body = Regex.Replace(body, @"_networkStream.Read\((.*?)\)", m => $"await _networkStream.ReadAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
-            body = Regex.Replace(body, @"// ASYNC-ONLY: ", "");
 
-            Write($"///<inheritdoc/>\n        protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
-        #>
-    
+using System.Net;
+using System.Net.Sockets;
+ 
+namespace FluentModbus;
+
+public partial class ModbusTcpClient
+{
+<#
+    // Generate Connect async methods
+    foreach (Match method in connectMatches)
+    {
+        var methodString = method.Value;
+        
+        // Add cancellation token XML comment before method signature
+        methodString = Regex.Replace(methodString, @"(    ///[^\n]*</summary>\r?\n)(    public)", "$1    /// <param name=\"cancellationToken\">The token to monitor for cancellation requests.</param>\r\n$2");
+        
+        // Transform method signature: void Connect(...) -> Task ConnectAsync(..., CancellationToken)
+        methodString = Regex.Replace(methodString, @"public void Connect\(([^\)]*)\)", m => {
+            var parameters = m.Groups[1].Value.Trim();
+            if (string.IsNullOrEmpty(parameters))
+                return "public Task ConnectAsync(CancellationToken cancellationToken = default)";
+            else
+                return $"public Task ConnectAsync({parameters}, CancellationToken cancellationToken = default)";
+        });
+        
+        // Replace Connect(...) calls with return ConnectAsync(..., cancellationToken)
+        // Use a more robust pattern that handles nested parentheses
+        methodString = Regex.Replace(methodString, @"        Connect\(((?:[^()]|\([^()]*\))+)\);", m => $"        return ConnectAsync({m.Groups[1]}, cancellationToken);");
+        
+        // Replace Initialize(...) calls with return InitializeAsync(..., cancellationToken)
+        methodString = Regex.Replace(methodString, @"        Initialize\(((?:[^()]|\([^()]*\))+)\);", m => $"        return InitializeAsync({m.Groups[1]}, cancellationToken);");
+        
+        Write(methodString);
+        Write("\r\n\r\n");
     }
+#>
+    /// <summary>
+    /// Asynchronously initialize the Modbus TCP client with an externally managed <see cref="TcpClient"/>.
+    /// </summary>
+    /// <param name="tcpClient">The externally managed <see cref="TcpClient"/>.</param>
+    /// <param name="endianness">Specifies the endianness of the data exchanged with the Modbus server.</param>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    public Task InitializeAsync(TcpClient tcpClient, ModbusEndianness endianness, CancellationToken cancellationToken = default)
+    {
+        return InitializeAsync(tcpClient, default, endianness, cancellationToken);
+    }
+
+<#
+    // Generate Initialize async method
+    var initBody = initializeMatch.Groups[1].Value;
+    
+    // Replace the sync connection code with async version
+    initBody = Regex.Replace(initBody,
+        @"        if \(remoteEndpoint is not null && !tcpClient\.ConnectAsync\(remoteEndpoint\.Address, remoteEndpoint\.Port\)\.Wait\(ConnectTimeout\)\)\r?\n            throw new Exception\(ErrorMessage\.ModbusClient_TcpConnectTimeout\);",
+        @"        if (remoteEndpoint is not null)
+        {
+#if NET5_0_OR_GREATER
+            using var timeoutCts = new CancellationTokenSource(ConnectTimeout);
+            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+            
+            try
+            {
+                await tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port, linkedCts.Token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+            {
+                throw new TimeoutException(ErrorMessage.ModbusClient_TcpConnectTimeout);
+            }
+#else
+            var connectTask = tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port);
+            var timeoutTask = Task.Delay(ConnectTimeout, cancellationToken);
+            var completedTask = await Task.WhenAny(connectTask, timeoutTask).ConfigureAwait(false);
+            
+            if (completedTask == timeoutTask)
+                throw new TimeoutException(ErrorMessage.ModbusClient_TcpConnectTimeout);
+            
+            await connectTask.ConfigureAwait(false); // Propagate any connection exceptions
+#endif
+        }",
+        RegexOptions.Singleline);
+#>
+    private async Task InitializeAsync(TcpClient tcpClient, IPEndPoint? remoteEndpoint, ModbusEndianness endianness, CancellationToken cancellationToken)
+    {
+<#= initBody #>
+    }
+
+<#
+    // Generate TransceiveFrameAsync
+    var signature = transceiveMatch.Groups[2].Value;
+    var body = transceiveMatch.Groups[3].Value;
+    body = Regex.Replace(body, "AsSpan", "AsMemory");
+    body = Regex.Replace(body, @"_networkStream.Write\((.*?)\)", m => $"await _networkStream.WriteAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
+    body = Regex.Replace(body, @"_networkStream.Read\((.*?)\)", m => $"await _networkStream.ReadAsync({m.Groups[1]}, cancellationToken).ConfigureAwait(false)");
+    body = Regex.Replace(body, @"// ASYNC-ONLY: ", "");
+
+    Write($"    ///<inheritdoc/>\n    protected override async Task<Memory<byte>> TransceiveFrameAsync({signature}, CancellationToken cancellationToken = default){body}");
+#>
+
 }
