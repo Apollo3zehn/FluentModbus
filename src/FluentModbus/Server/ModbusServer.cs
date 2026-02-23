@@ -424,7 +424,7 @@ public abstract class ModbusServer : IDisposable
             else
             {
                 // we are in single zero unit mode -> remove zero unit identifier to leave that mode
-                if (_unitIdentifiers.Contains(0))
+                if (!LooseUnitIdMode && _unitIdentifiers.Contains(0))
                     RemoveUnit(0);
             }
         }
