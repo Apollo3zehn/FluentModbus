@@ -2,7 +2,7 @@
 
 [![GitHub Actions](https://github.com/Apollo3zehn/FluentModbuss/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/Apollo3zehn/FluentModbus/actions) [![NuGet](https://img.shields.io/nuget/v/FluentModbus.svg?label=Nuget)](https://www.nuget.org/packages/FluentModbus)
 
-FluentModbus is a .NET Standard library (2.0 and 2.1) that provides Modbus TCP/RTU server and client implementations for easy process data exchange. Both, the server and the client, implement class 0, class 1 and class 2 (partially) functions of the [specification](http://www.modbus.org/specs.php). Namely, these are:
+FluentModbus is a .NET Standard library (2.0 and 2.1) that provides Modbus TCP/RTU server and client implementations for easy process data exchange. Both, the server and the client, implement class 0, class 1 and class 2 (partially) functions of the [specification](https://www.modbus.org/modbus-specifications). Namely, these are:
 
 **Class 0**
 * FC03: ReadHoldingRegisters
@@ -426,7 +426,7 @@ See a full example in the [sample](samples/modbus_validator.md) section.
 
 # See also
 
-This implementation is based on http://www.modbus.org/specs.php:
+This implementation is based on https://www.modbus.org/modbus-specifications:
 
 * MODBUS APPLICATION PROTOCOL SPECIFICATION V1.1b3
 * MODBUS over Serial Line Specification and Implementation Guide V1.02
