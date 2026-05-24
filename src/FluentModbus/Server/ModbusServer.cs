@@ -233,6 +233,15 @@ public abstract class ModbusServer : IDisposable
     /// <param name="unitIdentifier">The unit identifier of the input register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
     public Span<byte> GetInputRegisterBuffer(byte unitIdentifier = 0)
     {
+        return GetInputRegisterMemory(unitIdentifier).Span;
+    }
+
+    /// <summary>
+    /// Gets the input register.
+    /// </summary>
+    /// <param name="unitIdentifier">The unit identifier of the input register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+    public Memory<byte> GetInputRegisterMemory(byte unitIdentifier = 0)
+    {
         return Find(unitIdentifier, _inputRegisterBufferMap);
     }
 
@@ -260,6 +269,15 @@ public abstract class ModbusServer : IDisposable
     /// </summary>
     /// <param name="unitIdentifier">The unit identifier of the holding register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
     public Span<byte> GetHoldingRegisterBuffer(byte unitIdentifier = 0)
+    {
+        return GetHoldingRegisterMemory(unitIdentifier).Span;
+    }
+
+    /// <summary>
+    /// Gets the holding register buffer.
+    /// </summary>
+    /// <param name="unitIdentifier">The unit identifier of the holding register buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+    public Memory<byte> GetHoldingRegisterMemory(byte unitIdentifier = 0)
     {
         return Find(unitIdentifier, _holdingRegisterBufferMap);
     }
@@ -289,6 +307,15 @@ public abstract class ModbusServer : IDisposable
     /// <param name="unitIdentifier">The unit identifier of the coil buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
     public Span<byte> GetCoilBuffer(byte unitIdentifier = 0)
     {
+        return GetCoilMemory(unitIdentifier).Span;
+    }
+
+    /// <summary>
+    /// Gets the coil buffer.
+    /// </summary>
+    /// <param name="unitIdentifier">The unit identifier of the coil buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+    public Memory<byte> GetCoilMemory(byte unitIdentifier = 0)
+    {
         return Find(unitIdentifier, _coilBufferMap);
     }
 
@@ -316,6 +343,15 @@ public abstract class ModbusServer : IDisposable
     /// </summary>
     /// <param name="unitIdentifier">The unit identifier of the discrete input buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
     public Span<byte> GetDiscreteInputBuffer(byte unitIdentifier = 0)
+    {
+        return GetDiscreteInputMemory(unitIdentifier).Span;
+    }
+
+    /// <summary>
+    /// Gets the discrete input buffer.
+    /// </summary>
+    /// <param name="unitIdentifier">The unit identifier of the discrete input buffer to return. A value of 0 means that the default unit identifier is used (for single-unit mode only).</param>
+    public Memory<byte> GetDiscreteInputMemory(byte unitIdentifier = 0)
     {
         return Find(unitIdentifier, _discreteInputBufferMap);
     }
@@ -449,7 +485,7 @@ public abstract class ModbusServer : IDisposable
         }
     }
 
-    private Span<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
+    private Memory<byte> Find(byte unitIdentifier, Dictionary<byte, byte[]> map)
     {
         if (!map.TryGetValue(unitIdentifier, out var buffer))
             throw new KeyNotFoundException(ErrorMessage.ModbusServer_UnitIdentifierNotFound);
@@ -459,10 +495,10 @@ public abstract class ModbusServer : IDisposable
 
     internal void OnRegistersChanged(byte unitIdentifier, int[] registers)
     {
-        RegistersChanged?.Invoke(this, new RegistersChangedEventArgs() 
-        { 
+        RegistersChanged?.Invoke(this, new RegistersChangedEventArgs()
+        {
             UnitIdentifier = unitIdentifier,
-            Registers = registers 
+            Registers = registers
         });
     }
 
