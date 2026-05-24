@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FluentModbus;
 
-internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
+public class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
 {
     #region Fields
 
@@ -46,7 +46,7 @@ internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
 
     #region Methods
 
-    internal override async Task ReceiveRequestAsync()
+    public override async Task ReceiveRequestAsync()
     {
         if (CancellationToken.IsCancellationRequested)
             return;
@@ -102,12 +102,12 @@ internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
         return length;
     }
 
-    protected override void OnResponseReady(int frameLength)
+    public override void OnResponseReady(int frameLength)
     {
         _networkStream.Write(FrameBuffer.Buffer, 0, frameLength);
     }
 
-    private async Task<bool> TryReceiveRequestAsync()
+    public virtual async Task<bool> TryReceiveRequestAsync()
     {
         // Whenever the network stream has a read timeout set, a TimeoutException
         // might occur which is catched later in ReceiveRequestAsync() where the token is

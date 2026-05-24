@@ -2,7 +2,7 @@
 
 namespace FluentModbus;
 
-internal class ModbusFrameBuffer : IDisposable
+public class ModbusFrameBuffer : IDisposable
 {
     #region Constructors
 

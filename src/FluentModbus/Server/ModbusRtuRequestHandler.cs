@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FluentModbus;
 
-internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
+public class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
 {
     #region Fields
 
@@ -35,7 +35,7 @@ internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
 
     #region Methods
 
-    internal override async Task ReceiveRequestAsync()
+    public override async Task ReceiveRequestAsync()
     {
         if (CancellationToken.IsCancellationRequested)
             return;
@@ -81,12 +81,12 @@ internal class ModbusRtuRequestHandler : ModbusRequestHandler, IDisposable
         return frameLength + 2;
     }
 
-    protected override void OnResponseReady(int frameLength)
+    public override void OnResponseReady(int frameLength)
     {
         _serialPort.Write(FrameBuffer.Buffer, 0, frameLength);
     }
 
-    private async Task<bool> TryReceiveRequestAsync()
+    public virtual async Task<bool> TryReceiveRequestAsync()
     {
         // Whenever the serial port has a read timeout set, a TimeoutException might
         // occur which is catched immediately. The reason is that - opposed to the TCP
