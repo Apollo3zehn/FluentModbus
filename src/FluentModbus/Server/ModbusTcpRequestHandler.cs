@@ -61,6 +61,9 @@ internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
 
                 if (ModbusServer.IsAsynchronous)
                     WriteResponse();
+            } else
+            {
+              WaitForConnectionToBeClosed();
             }
         }
         catch (Exception ex)
@@ -178,7 +181,7 @@ internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
         // Make sure that the incoming frame is actually addressed to this server.
         // If we have only one UnitIdentifier, and it is zero, then we accept all 
         // incoming messages
-        if (ModbusServer.IsSingleZeroUnitMode || ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
+        if (ModbusServer.IsSingleZeroUnitMode || ModbusServer.LooseUnitIdMode || ModbusServer.UnitIdentifiers.Contains(UnitIdentifier))
         {
             LastRequest.Restart();
             return true;
@@ -186,7 +189,9 @@ internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
         
         else
         {
-            return false;
+          //_logger.LogDebug("Incoming request not addressed to this server, the connection will be closed");
+          //CancelToken();
+          return false;
         }
     }
 

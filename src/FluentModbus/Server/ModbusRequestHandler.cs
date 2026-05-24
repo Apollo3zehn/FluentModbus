@@ -57,6 +57,15 @@ internal abstract class ModbusRequestHandler : IDisposable
         _cts.Cancel();
     }
 
+    public void WaitForConnectionToBeClosed()
+    {
+      if (!IsResponseRequired)
+        return;
+
+      if (Length == 0)
+        throw new Exception(ErrorMessage.ModbusTcpRequestHandler_NoValidRequestAvailable);
+    }
+
     public void WriteResponse()
     {
         int frameLength;
