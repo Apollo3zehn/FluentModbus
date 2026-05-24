@@ -8,7 +8,7 @@
         .ReadAllText("src/FluentModbus/Client/ModbusClient.cs")
         .Replace("\r\n", "\n");
 
-    var methodsToConvert = Regex.Matches(csstring, @"    \/{3}(?:.(?!\n\n))*?(?:extendFrame\);|\).*?\n        })", RegexOptions.Singleline);
+    var methodsToConvert = Regex.Matches(csstring, @"    \/{3}(?:.(?!\n\n))*?(?:extendFrame\);|\).*?\n    })", RegexOptions.Singleline);
 #>
 /* This is automatically translated code. */
 
