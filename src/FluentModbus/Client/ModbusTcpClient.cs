@@ -99,9 +99,7 @@ public partial class ModbusTcpClient : ModbusClient, IDisposable
 
     #if NETSTANDARD2_0
         Connect(parsedRemoteEndpoint!, endianness);
-    #endif
-    
-    #if NETSTANDARD2_1_OR_GREATER
+    #else
         Connect(parsedRemoteEndpoint, endianness);
     #endif
     }
@@ -156,7 +154,7 @@ public partial class ModbusTcpClient : ModbusClient, IDisposable
 
     private void Initialize(TcpClient tcpClient, IPEndPoint? remoteEndpoint, ModbusEndianness endianness)
     {
-        base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian || 
+        base.SwapBytes = BitConverter.IsLittleEndian && endianness == ModbusEndianness.BigEndian ||
                         !BitConverter.IsLittleEndian && endianness == ModbusEndianness.LittleEndian;
 
         _frameBuffer = new ModbusFrameBuffer(size: 260);
@@ -170,7 +168,7 @@ public partial class ModbusTcpClient : ModbusClient, IDisposable
         if (remoteEndpoint is not null && !tcpClient.ConnectAsync(remoteEndpoint.Address, remoteEndpoint.Port).Wait(ConnectTimeout))
             throw new Exception(ErrorMessage.ModbusClient_TcpConnectTimeout);
 
-        // Why no method signature with NetworkStream only and then set the timeouts 
+        // Why no method signature with NetworkStream only and then set the timeouts
         // in the Connect method like for the RTU client?
         //
         // "If a NetworkStream was associated with a TcpClient, the Close method will

@@ -3,7 +3,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-#if NETSTANDARD2_1_OR_GREATER
+#if !NETSTANDARD2_0
 using System.Diagnostics.CodeAnalysis;
 #endif
 
@@ -13,8 +13,7 @@ internal static class ModbusUtils
 {
 #if NETSTANDARD2_0
     public static bool TryParseEndpoint(ReadOnlySpan<char> value, out IPEndPoint? result)
-#endif
-#if NETSTANDARD2_1_OR_GREATER
+#else
     public static bool TryParseEndpoint(ReadOnlySpan<char> value, [NotNullWhen(true)] out IPEndPoint? result)
 #endif
     {
