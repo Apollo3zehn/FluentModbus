@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net;
 using System.Runtime.InteropServices;
 
 namespace FluentModbus;
@@ -41,6 +42,8 @@ internal abstract class ModbusRequestHandler : IDisposable
     public CancellationToken CancellationToken { get; }
 
     public abstract string DisplayName { get; }
+
+    protected virtual IPEndPoint? RemoteEndPoint => null;
 
     protected byte UnitIdentifier { get; set; }
 
@@ -217,7 +220,7 @@ internal abstract class ModbusRequestHandler : IDisposable
             }
         }
 
-        ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters[..length].ToArray());
+        ModbusServer.OnRegistersChanged(UnitIdentifier, changedRegisters[..length].ToArray(), RemoteEndPoint);
     }
 
     // class 0
@@ -390,7 +393,7 @@ internal abstract class ModbusRequestHandler : IDisposable
             }
 
             if (ModbusServer.EnableRaisingEvents)
-                ModbusServer.OnCoilsChanged(UnitIdentifier, changedOutputs[..changedOutputsLength].ToArray());
+                ModbusServer.OnCoilsChanged(UnitIdentifier, changedOutputs[..changedOutputsLength].ToArray(), RemoteEndPoint);
         }
 
         FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteMultipleCoils);
@@ -443,7 +446,7 @@ internal abstract class ModbusRequestHandler : IDisposable
                 var hasChanged = WriteCoil(outputValue == 0x00FF, outputAddress);
 
                 if (ModbusServer.EnableRaisingEvents && (hasChanged || ModbusServer.AlwaysRaiseChangedEvent))
-                    ModbusServer.OnCoilsChanged(UnitIdentifier, [outputAddress]);
+                    ModbusServer.OnCoilsChanged(UnitIdentifier, [outputAddress], RemoteEndPoint);
 
                 FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleCoil);
 
@@ -470,7 +473,7 @@ internal abstract class ModbusRequestHandler : IDisposable
             holdingRegisters[registerAddress] = newValue;
 
             if (ModbusServer.EnableRaisingEvents && (newValue != oldValue || ModbusServer.AlwaysRaiseChangedEvent))
-                ModbusServer.OnRegistersChanged(UnitIdentifier, [registerAddress]);
+                ModbusServer.OnRegistersChanged(UnitIdentifier, [registerAddress], RemoteEndPoint);
 
             FrameBuffer.Writer.Write((byte)ModbusFunctionCode.WriteSingleRegister);
 

@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Net;
 using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("FluentModbus.Tests")]
@@ -18,6 +19,11 @@ public readonly struct RegistersChangedEventArgs
     /// A list of registers that have changed.
     /// </summary>
     public int[] Registers { get; init; }
+
+    /// <summary>
+    /// The remote endpoint of the TCP client that changed the registers, or null for non-TCP servers.
+    /// </summary>
+    public IPEndPoint? RemoteEndPoint { get; init; }
 }
 
 /// <summary>
@@ -34,6 +40,11 @@ public readonly struct CoilsChangedEventArgs
     /// A list of coils that have changed.
     /// </summary>
     public int[] Coils { get; init; }
+
+    /// <summary>
+    /// The remote endpoint of the TCP client that changed the coils, or null for non-TCP servers.
+    /// </summary>
+    public IPEndPoint? RemoteEndPoint { get; init; }
 }
 
 /// <summary>
@@ -457,21 +468,23 @@ public abstract class ModbusServer : IDisposable
         return buffer;
     }
 
-    internal void OnRegistersChanged(byte unitIdentifier, int[] registers)
+    internal void OnRegistersChanged(byte unitIdentifier, int[] registers, IPEndPoint? remoteEndPoint = null)
     {
         RegistersChanged?.Invoke(this, new RegistersChangedEventArgs() 
         { 
             UnitIdentifier = unitIdentifier,
-            Registers = registers 
+            Registers = registers,
+            RemoteEndPoint = remoteEndPoint
         });
     }
 
-    internal void OnCoilsChanged(byte unitIdentifier, int[] coils)
+    internal void OnCoilsChanged(byte unitIdentifier, int[] coils, IPEndPoint? remoteEndPoint = null)
     {
         CoilsChanged?.Invoke(this, new CoilsChangedEventArgs()
         {
             UnitIdentifier = unitIdentifier,
-            Coils = coils
+            Coils = coils,
+            RemoteEndPoint = remoteEndPoint
         });
     }
 

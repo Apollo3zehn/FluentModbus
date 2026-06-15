@@ -28,7 +28,8 @@ internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
         _tcpClient = tcpClient;
         _networkStream = tcpClient.GetStream();
 
-        DisplayName = ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
+        RemoteEndPoint = (IPEndPoint?)_tcpClient.Client.RemoteEndPoint;
+        DisplayName = RemoteEndPoint?.Address.ToString() ?? string.Empty;
         CancellationToken.Register(() => _networkStream.Close());
 
         base.Start();
@@ -39,6 +40,8 @@ internal class ModbusTcpRequestHandler : ModbusRequestHandler, IDisposable
     #region Properties
 
     public override string DisplayName { get; }
+
+    protected override IPEndPoint? RemoteEndPoint { get; }
 
     protected override bool IsResponseRequired => true;
 

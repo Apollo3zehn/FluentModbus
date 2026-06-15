@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using Xunit;
 using Xunit.Abstractions;
@@ -404,6 +406,46 @@ public class ModbusServerTests : IClassFixture<XUnitFixture>
         Assert.True(expected.SequenceEqual(actual));
     }
 
+    [Fact]
+    public async Task CanExposeRemoteEndPointForCoilsChanged()
+    {
+        // Arrange
+        List<IPEndPoint?> actual = [];
+        IPEndPoint? expected = default;
+        var address = 99;
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer()
+        {
+            EnableRaisingEvents = true
+        };
+
+        server.CoilsChanged += (sender, e) =>
+        {
+            actual.Add(e.RemoteEndPoint);
+        };
+
+        server.Start(endpoint);
+
+        // Act
+        using var tcpClient = new TcpClient();
+        using var client = new ModbusTcpClient();
+
+        await Task.Run(() =>
+        {
+            tcpClient.Connect(endpoint);
+            expected = (IPEndPoint?)tcpClient.Client.LocalEndPoint;
+            client.Initialize(tcpClient, ModbusEndianness.LittleEndian);
+
+            client.WriteSingleCoil(0, address, true);
+            client.WriteMultipleCoils(0, address + 1, [true, false, true]);
+        });
+
+        // Assert
+        Assert.Equal(2, actual.Count);
+        Assert.All(actual, remoteEndPoint => Assert.Equal(expected, remoteEndPoint));
+    }
+
     [Theory]
     [InlineData(99, 100, true, false)]
     [InlineData(0, -1, true, false)]
@@ -491,6 +533,46 @@ public class ModbusServerTests : IClassFixture<XUnitFixture>
 
         // Assert
         Assert.True(expected.SequenceEqual(actual));
+    }
+
+    [Fact]
+    public async Task CanExposeRemoteEndPointForRegistersChanged()
+    {
+        // Arrange
+        List<IPEndPoint?> actual = [];
+        IPEndPoint? expected = default;
+        var address = 99;
+        var endpoint = EndpointSource.GetNext();
+
+        using var server = new ModbusTcpServer()
+        {
+            EnableRaisingEvents = true
+        };
+
+        server.RegistersChanged += (sender, e) =>
+        {
+            actual.Add(e.RemoteEndPoint);
+        };
+
+        server.Start(endpoint);
+
+        // Act
+        using var tcpClient = new TcpClient();
+        using var client = new ModbusTcpClient();
+
+        await Task.Run(() =>
+        {
+            tcpClient.Connect(endpoint);
+            expected = (IPEndPoint?)tcpClient.Client.LocalEndPoint;
+            client.Initialize(tcpClient, ModbusEndianness.LittleEndian);
+
+            client.WriteSingleRegister(0, address, 1);
+            client.WriteMultipleRegisters(0, address + 1, new short[] { 1, 2, 3 });
+        });
+
+        // Assert
+        Assert.Equal(2, actual.Count);
+        Assert.All(actual, remoteEndPoint => Assert.Equal(expected, remoteEndPoint));
     }
 
     [Fact]
